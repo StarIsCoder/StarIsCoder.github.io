@@ -62,10 +62,75 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Kotlin_扩展函数_属性_中缀调用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/24/Kotlin_扩展函数_属性_中缀调用/" class="article-date">
+  <time datetime="2018-07-24T03:44:21.261Z" itemprop="datePublished">2018-07-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Kotlin-扩展函数"><a href="#Kotlin-扩展函数" class="headerlink" title="Kotlin - 扩展函数"></a>Kotlin - 扩展函数</h2><p>扩展函数：<em>它是一个类的成员函数，不过是定义在类的外面。</em><br>比如说定义一个String的扩展函数计算该字串的最后一个字符<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> String.<span class="title">lastChar</span><span class="params">()</span></span>: <span class="built_in">Char</span> = <span class="keyword">this</span>.<span class="keyword">get</span>(<span class="keyword">this</span>.length - <span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>当我们想调用该函数的时候<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(<span class="string">"kotlin"</span>.lastChar())</span><br></pre></td></tr></table></figure></p>
+<p>Warning: 扩展函数不能访问到私有的或者受保护的成员。</p>
+<p>扩展函数不存在重写的情况，当一个类的成员函数和扩展函数拥有相同的签名时，成员函数会被优先使用。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Button</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;  </span><br><span class="line">        println(<span class="string">"This is member fun"</span>)  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> button: Button = Button()  </span><br><span class="line">button.test()</span><br></pre></td></tr></table></figure></p>
+<p><em>Result : This is member fun</em></p>
+<h2 id="Kotlin-扩展属性"><a href="#Kotlin-扩展属性" class="headerlink" title="Kotlin - 扩展属性"></a>Kotlin - 扩展属性</h2><p>扩展属性和扩展函数类似，就像接收者的一个普通成员属性一样。<br>Warning: 必须定义getter函数，不能初始化，因为没有地方存储初始值。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> StringBuilder.lastChar: <span class="built_in">Char</span>  </span><br><span class="line">    <span class="keyword">get</span>() = <span class="keyword">get</span>(<span class="keyword">this</span>.length - <span class="number">1</span>)  </span><br><span class="line">    <span class="keyword">set</span>(value: <span class="built_in">Char</span>) &#123;  </span><br><span class="line">        <span class="keyword">this</span>.setCharAt(length - <span class="number">1</span>, value)  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">val</span> sb = StringBuilder(<span class="string">"kotlin?"</span>)  </span><br><span class="line">sb.lastChar = <span class="string">'!'</span>  </span><br><span class="line">println(sb)</span><br></pre></td></tr></table></figure></p>
+<p>Result : kotlin!<br>具体在实战中如何使用暂时不知。不过在Collection中已经默认增加了很多扩展函数，例如last（用来获取列表中最后一个元素）或者max（获取集合中的最大值）。这些在IDE中都会在补全功能中显示出来。</p>
+<h2 id="Kotlin-中缀调用"><a href="#Kotlin-中缀调用" class="headerlink" title="Kotlin - 中缀调用"></a>Kotlin - 中缀调用</h2><p>中缀调用：调用函数的时候不加分隔符，直接在对象和参数之间的调用方式。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(<span class="number">1</span> to <span class="string">"one"</span>, <span class="number">7</span> to <span class="string">"seven"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>等价于<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(<span class="number">1.</span>to(<span class="string">"one"</span>), <span class="number">7.</span>to(<span class="string">"seven"</span>))</span><br></pre></td></tr></table></figure></p>
+<p>中缀调用可以与<em>只有一个参数</em>的函数一起使用，并且需要用infix修饰符来标记它。<br>例如上述to函数的声明<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">infix</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;A, B&gt;</span> A.<span class="title">to</span><span class="params">(that: <span class="type">B</span>)</span></span>: Pair&lt;A, B&gt; = Pair(<span class="keyword">this</span>, that)</span><br></pre></td></tr></table></figure></p>
+<p>个人理解增加函数调用的可读性。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/24/Kotlin_扩展函数_属性_中缀调用/" data-id="cjjz5puww0000i0mj7hglwpqh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Modify shape attributes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/24/Modify shape attributes/" class="article-date">
+  <time datetime="2018-07-24T03:44:21.261Z" itemprop="datePublished">2018-07-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#Modify shape attributes in code<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))</span><br><span class="line">    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),</span><br><span class="line">            getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size));</span><br></pre></td></tr></table></figure></p>
+<p>convert drawable to GradientDrawable,and invoke setSize or setStroke and so on.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/24/Modify shape attributes/" data-id="cjjz5puxc0001i0mj2cf8744g" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/24/hello-world/" class="article-date">
-  <time datetime="2018-07-24T03:42:09.358Z" itemprop="datePublished">2018-07-24</time>
+  <time datetime="2018-07-24T03:44:21.261Z" itemprop="datePublished">2018-07-24</time>
 </a>
     
   </div>
@@ -97,44 +162,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/24/hello-world/" data-id="cjjz5mwlj00000cmjr8sv3rig" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Kotlin_扩展函数_属性_中缀调用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/24/Kotlin_扩展函数_属性_中缀调用/" class="article-date">
-  <time datetime="2018-07-24T03:42:09.358Z" itemprop="datePublished">2018-07-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Kotlin-扩展函数"><a href="#Kotlin-扩展函数" class="headerlink" title="Kotlin - 扩展函数"></a>Kotlin - 扩展函数</h2><p>扩展函数：<em>它是一个类的成员函数，不过是定义在类的外面。</em><br>比如说定义一个String的扩展函数计算该字串的最后一个字符<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> String.<span class="title">lastChar</span><span class="params">()</span></span>: <span class="built_in">Char</span> = <span class="keyword">this</span>.<span class="keyword">get</span>(<span class="keyword">this</span>.length - <span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
-<p>当我们想调用该函数的时候<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(<span class="string">"kotlin"</span>.lastChar())</span><br></pre></td></tr></table></figure></p>
-<p>Warning: 扩展函数不能访问到私有的或者受保护的成员。</p>
-<p>扩展函数不存在重写的情况，当一个类的成员函数和扩展函数拥有相同的签名时，成员函数会被优先使用。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Button</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;  </span><br><span class="line">        println(<span class="string">"This is member fun"</span>)  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> button: Button = Button()  </span><br><span class="line">button.test()</span><br></pre></td></tr></table></figure></p>
-<p><em>Result : This is member fun</em></p>
-<h2 id="Kotlin-扩展属性"><a href="#Kotlin-扩展属性" class="headerlink" title="Kotlin - 扩展属性"></a>Kotlin - 扩展属性</h2><p>扩展属性和扩展函数类似，就像接收者的一个普通成员属性一样。<br>Warning: 必须定义getter函数，不能初始化，因为没有地方存储初始值。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> StringBuilder.lastChar: <span class="built_in">Char</span>  </span><br><span class="line">    <span class="keyword">get</span>() = <span class="keyword">get</span>(<span class="keyword">this</span>.length - <span class="number">1</span>)  </span><br><span class="line">    <span class="keyword">set</span>(value: <span class="built_in">Char</span>) &#123;  </span><br><span class="line">        <span class="keyword">this</span>.setCharAt(length - <span class="number">1</span>, value)  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">val</span> sb = StringBuilder(<span class="string">"kotlin?"</span>)  </span><br><span class="line">sb.lastChar = <span class="string">'!'</span>  </span><br><span class="line">println(sb)</span><br></pre></td></tr></table></figure></p>
-<p>Result : kotlin!<br>具体在实战中如何使用暂时不知。不过在Collection中已经默认增加了很多扩展函数，例如last（用来获取列表中最后一个元素）或者max（获取集合中的最大值）。这些在IDE中都会在补全功能中显示出来。</p>
-<h2 id="Kotlin-中缀调用"><a href="#Kotlin-中缀调用" class="headerlink" title="Kotlin - 中缀调用"></a>Kotlin - 中缀调用</h2><p>中缀调用：调用函数的时候不加分隔符，直接在对象和参数之间的调用方式。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(<span class="number">1</span> to <span class="string">"one"</span>, <span class="number">7</span> to <span class="string">"seven"</span>)</span><br></pre></td></tr></table></figure></p>
-<p>等价于<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(<span class="number">1.</span>to(<span class="string">"one"</span>), <span class="number">7.</span>to(<span class="string">"seven"</span>))</span><br></pre></td></tr></table></figure></p>
-<p>中缀调用可以与<em>只有一个参数</em>的函数一起使用，并且需要用infix修饰符来标记它。<br>例如上述to函数的声明<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">infix</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;A, B&gt;</span> A.<span class="title">to</span><span class="params">(that: <span class="type">B</span>)</span></span>: Pair&lt;A, B&gt; = Pair(<span class="keyword">this</span>, that)</span><br></pre></td></tr></table></figure></p>
-<p>个人理解增加函数调用的可读性。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/24/Kotlin_扩展函数_属性_中缀调用/" data-id="cjjz5mwlj00010cmjlxkypneh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/24/hello-world/" data-id="cjjz5puxc0002i0mj2e90jin2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -175,11 +203,15 @@
       <ul>
         
           <li>
-            <a href="/2018/07/24/hello-world/">Hello World</a>
+            <a href="/2018/07/24/Kotlin_扩展函数_属性_中缀调用/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2018/07/24/Kotlin_扩展函数_属性_中缀调用/">(no title)</a>
+            <a href="/2018/07/24/Modify shape attributes/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/24/hello-world/">Hello World</a>
           </li>
         
       </ul>
