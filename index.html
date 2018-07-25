@@ -65,7 +65,7 @@
     <article id="post-Kotlin-扩展函数-属性-中缀调用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/25/Kotlin-扩展函数-属性-中缀调用/" class="article-date">
-  <time datetime="2018-07-25T06:24:44.480Z" itemprop="datePublished">2018-07-25</time>
+  <time datetime="2018-07-25T07:05:58.685Z" itemprop="datePublished">2018-07-25</time>
 </a>
     
   <div class="article-category">
@@ -103,7 +103,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/25/Kotlin-扩展函数-属性-中缀调用/" data-id="cjk0qvnwh00000wmj851c94hf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/25/Kotlin-扩展函数-属性-中缀调用/" data-id="cjk0scskt000004mjcf5l9j7p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -116,7 +116,7 @@
     <article id="post-Modify-shape-attributes" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/25/Modify-shape-attributes/" class="article-date">
-  <time datetime="2018-07-25T06:24:44.480Z" itemprop="datePublished">2018-07-25</time>
+  <time datetime="2018-07-25T07:05:58.685Z" itemprop="datePublished">2018-07-25</time>
 </a>
     
   </div>
@@ -141,7 +141,48 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/25/Modify-shape-attributes/" data-id="cjk0qvnwh00010wmjmyjdy573" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/25/Modify-shape-attributes/" data-id="cjk0scskt000104mjlzrv00aa" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-ShowPopupAtLocation" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/24/ShowPopupAtLocation/" class="article-date">
+  <time datetime="2018-07-24T16:00:00.000Z" itemprop="datePublished">2018-07-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/24/ShowPopupAtLocation/">PopupWindow show at location</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##PopupWindow show at location<br>Recently,UE Team has updated some features.One of them is click on the button,and show PopupWindow right above the button.<br>The point is can’t use hardcode because different devices has different resolution. So the best way is get the location in the window.<br>There is method named <code>getLocationInWindow(View view)</code> in View.java.All we have to do is invoke the method by the button and pass an array.This array will store two value,X coordinate and Y coordinate.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] viewLocation = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">view.getLocationInWindow(viewLocation);</span><br><span class="line"><span class="comment">//X coordinate viewLocation[0]</span></span><br><span class="line"><span class="comment">//Y coordinate viewLocation[1]</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/24/ShowPopupAtLocation/" data-id="cjk0scsl8000304mjufh0f2mz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -161,7 +202,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li></ul>
     </div>
   </div>
 
@@ -194,6 +235,10 @@
         
           <li>
             <a href="/2018/07/25/Modify-shape-attributes/">Modify shape attributes in code</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/24/ShowPopupAtLocation/">PopupWindow show at location</a>
           </li>
         
       </ul>
