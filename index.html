@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Something">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Something">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Kotlin-扩展函数-属性-中缀调用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/25/Kotlin-扩展函数-属性-中缀调用/" class="article-date">
+  <time datetime="2018-07-25T06:24:44.480Z" itemprop="datePublished">2018-07-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/25/Kotlin-扩展函数-属性-中缀调用/">Kotlin-扩展函数/属性/中缀调用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Kotlin-扩展函数"><a href="#Kotlin-扩展函数" class="headerlink" title="Kotlin - 扩展函数"></a>Kotlin - 扩展函数</h2><p>扩展函数：<em>它是一个类的成员函数，不过是定义在类的外面。</em><br>比如说定义一个String的扩展函数计算该字串的最后一个字符<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> String.<span class="title">lastChar</span><span class="params">()</span></span>: <span class="built_in">Char</span> = <span class="keyword">this</span>.<span class="keyword">get</span>(<span class="keyword">this</span>.length - <span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>当我们想调用该函数的时候<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(<span class="string">"kotlin"</span>.lastChar())</span><br></pre></td></tr></table></figure></p>
+<p>Warning: 扩展函数不能访问到私有的或者受保护的成员。</p>
+<p>扩展函数不存在重写的情况，当一个类的成员函数和扩展函数拥有相同的签名时，成员函数会被优先使用。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Button</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;  </span><br><span class="line">        println(<span class="string">"This is member fun"</span>)  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> button: Button = Button()  </span><br><span class="line">button.test()</span><br></pre></td></tr></table></figure></p>
+<p><em>Result : This is member fun</em></p>
+<h2 id="Kotlin-扩展属性"><a href="#Kotlin-扩展属性" class="headerlink" title="Kotlin - 扩展属性"></a>Kotlin - 扩展属性</h2><p>扩展属性和扩展函数类似，就像接收者的一个普通成员属性一样。<br>Warning: 必须定义getter函数，不能初始化，因为没有地方存储初始值。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> StringBuilder.lastChar: <span class="built_in">Char</span>  </span><br><span class="line">    <span class="keyword">get</span>() = <span class="keyword">get</span>(<span class="keyword">this</span>.length - <span class="number">1</span>)  </span><br><span class="line">    <span class="keyword">set</span>(value: <span class="built_in">Char</span>) &#123;  </span><br><span class="line">        <span class="keyword">this</span>.setCharAt(length - <span class="number">1</span>, value)  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">val</span> sb = StringBuilder(<span class="string">"kotlin?"</span>)  </span><br><span class="line">sb.lastChar = <span class="string">'!'</span>  </span><br><span class="line">println(sb)</span><br></pre></td></tr></table></figure></p>
+<p>Result : kotlin!<br>具体在实战中如何使用暂时不知。不过在Collection中已经默认增加了很多扩展函数，例如last（用来获取列表中最后一个元素）或者max（获取集合中的最大值）。这些在IDE中都会在补全功能中显示出来。</p>
+<h2 id="Kotlin-中缀调用"><a href="#Kotlin-中缀调用" class="headerlink" title="Kotlin - 中缀调用"></a>Kotlin - 中缀调用</h2><p>中缀调用：调用函数的时候不加分隔符，直接在对象和参数之间的调用方式。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(<span class="number">1</span> to <span class="string">"one"</span>, <span class="number">7</span> to <span class="string">"seven"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>等价于<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(<span class="number">1.</span>to(<span class="string">"one"</span>), <span class="number">7.</span>to(<span class="string">"seven"</span>))</span><br></pre></td></tr></table></figure></p>
+<p>中缀调用可以与<em>只有一个参数</em>的函数一起使用，并且需要用infix修饰符来标记它。<br>例如上述to函数的声明<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">infix</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;A, B&gt;</span> A.<span class="title">to</span><span class="params">(that: <span class="type">B</span>)</span></span>: Pair&lt;A, B&gt; = Pair(<span class="keyword">this</span>, that)</span><br></pre></td></tr></table></figure></p>
+<p>个人理解增加函数调用的可读性。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/25/Kotlin-扩展函数-属性-中缀调用/" data-id="cjk0qvnwh00000wmj851c94hf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Modify-shape-attributes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/25/Modify-shape-attributes/" class="article-date">
+  <time datetime="2018-07-25T06:24:44.480Z" itemprop="datePublished">2018-07-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/25/Modify-shape-attributes/">Modify shape attributes in code</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#Modify shape attributes in code<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))</span><br><span class="line">    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),</span><br><span class="line">            getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size));</span><br></pre></td></tr></table></figure></p>
+<p>convert drawable to GradientDrawable,and invoke setSize or setStroke and so on.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/25/Modify-shape-attributes/" data-id="cjk0qvnwh00010wmjmyjdy573" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/07/25/Kotlin-扩展函数-属性-中缀调用/">Kotlin-扩展函数/属性/中缀调用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/25/Modify-shape-attributes/">Modify shape attributes in code</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
