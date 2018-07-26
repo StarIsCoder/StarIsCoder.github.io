@@ -5,15 +5,19 @@
   
 
   
-  <title>Something</title>
+  <title>Kotlin-扩展函数/属性/中缀调用 | Something</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Something">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="Kotlin - 扩展函数扩展函数：它是一个类的成员函数，不过是定义在类的外面。比如说定义一个String的扩展函数计算该字串的最后一个字符1fun String.lastChar(): Char = this.get(this.length - 1) 当我们想调用该函数的时候1println(&quot;kotlin&quot;.lastChar()) Warning: 扩展函数不能访问到私有的或者受保护的成员。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin-扩展函数&#x2F;属性&#x2F;中缀调用">
+<meta property="og:url" content="http://yoursite.com/2018/07/26/Kotlin-扩展函数-属性-中缀调用/index.html">
 <meta property="og:site_name" content="Something">
+<meta property="og:description" content="Kotlin - 扩展函数扩展函数：它是一个类的成员函数，不过是定义在类的外面。比如说定义一个String的扩展函数计算该字串的最后一个字符1fun String.lastChar(): Char = this.get(this.length - 1) 当我们想调用该函数的时候1println(&quot;kotlin&quot;.lastChar()) Warning: 扩展函数不能访问到私有的或者受保护的成员。">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-26T01:59:44.921Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Something">
+<meta name="twitter:title" content="Kotlin-扩展函数&#x2F;属性&#x2F;中缀调用">
+<meta name="twitter:description" content="Kotlin - 扩展函数扩展函数：它是一个类的成员函数，不过是定义在类的外面。比如说定义一个String的扩展函数计算该字串的最后一个字符1fun String.lastChar(): Char = this.get(this.length - 1) 当我们想调用该函数的时候1println(&quot;kotlin&quot;.lastChar()) Warning: 扩展函数不能访问到私有的或者受保护的成员。">
   
     <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
   
@@ -60,9 +64,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-Kotlin-扩展函数-属性-中缀调用" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Kotlin-扩展函数-属性-中缀调用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/26/Kotlin-扩展函数-属性-中缀调用/" class="article-date">
   <time datetime="2018-07-26T01:59:44.921Z" itemprop="datePublished">2018-07-26</time>
@@ -79,8 +81,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/26/Kotlin-扩展函数-属性-中缀调用/">Kotlin-扩展函数/属性/中缀调用</a>
+    <h1 class="article-title" itemprop="name">
+      Kotlin-扩展函数/属性/中缀调用
     </h1>
   
 
@@ -109,94 +111,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-Modify-shape-attributes" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/26/Modify-shape-attributes/" class="article-date">
-  <time datetime="2018-07-26T01:59:44.921Z" itemprop="datePublished">2018-07-26</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/26/Modify-shape-attributes/">Modify shape attributes in code</a>
-    </h1>
+    <a href="/2018/07/26/Modify-shape-attributes/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Modify shape attributes in code</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))</span><br><span class="line">    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),</span><br><span class="line">            getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size));</span><br></pre></td></tr></table></figure>
-<p>convert drawable to GradientDrawable,and invoke setSize or setStroke and so on.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/26/Modify-shape-attributes/" data-id="cjk1wux4n0001fomj8yv7ib87" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
-    <article id="post-ShowPopupAtLocation" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/24/ShowPopupAtLocation/" class="article-date">
-  <time datetime="2018-07-24T16:00:00.000Z" itemprop="datePublished">2018-07-25</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/24/ShowPopupAtLocation/">PopupWindow show at location</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Recently,UE Team has updated some features.One of them is click on the button,and show PopupWindow right above the button.<br>The point is can’t use hardcode because different devices has different resolution. So the best way is get the location in the window.<br>There is method named <code>getLocationInWindow(View view)</code> in View.java.All we have to do is invoke the method by the button and pass an array.This array will store two value,X coordinate and Y coordinate.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] viewLocation = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">view.getLocationInWindow(viewLocation);</span><br><span class="line"><span class="comment">//X coordinate viewLocation[0]</span></span><br><span class="line"><span class="comment">//Y coordinate viewLocation[1]</span></span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/24/ShowPopupAtLocation/" data-id="cjk1wux4n0003fomjvqf1ut6w" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
 
 </section>
         
