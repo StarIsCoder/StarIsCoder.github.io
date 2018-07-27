@@ -5,19 +5,19 @@
   
 
   
-  <title>Something</title>
+  <title>Java-Container | Something</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: Java-Containerdate: 2018/7/26 10:58:00 categories: JavaBasic ConceptContainer is for storing objects. Container has two types.  Collection: An independent sequence.Such as List,Set,Queue. Map:">
+  <meta name="description" content="Basic ConceptContainer is for storing objects. Container has two types.  Collection: An independent sequence.Such as List,Set,Queue. Map: A paired object of key and value. Difference between List and">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Something">
-<meta property="og:url" content="http://yoursite.com/2018/07/27/Java-Container/index.html">
+<meta property="og:title" content="Java-Container">
+<meta property="og:url" content="http://yoursite.com/2018/07/26/Java-Container/index.html">
 <meta property="og:site_name" content="Something">
-<meta property="og:description" content="title: Java-Containerdate: 2018/7/26 10:58:00 categories: JavaBasic ConceptContainer is for storing objects. Container has two types.  Collection: An independent sequence.Such as List,Set,Queue. Map:">
+<meta property="og:description" content="Basic ConceptContainer is for storing objects. Container has two types.  Collection: An independent sequence.Such as List,Set,Queue. Map: A paired object of key and value. Difference between List and">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-27T09:35:48.841Z">
+<meta property="og:updated_time" content="2018-07-27T09:41:15.258Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Something">
-<meta name="twitter:description" content="title: Java-Containerdate: 2018/7/26 10:58:00 categories: JavaBasic ConceptContainer is for storing objects. Container has two types.  Collection: An independent sequence.Such as List,Set,Queue. Map:">
+<meta name="twitter:title" content="Java-Container">
+<meta name="twitter:description" content="Basic ConceptContainer is for storing objects. Container has two types.  Collection: An independent sequence.Such as List,Set,Queue. Map: A paired object of key and value. Difference between List and">
   
     <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
   
@@ -66,19 +66,31 @@
       <div class="outer">
         <section id="main"><article id="post-Java-Container" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/07/27/Java-Container/" class="article-date">
-  <time datetime="2018-07-27T09:35:48.841Z" itemprop="datePublished">2018-07-27</time>
+    <a href="/2018/07/26/Java-Container/" class="article-date">
+  <time datetime="2018-07-26T02:58:00.000Z" itemprop="datePublished">2018-07-26</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java-Container
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<p>title: Java-Container<br>date: 2018/7/26 10:58:00</p>
-<h2 id="categories-Java"><a href="#categories-Java" class="headerlink" title="categories: Java"></a>categories: Java</h2><h3 id="Basic-Concept"><a href="#Basic-Concept" class="headerlink" title="Basic Concept"></a>Basic Concept</h3><p>Container is for storing objects. Container has two types.</p>
+        <h3 id="Basic-Concept"><a href="#Basic-Concept" class="headerlink" title="Basic Concept"></a>Basic Concept</h3><p>Container is for storing objects. Container has two types.</p>
 <ul>
 <li><em>Collection: An independent sequence.Such as List,Set,Queue.</em></li>
 <li><em>Map: A paired object of key and value.</em> <h3 id="Difference-between-List-and-Set-and-Map"><a href="#Difference-between-List-and-Set-and-Map" class="headerlink" title="Difference between List and Set and Map"></a>Difference between List and Set and Map</h3>Now check the different result on the demo.<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrintingContainers</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        System.out.println(fill(<span class="keyword">new</span> ArrayList&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> LinkedList&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> HashSet&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> TreeSet&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> LinkedHashSet&lt;&gt;()));  </span><br><span class="line">  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> HashMap&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> TreeMap&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> LinkedHashMap&lt;&gt;()));  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">static</span> Collection <span class="title">fill</span><span class="params">(Collection&lt;String&gt; collection)</span> </span>&#123;  </span><br><span class="line">        collection.add(<span class="string">"dog"</span>);  </span><br><span class="line">  collection.add(<span class="string">"cat"</span>);  </span><br><span class="line">  collection.add(<span class="string">"rat"</span>);  </span><br><span class="line">  collection.add(<span class="string">"dog"</span>);  </span><br><span class="line"> <span class="keyword">return</span> collection;  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">static</span> Map <span class="title">fill</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;  </span><br><span class="line">        map.put(<span class="string">"rat"</span>, <span class="string">"Tom"</span>);  </span><br><span class="line">  map.put(<span class="string">"cat"</span>, <span class="string">"Jerry"</span>);  </span><br><span class="line"> <span class="keyword">return</span> map;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -108,7 +120,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/Java-Container/" data-id="cjk3sleu900000smjyu8xf91s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/26/Java-Container/" data-id="cjk3stkgd000024mj4k8i5dfa" class="article-share-link">Share</a>
       
       
     </footer>
@@ -117,10 +129,19 @@
     
 <nav id="article-nav">
   
+    <a href="/2018/07/27/Modify-shape-attributes/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Modify shape attributes in code
+        
+      </div>
+    </a>
   
-    <a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" id="article-nav-older" class="article-nav-link-wrap">
+  
+    <a href="/2018/07/24/ShowPopupAtLocation/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Kotlin-扩展函数/属性/中缀调用</div>
+      <div class="article-nav-title">PopupWindow show at location</div>
     </a>
   
 </nav>
@@ -136,7 +157,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li></ul>
     </div>
   </div>
 
@@ -164,15 +185,15 @@
       <ul>
         
           <li>
-            <a href="/2018/07/27/Java-Container/">(no title)</a>
-          </li>
-        
-          <li>
             <a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/">Kotlin-扩展函数/属性/中缀调用</a>
           </li>
         
           <li>
             <a href="/2018/07/27/Modify-shape-attributes/">Modify shape attributes in code</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/26/Java-Container/">Java-Container</a>
           </li>
         
           <li>
