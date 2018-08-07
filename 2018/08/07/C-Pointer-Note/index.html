@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>C++ Pointer Note | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="PointerBasic ConceptPointer is also a variable. But it stores the address of some value, not the value itself. Here is demo:1234567int main(int argc, const char * argv[]) &amp;#123;    int i = 6;    //as">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ Pointer Note">
+<meta property="og:url" content="http://yoursite.com/2018/08/07/C-Pointer-Note/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="PointerBasic ConceptPointer is also a variable. But it stores the address of some value, not the value itself. Here is demo:1234567int main(int argc, const char * argv[]) &amp;#123;    int i = 6;    //as">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-07T09:47:08.952Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++ Pointer Note">
+<meta name="twitter:description" content="PointerBasic ConceptPointer is also a variable. But it stores the address of some value, not the value itself. Here is demo:1234567int main(int argc, const char * argv[]) &amp;#123;    int i = 6;    //as">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-C-Pointer-Note" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/07/C-Pointer-Note/" class="article-date">
+  <time datetime="2018-08-07T09:45:00.000Z" itemprop="datePublished">2018-08-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++ Pointer Note
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Pointer"><a href="#Pointer" class="headerlink" title="Pointer"></a>Pointer</h1><h2 id="Basic-Concept"><a href="#Basic-Concept" class="headerlink" title="Basic Concept"></a>Basic Concept</h2><p>Pointer is also a variable. But it stores the address of some value, not the value itself. Here is demo:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">6</span>;</span><br><span class="line">    <span class="comment">//assign the address of i to pointer</span></span><br><span class="line">    <span class="keyword">int</span> *pointer = &amp;i;</span><br><span class="line">    <span class="keyword">int</span> *pointer1 = <span class="keyword">new</span> <span class="keyword">int</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>The operator * is called indirect value or dereferencing.</p>
+<p><em><strong>Warning: Before using operator * to the pointer, The pointer must be initialized to a certain and approiate address.</strong></em></p>
+<h2 id="Operator-new"><a href="#Operator-new" class="headerlink" title="Operator new"></a>Operator new</h2><p>In C, we could use malloc to allocate memory.But in c++, we use operator new.</p>
+<p>There ara some general format to allocate memory by using operator new.</p>
+<p>_typeName * pointer_name = new typeName;_</p>
+<p>Once we don’t need this pointer,we should delete it or will cause memory leak. <strong>delete</strong> and <strong>new</strong> should be paired.<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *ps = <span class="keyword">new</span> <span class="keyword">int</span>;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">delete</span> ps;</span><br></pre></td></tr></table></figure></p>
+<p>It only release the memory pointed by <code>ps</code>, won’t delete <code>ps</code> it self. So you still can allocate another memeroy to <code>ps</code>. </p>
+<h2 id="Dynamic-Array"><a href="#Dynamic-Array" class="headerlink" title="Dynamic Array"></a>Dynamic Array</h2><p>Still use operator new to create dynamic array, and it returns an address of the first element. if we want to get an address of the second element,the pointer array shoule plus one.Here is the demo:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">// insert code here...</span></span><br><span class="line">    <span class="keyword">int</span> *<span class="built_in">array</span> = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">    <span class="built_in">array</span>[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">array</span>[<span class="number">1</span>] = <span class="number">3</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">array</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">array</span> = <span class="built_in">array</span> + <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">array</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Result:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">3</span><br><span class="line">Program ended with exit code: 0</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/07/C-Pointer-Note/" data-id="cjkjiu7cl0000gomj2yr9q9r3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/07/Modify-shape-attributes/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Modify shape attributes in code
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/24/ShowPopupAtLocation/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">PopupWindow show at location</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/07/Java-Container/">Java-Container</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/07/Kotlin-扩展函数-属性-中缀调用/">Kotlin-扩展函数/属性/中缀调用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/07/Modify-shape-attributes/">Modify shape attributes in code</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/07/C-Pointer-Note/">C++ Pointer Note</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/24/ShowPopupAtLocation/">PopupWindow show at location</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
