@@ -62,165 +62,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Java-Container" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/07/Java-Container/" class="article-date">
-  <time datetime="2018-08-07T14:48:17.560Z" itemprop="datePublished">2018-08-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/07/Java-Container/">Java-Container</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Basic-Concept"><a href="#Basic-Concept" class="headerlink" title="Basic Concept"></a>Basic Concept</h3><p>Container is for storing objects. Container has two types.</p>
-<ul>
-<li><em>Collection: An independent sequence.Such as List,Set,Queue.</em></li>
-<li><em>Map: A paired object of key and value.</em> <h3 id="Difference-between-List-and-Set-and-Map"><a href="#Difference-between-List-and-Set-and-Map" class="headerlink" title="Difference between List and Set and Map"></a>Difference between List and Set and Map</h3>Now check the different result on the demo.<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrintingContainers</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        System.out.println(fill(<span class="keyword">new</span> ArrayList&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> LinkedList&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> HashSet&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> TreeSet&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> LinkedHashSet&lt;&gt;()));  </span><br><span class="line">  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> HashMap&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> TreeMap&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> LinkedHashMap&lt;&gt;()));  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">static</span> Collection <span class="title">fill</span><span class="params">(Collection&lt;String&gt; collection)</span> </span>&#123;  </span><br><span class="line">        collection.add(<span class="string">"dog"</span>);  </span><br><span class="line">  collection.add(<span class="string">"cat"</span>);  </span><br><span class="line">  collection.add(<span class="string">"rat"</span>);  </span><br><span class="line">  collection.add(<span class="string">"dog"</span>);  </span><br><span class="line"> <span class="keyword">return</span> collection;  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">static</span> Map <span class="title">fill</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;  </span><br><span class="line">        map.put(<span class="string">"rat"</span>, <span class="string">"Tom"</span>);  </span><br><span class="line">  map.put(<span class="string">"cat"</span>, <span class="string">"Jerry"</span>);  </span><br><span class="line"> <span class="keyword">return</span> map;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>Result :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[dog, cat, rat, dog]</span><br><span class="line">[dog, cat, rat, dog]</span><br><span class="line">[rat, cat, dog]</span><br><span class="line">[cat, dog, rat]</span><br><span class="line">[dog, cat, rat]</span><br><span class="line">&#123;rat=Tom, cat=Jerry&#125;</span><br><span class="line">&#123;cat=Jerry, rat=Tom&#125;</span><br><span class="line">&#123;rat=Tom, cat=Jerry&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><ul>
-<li>ArrayList: Good at querying data randomly. Poor at  insert or delete elements.</li>
-<li>LinkedList : Store elements by added sequence.Good at inserting or deleting elements frequently.</li>
-</ul>
-<p><em>Practice For List: Create a single linked List.User iterator to insert or remove elements</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleListDemo</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        SList&lt;String&gt; list = <span class="keyword">new</span> SList&lt;&gt;();  </span><br><span class="line">  SListIterator iterator = list.iterator();  </span><br><span class="line">  iterator.insert(<span class="string">"wang"</span>);  </span><br><span class="line">  System.out.println(list);  </span><br><span class="line">  iterator.insert(<span class="string">"shen"</span>);  </span><br><span class="line">  System.out.println(list);  </span><br><span class="line">  iterator.insert(<span class="string">"xing"</span>);  </span><br><span class="line">  System.out.println(list);  </span><br><span class="line">  </span><br><span class="line">  SListIterator iterator1 = list.iterator();  </span><br><span class="line">  iterator1.remove();  </span><br><span class="line">  System.out.println(list);  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SList</span>&lt;<span class="title">E</span>&gt; </span>&#123;  </span><br><span class="line">    Link&lt;E&gt; head = <span class="keyword">new</span> Link&lt;&gt;(<span class="keyword">null</span>);  </span><br><span class="line">  </span><br><span class="line"> <span class="function"><span class="keyword">public</span> SListIterator <span class="title">iterator</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SListIterator&lt;E&gt;(head);  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (head.next == <span class="keyword">null</span>) &#123;  </span><br><span class="line">            <span class="keyword">return</span> <span class="string">"[]"</span>;  </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">            System.out.print(<span class="string">"["</span>);  </span><br><span class="line">            StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();  </span><br><span class="line">            SListIterator iterator = <span class="keyword">this</span>.iterator();  </span><br><span class="line">            <span class="keyword">while</span> (iterator.hasNext()) &#123;  </span><br><span class="line">                stringBuilder.append(iterator.next() + (iterator.hasNext() ? <span class="string">","</span> : <span class="string">""</span>));  </span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="keyword">return</span> stringBuilder + <span class="string">"]"</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Link</span>&lt;<span class="title">E</span>&gt; </span>&#123;  </span><br><span class="line">    E e;  </span><br><span class="line">    Link&lt;E&gt; next;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Link</span><span class="params">(E e)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.e = e;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Link</span><span class="params">(E e, Link&lt;E&gt; next)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.e = e;  </span><br><span class="line">        <span class="keyword">this</span>.next = next;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> e != <span class="keyword">null</span> ? e.toString() : <span class="keyword">null</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SListIterator</span>&lt;<span class="title">E</span>&gt; </span>&#123;  </span><br><span class="line">    Link&lt;E&gt; current;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SListIterator</span><span class="params">(Link&lt;E&gt; current)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.current = current;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> current.next != <span class="keyword">null</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(E e)</span> </span>&#123;  </span><br><span class="line">        current.next = <span class="keyword">new</span> Link&lt;&gt;(e);  </span><br><span class="line">        current = current.next;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (current.next != <span class="keyword">null</span>)  </span><br><span class="line">            current.next = current.next.next;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Link&lt;E&gt; <span class="title">next</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        current = current.next;  </span><br><span class="line">        <span class="keyword">return</span> current;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><ul>
-<li>HashSet: HashSet is the fastest way in getting elements.</li>
-<li>TreeSet: TreeSet stores elements in ascending. </li>
-<li>LinkedHashSet : LinkedHashSet store elements by added sequence.</li>
-<li>SortedSet: An interface implemented by TreeSet.</li>
-</ul>
-<p><em>Practice:Create a SortedSet ,Using LinkerList as an underlying implementation</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySortedSetDemo</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        MySortedSet&lt;Integer&gt; integerMySortedSet = <span class="keyword">new</span> MySortedSet&lt;&gt;();  </span><br><span class="line">        integerMySortedSet.add(<span class="number">6</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number">8</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number">2</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number">5</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number">2</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number">7</span>);  </span><br><span class="line">        System.out.println(integerMySortedSet);  </span><br><span class="line">        MySortedSet&lt;String&gt; stringMySortedSet = <span class="keyword">new</span> MySortedSet&lt;&gt;();  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"wang"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"shen"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"xing"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"is"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"good"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"is"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"cool"</span>);  </span><br><span class="line">        System.out.println(stringMySortedSet);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MySortedSet</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt; </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(E e1, E e2)</span> </span>&#123;  </span><br><span class="line">        System.out.println(e1.hashCode());  </span><br><span class="line">        System.out.println(e2.hashCode());  </span><br><span class="line">        <span class="keyword">int</span> result = e1.hashCode() - e2.hashCode();  </span><br><span class="line">        <span class="keyword">return</span> Integer.compare(result, <span class="number">0</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.contains(e)) &#123;  </span><br><span class="line">            Iterator&lt;E&gt; iterator = <span class="keyword">this</span>.iterator();  </span><br><span class="line">            <span class="keyword">int</span> index = <span class="number">0</span>;  </span><br><span class="line">            <span class="keyword">while</span> (iterator.hasNext()) &#123;  </span><br><span class="line">                <span class="keyword">if</span> (compare(iterator.next(), e) &lt; <span class="number">1</span>) &#123;  </span><br><span class="line">                    index++;  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  </span><br><span class="line">            add(index, e);  </span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><ul>
-<li>HashMap: HashMap is the fastest way in finding elements.</li>
-<li>TreeMap:TreeMap stored element in ascending.</li>
-<li>LinkerHashMap: LinkedHashMap store elements by added sequence.</li>
-</ul>
-<h3 id="Something-about-Array-asList"><a href="#Something-about-Array-asList" class="headerlink" title="Something about Array.asList"></a>Something about Array.asList</h3> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>);  </span><br><span class="line">list.add(<span class="number">4</span>);</span><br><span class="line"><span class="comment">//Runtime error Because the array cannot be resized</span></span><br></pre></td></tr></table></figure>
-<p>Let’s check the source code of Array.asList. It will return a fixed-size list by the specific array.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">List&lt;T&gt; <span class="title">asList</span><span class="params">(T... a)</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;(a);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/07/Java-Container/" data-id="cjkjtlfui00017gmjreltz61x" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Kotlin-扩展函数-属性-中缀调用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/07/Kotlin-扩展函数-属性-中缀调用/" class="article-date">
-  <time datetime="2018-08-07T14:48:17.560Z" itemprop="datePublished">2018-08-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/07/Kotlin-扩展函数-属性-中缀调用/">Kotlin-扩展函数/属性/中缀调用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Kotlin-扩展函数"><a href="#Kotlin-扩展函数" class="headerlink" title="Kotlin - 扩展函数"></a>Kotlin - 扩展函数</h2><p>扩展函数：<em>它是一个类的成员函数，不过是定义在类的外面。</em><br>比如说定义一个String的扩展函数计算该字串的最后一个字符<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> String.<span class="title">lastChar</span><span class="params">()</span></span>: <span class="built_in">Char</span> = <span class="keyword">this</span>.<span class="keyword">get</span>(<span class="keyword">this</span>.length - <span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
-<p>当我们想调用该函数的时候<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(<span class="string">"kotlin"</span>.lastChar())</span><br></pre></td></tr></table></figure></p>
-<p>Warning: 扩展函数不能访问到私有的或者受保护的成员。</p>
-<p>扩展函数不存在重写的情况，当一个类的成员函数和扩展函数拥有相同的签名时，成员函数会被优先使用。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Button</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;  </span><br><span class="line">        println(<span class="string">"This is member fun"</span>)  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> button: Button = Button()  </span><br><span class="line">button.test()</span><br></pre></td></tr></table></figure></p>
-<p><em>Result : This is member fun</em></p>
-<h2 id="Kotlin-扩展属性"><a href="#Kotlin-扩展属性" class="headerlink" title="Kotlin - 扩展属性"></a>Kotlin - 扩展属性</h2><p>扩展属性和扩展函数类似，就像接收者的一个普通成员属性一样。<br>Warning: 必须定义getter函数，不能初始化，因为没有地方存储初始值。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> StringBuilder.lastChar: <span class="built_in">Char</span>  </span><br><span class="line">    <span class="keyword">get</span>() = <span class="keyword">get</span>(<span class="keyword">this</span>.length - <span class="number">1</span>)  </span><br><span class="line">    <span class="keyword">set</span>(value: <span class="built_in">Char</span>) &#123;  </span><br><span class="line">        <span class="keyword">this</span>.setCharAt(length - <span class="number">1</span>, value)  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">val</span> sb = StringBuilder(<span class="string">"kotlin?"</span>)  </span><br><span class="line">sb.lastChar = <span class="string">'!'</span>  </span><br><span class="line">println(sb)</span><br></pre></td></tr></table></figure></p>
-<p>Result : kotlin!<br>具体在实战中如何使用暂时不知。不过在Collection中已经默认增加了很多扩展函数，例如last（用来获取列表中最后一个元素）或者max（获取集合中的最大值）。这些在IDE中都会在补全功能中显示出来。</p>
-<h2 id="Kotlin-中缀调用"><a href="#Kotlin-中缀调用" class="headerlink" title="Kotlin - 中缀调用"></a>Kotlin - 中缀调用</h2><p>中缀调用：调用函数的时候不加分隔符，直接在对象和参数之间的调用方式。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(<span class="number">1</span> to <span class="string">"one"</span>, <span class="number">7</span> to <span class="string">"seven"</span>)</span><br></pre></td></tr></table></figure></p>
-<p>等价于<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(<span class="number">1.</span>to(<span class="string">"one"</span>), <span class="number">7.</span>to(<span class="string">"seven"</span>))</span><br></pre></td></tr></table></figure></p>
-<p>中缀调用可以与<em>只有一个参数</em>的函数一起使用，并且需要用infix修饰符来标记它。<br>例如上述to函数的声明<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">infix</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;A, B&gt;</span> A.<span class="title">to</span><span class="params">(that: <span class="type">B</span>)</span></span>: Pair&lt;A, B&gt; = Pair(<span class="keyword">this</span>, that)</span><br></pre></td></tr></table></figure></p>
-<p>个人理解增加函数调用的可读性。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/07/Kotlin-扩展函数-属性-中缀调用/" data-id="cjkjtlfui00037gmjflmh7txz" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Modify-shape-attributes" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/07/Modify-shape-attributes/" class="article-date">
-  <time datetime="2018-08-07T14:48:17.560Z" itemprop="datePublished">2018-08-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/07/Modify-shape-attributes/">Modify shape attributes in code</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))</span><br><span class="line">    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),</span><br><span class="line">            getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size));</span><br></pre></td></tr></table></figure>
-<p>convert drawable to GradientDrawable,and invoke setSize or setStroke and so on.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/07/Modify-shape-attributes/" data-id="cjkjtlfux00047gmjyjow4h8e" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-C-Pointer-Note" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/06/C-Pointer-Note/" class="article-date">
@@ -261,7 +102,166 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjkjtlfui00007gmj6tsw292b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjkkrsuam00003cmj5yfkqrpe" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java-Container" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/29/Java-Container/" class="article-date">
+  <time datetime="2018-07-29T16:00:00.000Z" itemprop="datePublished">2018-07-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/29/Java-Container/">Java-Container</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Basic-Concept"><a href="#Basic-Concept" class="headerlink" title="Basic Concept"></a>Basic Concept</h3><p>Container is for storing objects. Container has two types.</p>
+<ul>
+<li><em>Collection: An independent sequence.Such as List,Set,Queue.</em></li>
+<li><em>Map: A paired object of key and value.</em> <h3 id="Difference-between-List-and-Set-and-Map"><a href="#Difference-between-List-and-Set-and-Map" class="headerlink" title="Difference between List and Set and Map"></a>Difference between List and Set and Map</h3>Now check the different result on the demo.<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrintingContainers</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        System.out.println(fill(<span class="keyword">new</span> ArrayList&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> LinkedList&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> HashSet&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> TreeSet&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> LinkedHashSet&lt;&gt;()));  </span><br><span class="line">  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> HashMap&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> TreeMap&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword">new</span> LinkedHashMap&lt;&gt;()));  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">static</span> Collection <span class="title">fill</span><span class="params">(Collection&lt;String&gt; collection)</span> </span>&#123;  </span><br><span class="line">        collection.add(<span class="string">"dog"</span>);  </span><br><span class="line">  collection.add(<span class="string">"cat"</span>);  </span><br><span class="line">  collection.add(<span class="string">"rat"</span>);  </span><br><span class="line">  collection.add(<span class="string">"dog"</span>);  </span><br><span class="line"> <span class="keyword">return</span> collection;  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">static</span> Map <span class="title">fill</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;  </span><br><span class="line">        map.put(<span class="string">"rat"</span>, <span class="string">"Tom"</span>);  </span><br><span class="line">  map.put(<span class="string">"cat"</span>, <span class="string">"Jerry"</span>);  </span><br><span class="line"> <span class="keyword">return</span> map;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Result :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[dog, cat, rat, dog]</span><br><span class="line">[dog, cat, rat, dog]</span><br><span class="line">[rat, cat, dog]</span><br><span class="line">[cat, dog, rat]</span><br><span class="line">[dog, cat, rat]</span><br><span class="line">&#123;rat=Tom, cat=Jerry&#125;</span><br><span class="line">&#123;cat=Jerry, rat=Tom&#125;</span><br><span class="line">&#123;rat=Tom, cat=Jerry&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><ul>
+<li>ArrayList: Good at querying data randomly. Poor at  insert or delete elements.</li>
+<li>LinkedList : Store elements by added sequence.Good at inserting or deleting elements frequently.</li>
+</ul>
+<p><em>Practice For List: Create a single linked List.User iterator to insert or remove elements</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleListDemo</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        SList&lt;String&gt; list = <span class="keyword">new</span> SList&lt;&gt;();  </span><br><span class="line">  SListIterator iterator = list.iterator();  </span><br><span class="line">  iterator.insert(<span class="string">"wang"</span>);  </span><br><span class="line">  System.out.println(list);  </span><br><span class="line">  iterator.insert(<span class="string">"shen"</span>);  </span><br><span class="line">  System.out.println(list);  </span><br><span class="line">  iterator.insert(<span class="string">"xing"</span>);  </span><br><span class="line">  System.out.println(list);  </span><br><span class="line">  </span><br><span class="line">  SListIterator iterator1 = list.iterator();  </span><br><span class="line">  iterator1.remove();  </span><br><span class="line">  System.out.println(list);  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SList</span>&lt;<span class="title">E</span>&gt; </span>&#123;  </span><br><span class="line">    Link&lt;E&gt; head = <span class="keyword">new</span> Link&lt;&gt;(<span class="keyword">null</span>);  </span><br><span class="line">  </span><br><span class="line"> <span class="function"><span class="keyword">public</span> SListIterator <span class="title">iterator</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SListIterator&lt;E&gt;(head);  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (head.next == <span class="keyword">null</span>) &#123;  </span><br><span class="line">            <span class="keyword">return</span> <span class="string">"[]"</span>;  </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">            System.out.print(<span class="string">"["</span>);  </span><br><span class="line">            StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();  </span><br><span class="line">            SListIterator iterator = <span class="keyword">this</span>.iterator();  </span><br><span class="line">            <span class="keyword">while</span> (iterator.hasNext()) &#123;  </span><br><span class="line">                stringBuilder.append(iterator.next() + (iterator.hasNext() ? <span class="string">","</span> : <span class="string">""</span>));  </span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="keyword">return</span> stringBuilder + <span class="string">"]"</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Link</span>&lt;<span class="title">E</span>&gt; </span>&#123;  </span><br><span class="line">    E e;  </span><br><span class="line">    Link&lt;E&gt; next;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Link</span><span class="params">(E e)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.e = e;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Link</span><span class="params">(E e, Link&lt;E&gt; next)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.e = e;  </span><br><span class="line">        <span class="keyword">this</span>.next = next;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> e != <span class="keyword">null</span> ? e.toString() : <span class="keyword">null</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SListIterator</span>&lt;<span class="title">E</span>&gt; </span>&#123;  </span><br><span class="line">    Link&lt;E&gt; current;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SListIterator</span><span class="params">(Link&lt;E&gt; current)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.current = current;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> current.next != <span class="keyword">null</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(E e)</span> </span>&#123;  </span><br><span class="line">        current.next = <span class="keyword">new</span> Link&lt;&gt;(e);  </span><br><span class="line">        current = current.next;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (current.next != <span class="keyword">null</span>)  </span><br><span class="line">            current.next = current.next.next;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Link&lt;E&gt; <span class="title">next</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        current = current.next;  </span><br><span class="line">        <span class="keyword">return</span> current;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><ul>
+<li>HashSet: HashSet is the fastest way in getting elements.</li>
+<li>TreeSet: TreeSet stores elements in ascending. </li>
+<li>LinkedHashSet : LinkedHashSet store elements by added sequence.</li>
+<li>SortedSet: An interface implemented by TreeSet.</li>
+</ul>
+<p><em>Practice:Create a SortedSet ,Using LinkerList as an underlying implementation</em><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MySortedSetDemo</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        MySortedSet&lt;Integer&gt; integerMySortedSet = <span class="keyword">new</span> MySortedSet&lt;&gt;();  </span><br><span class="line">        integerMySortedSet.add(<span class="number">6</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number">8</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number">2</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number">5</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number">2</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number">7</span>);  </span><br><span class="line">        System.out.println(integerMySortedSet);  </span><br><span class="line">        MySortedSet&lt;String&gt; stringMySortedSet = <span class="keyword">new</span> MySortedSet&lt;&gt;();  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"wang"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"shen"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"xing"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"is"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"good"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"is"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string">"cool"</span>);  </span><br><span class="line">        System.out.println(stringMySortedSet);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MySortedSet</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt; </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(E e1, E e2)</span> </span>&#123;  </span><br><span class="line">        System.out.println(e1.hashCode());  </span><br><span class="line">        System.out.println(e2.hashCode());  </span><br><span class="line">        <span class="keyword">int</span> result = e1.hashCode() - e2.hashCode();  </span><br><span class="line">        <span class="keyword">return</span> Integer.compare(result, <span class="number">0</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.contains(e)) &#123;  </span><br><span class="line">            Iterator&lt;E&gt; iterator = <span class="keyword">this</span>.iterator();  </span><br><span class="line">            <span class="keyword">int</span> index = <span class="number">0</span>;  </span><br><span class="line">            <span class="keyword">while</span> (iterator.hasNext()) &#123;  </span><br><span class="line">                <span class="keyword">if</span> (compare(iterator.next(), e) &lt; <span class="number">1</span>) &#123;  </span><br><span class="line">                    index++;  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  </span><br><span class="line">            add(index, e);  </span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><ul>
+<li>HashMap: HashMap is the fastest way in finding elements.</li>
+<li>TreeMap:TreeMap stored element in ascending.</li>
+<li>LinkerHashMap: LinkedHashMap store elements by added sequence.</li>
+</ul>
+<h3 id="Something-about-Array-asList"><a href="#Something-about-Array-asList" class="headerlink" title="Something about Array.asList"></a>Something about Array.asList</h3> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>);  </span><br><span class="line">list.add(<span class="number">4</span>);</span><br><span class="line"><span class="comment">//Runtime error Because the array cannot be resized</span></span><br></pre></td></tr></table></figure>
+<p>Let’s check the source code of Array.asList. It will return a fixed-size list by the specific array.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">List&lt;T&gt; <span class="title">asList</span><span class="params">(T... a)</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;(a);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/29/Java-Container/" data-id="cjkkrsuam00013cmjct2wd0lw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Kotlin-扩展函数-属性-中缀调用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" class="article-date">
+  <time datetime="2018-07-27T16:00:00.000Z" itemprop="datePublished">2018-07-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/">Kotlin-扩展函数/属性/中缀调用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Kotlin-扩展函数"><a href="#Kotlin-扩展函数" class="headerlink" title="Kotlin - 扩展函数"></a>Kotlin - 扩展函数</h2><p>扩展函数：<em>它是一个类的成员函数，不过是定义在类的外面。</em><br>比如说定义一个String的扩展函数计算该字串的最后一个字符<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> String.<span class="title">lastChar</span><span class="params">()</span></span>: <span class="built_in">Char</span> = <span class="keyword">this</span>.<span class="keyword">get</span>(<span class="keyword">this</span>.length - <span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>当我们想调用该函数的时候<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(<span class="string">"kotlin"</span>.lastChar())</span><br></pre></td></tr></table></figure></p>
+<p>Warning: 扩展函数不能访问到私有的或者受保护的成员。</p>
+<p>扩展函数不存在重写的情况，当一个类的成员函数和扩展函数拥有相同的签名时，成员函数会被优先使用。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Button</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;  </span><br><span class="line">        println(<span class="string">"This is member fun"</span>)  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> button: Button = Button()  </span><br><span class="line">button.test()</span><br></pre></td></tr></table></figure></p>
+<p><em>Result : This is member fun</em></p>
+<h2 id="Kotlin-扩展属性"><a href="#Kotlin-扩展属性" class="headerlink" title="Kotlin - 扩展属性"></a>Kotlin - 扩展属性</h2><p>扩展属性和扩展函数类似，就像接收者的一个普通成员属性一样。<br>Warning: 必须定义getter函数，不能初始化，因为没有地方存储初始值。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> StringBuilder.lastChar: <span class="built_in">Char</span>  </span><br><span class="line">    <span class="keyword">get</span>() = <span class="keyword">get</span>(<span class="keyword">this</span>.length - <span class="number">1</span>)  </span><br><span class="line">    <span class="keyword">set</span>(value: <span class="built_in">Char</span>) &#123;  </span><br><span class="line">        <span class="keyword">this</span>.setCharAt(length - <span class="number">1</span>, value)  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">val</span> sb = StringBuilder(<span class="string">"kotlin?"</span>)  </span><br><span class="line">sb.lastChar = <span class="string">'!'</span>  </span><br><span class="line">println(sb)</span><br></pre></td></tr></table></figure></p>
+<p>Result : kotlin!<br>具体在实战中如何使用暂时不知。不过在Collection中已经默认增加了很多扩展函数，例如last（用来获取列表中最后一个元素）或者max（获取集合中的最大值）。这些在IDE中都会在补全功能中显示出来。</p>
+<h2 id="Kotlin-中缀调用"><a href="#Kotlin-中缀调用" class="headerlink" title="Kotlin - 中缀调用"></a>Kotlin - 中缀调用</h2><p>中缀调用：调用函数的时候不加分隔符，直接在对象和参数之间的调用方式。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(<span class="number">1</span> to <span class="string">"one"</span>, <span class="number">7</span> to <span class="string">"seven"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>等价于<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map = mapOf(<span class="number">1.</span>to(<span class="string">"one"</span>), <span class="number">7.</span>to(<span class="string">"seven"</span>))</span><br></pre></td></tr></table></figure></p>
+<p>中缀调用可以与<em>只有一个参数</em>的函数一起使用，并且需要用infix修饰符来标记它。<br>例如上述to函数的声明<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">infix</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;A, B&gt;</span> A.<span class="title">to</span><span class="params">(that: <span class="type">B</span>)</span></span>: Pair&lt;A, B&gt; = Pair(<span class="keyword">this</span>, that)</span><br></pre></td></tr></table></figure></p>
+<p>个人理解增加函数调用的可读性。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjkkrsub100033cmjzhlx4uvn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Modify-shape-attributes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/26/Modify-shape-attributes/" class="article-date">
+  <time datetime="2018-07-26T16:00:00.000Z" itemprop="datePublished">2018-07-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/26/Modify-shape-attributes/">Modify shape attributes in code</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))</span><br><span class="line">    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),</span><br><span class="line">            getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size));</span><br></pre></td></tr></table></figure>
+<p>convert drawable to GradientDrawable,and invoke setSize or setStroke and so on.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/26/Modify-shape-attributes/" data-id="cjkkrsub100043cmjfsx4juod" class="article-share-link">Share</a>
       
       
     </footer>
@@ -302,7 +302,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/24/ShowPopupAtLocation/" data-id="cjkjtlfux00057gmjp8cqeusk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/24/ShowPopupAtLocation/" data-id="cjkkrsub100053cmjkek918fw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -350,19 +350,19 @@
       <ul>
         
           <li>
-            <a href="/2018/08/07/Java-Container/">Java-Container</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/07/Kotlin-扩展函数-属性-中缀调用/">Kotlin-扩展函数/属性/中缀调用</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/07/Modify-shape-attributes/">Modify shape attributes in code</a>
-          </li>
-        
-          <li>
             <a href="/2018/08/06/C-Pointer-Note/">C++ Pointer Note</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/29/Java-Container/">Java-Container</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/">Kotlin-扩展函数/属性/中缀调用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/07/26/Modify-shape-attributes/">Modify shape attributes in code</a>
           </li>
         
           <li>
