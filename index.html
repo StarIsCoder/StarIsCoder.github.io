@@ -62,6 +62,48 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-LinearLayout设置gravity不生效" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/28/LinearLayout设置gravity不生效/" class="article-date">
+  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/28/LinearLayout设置gravity不生效/">LinearLayout设置gravity不生效</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
+<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/28/LinearLayout设置gravity不生效/" data-id="cjlery59t000d58mjtma1xv2e" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-区分tablet和mobile" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/26/区分tablet和mobile/" class="article-date">
@@ -98,7 +140,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/26/区分tablet和mobile/" data-id="cjleqxt6v000cismj1d1ftbol" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/26/区分tablet和mobile/" data-id="cjlery5a8000j58mj3g73hjdr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -175,7 +217,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/Inline-Reference/" data-id="cjleqxt6f0001ismj02yalqxt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/23/Inline-Reference/" data-id="cjlery58y000158mjtkj2i59t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -236,7 +278,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/16/function-array/" data-id="cjleqxt6v000bismjqjdmc34g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/16/function-array/" data-id="cjlery5a8000i58mj956b9tzu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -299,7 +341,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjleqxt6f0004ismjebml44b0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjlery59d000458mj17ua81g0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -357,7 +399,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjleqxt600000ismj7m530y21" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjlery58y000058mjg44cn8uw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -429,7 +471,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjleqxt6f0003ismjhrpokcki" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjlery59d000358mjso713c1w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -480,7 +522,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjleqxt6f0005ismj1b6nmqr7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjlery59t000c58mjr889sbrq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -522,7 +564,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/26/Modify-shape-attributes/" data-id="cjleqxt6f0007ismjtbkdtl76" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/26/Modify-shape-attributes/" data-id="cjlery59t000e58mjycixtubx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -563,7 +605,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/24/ShowPopupAtLocation/" data-id="cjleqxt6v0008ismjbhzn2qvl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/24/ShowPopupAtLocation/" data-id="cjlery59t000g58mjxnjhimsc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -611,6 +653,10 @@
       <ul>
         
           <li>
+            <a href="/2018/08/28/LinearLayout设置gravity不生效/">LinearLayout设置gravity不生效</a>
+          </li>
+        
+          <li>
             <a href="/2018/08/26/区分tablet和mobile/">区分tablet和mobile</a>
           </li>
         
@@ -624,10 +670,6 @@
         
           <li>
             <a href="/2018/08/09/Kotlin-Singleton/">Kotlin Singleton</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/06/C-Pointer-Note/">C++ Pointer Note</a>
           </li>
         
       </ul>

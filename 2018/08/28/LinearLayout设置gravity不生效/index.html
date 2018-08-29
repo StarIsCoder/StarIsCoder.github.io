@@ -5,15 +5,19 @@
   
 
   
-  <title>Category: C++ | Something</title>
+  <title>LinearLayout设置gravity不生效 | Something</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Something">
-<meta property="og:url" content="http://yoursite.com/categories/C/index.html">
+  <meta name="description" content="最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。1234TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(1000))var params = button_view">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LinearLayout设置gravity不生效">
+<meta property="og:url" content="http://yoursite.com/2018/08/28/LinearLayout设置gravity不生效/index.html">
 <meta property="og:site_name" content="Something">
+<meta property="og:description" content="最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。1234TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(1000))var params = button_view">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-29T06:42:48.202Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Something">
+<meta name="twitter:title" content="LinearLayout设置gravity不生效">
+<meta name="twitter:description" content="最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。1234TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(1000))var params = button_view">
   
     <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
   
@@ -60,78 +64,57 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/08/23/Inline-Reference/" class="archive-article-date">
-  <time datetime="2018-08-23T16:00:00.000Z" itemprop="datePublished">Aug 24</time>
+        <section id="main"><article id="post-LinearLayout设置gravity不生效" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/28/LinearLayout设置gravity不生效/" class="article-date">
+  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/23/Inline-Reference/">C++ 深入函数</a>
+    <h1 class="article-title" itemprop="name">
+      LinearLayout设置gravity不生效
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/08/16/function-array/" class="archive-article-date">
-  <time datetime="2018-08-16T16:00:00.000Z" itemprop="datePublished">Aug 17</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/16/function-array/">函数与数组</a>
-    </h1>
-  
+        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
+<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/08/06/C-Pointer-Note/" class="archive-article-date">
-  <time datetime="2018-08-06T16:00:00.000Z" itemprop="datePublished">Aug 7</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/06/C-Pointer-Note/">C++ Pointer Note</a>
-    </h1>
-  
-
-    </header>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/28/LinearLayout设置gravity不生效/" data-id="cjlery59t000d58mjtma1xv2e" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
-</article>
+  
+    
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/08/26/区分tablet和mobile/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">区分tablet和mobile</div>
+    </a>
   
+</nav>
 
+  
+</article>
 
 </section>
         
