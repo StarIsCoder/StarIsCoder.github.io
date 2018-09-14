@@ -7,17 +7,17 @@
   
   <title>C++ move function | Something</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在查看别人搭的框架时，看到在传值的时候使用了std::move。因此学习一下这个函数的使用。首先google查看官方解释： _In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an">
+  <meta name="description" content="最近在查看别人搭的框架时，看到在传值的时候使用了std::move。因此学习一下这个函数的使用。首先google查看官方解释： In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an r">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++ move function">
 <meta property="og:url" content="http://yoursite.com/2018/09/13/cpp-move-fun/index.html">
 <meta property="og:site_name" content="Something">
-<meta property="og:description" content="最近在查看别人搭的框架时，看到在传值的时候使用了std::move。因此学习一下这个函数的使用。首先google查看官方解释： _In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an">
+<meta property="og:description" content="最近在查看别人搭的框架时，看到在传值的时候使用了std::move。因此学习一下这个函数的使用。首先google查看官方解释： In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an r">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-14T10:20:52.468Z">
+<meta property="og:updated_time" content="2018-09-14T10:28:27.051Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++ move function">
-<meta name="twitter:description" content="最近在查看别人搭的框架时，看到在传值的时候使用了std::move。因此学习一下这个函数的使用。首先google查看官方解释： _In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an">
+<meta name="twitter:description" content="最近在查看别人搭的框架时，看到在传值的时候使用了std::move。因此学习一下这个函数的使用。首先google查看官方解释： In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an r">
   
     <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
   
@@ -91,7 +91,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>最近在查看别人搭的框架时，看到在传值的时候使用了std::move。因此学习一下这个函数的使用。<br>首先google查看官方解释：</p>
-<p>_In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an rvalue reference type._</p>
+<p>In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an rvalue reference type.</p>
 <p>简单来说就是将一个值转化为右值。目的是为了提升效率，减少拷贝的数量。也就是进行深拷贝。</p>
 <h2 id="右值"><a href="#右值" class="headerlink" title="右值"></a>右值</h2><p>那么右值又是什么？还是查看微软的官方解释吧。</p>
 <p><em>Every C++ expression is either an lvalue or an rvalue. An lvalue refers to an object that persists beyond a single expression. You can think of an lvalue as an object that has a name. All variables, including nonmodifiable (const) variables, are lvalues. An rvalue is a temporary value that does not persist beyond the expression that uses it.</em></p>
@@ -108,7 +108,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/cpp-move-fun/" data-id="cjm1urzli000p14mjet0x02kg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/cpp-move-fun/" data-id="cjm1v20co000ndomjpgw8kgcl" class="article-share-link">Share</a>
       
       
     </footer>
