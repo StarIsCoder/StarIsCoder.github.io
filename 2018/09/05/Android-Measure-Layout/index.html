@@ -1,143 +1,193 @@
 <!DOCTYPE html>
-<html>
-
+<html class="has-navbar-fixed-top">
 <head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>View的Measure&amp;和Layout | Something</title>
-  <meta name="description" content="" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+<title>View的Measure&amp;和Layout - Something</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
 
-  <meta name="generator" content="Something">
 
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
 </head>
-
-
-<body class="post-template">
-
-  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="//blog.ghost.org/content/images/2013/Nov/bloglogo_1-1.png" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">Something</h1>
-            <h2 class="blog-description"></h2>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                <img src="/images/logo.png" alt="" height="28">
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            
+            
         </div>
     </div>
-</header>
-  
+</nav>
 
-<main class="content" role="main">
-  <article class="post">
-    <span class="post-meta">
-      <time datetime="2018-09-05T16:00:00.000Z" itemprop="datePublished">
-          2018-09-06
-      </time>
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            View的Measure&amp;和Layout
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-09-05T16:00:00.000Z" itemprop="datePublished">Sep 5 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Android/">Android</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            6 minutes read (About 898 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-</span>
-    <h1 class="post-title">View的Measure&和Layout</h1>
-    <section class="post-content">
-      <p>在自定义view的时候比较重要的就是三个方法。</p>
+        <p>在自定义view的时候比较重要的就是三个方法。</p>
 <ul>
 <li>onMeasure(int widthMeasureSpec, int heightMeasureSpec)</li>
 <li>onLayout(boolean changed, int left, int top, int right, int bottom)</li>
 <li>onDraw(Canvas canvas)</li>
 </ul>
-<h2 id="onMeasure"><a href="#onMeasure" class="headerlink" title="onMeasure"></a>onMeasure</h2><p>onMeasure方法是在view的measure方法中调用的。主要是控制控件的尺寸。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">measure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            ......</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (cacheIndex &lt; <span class="number">0</span> || sIgnoreMeasureCache) &#123;</span><br><span class="line">                <span class="comment">// measure ourselves, this should set the measured dimension flag back</span></span><br><span class="line">                onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">                mPrivateFlags3 &amp;= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">long</span> value = mMeasureCache.valueAt(cacheIndex);</span><br><span class="line">                <span class="comment">// Casting a long to int drops the high 32 bits, no mask needed</span></span><br><span class="line">                setMeasuredDimensionRaw((<span class="keyword">int</span>) (value &gt;&gt; <span class="number">32</span>), (<span class="keyword">int</span>) value);</span><br><span class="line">                mPrivateFlags3 |= PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ......</span><br></pre></td></tr></table></figure></p>
-<p>继续看onMeasure的实现，一直到最后一系列的调用就是给mMeasuredWidth和mMeasuredHeight赋值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),</span><br><span class="line">                getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setMeasuredDimension</span><span class="params">(<span class="keyword">int</span> measuredWidth, <span class="keyword">int</span> measuredHeight)</span></span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> optical = isLayoutModeOptical(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">if</span> (optical != isLayoutModeOptical(mParent)) &#123;</span><br><span class="line">        Insets insets = getOpticalInsets();</span><br><span class="line">        <span class="keyword">int</span> opticalWidth  = insets.left + insets.right;</span><br><span class="line">        <span class="keyword">int</span> opticalHeight = insets.top  + insets.bottom;</span><br><span class="line"></span><br><span class="line">        measuredWidth  += optical ? opticalWidth  : -opticalWidth;</span><br><span class="line">        measuredHeight += optical ? opticalHeight : -opticalHeight;</span><br><span class="line">    &#125;</span><br><span class="line">    setMeasuredDimensionRaw(measuredWidth, measuredHeight);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getDefaultSize</span><span class="params">(<span class="keyword">int</span> size, <span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = size;</span><br><span class="line">    <span class="keyword">int</span> specMode = MeasureSpec.getMode(measureSpec);</span><br><span class="line">    <span class="keyword">int</span> specSize = MeasureSpec.getSize(measureSpec);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">            result = size;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">            result = specSize;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="onMeasure"><a href="#onMeasure" class="headerlink" title="onMeasure"></a>onMeasure</h2><p>onMeasure方法是在view的measure方法中调用的。主要是控制控件的尺寸。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">measure</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> widthMeasureSpec, <span class="keyword hljs-keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            ......</span><br><span class="line"></span><br><span class="line">            <span class="keyword hljs-keyword">if</span> (cacheIndex &lt; <span class="number hljs-number">0</span> || sIgnoreMeasureCache) &#123;</span><br><span class="line">                <span class="comment hljs-comment">// measure ourselves, this should set the measured dimension flag back</span></span><br><span class="line">                onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">                mPrivateFlags3 &amp;= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;</span><br><span class="line">            &#125; <span class="keyword hljs-keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword hljs-keyword">long</span> value = mMeasureCache.valueAt(cacheIndex);</span><br><span class="line">                <span class="comment hljs-comment">// Casting a long to int drops the high 32 bits, no mask needed</span></span><br><span class="line">                setMeasuredDimensionRaw((<span class="keyword hljs-keyword">int</span>) (value &gt;&gt; <span class="number hljs-number">32</span>), (<span class="keyword hljs-keyword">int</span>) value);</span><br><span class="line">                mPrivateFlags3 |= PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ......</span><br></pre></td></tr></table></figure></p>
+<p>继续看onMeasure的实现，一直到最后一系列的调用就是给mMeasuredWidth和mMeasuredHeight赋值。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">protected</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">onMeasure</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> widthMeasureSpec, <span class="keyword hljs-keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),</span><br><span class="line">                getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">protected</span> <span class="keyword hljs-keyword">final</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">setMeasuredDimension</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> measuredWidth, <span class="keyword hljs-keyword">int</span> measuredHeight)</span></span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">boolean</span> optical = isLayoutModeOptical(<span class="keyword hljs-keyword">this</span>);</span><br><span class="line">    <span class="keyword hljs-keyword">if</span> (optical != isLayoutModeOptical(mParent)) &#123;</span><br><span class="line">        Insets insets = getOpticalInsets();</span><br><span class="line">        <span class="keyword hljs-keyword">int</span> opticalWidth  = insets.left + insets.right;</span><br><span class="line">        <span class="keyword hljs-keyword">int</span> opticalHeight = insets.top  + insets.bottom;</span><br><span class="line"></span><br><span class="line">        measuredWidth  += optical ? opticalWidth  : -opticalWidth;</span><br><span class="line">        measuredHeight += optical ? opticalHeight : -opticalHeight;</span><br><span class="line">    &#125;</span><br><span class="line">    setMeasuredDimensionRaw(measuredWidth, measuredHeight);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">int</span> <span class="title hljs-title">getDefaultSize</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> size, <span class="keyword hljs-keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> result = size;</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> specMode = MeasureSpec.getMode(measureSpec);</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> specSize = MeasureSpec.getSize(measureSpec);</span><br><span class="line"></span><br><span class="line">    <span class="keyword hljs-keyword">switch</span> (specMode) &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">            result = size;</span><br><span class="line">            <span class="keyword hljs-keyword">break</span>;</span><br><span class="line">        <span class="keyword hljs-keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        <span class="keyword hljs-keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">            result = specSize;</span><br><span class="line">            <span class="keyword hljs-keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>插播一段：因为在调用measure方法的时候传入的两个参数widthMeasureSpec和heightMeasureSpec都是通过MeasureSpec构造出来的，因此这个类可以简单了解下。</p>
-<p>这个measureSpec是一个32位int类型的数据，前两位表示mode，后30位表示size。因为他的掩码是11后面加30个零。例如getMode，掩码和measureSpec进行与运算，得到的一定是measureSpec的前两位，即mode值。也就是说根据mode值来设置返回不同的size。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MODE_MASK  = <span class="number">0x3</span> &lt;&lt; MODE_SHIFT;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMode</span><span class="params">(<span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (measureSpec &amp; MODE_MASK);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">(<span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (measureSpec &amp; ~MODE_MASK);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个measureSpec是一个32位int类型的数据，前两位表示mode，后30位表示size。因为他的掩码是11后面加30个零。例如getMode，掩码和measureSpec进行与运算，得到的一定是measureSpec的前两位，即mode值。也就是说根据mode值来设置返回不同的size。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">final</span> <span class="keyword hljs-keyword">int</span> MODE_MASK  = <span class="number hljs-number">0x3</span> &lt;&lt; MODE_SHIFT;</span><br><span class="line"></span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">int</span> <span class="title hljs-title">getMode</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> (measureSpec &amp; MODE_MASK);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">int</span> <span class="title hljs-title">getSize</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> (measureSpec &amp; ~MODE_MASK);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><strong>因此如果复写onMeasure方法，能改动的变量也只有重新设置mMeasuredHeight和mMeasuredWidth。也就是调用setMeasuredDimension这个方法，将我们需要的height和width传进去即可。</strong></p>
-<h2 id="onLayout"><a href="#onLayout" class="headerlink" title="onLayout"></a>onLayout</h2><p>onLayout方法一样也是在layout()方法中调用的，作用是控制子控件的布局。因此view的onLayout方法是空的,因为只有ViewGroup才有子控件。不过ViewGroup的onLayout方法也只是个抽象类，实现的地方还是在ViewGroup的子类中。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed,<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span></span>;</span><br></pre></td></tr></table></figure></p>
-<p>例如LinearLayout的onLayout方法,根据orientation进行不同的布局排版。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mOrientation == VERTICAL) &#123;</span><br><span class="line">        layoutVertical(l, t, r, b);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        layoutHorizontal(l, t, r, b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>之前碰到一个坑就是在vertical的LinearLayout情况下gravity的top和bottom不生效，当时理解为因为纵向线形布局的高度都是根据子view来决定的，这边看下源码印象更深刻,以vertical为例。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (absoluteGravity &amp; Gravity.HORIZONTAL_GRAVITY_MASK) &#123;</span><br><span class="line">        <span class="keyword">case</span> Gravity.CENTER_HORIZONTAL:</span><br><span class="line">            childLeft = paddingLeft + ((childSpace - childWidth) / <span class="number">2</span>)</span><br><span class="line">                                + lp.leftMargin - lp.rightMargin;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">         <span class="keyword">case</span> Gravity.RIGHT:</span><br><span class="line">            childLeft = childRight - childWidth - lp.rightMargin;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> Gravity.LEFT:</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            childLeft = paddingLeft + lp.leftMargin;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="onLayout"><a href="#onLayout" class="headerlink" title="onLayout"></a>onLayout</h2><p>onLayout方法一样也是在layout()方法中调用的，作用是控制子控件的布局。因此view的onLayout方法是空的,因为只有ViewGroup才有子控件。不过ViewGroup的onLayout方法也只是个抽象类，实现的地方还是在ViewGroup的子类中。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">protected</span> <span class="keyword hljs-keyword">abstract</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">onLayout</span><span class="params hljs-params">(<span class="keyword hljs-keyword">boolean</span> changed,<span class="keyword hljs-keyword">int</span> l, <span class="keyword hljs-keyword">int</span> t, <span class="keyword hljs-keyword">int</span> r, <span class="keyword hljs-keyword">int</span> b)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>例如LinearLayout的onLayout方法,根据orientation进行不同的布局排版。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">protected</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">onLayout</span><span class="params hljs-params">(<span class="keyword hljs-keyword">boolean</span> changed, <span class="keyword hljs-keyword">int</span> l, <span class="keyword hljs-keyword">int</span> t, <span class="keyword hljs-keyword">int</span> r, <span class="keyword hljs-keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">if</span> (mOrientation == VERTICAL) &#123;</span><br><span class="line">        layoutVertical(l, t, r, b);</span><br><span class="line">    &#125; <span class="keyword hljs-keyword">else</span> &#123;</span><br><span class="line">        layoutHorizontal(l, t, r, b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>之前碰到一个坑就是在vertical的LinearLayout情况下gravity的top和bottom不生效，当时理解为因为纵向线形布局的高度都是根据子view来决定的，这边看下源码印象更深刻,以vertical为例。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">for</span> (<span class="keyword hljs-keyword">int</span> i = <span class="number hljs-number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line"></span><br><span class="line">    <span class="keyword hljs-keyword">switch</span> (absoluteGravity &amp; Gravity.HORIZONTAL_GRAVITY_MASK) &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">case</span> Gravity.CENTER_HORIZONTAL:</span><br><span class="line">            childLeft = paddingLeft + ((childSpace - childWidth) / <span class="number hljs-number">2</span>)</span><br><span class="line">                                + lp.leftMargin - lp.rightMargin;</span><br><span class="line">            <span class="keyword hljs-keyword">break</span>;</span><br><span class="line"></span><br><span class="line">         <span class="keyword hljs-keyword">case</span> Gravity.RIGHT:</span><br><span class="line">            childLeft = childRight - childWidth - lp.rightMargin;</span><br><span class="line">            <span class="keyword hljs-keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword hljs-keyword">case</span> Gravity.LEFT:</span><br><span class="line">        <span class="keyword hljs-keyword">default</span>:</span><br><span class="line">            childLeft = paddingLeft + lp.leftMargin;</span><br><span class="line">            <span class="keyword hljs-keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在layoutVertical中对子view的排版只有RIGHT和LEFT两个属性，并没有对TOP和BOTTOM处理。</p>
 <p>其余还有些padding和margin等balabala各种属性要考虑到其中就不赘述了。</p>
 <h2 id="自定义Layout属性"><a href="#自定义Layout属性" class="headerlink" title="自定义Layout属性"></a>自定义Layout属性</h2><p>在学习写自定义Layout的时候，顺便练习了下自定义属性，主要以下几步</p>
 <ul>
 <li><p>新建attrs.xml,declare-styleable的name是自定义的布局名称，attr的name和format都自己定义</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">"MyLayout"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"isVertical"</span> <span class="attr">format</span>=<span class="string">"boolean"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag hljs-tag">&lt;<span class="name hljs-name">resources</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag hljs-tag">&lt;<span class="name hljs-name">declare-styleable</span> <span class="attr hljs-attr">name</span>=<span class="string hljs-string">"MyLayout"</span>&gt;</span></span><br><span class="line">        <span class="tag hljs-tag">&lt;<span class="name hljs-name">attr</span> <span class="attr hljs-attr">name</span>=<span class="string hljs-string">"isVertical"</span> <span class="attr hljs-attr">format</span>=<span class="string hljs-string">"boolean"</span> /&gt;</span></span><br><span class="line">    <span class="tag hljs-tag">&lt;/<span class="name hljs-name">declare-styleable</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag hljs-tag">&lt;/<span class="name hljs-name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>在布局文件中设置该属性</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">MyLayout</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">.......</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:isVertical</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag hljs-tag">&lt;<span class="name hljs-name">MyLayout</span> </span></span><br><span class="line"><span class="tag hljs-tag">    <span class="attr hljs-attr">.......</span></span></span><br><span class="line"><span class="tag hljs-tag">    <span class="attr hljs-attr">android:layout_width</span>=<span class="string hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="tag hljs-tag">    <span class="attr hljs-attr">android:layout_height</span>=<span class="string hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="tag hljs-tag">    <span class="attr hljs-attr">app:isVertical</span>=<span class="string hljs-string">"true"</span></span></span><br><span class="line"><span class="tag hljs-tag">    <span class="attr hljs-attr">tools:context</span>=<span class="string hljs-string">".MainActivity"</span>&gt;</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>在该类初始化的时候获取属性值</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isVertical: <span class="built_in">Boolean</span> = <span class="literal">false</span></span><br><span class="line"><span class="keyword">var</span> t = context?.obtainStyledAttributes(attrs, R.styleable.MyLayout)</span><br><span class="line">isVertical = t!!.getBoolean(R.styleable.MyLayout_isVertical, <span class="literal">false</span>)</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">var</span> isVertical: <span class="built_in hljs-built_in">Boolean</span> = <span class="literal hljs-literal">false</span></span><br><span class="line"><span class="keyword hljs-keyword">var</span> t = context?.obtainStyledAttributes(attrs, R.styleable.MyLayout)</span><br><span class="line">isVertical = t!!.getBoolean(R.styleable.MyLayout_isVertical, <span class="literal hljs-literal">false</span>)</span><br></pre></td></tr></table></figure></li>
 </ul>
 
-    </section>
-    <footer class="post-footer">
-      <section class="author">
-    <h4>Star</h4>
-    <p>A designer, developer and entrepreneur. Spends his time travelling the world with a bag of kites. Likes journalism and publishing platforms.</p>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2018/09/06/Kotlin-Constructor/">Kotlin Constructor</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2018/09/03/C-Constructor-Destructor/">Constructor&amp;Destructor</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+
+
+    </div>
 </section>
-      <section class="share">
-    <h4>Share this post</h4>
-    <a class="icon-twitter" href="http://twitter.com/share?url=http://yoursite.com/2018/09/05/Android-Measure-Layout/"
-       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-        <span class="hidden">Twitter</span>
-    </a>
-    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/09/05/Android-Measure-Layout/"
-       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-        <span class="hidden">Facebook</span>
-    </a>
-    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://yoursite.com/2018/09/05/Android-Measure-Layout/"
-       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-        <span class="hidden">Google+</span>
-    </a>
-</section>
-    </footer>
-  </article>
-  <nav class="pagination" role="pagination">
-    
-    <a class="newer-posts" href="/2018/09/06/Kotlin-Constructor/">
-        ← Kotlin Constructor
-    </a>
-    
-    <span class="page-number">•</span>
-    
-    <a class="older-posts" href="/2018/09/03/C-Constructor-Destructor/">
-        Constructor&Destructor →
-    </a>
-    
-</nav>
-  <div id="comment" class="comments-area">
-    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">Comments</a></h1>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2018 Star&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
 
-    
-</div>
-</main>
-
-
-  
-<footer class="site-footer">
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">Something</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
-  </div>
+            
+            
+        </div>
+    </div>
 </footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
 
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("default");
+</script>
 
 
 
+<script src="/js/script.js"></script>
 
-
-
+    
 </body>
 </html>

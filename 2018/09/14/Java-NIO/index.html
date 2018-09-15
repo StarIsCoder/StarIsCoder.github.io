@@ -1,58 +1,99 @@
 <!DOCTYPE html>
-<html>
-
+<html class="has-navbar-fixed-top">
 <head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>Java_NIO | Something</title>
-  <meta name="description" content="" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+<title>Java_NIO - Something</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
 
-  <meta name="generator" content="Something">
 
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
 </head>
-
-
-<body class="post-template">
-
-  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="//blog.ghost.org/content/images/2013/Nov/bloglogo_1-1.png" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">Something</h1>
-            <h2 class="blog-description"></h2>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                <img src="/images/logo.png" alt="" height="28">
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            
+            
         </div>
     </div>
-</header>
-  
+</nav>
 
-<main class="content" role="main">
-  <article class="post">
-    <span class="post-meta">
-      <time datetime="2018-09-14T16:00:00.000Z" itemprop="datePublished">
-          2018-09-15
-      </time>
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Java_NIO
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-09-14T16:00:00.000Z" itemprop="datePublished">Sep 14 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Java/">Java</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            7 minutes read (About 1080 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-</span>
-    <h1 class="post-title">Java_NIO</h1>
-    <section class="post-content">
-      <h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><p>NIO有说是new io，也有说是non-blocking io，Whatever，nio是jdk 1.4之后引入的，目的是为了提高io速度，并且旧的io也已经被重新实现过了。记得以前还在odm的时候，经常会碰到ANR的原因是系统在执行io操作导致的，因此看来优化一下io还是有必要的。</p>
+        <h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><p>NIO有说是new io，也有说是non-blocking io，Whatever，nio是jdk 1.4之后引入的，目的是为了提高io速度，并且旧的io也已经被重新实现过了。记得以前还在odm的时候，经常会碰到ANR的原因是系统在执行io操作导致的，因此看来优化一下io还是有必要的。</p>
 <h2 id="Channel和Buffer"><a href="#Channel和Buffer" class="headerlink" title="Channel和Buffer"></a>Channel和Buffer</h2><p>之所以将channel和buffer放在一起是因为这两个是提高io速度的关键。旧的io形式是面向流的，例如经常用的InputStream和OutputSteam，比如在我们读取文件的时候，每次从流中读取一个字节，说的不恰当一点就是在文件和程序之间建立一个通道，并且是一个单向的通道，每一次把文件中的东西拷贝到程序中。</p>
 <p>最致命的就是Stream的操作是阻塞的，在调用read方法的时候我们什么都做不了，只能等待它执行完了之后返回。</p>
 <p>因此channel和buffer诞生了，这边结合Thinking in java中对channel和buffer的描述加以理解，把channel当成矿场，而把buffer当成矿场中的坑，那么我们在读取的时候其实是先把矿场里的煤矿丢进坑里，然后去拿坑里的煤矿，写数据的时候反之即可。这样形成的读写模式是非阻塞的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//把stream转化成矿场（channel）</span></span><br><span class="line">        FileChannel channel = <span class="keyword">new</span> FileOutputStream(<span class="string">"data.txt"</span>).getChannel();</span><br><span class="line">        <span class="comment">//把我们要加入的煤矿丢进坑（buffer），之后再把坑中的煤矿丢尽矿场</span></span><br><span class="line">        channel.write(ByteBuffer.wrap(<span class="string">"First"</span>.getBytes()));</span><br><span class="line">        channel.close();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//same as above</span></span><br><span class="line">        channel = <span class="keyword">new</span> RandomAccessFile(<span class="string">"data.txt"</span>, <span class="string">"rw"</span>).getChannel();</span><br><span class="line">        <span class="comment">//把矿车移到最后一个坑，然后继续挖坑填矿</span></span><br><span class="line">        channel.position(channel.size());</span><br><span class="line">        channel.write(ByteBuffer.wrap(<span class="string">"Second"</span>.getBytes()));</span><br><span class="line">        channel.close();</span><br><span class="line"></span><br><span class="line">        channel = <span class="keyword">new</span> FileInputStream(<span class="string">"data.txt"</span>).getChannel();</span><br><span class="line">        ByteBuffer buffer = ByteBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line">        channel.read(buffer);	</span><br><span class="line">        buffer.flip();</span><br><span class="line">        <span class="keyword">while</span> (buffer.hasRemaining()) &#123;</span><br><span class="line">            System.out.print((<span class="keyword">char</span>) buffer.get());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>再来看下buffer，这里用的字节buffer，当然也有FloatBuffer、 DoubleBuffer等等。<br>刚才说过了buffer类似于矿场中的坑，但是我们不可能把整个矿场都挖出坑来，因此我们在使用buffer的时候需要分配一个大概的数量，也就是allocate方法。通过源码在allocate方法中它其实是返回了一个HeapByteBuffer，这是个继承ByteBuffer的类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ByteBuffer <span class="title">allocate</span><span class="params">(<span class="keyword">int</span> var0)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (var0 &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> HeapByteBuffer(var0, var0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>通过一系列的调用最后它给三个属性赋值，分别是capacity、limit、position<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Buffer(<span class="keyword">int</span> var1, <span class="keyword">int</span> var2, <span class="keyword">int</span> var3, <span class="keyword">int</span> var4) &#123;</span><br><span class="line">    <span class="keyword">if</span> (var4 &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Negative capacity: "</span> + var4);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.capacity = var4;</span><br><span class="line">        <span class="keyword">this</span>.limit(var3);</span><br><span class="line">        <span class="keyword">this</span>.position(var2);</span><br><span class="line">        <span class="keyword">if</span> (var1 &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (var1 &gt; var2) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"mark &gt; position: ("</span> + var1 + <span class="string">" &gt; "</span> + var2 + <span class="string">")"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.mark = var1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">main</span><span class="params hljs-params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">try</span> &#123;</span><br><span class="line">        <span class="comment hljs-comment">//把stream转化成矿场（channel）</span></span><br><span class="line">        FileChannel channel = <span class="keyword hljs-keyword">new</span> FileOutputStream(<span class="string hljs-string">"data.txt"</span>).getChannel();</span><br><span class="line">        <span class="comment hljs-comment">//把我们要加入的煤矿丢进坑（buffer），之后再把坑中的煤矿丢尽矿场</span></span><br><span class="line">        channel.write(ByteBuffer.wrap(<span class="string hljs-string">"First"</span>.getBytes()));</span><br><span class="line">        channel.close();</span><br><span class="line"></span><br><span class="line">        <span class="comment hljs-comment">//same as above</span></span><br><span class="line">        channel = <span class="keyword hljs-keyword">new</span> RandomAccessFile(<span class="string hljs-string">"data.txt"</span>, <span class="string hljs-string">"rw"</span>).getChannel();</span><br><span class="line">        <span class="comment hljs-comment">//把矿车移到最后一个坑，然后继续挖坑填矿</span></span><br><span class="line">        channel.position(channel.size());</span><br><span class="line">        channel.write(ByteBuffer.wrap(<span class="string hljs-string">"Second"</span>.getBytes()));</span><br><span class="line">        channel.close();</span><br><span class="line"></span><br><span class="line">        channel = <span class="keyword hljs-keyword">new</span> FileInputStream(<span class="string hljs-string">"data.txt"</span>).getChannel();</span><br><span class="line">        ByteBuffer buffer = ByteBuffer.allocate(<span class="number hljs-number">1024</span>);</span><br><span class="line">        channel.read(buffer);	</span><br><span class="line">        buffer.flip();</span><br><span class="line">        <span class="keyword hljs-keyword">while</span> (buffer.hasRemaining()) &#123;</span><br><span class="line">            System.out.print((<span class="keyword hljs-keyword">char</span>) buffer.get());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword hljs-keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再来看下buffer，这里用的字节buffer，当然也有FloatBuffer、 DoubleBuffer等等。<br>刚才说过了buffer类似于矿场中的坑，但是我们不可能把整个矿场都挖出坑来，因此我们在使用buffer的时候需要分配一个大概的数量，也就是allocate方法。通过源码在allocate方法中它其实是返回了一个HeapByteBuffer，这是个继承ByteBuffer的类。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> ByteBuffer <span class="title hljs-title">allocate</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> var0)</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">if</span> (var0 &lt; <span class="number hljs-number">0</span>) &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">throw</span> <span class="keyword hljs-keyword">new</span> IllegalArgumentException();</span><br><span class="line">    &#125; <span class="keyword hljs-keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">new</span> HeapByteBuffer(var0, var0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过一系列的调用最后它给三个属性赋值，分别是capacity、limit、position<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Buffer(<span class="keyword hljs-keyword">int</span> var1, <span class="keyword hljs-keyword">int</span> var2, <span class="keyword hljs-keyword">int</span> var3, <span class="keyword hljs-keyword">int</span> var4) &#123;</span><br><span class="line">    <span class="keyword hljs-keyword">if</span> (var4 &lt; <span class="number hljs-number">0</span>) &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">throw</span> <span class="keyword hljs-keyword">new</span> IllegalArgumentException(<span class="string hljs-string">"Negative capacity: "</span> + var4);</span><br><span class="line">    &#125; <span class="keyword hljs-keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.capacity = var4;</span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.limit(var3);</span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.position(var2);</span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (var1 &gt;= <span class="number hljs-number">0</span>) &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (var1 &gt; var2) &#123;</span><br><span class="line">            <span class="keyword hljs-keyword">throw</span> <span class="keyword hljs-keyword">new</span> IllegalArgumentException(<span class="string hljs-string">"mark &gt; position: ("</span> + var1 + <span class="string hljs-string">" &gt; "</span> + var2 + <span class="string hljs-string">")"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.mark = var1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li><p>capacity：一共有多少个坑</p>
 </li>
@@ -62,9 +103,9 @@
 </li>
 </ul>
 <p>显然在刚开始分配的时候，capacity和limit是一样的，position是零。<br>当我们执行了填写数据的代码之后，矿车肯定是在数据字节大小的位置上。例如我们要读的文件存着test，那么矿车这时候是在第四个位置上。<br><strong>BTW：这里从1开始计数是因为，在初始分配的时候就已经默认生成了一个坑，零号位的坑。</strong><br>那么这个时候如果我们想要从坑中拿煤矿的话，至少要将矿车移动到最前面。也就是flip方法的作用。看一下源码就知道它到底干了啥。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Buffer <span class="title">flip</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">//把limit减少，提升效率</span></span><br><span class="line">    <span class="keyword">this</span>.limit = <span class="keyword">this</span>.position;</span><br><span class="line">    <span class="comment">//将矿车移到开头</span></span><br><span class="line">    <span class="keyword">this</span>.position = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">this</span>.mark = -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> Buffer <span class="title hljs-title">flip</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment hljs-comment">//把limit减少，提升效率</span></span><br><span class="line">    <span class="keyword hljs-keyword">this</span>.limit = <span class="keyword hljs-keyword">this</span>.position;</span><br><span class="line">    <span class="comment hljs-comment">//将矿车移到开头</span></span><br><span class="line">    <span class="keyword hljs-keyword">this</span>.position = <span class="number hljs-number">0</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">this</span>.mark = -<span class="number hljs-number">1</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>buffer大部分的api都是对这三个属性操作的。例如clear方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Buffer <span class="title">clear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.position = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">this</span>.limit = <span class="keyword">this</span>.capacity;</span><br><span class="line">    <span class="keyword">this</span>.mark = -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> Buffer <span class="title hljs-title">clear</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">this</span>.position = <span class="number hljs-number">0</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">this</span>.limit = <span class="keyword hljs-keyword">this</span>.capacity;</span><br><span class="line">    <span class="keyword hljs-keyword">this</span>.mark = -<span class="number hljs-number">1</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>旧的io和nio主要有以下几点不同</p>
 <ul>
 <li>io面向流，nio面向buffer</li>
@@ -72,64 +113,75 @@
 <li>nio有selector，可以理解为管理多个矿场。<br>关于selector还处于一知半解的状态，希望以后在项目中能碰到。</li>
 </ul>
 
-    </section>
-    <footer class="post-footer">
-      <section class="author">
-    <h4>Star</h4>
-    <p>A designer, developer and entrepreneur. Spends his time travelling the world with a bag of kites. Likes journalism and publishing platforms.</p>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop is-hidden-mobile article-nav-prev">
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2018/09/13/C-move-fun/">C++ move function</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+
+
+    </div>
 </section>
-      <section class="share">
-    <h4>Share this post</h4>
-    <a class="icon-twitter" href="http://twitter.com/share?url=http://yoursite.com/2018/09/14/Java-NIO/"
-       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-        <span class="hidden">Twitter</span>
-    </a>
-    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/09/14/Java-NIO/"
-       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-        <span class="hidden">Facebook</span>
-    </a>
-    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://yoursite.com/2018/09/14/Java-NIO/"
-       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-        <span class="hidden">Google+</span>
-    </a>
-</section>
-    </footer>
-  </article>
-  <nav class="pagination" role="pagination">
-    
-    <span class="page-number">•</span>
-    
-    <a class="older-posts" href="/2018/09/13/C-move-fun/">
-        C++ move function →
-    </a>
-    
-</nav>
-  <div id="comment" class="comments-area">
-    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">Comments</a></h1>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2018 Star&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
 
-    
-</div>
-</main>
-
-
-  
-<footer class="site-footer">
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">Something</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
-  </div>
+            
+            
+        </div>
+    </div>
 </footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
 
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("default");
+</script>
 
 
 
+<script src="/js/script.js"></script>
 
-
-
+    
 </body>
 </html>

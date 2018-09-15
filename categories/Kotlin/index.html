@@ -1,145 +1,279 @@
 <!DOCTYPE html>
-<html>
-
+<html class="has-navbar-fixed-top">
 <head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>Category: Kotlin | Something</title>
-  <meta name="description" content="" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+<title>Category: Kotlin - Something</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
 
-  <meta name="generator" content="Something">
 
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
 </head>
-
-
-<body class="home-template">
-
-  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="//blog.ghost.org/content/images/2013/Nov/bloglogo_1-1.png" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">Something</h1>
-            <h2 class="blog-description"></h2>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                <img src="/images/logo.png" alt="" height="28">
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            
+            
         </div>
     </div>
-</header>
-  
-<main class="content" role="main">
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-09-06T16:00:00.000Z" itemprop="datePublished">
-          2018-09-07
-      </time>
+</nav>
+
+    <section class="section section-heading">
+    <div class="container">
+        <div class="content">
+            <h5><i class="far fa-folder"></i>Kotlin</h5>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
     
-</span>
-      <h2 class="post-title"><a href="/2018/09/06/Kotlin-Constructor/">Kotlin Constructor</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        构造函数最近在自定义布局的时候发现kotlin的构造函数和java差的很多，因此重新学习记录下，先从简单的开始，模仿java中的写法12345class User &#123;    constructor(i: Int)    constructor(i: Int, j: Int)    constructor(name: String, i: Int, j: Int)&#125;
-123456789101112public fina
-      
-      </p>
-      
-      <p>
-          <a href="/2018/09/06/Kotlin-Constructor/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-08-09T16:00:00.000Z" itemprop="datePublished">
-          2018-08-10
-      </time>
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            <a href="/2018/09/06/Kotlin-Constructor/" itemprop="url">Kotlin Constructor</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-09-06T16:00:00.000Z" itemprop="datePublished">Sep 6 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            3 minutes read (About 503 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-</span>
-      <h2 class="post-title"><a href="/2018/08/09/Kotlin-Singleton/">Kotlin Singleton</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        Object在Kotlin中，object是一个自带单例模式的数据类型，而在java中object是所有类的父类。如下是object分别在java和kotlin的代码：1234object ExampleObject &#123;    fun example() &#123;    &#125;&#125;
-1234567891011public final class ExampleObject &#123;   public
-      
-      </p>
-      
-      <p>
-          <a href="/2018/08/09/Kotlin-Singleton/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-07-27T16:00:00.000Z" itemprop="datePublished">
-          2018-07-28
-      </time>
+        <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>最近在自定义布局的时候发现kotlin的构造函数和java差的很多，因此重新学习记录下，先从简单的开始，模仿java中的写法<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">constructor</span>(i: <span class="built_in hljs-built_in">Int</span>)</span><br><span class="line">    <span class="keyword hljs-keyword">constructor</span>(i: <span class="built_in hljs-built_in">Int</span>, j: <span class="built_in hljs-built_in">Int</span>)</span><br><span class="line">    <span class="keyword hljs-keyword">constructor</span>(name: String, i: <span class="built_in hljs-built_in">Int</span>, j: <span class="built_in hljs-built_in">Int</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">User</span> </span>&#123;</span><br><span class="line">   <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">User</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">User</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> i, <span class="keyword hljs-keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">User</span><span class="params hljs-params">(@NotNull String name, <span class="keyword hljs-keyword">int</span> i, <span class="keyword hljs-keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(name, <span class="string hljs-string">"name"</span>);</span><br><span class="line">      <span class="keyword hljs-keyword">super</span>();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到这种写法和java差不多。kotlin还允许在class定义的时候直接写构造函数，这种构造函数叫主构造函数。</p>
+<figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">User</span> <span class="keyword hljs-keyword">constructor</span>/*可省略*/</span>(i: <span class="built_in hljs-built_in">Int</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">User</span> </span>&#123;</span><br><span class="line">   <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">User</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>像这种直接在类名旁边的叫primary constructor，而类似于java那种写法的构造函数叫Secondary Constructors。主构造函数只能有一个，次构造函数可以有多个。但是由于主构造函数不能加代码，因此kotlin提供了init关键字<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">User</span> <span class="keyword hljs-keyword">constructor</span>/*可省略*/</span>(i: <span class="built_in hljs-built_in">Int</span>) &#123;</span><br><span class="line">    init &#123;</span><br><span class="line">        println(<span class="string hljs-string">"primary constructor i = <span class="variable hljs-variable">$i</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">User</span> </span>&#123;</span><br><span class="line">   <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">User</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">      String var2 = <span class="string hljs-string">"primary constructor i = "</span> + i;</span><br><span class="line">      System.out.println(var2);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那如果想同时有主构造函数和次构造函数怎么办呢,按照官方api说的是需要或直接或间接的委托于主构造函数，一开始没看懂，后来看了转成的java源码，原来他说的委托就是在次构造函数中调用主构造函数<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">User</span></span>(name: String) &#123;</span><br><span class="line">    init &#123;</span><br><span class="line">        println(<span class="string hljs-string">"primary"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword hljs-keyword">constructor</span>() : <span class="keyword hljs-keyword">this</span>(String())</span><br><span class="line">    <span class="keyword hljs-keyword">constructor</span>(i: <span class="built_in hljs-built_in">Int</span>) : <span class="keyword hljs-keyword">this</span>(String())</span><br><span class="line">    <span class="keyword hljs-keyword">constructor</span>(j: <span class="built_in hljs-built_in">Int</span>, string: String) : <span class="keyword hljs-keyword">this</span>(string)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">User</span> </span>&#123;</span><br><span class="line">   <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">User</span><span class="params hljs-params">(@NotNull String name)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(name, <span class="string hljs-string">"name"</span>);</span><br><span class="line">      <span class="keyword hljs-keyword">super</span>();</span><br><span class="line">      String var2 = <span class="string hljs-string">"primary"</span>;</span><br><span class="line">      System.out.println(var2);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">User</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword hljs-keyword">this</span>(<span class="keyword hljs-keyword">new</span> String());</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">User</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">      <span class="keyword hljs-keyword">this</span>(<span class="keyword hljs-keyword">new</span> String());</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">User</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> j, @NotNull String string)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(string, <span class="string hljs-string">"string"</span>);</span><br><span class="line">      <span class="keyword hljs-keyword">this</span>(string);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从这边可以看到init代码块中的代码是在主构造函数中的，不过由于次构造函数都会调用主构造函数，所以也无需纠结这个init代码块是否会被调用。</p>
+
     
-</span>
-      <h2 class="post-title"><a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/">Kotlin_扩展函数/属性/中缀调用</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        Kotlin - 扩展函数扩展函数：它是一个类的成员函数，不过是定义在类的外面。比如说定义一个String的扩展函数计算该字串的最后一个字符1fun String.lastChar(): Char = this.get(this.length - 1)
-当我们想调用该函数的时候1println("kotlin".lastChar())
-Warning: 扩展函数不能访问到私有的或者受保护的成员。
-扩展函数不存在重写的情况，当一个类的成员
-      
-      </p>
-      
-      <p>
-          <a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <nav class="pagination" role="pagination">
+    </div>
     
-    <span class="page-number">Page 1 of 1</span>
     
-  </nav>
-</main>
+</article>
 
 
-  
-<footer class="site-footer">
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">Something</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
-  </div>
+
+
+    
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            <a href="/2018/08/09/Kotlin-Singleton/" itemprop="url">Kotlin Singleton</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-08-09T16:00:00.000Z" itemprop="datePublished">Aug 9 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            5 minutes read (About 822 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p>在Kotlin中，object是一个自带单例模式的数据类型，而在java中object是所有类的父类。如下是object分别在java和kotlin的代码：<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">object</span> ExampleObject &#123;</span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">fun</span> <span class="title hljs-title">example</span><span class="params hljs-params">()</span></span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">ExampleObject</span> </span>&#123;</span><br><span class="line">   <span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">final</span> ExampleObject INSTANCE;</span><br><span class="line"></span><br><span class="line">   <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">example</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword hljs-keyword">static</span> &#123;</span><br><span class="line">      ExampleObject var0 = <span class="keyword hljs-keyword">new</span> ExampleObject();</span><br><span class="line">      INSTANCE = var0;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，kotlin中的object是对应java中的静态单例模式。因此如果想在kotlin中写出单例模式，可以直接使用object关键字即可。同时因为使用的是static实现单例模式，因此也保证了线程安全。后续会介绍更好的写法。</p>
+<h2 id="Java-Singleton"><a href="#Java-Singleton" class="headerlink" title="Java Singleton"></a>Java Singleton</h2><p>这里其实对java中使用static来实现单例模式不是很清晰，主要的问题在于为什么static修饰的对象指向的是同一个内存地址。即使我这么写<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Single</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> Single single = <span class="keyword hljs-keyword">new</span> Single();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">main</span><span class="params hljs-params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Single single = Single.single;</span><br><span class="line">        System.out.println(single);</span><br><span class="line">        Single single1 = Single.single;</span><br><span class="line">        System.out.println(single1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Result:<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Single@2b193f2d</span><br><span class="line">Single@2b193f2d</span><br></pre></td></tr></table></figure></p>
+<p>静态单例模式还有另一种方式，区别在于只有调用getInstance方法时才会去实例化Single对象。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Single</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">static</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">SingleHoleder</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">static</span> Single single = <span class="keyword hljs-keyword">new</span> Single();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> Single <span class="title hljs-title">getInstance</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> SingleHoleder.single;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这边static关键字能实现单例模式的主要原因在于被static修饰的变量或对象具有唯一性。那么为什么具有唯一性呢，这就得查看static的原理了。</p>
+<h2 id="Static关键字"><a href="#Static关键字" class="headerlink" title="Static关键字"></a>Static关键字</h2><p>根据定义，被static所修饰的变量有且只有该变量的一份拷贝，并且能在类中公用。换句话说是一个全局的变量。静态变量在加载类的时候就已经分配好了内存，因此该变量是属于类的而不是某个new出来的对象的。在往下到jvm还未了解到,本文关于static到此结束。</p>
+<h2 id="更好的单例模式"><a href="#更好的单例模式" class="headerlink" title="更好的单例模式"></a>更好的单例模式</h2><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Singleton</span> <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">constructor</span></span>() &#123;</span><br><span class="line">    init &#123; println(<span class="string hljs-string">"This (<span class="variable hljs-variable">$this</span>) is a singleton"</span>) &#125;    </span><br><span class="line"></span><br><span class="line">    <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">object</span> Holder &#123; <span class="keyword hljs-keyword">val</span> INSTANCE = Singleton() &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword hljs-keyword">companion</span> <span class="keyword hljs-keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">val</span> instance: Singleton <span class="keyword hljs-keyword">by</span> lazy &#123; Holder.INSTANCE &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword hljs-keyword">var</span> b:String? = <span class="literal hljs-literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将构造方法私有化，其他地方无法实例化该类。</li>
+<li>使用lazy关键字延迟instance的实例化，优化性能。</li>
+<li>使用companion关键字实现java中static的效果。</li>
+</ul>
+<h2 id="kotlin中的companion"><a href="#kotlin中的companion" class="headerlink" title="kotlin中的companion"></a>kotlin中的companion</h2><p>由于kotlin中object默认是单例模式，因此没有static关键字，那么如果我们想要全局变量该怎么做呢，答案就是companion。<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Test</span> <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">constructor</span></span>() &#123;</span><br><span class="line">    <span class="keyword hljs-keyword">companion</span> <span class="keyword hljs-keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">val</span> i = <span class="number hljs-number">1</span></span><br><span class="line">        <span class="keyword hljs-keyword">val</span> instance = Test()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">fun</span> <span class="title hljs-title">main</span><span class="params hljs-params">(args: <span class="type hljs-type">Array</span>&lt;<span class="type hljs-type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    println(Test.i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result : 1</span><br></pre></td></tr></table></figure>
+<p>这样就实现了static的效果。再来看一下decompile后的代码<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Test</span> </span>&#123;</span><br><span class="line">   <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">final</span> <span class="keyword hljs-keyword">int</span> i = <span class="number hljs-number">1</span>;</span><br><span class="line">   <span class="meta hljs-meta">@NotNull</span></span><br><span class="line">   <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">final</span> Test instance = <span class="keyword hljs-keyword">new</span> Test();</span><br><span class="line">   <span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">final</span> Test.Companion Companion = <span class="keyword hljs-keyword">new</span> Test.Companion((DefaultConstructorMarker)<span class="keyword hljs-keyword">null</span>);</span><br><span class="line"></span><br><span class="line">   <span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">final</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Companion</span> </span>&#123;</span><br><span class="line">      <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="keyword hljs-keyword">int</span> <span class="title hljs-title">getI</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword hljs-keyword">return</span> Test.i;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="meta hljs-meta">@NotNull</span></span><br><span class="line">      <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> Test <span class="title hljs-title">getInstance</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword hljs-keyword">return</span> Test.instance;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="function hljs-function"><span class="keyword hljs-keyword">private</span> <span class="title hljs-title">Companion</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment hljs-comment">// $FF: synthetic method</span></span><br><span class="line">      <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">Companion</span><span class="params hljs-params">(DefaultConstructorMarker $constructor_marker)</span> </span>&#123;</span><br><span class="line">         <span class="keyword hljs-keyword">this</span>();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到变量i被static所修饰。并且companion是对所有类公开的，因此适合用来实现单例模式。</p>
+<p><em>Warning:一个类中只能有一个被companion修饰的object。</em></p>
+<p>参考文档：</p>
+<p><a href="https://antonioleiva.com/objects-kotlin/" target="_blank" rel="noopener">https://antonioleiva.com/objects-kotlin/</a></p>
+<p><a href="https://medium.com/@adinugroho/singleton-in-kotlin-502f80fd8a63" target="_blank" rel="noopener">https://medium.com/@adinugroho/singleton-in-kotlin-502f80fd8a63</a></p>
+<p><a href="https://www.journaldev.com/18662/kotlin-singleton-companion-object" target="_blank" rel="noopener">https://www.journaldev.com/18662/kotlin-singleton-companion-object</a></p>
+
+    
+    </div>
+    
+    
+</article>
+
+
+
+
+    
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            <a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" itemprop="url">Kotlin_扩展函数/属性/中缀调用</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-07-27T16:00:00.000Z" itemprop="datePublished">Jul 27 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            3 minutes read (About 474 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <h2 id="Kotlin-扩展函数"><a href="#Kotlin-扩展函数" class="headerlink" title="Kotlin - 扩展函数"></a>Kotlin - 扩展函数</h2><p>扩展函数：<em>它是一个类的成员函数，不过是定义在类的外面。</em><br>比如说定义一个String的扩展函数计算该字串的最后一个字符<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">fun</span> String.<span class="title hljs-title">lastChar</span><span class="params hljs-params">()</span></span>: <span class="built_in hljs-built_in">Char</span> = <span class="keyword hljs-keyword">this</span>.<span class="keyword hljs-keyword">get</span>(<span class="keyword hljs-keyword">this</span>.length - <span class="number hljs-number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>当我们想调用该函数的时候<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(<span class="string hljs-string">"kotlin"</span>.lastChar())</span><br></pre></td></tr></table></figure></p>
+<p>Warning: 扩展函数不能访问到私有的或者受保护的成员。</p>
+<p>扩展函数不存在重写的情况，当一个类的成员函数和扩展函数拥有相同的签名时，成员函数会被优先使用。<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Button</span> </span>&#123;  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">fun</span> <span class="title hljs-title">test</span><span class="params hljs-params">()</span></span> &#123;  </span><br><span class="line">        println(<span class="string hljs-string">"This is member fun"</span>)  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword hljs-keyword">val</span> button: Button = Button()  </span><br><span class="line">button.test()</span><br></pre></td></tr></table></figure></p>
+<p><em>Result : This is member fun</em></p>
+<h2 id="Kotlin-扩展属性"><a href="#Kotlin-扩展属性" class="headerlink" title="Kotlin - 扩展属性"></a>Kotlin - 扩展属性</h2><p>扩展属性和扩展函数类似，就像接收者的一个普通成员属性一样。<br>Warning: 必须定义getter函数，不能初始化，因为没有地方存储初始值。<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">var</span> StringBuilder.lastChar: <span class="built_in hljs-built_in">Char</span>  </span><br><span class="line">    <span class="keyword hljs-keyword">get</span>() = <span class="keyword hljs-keyword">get</span>(<span class="keyword hljs-keyword">this</span>.length - <span class="number hljs-number">1</span>)  </span><br><span class="line">    <span class="keyword hljs-keyword">set</span>(value: <span class="built_in hljs-built_in">Char</span>) &#123;  </span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.setCharAt(length - <span class="number hljs-number">1</span>, value)  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword hljs-keyword">val</span> sb = StringBuilder(<span class="string hljs-string">"kotlin?"</span>)  </span><br><span class="line">sb.lastChar = <span class="string hljs-string">'!'</span>  </span><br><span class="line">println(sb)</span><br></pre></td></tr></table></figure></p>
+<p>Result : kotlin!<br>具体在实战中如何使用暂时不知。不过在Collection中已经默认增加了很多扩展函数，例如last（用来获取列表中最后一个元素）或者max（获取集合中的最大值）。这些在IDE中都会在补全功能中显示出来。</p>
+<h2 id="Kotlin-中缀调用"><a href="#Kotlin-中缀调用" class="headerlink" title="Kotlin - 中缀调用"></a>Kotlin - 中缀调用</h2><p>中缀调用：调用函数的时候不加分隔符，直接在对象和参数之间的调用方式。<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">val</span> map = mapOf(<span class="number hljs-number">1</span> to <span class="string hljs-string">"one"</span>, <span class="number hljs-number">7</span> to <span class="string hljs-string">"seven"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>等价于<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">val</span> map = mapOf(<span class="number hljs-number">1.</span>to(<span class="string hljs-string">"one"</span>), <span class="number hljs-number">7.</span>to(<span class="string hljs-string">"seven"</span>))</span><br></pre></td></tr></table></figure></p>
+<p>中缀调用可以与<em>只有一个参数</em>的函数一起使用，并且需要用infix修饰符来标记它。<br>例如上述to函数的声明<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">infix</span> <span class="function hljs-function"><span class="keyword hljs-keyword">fun</span> <span class="type hljs-type">&lt;A, B&gt;</span> A.<span class="title hljs-title">to</span><span class="params hljs-params">(that: <span class="type hljs-type">B</span>)</span></span>: Pair&lt;A, B&gt; = Pair(<span class="keyword hljs-keyword">this</span>, that)</span><br></pre></td></tr></table></figure></p>
+<p>个人理解增加函数调用的可读性。</p>
+
+    
+    </div>
+    
+    
+</article>
+
+
+
+
+    
+    
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2018 Star&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
 </footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
 
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("default");
+</script>
 
 
 
+<script src="/js/script.js"></script>
 
-
-
+    
 </body>
 </html>

@@ -1,247 +1,501 @@
 <!DOCTYPE html>
-<html>
-
+<html class="has-navbar-fixed-top">
 <head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>Something</title>
-  <meta name="description" content="" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+<title>Something</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
 
-  <meta name="generator" content="Something">
 
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
 </head>
-
-
-<body class="home-template">
-
-  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="//blog.ghost.org/content/images/2013/Nov/bloglogo_1-1.png" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">Something</h1>
-            <h2 class="blog-description"></h2>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                <img src="/images/logo.png" alt="" height="28">
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            
+            
         </div>
     </div>
-</header>
-  
-<main class="content" role="main">
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-08-16T16:00:00.000Z" itemprop="datePublished">
-          2018-08-17
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2018/08/16/C-function-array/">函数与数组</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        单个数组作为函数的参数C++中将数组名看成是第一个元素的地址。如下：12int cookies[8] = &#123;1,2,4,8,16,32,64,128&#125;;cout &lt;&lt; cookies;
-10x7ffeefbff540
-但是该规矩有一个特例，就是在函数原型中，int *arr和int arr[]表示同一个意思。如下：1int sum_arr(int *arr,int n);
-1int sum_arr(int
-      
-      </p>
-      
-      <p>
-          <a href="/2018/08/16/C-function-array/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-08-09T16:00:00.000Z" itemprop="datePublished">
-          2018-08-10
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2018/08/09/Kotlin-Singleton/">Kotlin Singleton</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        Object在Kotlin中，object是一个自带单例模式的数据类型，而在java中object是所有类的父类。如下是object分别在java和kotlin的代码：1234object ExampleObject &#123;    fun example() &#123;    &#125;&#125;
-1234567891011public final class ExampleObject &#123;   public
-      
-      </p>
-      
-      <p>
-          <a href="/2018/08/09/Kotlin-Singleton/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-08-06T16:00:00.000Z" itemprop="datePublished">
-          2018-08-07
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2018/08/06/C-Pointer-Note/">C++指针笔记</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        基本概念指针也是一种变量，特殊之处在于它存储的是变量的地址，如下：1234567int main(int argc, const char * argv[]) &#123;    int i = 6;    //assign the address of i to pointer    int *pointer = &amp;i;    int *pointer1 = new int;    return 0;&#125;
-操作符*被叫
-      
-      </p>
-      
-      <p>
-          <a href="/2018/08/06/C-Pointer-Note/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-08-04T16:00:00.000Z" itemprop="datePublished">
-          2018-08-05
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2018/08/04/Java-Container/">Java_Container</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        Basic Concept容器是用来存储对象的，通常有两种
+</nav>
 
-Collection: 一个独立的序列，例如List，Set等
-Map:一种键-值对. List、Set、Map的区别Now check the different result on the demo.123456789101112131415161718192021222324252627public class PrintingContainers &#123;    
-      
-      </p>
-      
-      <p>
-          <a href="/2018/08/04/Java-Container/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-07-27T16:00:00.000Z" itemprop="datePublished">
-          2018-07-28
-      </time>
+    <section class="section">
+    <div class="container">
     
-</span>
-      <h2 class="post-title"><a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/">Kotlin_扩展函数/属性/中缀调用</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        Kotlin - 扩展函数扩展函数：它是一个类的成员函数，不过是定义在类的外面。比如说定义一个String的扩展函数计算该字串的最后一个字符1fun String.lastChar(): Char = this.get(this.length - 1)
-当我们想调用该函数的时候1println("kotlin".lastChar())
-Warning: 扩展函数不能访问到私有的或者受保护的成员。
-扩展函数不存在重写的情况，当一个类的成员
-      
-      </p>
-      
-      <p>
-          <a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-07-26T16:00:00.000Z" itemprop="datePublished">
-          2018-07-27
-      </time>
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            <a href="/2018/08/16/C-function-array/" itemprop="url">函数与数组</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-08-16T16:00:00.000Z" itemprop="datePublished">Aug 16 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/C/">C++</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            7 minutes read (About 1088 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-</span>
-      <h2 class="post-title"><a href="/2018/07/26/Android-Modify-shape-attributes/">Modify shape attributes in code</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        123((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),            getResources().getDimensionPixelSiz
-      
-      </p>
-      
-      <p>
-          <a href="/2018/07/26/Android-Modify-shape-attributes/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-07-24T16:00:00.000Z" itemprop="datePublished">
-          2018-07-25
-      </time>
+        <h2 id="单个数组作为函数的参数"><a href="#单个数组作为函数的参数" class="headerlink" title="单个数组作为函数的参数"></a>单个数组作为函数的参数</h2><p>C++中将数组名看成是第一个元素的地址。如下：<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">int</span> cookies[<span class="number hljs-number">8</span>] = &#123;<span class="number hljs-number">1</span>,<span class="number hljs-number">2</span>,<span class="number hljs-number">4</span>,<span class="number hljs-number">8</span>,<span class="number hljs-number">16</span>,<span class="number hljs-number">32</span>,<span class="number hljs-number">64</span>,<span class="number hljs-number">128</span>&#125;;</span><br><span class="line"><span class="built_in hljs-built_in">cout</span> &lt;&lt; cookies;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x7ffeefbff540</span><br></pre></td></tr></table></figure>
+<p>但是该规矩有一个特例，就是在函数原型中，int *arr和int arr[]表示同一个意思。如下：<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">sum_arr</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> *arr,<span class="keyword hljs-keyword">int</span> n)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">sum_arr</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> arr[],<span class="keyword hljs-keyword">int</span> n)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>也就是说在这个特例中将数组作为了参数，其实是将数组第一个元素的地址传递给了函数，而并没有传递数组的内容。</p>
+<p><strong>总结：传递常规变量时，函数将使用该变量的拷贝；但传递数组时，函数将使用原来的数组。其实传递数组时也传递了一个值，这个值被赋予给了一个新变量，也即是地址。<br>这么做的好处是能节省开支，如果该数组很大，那么要对它进行拷贝则费时费力。</strong></p>
+<p><em>Warning :为将数组类型和元素数量告诉数组处理函数，请通过两个不同的参数来传递它们：</em><br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">void</span> <span class="title hljs-title">fillArray</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> arr[], <span class="keyword hljs-keyword">int</span> size)</span></span>; <span class="comment hljs-comment">//good</span></span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">void</span> <span class="title hljs-title">fillArray</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> arr[size])</span></span>; <span class="comment hljs-comment">//bad</span></span><br></pre></td></tr></table></figure></p>
+<p>如果在某个函数中，所传入的数组不希望被修改，则可以使用const关键字修饰该数组。这表示指针arr指向的是常量数据，在该函数中不能使用ar修改该数据，当然，这并不是说原始数组必须是常量。如下：<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">void</span> <span class="title hljs-title">show_array</span><span class="params hljs-params">(<span class="keyword hljs-keyword">const</span> <span class="keyword hljs-keyword">int</span> arr[], <span class="keyword hljs-keyword">int</span> n)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="多个数组作为函数的参数"><a href="#多个数组作为函数的参数" class="headerlink" title="多个数组作为函数的参数"></a>多个数组作为函数的参数</h2><p>实际上我们也可以通过传入两个地址来表示数组在这两个地址的区间内。<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">using</span> <span class="keyword hljs-keyword">namespace</span> <span class="built_in hljs-built_in">std</span>;</span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">sum_arr</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> *start,<span class="keyword hljs-keyword">int</span> *end)</span></span>;</span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">main</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> argc, <span class="keyword hljs-keyword">const</span> <span class="keyword hljs-keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> cookies[<span class="number hljs-number">8</span>] = &#123;<span class="number hljs-number">1</span>,<span class="number hljs-number">2</span>,<span class="number hljs-number">4</span>,<span class="number hljs-number">8</span>,<span class="number hljs-number">16</span>,<span class="number hljs-number">32</span>,<span class="number hljs-number">64</span>,<span class="number hljs-number">128</span>&#125;;</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> total = sum_arr(cookies, cookies + <span class="number hljs-number">8</span>);</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> wrongTotal = sum_arr(cookies, cookies + <span class="number hljs-number">9</span>);</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; total;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; <span class="built_in hljs-built_in">endl</span>;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; wrongTotal;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">sum_arr</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> start[], <span class="keyword hljs-keyword">int</span> end[])</span></span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> sum = <span class="number hljs-number">0</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> *pt;</span><br><span class="line">    <span class="keyword hljs-keyword">for</span> (pt = start; pt != end; pt++) &#123;</span><br><span class="line">        sum = sum + *pt;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">255</span><br><span class="line">-272632185</span><br></pre></td></tr></table></figure>
+<p><em>即使超出数组也不会报错，因为c++中只在初始化的时候检查数组是否越界。</em></p>
+<h2 id="函数和字符串"><a href="#函数和字符串" class="headerlink" title="函数和字符串"></a>函数和字符串</h2><p>将字符串作为参数来传递的时候，同样传递的是第一个字符的地址，字符串有内置的结束字符。因此想要判断字符串是否读取完毕则可以使用*str是否为0。如下：<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">using</span> <span class="keyword hljs-keyword">namespace</span> <span class="built_in hljs-built_in">std</span>;</span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">count</span><span class="params hljs-params">(<span class="keyword hljs-keyword">char</span> * str)</span></span>;</span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">main</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> argc, <span class="keyword hljs-keyword">const</span> <span class="keyword hljs-keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">char</span> * str = <span class="string hljs-string">"xingxing"</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> g = count(str);</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; g;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">count</span><span class="params hljs-params">(<span class="keyword hljs-keyword">char</span> * str)</span></span></span><br><span class="line"><span class="function hljs-function"></span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> count = <span class="number hljs-number">0</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">while</span> (*str) &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (*str == <span class="string hljs-string">'g'</span>) &#123;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        str++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span>  count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="函数和结构体"><a href="#函数和结构体" class="headerlink" title="函数和结构体"></a>函数和结构体</h2><p>函数中使用结构体比较简单，将结构体当作一个对象来使用就可以了。不赘述。</p>
+<h2 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h2><p>C++中函数也有地址，函数的地址是存储其机器语言代码的内存的开始地址，有时候会将函数地址作为参数传给另一个函数。</p>
+<h3 id="获取函数地址"><a href="#获取函数地址" class="headerlink" title="获取函数地址"></a>获取函数地址</h3><p>使用函数名且不带任何参数就是使用函数的地址。例如test()是一个函数，那么test就是该函数的地址。<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show(test()) <span class="comment hljs-comment">//传递test函数的返回值</span></span><br><span class="line">show(test)   <span class="comment hljs-comment">//传递test函数的地址</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="声明函数指针"><a href="#声明函数指针" class="headerlink" title="声明函数指针"></a>声明函数指针</h3><p>声明一个函数指针就是将该函数原型中的函数名替换为指针名即可。<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">test</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span>)</span></span>; <span class="comment hljs-comment">//原型</span></span><br><span class="line"><span class="keyword hljs-keyword">int</span> (*pf)(<span class="keyword hljs-keyword">int</span>); <span class="comment hljs-comment">//函数指针声明</span></span><br><span class="line">pf = test; <span class="comment hljs-comment">//函数指针赋值</span></span><br></pre></td></tr></table></figure></p>
+<p>如果使用该函数指针来调用函数的话则可以这样：<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pf(<span class="number hljs-number">5</span>);</span><br><span class="line">(*pf)(<span class="number hljs-number">5</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="C-PrimerPlus习题"><a href="#C-PrimerPlus习题" class="headerlink" title="C++PrimerPlus习题"></a>C++PrimerPlus习题</h2><h3 id="7-6"><a href="#7-6" class="headerlink" title="7.6"></a>7.6</h3><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">void</span> <span class="title hljs-title">Fill_array</span><span class="params hljs-params">(<span class="keyword hljs-keyword">double</span> [], <span class="keyword hljs-keyword">int</span> size)</span></span>;</span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">void</span> <span class="title hljs-title">Show_array</span><span class="params hljs-params">(<span class="keyword hljs-keyword">double</span> [], <span class="keyword hljs-keyword">int</span> size)</span></span>;</span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">void</span> <span class="title hljs-title">Reverse_array</span><span class="params hljs-params">(<span class="keyword hljs-keyword">double</span> [], <span class="keyword hljs-keyword">int</span> size)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword hljs-keyword">using</span> <span class="keyword hljs-keyword">namespace</span> <span class="built_in hljs-built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">main</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> argc, <span class="keyword hljs-keyword">const</span> <span class="keyword hljs-keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> max = <span class="number hljs-number">5</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">double</span> <span class="built_in hljs-built_in">array</span>[max];</span><br><span class="line">    Fill_array(<span class="built_in hljs-built_in">array</span>, max);</span><br><span class="line">    Show_array(<span class="built_in hljs-built_in">array</span>,max);</span><br><span class="line">    Reverse_array(<span class="built_in hljs-built_in">array</span>, max);</span><br><span class="line">    Show_array(<span class="built_in hljs-built_in">array</span>, max);</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> <span class="number hljs-number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">void</span> <span class="title hljs-title">Fill_array</span><span class="params hljs-params">(<span class="keyword hljs-keyword">double</span> arr[], <span class="keyword hljs-keyword">int</span> size)</span></span></span><br><span class="line"><span class="function hljs-function"></span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">for</span> (<span class="keyword hljs-keyword">int</span> i = <span class="number hljs-number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">        <span class="built_in hljs-built_in">cout</span> &lt;&lt; <span class="string hljs-string">"Enter double :"</span>;</span><br><span class="line">        <span class="built_in hljs-built_in">cin</span> &gt;&gt; arr[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">void</span> <span class="title hljs-title">Show_array</span><span class="params hljs-params">(<span class="keyword hljs-keyword">double</span> arr[], <span class="keyword hljs-keyword">int</span> size)</span></span></span><br><span class="line"><span class="function hljs-function"></span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">for</span> (<span class="keyword hljs-keyword">int</span> i = <span class="number hljs-number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">        <span class="built_in hljs-built_in">cout</span> &lt;&lt; arr[i];</span><br><span class="line">        <span class="built_in hljs-built_in">cout</span> &lt;&lt; <span class="built_in hljs-built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">void</span> <span class="title hljs-title">Reverse_array</span><span class="params hljs-params">(<span class="keyword hljs-keyword">double</span> arr[], <span class="keyword hljs-keyword">int</span> size)</span></span></span><br><span class="line"><span class="function hljs-function"></span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">for</span> (<span class="keyword hljs-keyword">int</span> i = <span class="number hljs-number">0</span>; i &lt; size / <span class="number hljs-number">2</span> ; i++) &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">double</span> tmp = arr[i];</span><br><span class="line">        arr[i] = arr[size - i <span class="number hljs-number">-1</span>];</span><br><span class="line">        arr[size - i <span class="number hljs-number">-1</span>] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="7-10"><a href="#7-10" class="headerlink" title="7.10"></a>7.10</h3><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">double calculate(double,double,double (*pf)(double,double));</span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">double</span> <span class="title hljs-title">add</span><span class="params hljs-params">(<span class="keyword hljs-keyword">double</span>,<span class="keyword hljs-keyword">double</span>)</span></span>;</span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">main</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> argc, <span class="keyword hljs-keyword">const</span> <span class="keyword hljs-keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">double</span> d = calculate(<span class="number hljs-number">2.2</span>,<span class="number hljs-number">2.8</span>,add);</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; d &lt;&lt; <span class="built_in hljs-built_in">endl</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> <span class="number hljs-number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">double</span> <span class="title hljs-title">add</span><span class="params hljs-params">(<span class="keyword hljs-keyword">double</span> x,<span class="keyword hljs-keyword">double</span> y)</span></span></span><br><span class="line"><span class="function hljs-function"></span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">double calculate(double i,double j,double (*pf)(double,double))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> pf(i,j);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p></p>
+<p><em>基于C++ Primer plus第七章。</em></p>
+
     
-</span>
-      <h2 class="post-title"><a href="/2018/07/24/Android-ShowPopupAtLocation/">PopupWindow show at location</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        Recently,UE Team has updated some features.One of them is click on the button,and show PopupWindow right above the button.The point is can’t use hardcode because different devices has different resolution. So the best wa
-      
-      </p>
-      
-      <p>
-          <a href="/2018/07/24/Android-ShowPopupAtLocation/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <nav class="pagination" role="pagination">
-    <a class="newer-posts" href="/">← Newer Posts</a>
-    <span class="page-number">Page 2 of 2</span>
+    </div>
     
-  </nav>
-</main>
+    
+</article>
 
 
-  
-<footer class="site-footer">
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">Something</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
-  </div>
+
+
+    
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            <a href="/2018/08/09/Kotlin-Singleton/" itemprop="url">Kotlin Singleton</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-08-09T16:00:00.000Z" itemprop="datePublished">Aug 9 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            5 minutes read (About 822 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p>在Kotlin中，object是一个自带单例模式的数据类型，而在java中object是所有类的父类。如下是object分别在java和kotlin的代码：<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">object</span> ExampleObject &#123;</span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">fun</span> <span class="title hljs-title">example</span><span class="params hljs-params">()</span></span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">ExampleObject</span> </span>&#123;</span><br><span class="line">   <span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">final</span> ExampleObject INSTANCE;</span><br><span class="line"></span><br><span class="line">   <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">example</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword hljs-keyword">static</span> &#123;</span><br><span class="line">      ExampleObject var0 = <span class="keyword hljs-keyword">new</span> ExampleObject();</span><br><span class="line">      INSTANCE = var0;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，kotlin中的object是对应java中的静态单例模式。因此如果想在kotlin中写出单例模式，可以直接使用object关键字即可。同时因为使用的是static实现单例模式，因此也保证了线程安全。后续会介绍更好的写法。</p>
+<h2 id="Java-Singleton"><a href="#Java-Singleton" class="headerlink" title="Java Singleton"></a>Java Singleton</h2><p>这里其实对java中使用static来实现单例模式不是很清晰，主要的问题在于为什么static修饰的对象指向的是同一个内存地址。即使我这么写<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Single</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> Single single = <span class="keyword hljs-keyword">new</span> Single();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">main</span><span class="params hljs-params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Single single = Single.single;</span><br><span class="line">        System.out.println(single);</span><br><span class="line">        Single single1 = Single.single;</span><br><span class="line">        System.out.println(single1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Result:<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Single@2b193f2d</span><br><span class="line">Single@2b193f2d</span><br></pre></td></tr></table></figure></p>
+<p>静态单例模式还有另一种方式，区别在于只有调用getInstance方法时才会去实例化Single对象。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Single</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">static</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">SingleHoleder</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">static</span> Single single = <span class="keyword hljs-keyword">new</span> Single();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> Single <span class="title hljs-title">getInstance</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> SingleHoleder.single;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这边static关键字能实现单例模式的主要原因在于被static修饰的变量或对象具有唯一性。那么为什么具有唯一性呢，这就得查看static的原理了。</p>
+<h2 id="Static关键字"><a href="#Static关键字" class="headerlink" title="Static关键字"></a>Static关键字</h2><p>根据定义，被static所修饰的变量有且只有该变量的一份拷贝，并且能在类中公用。换句话说是一个全局的变量。静态变量在加载类的时候就已经分配好了内存，因此该变量是属于类的而不是某个new出来的对象的。在往下到jvm还未了解到,本文关于static到此结束。</p>
+<h2 id="更好的单例模式"><a href="#更好的单例模式" class="headerlink" title="更好的单例模式"></a>更好的单例模式</h2><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Singleton</span> <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">constructor</span></span>() &#123;</span><br><span class="line">    init &#123; println(<span class="string hljs-string">"This (<span class="variable hljs-variable">$this</span>) is a singleton"</span>) &#125;    </span><br><span class="line"></span><br><span class="line">    <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">object</span> Holder &#123; <span class="keyword hljs-keyword">val</span> INSTANCE = Singleton() &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword hljs-keyword">companion</span> <span class="keyword hljs-keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">val</span> instance: Singleton <span class="keyword hljs-keyword">by</span> lazy &#123; Holder.INSTANCE &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword hljs-keyword">var</span> b:String? = <span class="literal hljs-literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将构造方法私有化，其他地方无法实例化该类。</li>
+<li>使用lazy关键字延迟instance的实例化，优化性能。</li>
+<li>使用companion关键字实现java中static的效果。</li>
+</ul>
+<h2 id="kotlin中的companion"><a href="#kotlin中的companion" class="headerlink" title="kotlin中的companion"></a>kotlin中的companion</h2><p>由于kotlin中object默认是单例模式，因此没有static关键字，那么如果我们想要全局变量该怎么做呢，答案就是companion。<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Test</span> <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">constructor</span></span>() &#123;</span><br><span class="line">    <span class="keyword hljs-keyword">companion</span> <span class="keyword hljs-keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword hljs-keyword">val</span> i = <span class="number hljs-number">1</span></span><br><span class="line">        <span class="keyword hljs-keyword">val</span> instance = Test()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">fun</span> <span class="title hljs-title">main</span><span class="params hljs-params">(args: <span class="type hljs-type">Array</span>&lt;<span class="type hljs-type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    println(Test.i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result : 1</span><br></pre></td></tr></table></figure>
+<p>这样就实现了static的效果。再来看一下decompile后的代码<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Test</span> </span>&#123;</span><br><span class="line">   <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">final</span> <span class="keyword hljs-keyword">int</span> i = <span class="number hljs-number">1</span>;</span><br><span class="line">   <span class="meta hljs-meta">@NotNull</span></span><br><span class="line">   <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">final</span> Test instance = <span class="keyword hljs-keyword">new</span> Test();</span><br><span class="line">   <span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">final</span> Test.Companion Companion = <span class="keyword hljs-keyword">new</span> Test.Companion((DefaultConstructorMarker)<span class="keyword hljs-keyword">null</span>);</span><br><span class="line"></span><br><span class="line">   <span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">final</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Companion</span> </span>&#123;</span><br><span class="line">      <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="keyword hljs-keyword">int</span> <span class="title hljs-title">getI</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword hljs-keyword">return</span> Test.i;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="meta hljs-meta">@NotNull</span></span><br><span class="line">      <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> Test <span class="title hljs-title">getInstance</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword hljs-keyword">return</span> Test.instance;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="function hljs-function"><span class="keyword hljs-keyword">private</span> <span class="title hljs-title">Companion</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment hljs-comment">// $FF: synthetic method</span></span><br><span class="line">      <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">Companion</span><span class="params hljs-params">(DefaultConstructorMarker $constructor_marker)</span> </span>&#123;</span><br><span class="line">         <span class="keyword hljs-keyword">this</span>();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到变量i被static所修饰。并且companion是对所有类公开的，因此适合用来实现单例模式。</p>
+<p><em>Warning:一个类中只能有一个被companion修饰的object。</em></p>
+<p>参考文档：</p>
+<p><a href="https://antonioleiva.com/objects-kotlin/" target="_blank" rel="noopener">https://antonioleiva.com/objects-kotlin/</a></p>
+<p><a href="https://medium.com/@adinugroho/singleton-in-kotlin-502f80fd8a63" target="_blank" rel="noopener">https://medium.com/@adinugroho/singleton-in-kotlin-502f80fd8a63</a></p>
+<p><a href="https://www.journaldev.com/18662/kotlin-singleton-companion-object" target="_blank" rel="noopener">https://www.journaldev.com/18662/kotlin-singleton-companion-object</a></p>
+
+    
+    </div>
+    
+    
+</article>
+
+
+
+
+    
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            <a href="/2018/08/06/C-Pointer-Note/" itemprop="url">C++指针笔记</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-08-06T16:00:00.000Z" itemprop="datePublished">Aug 6 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/C/">C++</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            5 minutes read (About 742 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>指针也是一种变量，特殊之处在于它存储的是变量的地址，如下：<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">main</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> argc, <span class="keyword hljs-keyword">const</span> <span class="keyword hljs-keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> i = <span class="number hljs-number">6</span>;</span><br><span class="line">    <span class="comment hljs-comment">//assign the address of i to pointer</span></span><br><span class="line">    <span class="keyword hljs-keyword">int</span> *pointer = &amp;i;</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> *pointer1 = <span class="keyword hljs-keyword">new</span> <span class="keyword hljs-keyword">int</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> <span class="number hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>操作符*被叫做间接值或者解除应用</p>
+<p><em><strong>Warning: 一定要在对指针使用*之前，将指针初始化为一个确定的、适当的地址</strong></em></p>
+<h2 id="运算符new"><a href="#运算符new" class="headerlink" title="运算符new"></a>运算符new</h2><p>在C中，使用malloc来分配内存，在c++中则使用new关键字。<br>为一个数据对象获得并制定分配内存的通用格式：<br>_typeName * pointer_name = new typeName;_</p>
+<p>一旦我们不需要该指针，应该使用delete关键字将该指针释放，new和delete必须成对出现，否则会发生memory leak。<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">int</span> *ps = <span class="keyword hljs-keyword">new</span> <span class="keyword hljs-keyword">int</span>;</span><br><span class="line">...</span><br><span class="line"><span class="keyword hljs-keyword">delete</span> ps;</span><br></pre></td></tr></table></figure></p>
+<p>这将释放ps指针所指向的内存，但不会删除ps本身，也就是说可以继续将ps指向其他地址。</p>
+<h2 id="动态数组"><a href="#动态数组" class="headerlink" title="动态数组"></a>动态数组</h2><p>使用new关键字来创建动态数组，并且返回的是该数组第一个元素的地址，如果想要获得第二个元素的地址，则需要将该指针加1，如下：<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">main</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> argc, <span class="keyword hljs-keyword">const</span> <span class="keyword hljs-keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment hljs-comment">// insert code here...</span></span><br><span class="line">    <span class="keyword hljs-keyword">int</span> *<span class="built_in hljs-built_in">array</span> = <span class="keyword hljs-keyword">new</span> <span class="keyword hljs-keyword">int</span>[<span class="number hljs-number">10</span>];</span><br><span class="line">    <span class="built_in hljs-built_in">array</span>[<span class="number hljs-number">0</span>] = <span class="number hljs-number">1</span>;</span><br><span class="line">    <span class="built_in hljs-built_in">array</span>[<span class="number hljs-number">1</span>] = <span class="number hljs-number">3</span>;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; *<span class="built_in hljs-built_in">array</span>;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; <span class="built_in hljs-built_in">endl</span>;</span><br><span class="line">    <span class="built_in hljs-built_in">array</span> = <span class="built_in hljs-built_in">array</span> + <span class="number hljs-number">1</span>;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; *<span class="built_in hljs-built_in">array</span>;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; <span class="built_in hljs-built_in">endl</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> <span class="number hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Result:<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">3</span><br></pre></td></tr></table></figure></p>
+<h2 id="动态结构"><a href="#动态结构" class="headerlink" title="动态结构"></a>动态结构</h2><p>结构体同样可以使用new关键字。不同的是无法使用句点运算符，取而代之的是-&gt;运算符，如下：<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">struct</span> <span class="title hljs-title">things</span> &#123;</span></span><br><span class="line">    <span class="keyword hljs-keyword">int</span> price;</span><br><span class="line">    <span class="keyword hljs-keyword">int</span> sum;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">main</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> argc, <span class="keyword hljs-keyword">const</span> <span class="keyword hljs-keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment hljs-comment">// insert code here...</span></span><br><span class="line">    things t = &#123;<span class="number hljs-number">3</span>,<span class="number hljs-number">18</span>&#125;;</span><br><span class="line">    things * tpt = &amp;t;</span><br><span class="line">    <span class="comment hljs-comment">//things * tpt = new things;</span></span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; tpt-&gt;price;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; <span class="built_in hljs-built_in">endl</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> <span class="number hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Result:<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3</span><br></pre></td></tr></table></figure></p>
+<h2 id="指针与字符串"><a href="#指针与字符串" class="headerlink" title="指针与字符串"></a>指针与字符串</h2><p>一般来说如果给cout提供一个指针的话，他将打印地址，但是如果指针的类型为char <em>，那么cout的指针其实指向的是char</em>的第一个字符的地址，并且会依次往后直到结束符。如下：<br><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">int</span> <span class="title hljs-title">main</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> argc, <span class="keyword hljs-keyword">const</span> <span class="keyword hljs-keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">char</span> * c = <span class="string hljs-string">"dog"</span>;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; <span class="string hljs-string">"c :"</span> &lt;&lt; c;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span>&lt;&lt; <span class="built_in hljs-built_in">endl</span>;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt;<span class="string hljs-string">"*c :"</span> &lt;&lt; *c;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; <span class="built_in hljs-built_in">endl</span>;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt;<span class="string hljs-string">"第一个字符的地址 ："</span> &lt;&lt; (<span class="keyword hljs-keyword">int</span>*)c;</span><br><span class="line">    <span class="built_in hljs-built_in">cout</span> &lt;&lt; <span class="built_in hljs-built_in">endl</span>;</span><br><span class="line">    <span class="keyword hljs-keyword">return</span> <span class="number hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">c :dog</span><br><span class="line">*c :d</span><br><span class="line">第一个字符的地址 ：0x100001edc</span><br></pre></td></tr></table></figure>
+<h2 id="管理内存的三种方式"><a href="#管理内存的三种方式" class="headerlink" title="管理内存的三种方式"></a>管理内存的三种方式</h2><ul>
+<li>自动存储<br>在函数内部定义的常规变量使用自动存储空间，被称为自动变量，也就是说在函数执行完成之后会自动销毁。自动变量存储在栈中，采用先进后出的形式。</li>
+<li>静态存储<br>变量成为静态的方式有两种，一是在函数外面定义；二是使用static关键字。</li>
+<li>动态存储<br>使用new和delete管理内存，它们管理了一个内存池，被成为自由存储空间或堆，这个内存池和静态比变量以及自动变量的内存是分开的。</li>
+</ul>
+<p>目前为C++ Primer Plus的第四章。</p>
+
+    
+    </div>
+    
+    
+</article>
+
+
+
+
+    
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            <a href="/2018/08/04/Java-Container/" itemprop="url">Java_Container</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-08-04T16:00:00.000Z" itemprop="datePublished">Aug 4 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Java/">Java</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            11 minutes read (About 1667 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <h2 id="Basic-Concept"><a href="#Basic-Concept" class="headerlink" title="Basic Concept"></a>Basic Concept</h2><p>容器是用来存储对象的，通常有两种</p>
+<ul>
+<li><em>Collection: 一个独立的序列，例如List，Set等</em></li>
+<li><em>Map:一种键-值对.</em> <h2 id="List、Set、Map的区别"><a href="#List、Set、Map的区别" class="headerlink" title="List、Set、Map的区别"></a>List、Set、Map的区别</h2>Now check the different result on the demo.<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">PrintingContainers</span> </span>&#123;  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">main</span><span class="params hljs-params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        System.out.println(fill(<span class="keyword hljs-keyword">new</span> ArrayList&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword hljs-keyword">new</span> LinkedList&lt;&gt;()));</span><br><span class="line">  System.out.println(fill(<span class="keyword hljs-keyword">new</span> HashSet&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword hljs-keyword">new</span> TreeSet&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword hljs-keyword">new</span> LinkedHashSet&lt;&gt;()));  </span><br><span class="line">  </span><br><span class="line">  System.out.println(fill(<span class="keyword hljs-keyword">new</span> HashMap&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword hljs-keyword">new</span> TreeMap&lt;&gt;()));  </span><br><span class="line">  System.out.println(fill(<span class="keyword hljs-keyword">new</span> LinkedHashMap&lt;&gt;()));  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">static</span> Collection <span class="title hljs-title">fill</span><span class="params hljs-params">(Collection&lt;String&gt; collection)</span> </span>&#123;  </span><br><span class="line">        collection.add(<span class="string hljs-string">"dog"</span>);  </span><br><span class="line">  collection.add(<span class="string hljs-string">"cat"</span>);  </span><br><span class="line">  collection.add(<span class="string hljs-string">"rat"</span>);  </span><br><span class="line">  collection.add(<span class="string hljs-string">"dog"</span>);  </span><br><span class="line"> <span class="keyword hljs-keyword">return</span> collection;  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">static</span> Map <span class="title hljs-title">fill</span><span class="params hljs-params">(Map&lt;String, String&gt; map)</span> </span>&#123;  </span><br><span class="line">        map.put(<span class="string hljs-string">"rat"</span>, <span class="string hljs-string">"Tom"</span>);  </span><br><span class="line">  map.put(<span class="string hljs-string">"cat"</span>, <span class="string hljs-string">"Jerry"</span>);  </span><br><span class="line"> <span class="keyword hljs-keyword">return</span> map;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Result :<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[dog, cat, rat, dog]</span><br><span class="line">[dog, cat, rat, dog]</span><br><span class="line">[rat, cat, dog]</span><br><span class="line">[cat, dog, rat]</span><br><span class="line">[dog, cat, rat]</span><br><span class="line">&#123;rat=Tom, cat=Jerry&#125;</span><br><span class="line">&#123;cat=Jerry, rat=Tom&#125;</span><br><span class="line">&#123;rat=Tom, cat=Jerry&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><ul>
+<li>ArrayList: 适合查询，不适合插入和删除元素。</li>
+<li>LinkedList : 按照添加的顺序存储元素，常用于频繁的插入和删除元素。</li>
+</ul>
+<p><em>Practice For List: Create a single linked List.User iterator to insert or remove elements</em><br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">SingleListDemo</span> </span>&#123;  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">main</span><span class="params hljs-params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        SList&lt;String&gt; list = <span class="keyword hljs-keyword">new</span> SList&lt;&gt;();  </span><br><span class="line">  SListIterator iterator = list.iterator();  </span><br><span class="line">  iterator.insert(<span class="string hljs-string">"wang"</span>);  </span><br><span class="line">  System.out.println(list);  </span><br><span class="line">  iterator.insert(<span class="string hljs-string">"shen"</span>);  </span><br><span class="line">  System.out.println(list);  </span><br><span class="line">  iterator.insert(<span class="string hljs-string">"xing"</span>);  </span><br><span class="line">  System.out.println(list);  </span><br><span class="line">  </span><br><span class="line">  SListIterator iterator1 = list.iterator();  </span><br><span class="line">  iterator1.remove();  </span><br><span class="line">  System.out.println(list);  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">SList</span>&lt;<span class="title hljs-title">E</span>&gt; </span>&#123;  </span><br><span class="line">    Link&lt;E&gt; head = <span class="keyword hljs-keyword">new</span> Link&lt;&gt;(<span class="keyword hljs-keyword">null</span>);  </span><br><span class="line">  </span><br><span class="line"> <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> SListIterator <span class="title hljs-title">iterator</span><span class="params hljs-params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">new</span> SListIterator&lt;E&gt;(head);  </span><br><span class="line">  &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta hljs-meta">@Override</span>  </span><br><span class="line">  <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> String <span class="title hljs-title">toString</span><span class="params hljs-params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (head.next == <span class="keyword hljs-keyword">null</span>) &#123;  </span><br><span class="line">            <span class="keyword hljs-keyword">return</span> <span class="string hljs-string">"[]"</span>;  </span><br><span class="line">        &#125; <span class="keyword hljs-keyword">else</span> &#123;  </span><br><span class="line">            System.out.print(<span class="string hljs-string">"["</span>);  </span><br><span class="line">            StringBuilder stringBuilder = <span class="keyword hljs-keyword">new</span> StringBuilder();  </span><br><span class="line">            SListIterator iterator = <span class="keyword hljs-keyword">this</span>.iterator();  </span><br><span class="line">            <span class="keyword hljs-keyword">while</span> (iterator.hasNext()) &#123;  </span><br><span class="line">                stringBuilder.append(iterator.next() + (iterator.hasNext() ? <span class="string hljs-string">","</span> : <span class="string hljs-string">""</span>));  </span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="keyword hljs-keyword">return</span> stringBuilder + <span class="string hljs-string">"]"</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Link</span>&lt;<span class="title hljs-title">E</span>&gt; </span>&#123;  </span><br><span class="line">    E e;  </span><br><span class="line">    Link&lt;E&gt; next;  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">Link</span><span class="params hljs-params">(E e)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.e = e;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">Link</span><span class="params hljs-params">(E e, Link&lt;E&gt; next)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.e = e;  </span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.next = next;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="meta hljs-meta">@Override</span>  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> String <span class="title hljs-title">toString</span><span class="params hljs-params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword hljs-keyword">return</span> e != <span class="keyword hljs-keyword">null</span> ? e.toString() : <span class="keyword hljs-keyword">null</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">SListIterator</span>&lt;<span class="title hljs-title">E</span>&gt; </span>&#123;  </span><br><span class="line">    Link&lt;E&gt; current;  </span><br><span class="line">  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">SListIterator</span><span class="params hljs-params">(Link&lt;E&gt; current)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.current = current;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">boolean</span> <span class="title hljs-title">hasNext</span><span class="params hljs-params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword hljs-keyword">return</span> current.next != <span class="keyword hljs-keyword">null</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">insert</span><span class="params hljs-params">(E e)</span> </span>&#123;  </span><br><span class="line">        current.next = <span class="keyword hljs-keyword">new</span> Link&lt;&gt;(e);  </span><br><span class="line">        current = current.next;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">remove</span><span class="params hljs-params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (current.next != <span class="keyword hljs-keyword">null</span>)  </span><br><span class="line">            current.next = current.next.next;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> Link&lt;E&gt; <span class="title hljs-title">next</span><span class="params hljs-params">()</span> </span>&#123;  </span><br><span class="line">        current = current.next;  </span><br><span class="line">        <span class="keyword hljs-keyword">return</span> current;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><ul>
+<li>HashSet: 获取元素最快的一种</li>
+<li>TreeSet: 降序的方式存储元素</li>
+<li>LinkedHashSet : 根据添加的顺序存储元素</li>
+<li>SortedSet: 由TreeSet实现的接口</li>
+</ul>
+<p><em>Practice:Create a SortedSet ,Using LinkerList as an underlying implementation</em><br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">MySortedSetDemo</span> </span>&#123;  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">main</span><span class="params hljs-params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        MySortedSet&lt;Integer&gt; integerMySortedSet = <span class="keyword hljs-keyword">new</span> MySortedSet&lt;&gt;();  </span><br><span class="line">        integerMySortedSet.add(<span class="number hljs-number">6</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number hljs-number">8</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number hljs-number">2</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number hljs-number">5</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number hljs-number">2</span>);  </span><br><span class="line">        integerMySortedSet.add(<span class="number hljs-number">7</span>);  </span><br><span class="line">        System.out.println(integerMySortedSet);  </span><br><span class="line">        MySortedSet&lt;String&gt; stringMySortedSet = <span class="keyword hljs-keyword">new</span> MySortedSet&lt;&gt;();  </span><br><span class="line">        stringMySortedSet.add(<span class="string hljs-string">"wang"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string hljs-string">"shen"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string hljs-string">"xing"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string hljs-string">"is"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string hljs-string">"good"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string hljs-string">"is"</span>);  </span><br><span class="line">        stringMySortedSet.add(<span class="string hljs-string">"cool"</span>);  </span><br><span class="line">        System.out.println(stringMySortedSet);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">MySortedSet</span>&lt;<span class="title hljs-title">E</span>&gt; <span class="keyword hljs-keyword">extends</span> <span class="title hljs-title">LinkedList</span>&lt;<span class="title hljs-title">E</span>&gt; </span>&#123;  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">int</span> <span class="title hljs-title">compare</span><span class="params hljs-params">(E e1, E e2)</span> </span>&#123;  </span><br><span class="line">        System.out.println(e1.hashCode());  </span><br><span class="line">        System.out.println(e2.hashCode());  </span><br><span class="line">        <span class="keyword hljs-keyword">int</span> result = e1.hashCode() - e2.hashCode();  </span><br><span class="line">        <span class="keyword hljs-keyword">return</span> Integer.compare(result, <span class="number hljs-number">0</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">boolean</span> <span class="title hljs-title">add</span><span class="params hljs-params">(E e)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (!<span class="keyword hljs-keyword">this</span>.contains(e)) &#123;  </span><br><span class="line">            Iterator&lt;E&gt; iterator = <span class="keyword hljs-keyword">this</span>.iterator();  </span><br><span class="line">            <span class="keyword hljs-keyword">int</span> index = <span class="number hljs-number">0</span>;  </span><br><span class="line">            <span class="keyword hljs-keyword">while</span> (iterator.hasNext()) &#123;  </span><br><span class="line">                <span class="keyword hljs-keyword">if</span> (compare(iterator.next(), e) &lt; <span class="number hljs-number">1</span>) &#123;  </span><br><span class="line">                    index++;  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  </span><br><span class="line">            add(index, e);  </span><br><span class="line">            <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">true</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">false</span>;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><ul>
+<li>HashMap: 最快的找到元素的方式</li>
+<li>TreeMap:降序方式存储，且是唯一带有submap方法的Map，可以返回一个子树</li>
+<li>LinkerHashMap: 按照添加的顺序存储</li>
+</ul>
+<h2 id="Something-about-Array-asList"><a href="#Something-about-Array-asList" class="headerlink" title="Something about Array.asList"></a>Something about Array.asList</h2> <figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number hljs-number">1</span>,<span class="number hljs-number">2</span>,<span class="number hljs-number">3</span>);  </span><br><span class="line">list.add(<span class="number hljs-number">4</span>);</span><br><span class="line"><span class="comment hljs-comment">//Runtime error Because the array cannot be resized</span></span><br></pre></td></tr></table></figure>
+<p>Let’s check the source code of Array.asList. It will return a fixed-size list by the specific array.<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> &lt;T&gt; <span class="function hljs-function">List&lt;T&gt; <span class="title hljs-title">asList</span><span class="params hljs-params">(T... a)</span> </span>&#123;  </span><br><span class="line">    <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">new</span> ArrayList&lt;&gt;(a);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="散列与散列码"><a href="#散列与散列码" class="headerlink" title="散列与散列码"></a>散列与散列码</h2><p>由于线性搜索的速度相当慢，因此在HashMap中采用了散列码来取代线性搜索。它是一个代表对象的int值。hashCode()属于Object中的方法，因此适用于所有的java对象。HashMap就是通过hashCode来进行查询的。下面是将Groundhog和Prediction联系起来的demo：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Prediction</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">static</span> Random random = <span class="keyword hljs-keyword">new</span> Random(<span class="number hljs-number">47</span>);</span><br><span class="line">    <span class="keyword hljs-keyword">private</span> <span class="keyword hljs-keyword">boolean</span> shadow = random.nextDouble() &gt; <span class="number hljs-number">0.5</span>;</span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> String <span class="title hljs-title">toString</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (shadow) &#123;</span><br><span class="line">            <span class="keyword hljs-keyword">return</span> <span class="string hljs-string">"Six more "</span>;</span><br><span class="line">        &#125; <span class="keyword hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword hljs-keyword">return</span> <span class="string hljs-string">"early spring"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Groundhog</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">protected</span> <span class="keyword hljs-keyword">int</span> number;</span><br><span class="line"></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">Groundhog</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.number = number;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> String <span class="title hljs-title">toString</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> <span class="string hljs-string">"Groundhog #"</span> + number;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> &lt;T extends Groundhog&gt; <span class="function hljs-function"><span class="keyword hljs-keyword">void</span> <span class="title hljs-title">detectSpring</span><span class="params hljs-params">(Class&lt;T&gt; type)</span> <span class="keyword hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Constructor&lt;T&gt; ghog = type.getConstructor(<span class="keyword hljs-keyword">int</span>.class);</span><br><span class="line">        Map&lt;Groundhog, Prediction&gt; map = <span class="keyword hljs-keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword hljs-keyword">for</span> (<span class="keyword hljs-keyword">int</span> i = <span class="number hljs-number">0</span>; i &lt; <span class="number hljs-number">10</span>; i++) &#123;</span><br><span class="line">            map.put(ghog.newInstance(i), <span class="keyword hljs-keyword">new</span> Prediction());</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string hljs-string">"map = "</span> + map);</span><br><span class="line">        Groundhog gh = ghog.newInstance(<span class="number hljs-number">3</span>);</span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (map.containsKey(gh)) &#123;</span><br><span class="line">            System.out.println(map.get(gh));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果是找不到该key，原因很简单，这两个根本不是同一个类当然是查不到的，而它的查找方式就是在一个node中查找是否包含某个对象的hashcode，object的默认hashcode是和地址相关的。而想要让他们联系起来则需要覆写hashcode方法和equals方法。修改GroundDog<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Groundhog</span> </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">protected</span> <span class="keyword hljs-keyword">int</span> number;</span><br><span class="line"></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">Groundhog</span><span class="params hljs-params">(<span class="keyword hljs-keyword">int</span> number)</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.number = number;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> String <span class="title hljs-title">toString</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> <span class="string hljs-string">"Groundhog #"</span> + number;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">boolean</span> <span class="title hljs-title">equals</span><span class="params hljs-params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> number == ((Groundhog) o).number;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">int</span> <span class="title hljs-title">hashCode</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> number;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>那么为什么也要覆写equals方法呢，因为HashMap中覆写了equals方法，是根据key来判断是否相同的<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">final</span> <span class="keyword hljs-keyword">boolean</span> <span class="title hljs-title">equals</span><span class="params hljs-params">(Object var1)</span> </span>&#123;</span><br><span class="line">            <span class="keyword hljs-keyword">if</span> (var1 == <span class="keyword hljs-keyword">this</span>) &#123;</span><br><span class="line">                <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword hljs-keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword hljs-keyword">if</span> (var1 <span class="keyword hljs-keyword">instanceof</span> Entry) &#123;</span><br><span class="line">                    Entry var2 = (Entry)var1;</span><br><span class="line">                    <span class="keyword hljs-keyword">if</span> (Objects.equals(<span class="keyword hljs-keyword">this</span>.key, var2.getKey()) &amp;&amp; Objects.equals(<span class="keyword hljs-keyword">this</span>.value, var2.getValue())) &#123;</span><br><span class="line">                        <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建一个新的Map：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">SlowMap</span>&lt;<span class="title hljs-title">K</span>, <span class="title hljs-title">V</span>&gt; <span class="keyword hljs-keyword">extends</span> <span class="title hljs-title">AbstractMap</span>&lt;<span class="title hljs-title">K</span>, <span class="title hljs-title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">private</span> List&lt;K&gt; keys = <span class="keyword hljs-keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword hljs-keyword">private</span> List&lt;V&gt; values = <span class="keyword hljs-keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> V <span class="title hljs-title">put</span><span class="params hljs-params">(K key, V value)</span> </span>&#123;</span><br><span class="line">        V oldValue = get(key);</span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (!keys.contains(key)) &#123;</span><br><span class="line">            keys.add(key);</span><br><span class="line">            values.add(value);</span><br><span class="line">        &#125; <span class="keyword hljs-keyword">else</span> &#123;</span><br><span class="line">            values.set(keys.indexOf(value), value);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> oldValue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> V <span class="title hljs-title">get</span><span class="params hljs-params">(Object key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (!keys.contains(key))</span><br><span class="line">            <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">null</span>;</span><br><span class="line">        <span class="keyword hljs-keyword">else</span></span><br><span class="line">            <span class="keyword hljs-keyword">return</span> values.get(keys.indexOf(key));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="keyword hljs-keyword">public</span> Set&lt;Map.Entry&lt;K, V&gt;&gt; entrySet() &#123;</span><br><span class="line">        Set&lt;Map.Entry&lt;K, V&gt;&gt; set = <span class="keyword hljs-keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">        Iterator&lt;K&gt; ki = keys.iterator();</span><br><span class="line">        Iterator&lt;V&gt; vi = values.iterator();</span><br><span class="line">        <span class="keyword hljs-keyword">while</span> (ki.hasNext()) &#123;</span><br><span class="line">            set.add(<span class="keyword hljs-keyword">new</span> MapEntry&lt;K, V&gt;(ki.next(), vi.next()));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">MapEntry</span>&lt;<span class="title hljs-title">K</span>, <span class="title hljs-title">V</span>&gt; <span class="keyword hljs-keyword">implements</span> <span class="title hljs-title">Map</span>.<span class="title hljs-title">Entry</span>&lt;<span class="title hljs-title">K</span>, <span class="title hljs-title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">private</span> K key;</span><br><span class="line">    <span class="keyword hljs-keyword">private</span> V value;</span><br><span class="line"></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">MapEntry</span><span class="params hljs-params">(K key, V value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.key = key;</span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> K <span class="title hljs-title">getKey</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> key;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> V <span class="title hljs-title">getValue</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> V <span class="title hljs-title">setValue</span><span class="params hljs-params">(V v)</span> </span>&#123;</span><br><span class="line">        V oldValue = value;</span><br><span class="line">        value = v;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> oldValue;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个简陋的map问题在于对键的保存是线性，只能挨个匹配，这样是非常慢的，那么HashMap是如何优化的呢，其实HashMap的数据结构是数组加单向链表的形式。将hashcode的hash值（就是一个转换的方法）作取模运算，结果作为数组的索引值index，而数组的元素是单项链表，挨个add。当我们需要get的时候则先通过hashcode的hash值作取模运算得到index。然后再在取得链表中挨个配对。简单实现：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">SimpleHashMap.java</span><br><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">SimpleHashMap</span>&lt;<span class="title hljs-title">K</span>, <span class="title hljs-title">V</span>&gt; <span class="keyword hljs-keyword">extends</span> <span class="title hljs-title">AbstractMap</span>&lt;<span class="title hljs-title">K</span>, <span class="title hljs-title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">final</span> <span class="keyword hljs-keyword">int</span> SIZE = <span class="number hljs-number">997</span>;</span><br><span class="line">    LinkedList&lt;MapEntry&lt;K, V&gt;&gt;[] buckets = <span class="keyword hljs-keyword">new</span> LinkedList[SIZE];</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="keyword hljs-keyword">public</span> Set&lt;Map.Entry&lt;K, V&gt;&gt; entrySet() &#123;</span><br><span class="line">        Set&lt;Map.Entry&lt;K, V&gt;&gt; set = <span class="keyword hljs-keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">        <span class="keyword hljs-keyword">for</span> (LinkedList&lt;MapEntry&lt;K, V&gt;&gt; bucket : buckets) &#123;</span><br><span class="line">            <span class="keyword hljs-keyword">if</span> (bucket == <span class="keyword hljs-keyword">null</span>) <span class="keyword hljs-keyword">continue</span>;</span><br><span class="line">            <span class="keyword hljs-keyword">for</span> (MapEntry&lt;K, V&gt; pair : bucket) &#123;</span><br><span class="line">                set.add(pair);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> set;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> V <span class="title hljs-title">put</span><span class="params hljs-params">(K key, V value)</span> </span>&#123;</span><br><span class="line">        V oldValue = <span class="keyword hljs-keyword">null</span>;</span><br><span class="line">        <span class="keyword hljs-keyword">int</span> index = Math.abs(key.hashCode()) % SIZE;</span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (buckets[index] == <span class="keyword hljs-keyword">null</span>) &#123;</span><br><span class="line">            buckets[index] = <span class="keyword hljs-keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        MapEntry&lt;K, V&gt; pair = <span class="keyword hljs-keyword">new</span> MapEntry&lt;&gt;(key, value);</span><br><span class="line">        LinkedList&lt;MapEntry&lt;K, V&gt;&gt; bucket = buckets[index];</span><br><span class="line">        ListIterator&lt;MapEntry&lt;K, V&gt;&gt; iterator = bucket.listIterator();</span><br><span class="line">        <span class="keyword hljs-keyword">boolean</span> hasfound = <span class="keyword hljs-keyword">false</span>;</span><br><span class="line">        <span class="keyword hljs-keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            MapEntry&lt;K, V&gt; iPair = iterator.next();</span><br><span class="line">            <span class="keyword hljs-keyword">if</span> (iPair.getKey().equals(key)) &#123;</span><br><span class="line">                oldValue = iPair.getValue();</span><br><span class="line">                hasfound = <span class="keyword hljs-keyword">true</span>;</span><br><span class="line">                <span class="keyword hljs-keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (!hasfound) &#123;</span><br><span class="line">            buckets[index].add(<span class="keyword hljs-keyword">new</span> MapEntry&lt;&gt;(key, value));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> oldValue;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> V <span class="title hljs-title">get</span><span class="params hljs-params">(Object key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">int</span> index = Math.abs(key.hashCode()) % <span class="number hljs-number">997</span>;</span><br><span class="line">        <span class="keyword hljs-keyword">for</span> (MapEntry&lt;K, V&gt; iPair : buckets[index]) &#123;</span><br><span class="line">            <span class="keyword hljs-keyword">if</span> (iPair.getKey() == key)</span><br><span class="line">                <span class="keyword hljs-keyword">return</span> iPair.getValue();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">static</span> <span class="keyword hljs-keyword">void</span> <span class="title hljs-title">main</span><span class="params hljs-params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SimpleHashMap&lt;String, String&gt; map = <span class="keyword hljs-keyword">new</span> SimpleHashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string hljs-string">"key0"</span>, <span class="string hljs-string">"value0"</span>);</span><br><span class="line">        map.put(<span class="string hljs-string">"key1"</span>, <span class="string hljs-string">"value1"</span>);</span><br><span class="line">        System.out.println(map);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">MapEntry.java</span><br><span class="line"><span class="keyword hljs-keyword">public</span> <span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">MapEntry</span>&lt;<span class="title hljs-title">K</span>, <span class="title hljs-title">V</span>&gt; <span class="keyword hljs-keyword">implements</span> <span class="title hljs-title">Map</span>.<span class="title hljs-title">Entry</span>&lt;<span class="title hljs-title">K</span>, <span class="title hljs-title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword hljs-keyword">private</span> K key;</span><br><span class="line">    <span class="keyword hljs-keyword">private</span> V value;</span><br><span class="line"></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="title hljs-title">MapEntry</span><span class="params hljs-params">(K key, V value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.key = key;</span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> K <span class="title hljs-title">getKey</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> key;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> V <span class="title hljs-title">getValue</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> V <span class="title hljs-title">setValue</span><span class="params hljs-params">(V v)</span> </span>&#123;</span><br><span class="line">        V oldValue = value;</span><br><span class="line">        value = v;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> oldValue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">boolean</span> <span class="title hljs-title">equals</span><span class="params hljs-params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">if</span> (!(o <span class="keyword hljs-keyword">instanceof</span> MapEntry)) <span class="keyword hljs-keyword">return</span> <span class="keyword hljs-keyword">false</span>;</span><br><span class="line">        MapEntry me = (MapEntry) o;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> (key == <span class="keyword hljs-keyword">null</span> ?</span><br><span class="line">                me.getKey() == <span class="keyword hljs-keyword">null</span> : key.equals(me.getKey())) &amp;&amp;</span><br><span class="line">                (value == <span class="keyword hljs-keyword">null</span> ?</span><br><span class="line">                        me.getValue() == <span class="keyword hljs-keyword">null</span> : value.equals(me.getValue()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta hljs-meta">@Override</span></span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">int</span> <span class="title hljs-title">hashCode</span><span class="params hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword hljs-keyword">return</span> (key == <span class="keyword hljs-keyword">null</span> ? <span class="number hljs-number">0</span> : key.hashCode()) ^ (value == <span class="keyword hljs-keyword">null</span> ? <span class="number hljs-number">0</span> : value.hashCode());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    
+    </div>
+    
+    
+</article>
+
+
+
+
+    
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            <a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" itemprop="url">Kotlin_扩展函数/属性/中缀调用</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-07-27T16:00:00.000Z" itemprop="datePublished">Jul 27 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            3 minutes read (About 474 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <h2 id="Kotlin-扩展函数"><a href="#Kotlin-扩展函数" class="headerlink" title="Kotlin - 扩展函数"></a>Kotlin - 扩展函数</h2><p>扩展函数：<em>它是一个类的成员函数，不过是定义在类的外面。</em><br>比如说定义一个String的扩展函数计算该字串的最后一个字符<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function hljs-function"><span class="keyword hljs-keyword">fun</span> String.<span class="title hljs-title">lastChar</span><span class="params hljs-params">()</span></span>: <span class="built_in hljs-built_in">Char</span> = <span class="keyword hljs-keyword">this</span>.<span class="keyword hljs-keyword">get</span>(<span class="keyword hljs-keyword">this</span>.length - <span class="number hljs-number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>当我们想调用该函数的时候<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(<span class="string hljs-string">"kotlin"</span>.lastChar())</span><br></pre></td></tr></table></figure></p>
+<p>Warning: 扩展函数不能访问到私有的或者受保护的成员。</p>
+<p>扩展函数不存在重写的情况，当一个类的成员函数和扩展函数拥有相同的签名时，成员函数会被优先使用。<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class hljs-class"><span class="keyword hljs-keyword">class</span> <span class="title hljs-title">Button</span> </span>&#123;  </span><br><span class="line">    <span class="function hljs-function"><span class="keyword hljs-keyword">fun</span> <span class="title hljs-title">test</span><span class="params hljs-params">()</span></span> &#123;  </span><br><span class="line">        println(<span class="string hljs-string">"This is member fun"</span>)  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword hljs-keyword">val</span> button: Button = Button()  </span><br><span class="line">button.test()</span><br></pre></td></tr></table></figure></p>
+<p><em>Result : This is member fun</em></p>
+<h2 id="Kotlin-扩展属性"><a href="#Kotlin-扩展属性" class="headerlink" title="Kotlin - 扩展属性"></a>Kotlin - 扩展属性</h2><p>扩展属性和扩展函数类似，就像接收者的一个普通成员属性一样。<br>Warning: 必须定义getter函数，不能初始化，因为没有地方存储初始值。<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">var</span> StringBuilder.lastChar: <span class="built_in hljs-built_in">Char</span>  </span><br><span class="line">    <span class="keyword hljs-keyword">get</span>() = <span class="keyword hljs-keyword">get</span>(<span class="keyword hljs-keyword">this</span>.length - <span class="number hljs-number">1</span>)  </span><br><span class="line">    <span class="keyword hljs-keyword">set</span>(value: <span class="built_in hljs-built_in">Char</span>) &#123;  </span><br><span class="line">        <span class="keyword hljs-keyword">this</span>.setCharAt(length - <span class="number hljs-number">1</span>, value)  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword hljs-keyword">val</span> sb = StringBuilder(<span class="string hljs-string">"kotlin?"</span>)  </span><br><span class="line">sb.lastChar = <span class="string hljs-string">'!'</span>  </span><br><span class="line">println(sb)</span><br></pre></td></tr></table></figure></p>
+<p>Result : kotlin!<br>具体在实战中如何使用暂时不知。不过在Collection中已经默认增加了很多扩展函数，例如last（用来获取列表中最后一个元素）或者max（获取集合中的最大值）。这些在IDE中都会在补全功能中显示出来。</p>
+<h2 id="Kotlin-中缀调用"><a href="#Kotlin-中缀调用" class="headerlink" title="Kotlin - 中缀调用"></a>Kotlin - 中缀调用</h2><p>中缀调用：调用函数的时候不加分隔符，直接在对象和参数之间的调用方式。<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">val</span> map = mapOf(<span class="number hljs-number">1</span> to <span class="string hljs-string">"one"</span>, <span class="number hljs-number">7</span> to <span class="string hljs-string">"seven"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>等价于<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">val</span> map = mapOf(<span class="number hljs-number">1.</span>to(<span class="string hljs-string">"one"</span>), <span class="number hljs-number">7.</span>to(<span class="string hljs-string">"seven"</span>))</span><br></pre></td></tr></table></figure></p>
+<p>中缀调用可以与<em>只有一个参数</em>的函数一起使用，并且需要用infix修饰符来标记它。<br>例如上述to函数的声明<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">public</span> <span class="keyword hljs-keyword">infix</span> <span class="function hljs-function"><span class="keyword hljs-keyword">fun</span> <span class="type hljs-type">&lt;A, B&gt;</span> A.<span class="title hljs-title">to</span><span class="params hljs-params">(that: <span class="type hljs-type">B</span>)</span></span>: Pair&lt;A, B&gt; = Pair(<span class="keyword hljs-keyword">this</span>, that)</span><br></pre></td></tr></table></figure></p>
+<p>个人理解增加函数调用的可读性。</p>
+
+    
+    </div>
+    
+    
+</article>
+
+
+
+
+    
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            <a href="/2018/07/26/Android-Modify-shape-attributes/" itemprop="url">Modify shape attributes in code</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-07-26T16:00:00.000Z" itemprop="datePublished">Jul 26 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Android/">Android</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            a few seconds read (About 39 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))</span><br><span class="line">    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),</span><br><span class="line">            getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size));</span><br></pre></td></tr></table></figure>
+<p>convert drawable to GradientDrawable,and invoke setSize or setStroke and so on.</p>
+
+    
+    </div>
+    
+    
+</article>
+
+
+
+
+    
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            <a href="/2018/07/24/Android-ShowPopupAtLocation/" itemprop="url">PopupWindow show at location</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-07-24T16:00:00.000Z" itemprop="datePublished">Jul 24 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Android/">Android</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            a few seconds read (About 97 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <p>Recently,UE Team has updated some features.One of them is click on the button,and show PopupWindow right above the button.<br>The point is can’t use hardcode because different devices has different resolution. So the best way is get the location in the window.<br>There is method named <code>getLocationInWindow(View view)</code> in View.java.All we have to do is invoke the method by the button and pass an array.This array will store two value,X coordinate and Y coordinate.<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword hljs-keyword">int</span>[] viewLocation = <span class="keyword hljs-keyword">new</span> <span class="keyword hljs-keyword">int</span>[<span class="number hljs-number">2</span>];</span><br><span class="line">view.getLocationInWindow(viewLocation);</span><br><span class="line"><span class="comment hljs-comment">//X coordinate viewLocation[0]</span></span><br><span class="line"><span class="comment hljs-comment">//Y coordinate viewLocation[1]</span></span><br></pre></td></tr></table></figure></p>
+
+    
+    </div>
+    
+    
+</article>
+
+
+
+
+    
+    
+        
+<nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">
+    <div class="pagination-previous">
+        <a href="/">Prev</a>
+    </div>
+    <div class="pagination-next is-invisible is-hidden-mobile">
+        <a href="/page/3/">Next</a>
+    </div>
+    <ul class="pagination-list is-hidden-mobile">
+        
+        <li><a class="pagination-link" href="/">1</a></li>
+        
+        <li><a class="pagination-link is-current" href="/page/2/">2</a></li>
+        
+    </ul>
+</nav>
+    
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2018 Star&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
 </footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
 
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("default");
+</script>
 
 
 
+<script src="/js/script.js"></script>
 
-
-
+    
 </body>
 </html>

@@ -1,223 +1,161 @@
 <!DOCTYPE html>
-<html>
-
+<html class="has-navbar-fixed-top">
 <head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>Archives: 2018/9 | Something</title>
-  <meta name="description" content="" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+<title>Archives: 2018/9 - Something</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
 
-  <meta name="generator" content="Something">
 
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
 </head>
-
-
-<body class="home-template">
-
-  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="//blog.ghost.org/content/images/2013/Nov/bloglogo_1-1.png" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">Something</h1>
-            <h2 class="blog-description"></h2>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                <img src="/images/logo.png" alt="" height="28">
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            
+            
         </div>
     </div>
-</header>
-  
-<main class="content" role="main">
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-09-14T16:00:00.000Z" itemprop="datePublished">
-          2018-09-15
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2018/09/14/Java-NIO/">Java_NIO</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        NIONIO有说是new io，也有说是non-blocking io，Whatever，nio是jdk 1.4之后引入的，目的是为了提高io速度，并且旧的io也已经被重新实现过了。记得以前还在odm的时候，经常会碰到ANR的原因是系统在执行io操作导致的，因此看来优化一下io还是有必要的。
-Channel和Buffer之所以将channel和buffer放在一起是因为这两个是提高io速度的关键。旧的io形式是面向流的，例如经常用的In
-      
-      </p>
-      
-      <p>
-          <a href="/2018/09/14/Java-NIO/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-09-13T16:00:00.000Z" itemprop="datePublished">
-          2018-09-14
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2018/09/13/C-move-fun/">C++ move function</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        最近在查看别人搭的框架时，看到在传值的时候使用了std::move。因此学习一下这个函数的使用。首先google查看官方解释：
-In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an rvalue reference type
-      
-      </p>
-      
-      <p>
-          <a href="/2018/09/13/C-move-fun/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-09-07T16:00:00.000Z" itemprop="datePublished">
-          2018-09-08
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2018/09/07/Java-Serializable/">Java_Serializable</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        原因由于对象在程序结束的时候会被销毁，因此如果希望对象能够在程序不运行的时候仍然能保存信息，那么就需要用到对象的序列化操作，简单来说就是将对象转换成字节序列，等需要的时候再反序列化即可读取其中的信息。又或者在Android开发中通过intent传递对象的时候，需要将对象序列化然后才能传递。
-使用方法12345678//写入文件ObjectOutputStream objectOutputStream = new ObjectOutput
-      
-      </p>
-      
-      <p>
-          <a href="/2018/09/07/Java-Serializable/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-09-06T16:00:00.000Z" itemprop="datePublished">
-          2018-09-07
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2018/09/06/Kotlin-Constructor/">Kotlin Constructor</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        构造函数最近在自定义布局的时候发现kotlin的构造函数和java差的很多，因此重新学习记录下，先从简单的开始，模仿java中的写法12345class User &#123;    constructor(i: Int)    constructor(i: Int, j: Int)    constructor(name: String, i: Int, j: Int)&#125;
-123456789101112public fina
-      
-      </p>
-      
-      <p>
-          <a href="/2018/09/06/Kotlin-Constructor/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-09-05T16:00:00.000Z" itemprop="datePublished">
-          2018-09-06
-      </time>
-    
-</span>
-      <h2 class="post-title"><a href="/2018/09/05/Android-Measure-Layout/">View的Measure&和Layout</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        在自定义view的时候比较重要的就是三个方法。
+</nav>
 
-onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-onLayout(boolean changed, int left, int top, int right, int bottom)
-onDraw(Canvas canvas)
-
-onMeasureonMeasure方法是在view的measure方法中调用的。主要是控制控件
-      
-      </p>
-      
-      <p>
-          <a href="/2018/09/05/Android-Measure-Layout/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2018-09-03T16:00:00.000Z" itemprop="datePublished">
-          2018-09-04
-      </time>
+    <section class="section">
+    <div class="container">
     
-</span>
-      <h2 class="post-title"><a href="/2018/09/03/C-Constructor-Destructor/">Constructor&Destructor</a></h2>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        构造函数构造函数的定义就不写了，直接看下例子,这里的构造函数中初始化了number这个变量。
-插播一段：这里使用了ifndef和define来防止多重包含。即使多个文件include了这个头文件也只会包含一次。123456789101112131415161718192021#ifndef Stock00_h#define Stock00_hclass Stock &#123;private:    int number_;publi
-      
-      </p>
-      
-      <p>
-          <a href="/2018/09/03/C-Constructor-Destructor/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <nav class="pagination" role="pagination">
     
-    <span class="page-number">Page 1 of 1</span>
+        <div class="archive content">
+            <h4 class="title is-4" id="2018">2018</h4>
+            <div class="articles">
+            
+                <div class="article content>">
+                    <time class="is-text-small" datetime="2018-09-14T16:00:00.000Z" itemprop="datePublished">
+                        Sep 14</time>
+                    <h6 class="title is-6"><a href="/2018/09/14/Java-NIO/">Java_NIO</a></h6>
+                </div>
+            
+                <div class="article content>">
+                    <time class="is-text-small" datetime="2018-09-13T16:00:00.000Z" itemprop="datePublished">
+                        Sep 13</time>
+                    <h6 class="title is-6"><a href="/2018/09/13/C-move-fun/">C++ move function</a></h6>
+                </div>
+            
+                <div class="article content>">
+                    <time class="is-text-small" datetime="2018-09-07T16:00:00.000Z" itemprop="datePublished">
+                        Sep 7</time>
+                    <h6 class="title is-6"><a href="/2018/09/07/Java-Serializable/">Java_Serializable</a></h6>
+                </div>
+            
+                <div class="article content>">
+                    <time class="is-text-small" datetime="2018-09-06T16:00:00.000Z" itemprop="datePublished">
+                        Sep 6</time>
+                    <h6 class="title is-6"><a href="/2018/09/06/Kotlin-Constructor/">Kotlin Constructor</a></h6>
+                </div>
+            
+                <div class="article content>">
+                    <time class="is-text-small" datetime="2018-09-05T16:00:00.000Z" itemprop="datePublished">
+                        Sep 5</time>
+                    <h6 class="title is-6"><a href="/2018/09/05/Android-Measure-Layout/">View的Measure&amp;和Layout</a></h6>
+                </div>
+            
+                <div class="article content>">
+                    <time class="is-text-small" datetime="2018-09-03T16:00:00.000Z" itemprop="datePublished">
+                        Sep 3</time>
+                    <h6 class="title is-6"><a href="/2018/09/03/C-Constructor-Destructor/">Constructor&amp;Destructor</a></h6>
+                </div>
+            
+            </div>
+        </div>
     
-  </nav>
-</main>
+    
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2018 Star&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
 
-
-  
-<footer class="site-footer">
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">Something</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
-  </div>
+            
+            
+        </div>
+    </div>
 </footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
 
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("default");
+</script>
 
 
 
+<script src="/js/script.js"></script>
 
-
-
+    
 </body>
 </html>
