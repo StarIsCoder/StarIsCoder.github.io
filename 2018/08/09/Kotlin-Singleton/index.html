@@ -1,96 +1,52 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Kotlin Singleton | Something</title>
+  <meta name="description" content="" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+
+  <meta name="generator" content="Something">
+
+  
+  
   
 
   
-  <title>Kotlin Singleton | Something</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Object在Kotlin中，object是一个自带单例模式的数据类型，而在java中object是所有类的父类。如下是object分别在java和kotlin的代码：1234object ExampleObject &amp;#123;    fun example() &amp;#123;    &amp;#125;&amp;#125; 1234567891011public final class ExampleOb">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Kotlin Singleton">
-<meta property="og:url" content="http://yoursite.com/2018/08/09/Kotlin-Singleton/index.html">
-<meta property="og:site_name" content="Something">
-<meta property="og:description" content="Object在Kotlin中，object是一个自带单例模式的数据类型，而在java中object是所有类的父类。如下是object分别在java和kotlin的代码：1234object ExampleObject &amp;#123;    fun example() &amp;#123;    &amp;#125;&amp;#125; 1234567891011public final class ExampleOb">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-15T15:31:59.687Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kotlin Singleton">
-<meta name="twitter:description" content="Object在Kotlin中，object是一个自带单例模式的数据类型，而在java中object是所有类的父类。如下是object分别在java和kotlin的代码：1234object ExampleObject &amp;#123;    fun example() &amp;#123;    &amp;#125;&amp;#125; 1234567891011public final class ExampleOb">
-  
-    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Something</a>
-      </h1>
-      
+
+<body class="post-template">
+
+  <header class="site-head"  style="background-image: url(//blog.ghost.org/content/images/2013/Nov/cover.png)" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="//blog.ghost.org/content/images/2013/Nov/bloglogo_1-1.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">Something</h1>
+            <h2 class="blog-description"></h2>
+        </div>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
 </header>
-      <div class="outer">
-        <section id="main"><article id="post-Kotlin-Singleton" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/09/Kotlin-Singleton/" class="article-date">
-  <time datetime="2018-08-09T16:00:00.000Z" itemprop="datePublished">2018-08-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Kotlin Singleton
-    </h1>
   
 
-      </header>
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-08-09T16:00:00.000Z" itemprop="datePublished">
+          2018-08-10
+      </time>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p>在Kotlin中，object是一个自带单例模式的数据类型，而在java中object是所有类的父类。如下是object分别在java和kotlin的代码：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> ExampleObject &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">example</span><span class="params">()</span></span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</span>
+    <h1 class="post-title">Kotlin Singleton</h1>
+    <section class="post-content">
+      <h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p>在Kotlin中，object是一个自带单例模式的数据类型，而在java中object是所有类的父类。如下是object分别在java和kotlin的代码：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> ExampleObject &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">example</span><span class="params">()</span></span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ExampleObject</span> </span>&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> ExampleObject INSTANCE;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">example</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">static</span> &#123;</span><br><span class="line">      ExampleObject var0 = <span class="keyword">new</span> ExampleObject();</span><br><span class="line">      INSTANCE = var0;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到，kotlin中的object是对应java中的静态单例模式。因此如果想在kotlin中写出单例模式，可以直接使用object关键字即可。同时因为使用的是static实现单例模式，因此也保证了线程安全。后续会介绍更好的写法。</p>
 <h2 id="Java-Singleton"><a href="#Java-Singleton" class="headerlink" title="Java Singleton"></a>Java Singleton</h2><p>这里其实对java中使用static来实现单例模式不是很清晰，主要的问题在于为什么static修饰的对象指向的是同一个内存地址。即使我这么写<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Single single = <span class="keyword">new</span> Single();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Single single = Single.single;</span><br><span class="line">        System.out.println(single);</span><br><span class="line">        Single single1 = Single.single;</span><br><span class="line">        System.out.println(single1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -114,131 +70,68 @@
 <p><a href="https://medium.com/@adinugroho/singleton-in-kotlin-502f80fd8a63" target="_blank" rel="noopener">https://medium.com/@adinugroho/singleton-in-kotlin-502f80fd8a63</a></p>
 <p><a href="https://www.journaldev.com/18662/kotlin-singleton-companion-object" target="_blank" rel="noopener">https://www.journaldev.com/18662/kotlin-singleton-companion-object</a></p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjm3lc16a000v10mj98wgzj72" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2018/08/16/C-function-array/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          函数与数组
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/08/06/C-Pointer-Note/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">C++指针笔记</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
+    </section>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>Star</h4>
+    <p>A designer, developer and entrepreneur. Spends his time travelling the world with a bag of kites. Likes journalism and publishing platforms.</p>
 </section>
-        
-          <aside id="sidebar">
-  
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=http://yoursite.com/2018/08/09/Kotlin-Singleton/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/08/09/Kotlin-Singleton/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://yoursite.com/2018/08/09/Kotlin-Singleton/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li></ul>
-    </div>
-  </div>
-
-
-  
+    <a class="newer-posts" href="/2018/08/16/C-function-array/">
+        ← 函数与数组
+    </a>
     
-
-  
+    <span class="page-number">•</span>
     
-  
+    <a class="older-posts" href="/2018/08/06/C-Pointer-Note/">
+        C++指针笔记 →
+    </a>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
-    </div>
-  </div>
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">Comments</a></h1>
 
-
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2018/09/14/Java-NIO/">Java_NIO</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/13/C-move-fun/">C++ move function</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/07/Java-Serializable/">Java_Serializable</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/06/Kotlin-Constructor/">Kotlin Constructor</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/05/Android-Measure-Layout/">View的Measure&amp;和Layout</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+</div>
+</main>
+
 
   
-</aside>
-        
-      </div>
-      <footer id="footer">
+<footer class="site-footer">
   
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Star<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">Something</a> &copy; 2014 &bull; All rights reserved.</section>
+     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
   </div>
 </footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
 
 
 
-  </div>
+
+
+
 </body>
 </html>
