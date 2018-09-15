@@ -5,19 +5,19 @@
   
 
   
-  <title>LinearLayout设置gravity不生效 | Something</title>
+  <title>PopupWindow show at location | Something</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。1234TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(1000))var params = button_view">
+  <meta name="description" content="Recently,UE Team has updated some features.One of them is click on the button,and show PopupWindow right above the button.The point is can’t use hardcode because different devices has different resolu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LinearLayout设置gravity不生效">
-<meta property="og:url" content="http://yoursite.com/2018/08/28/LinearLayout-set-gravity-not-working/index.html">
+<meta property="og:title" content="PopupWindow show at location">
+<meta property="og:url" content="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/index.html">
 <meta property="og:site_name" content="Something">
-<meta property="og:description" content="最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。1234TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(1000))var params = button_view">
+<meta property="og:description" content="Recently,UE Team has updated some features.One of them is click on the button,and show PopupWindow right above the button.The point is can’t use hardcode because different devices has different resolu">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-14T10:28:27.051Z">
+<meta property="og:updated_time" content="2018-09-15T11:19:12.219Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LinearLayout设置gravity不生效">
-<meta name="twitter:description" content="最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。1234TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(1000))var params = button_view">
+<meta name="twitter:title" content="PopupWindow show at location">
+<meta name="twitter:description" content="Recently,UE Team has updated some features.One of them is click on the button,and show PopupWindow right above the button.The point is can’t use hardcode because different devices has different resolu">
   
     <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
   
@@ -64,10 +64,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Android-ShowPopupAtLocation" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/28/LinearLayout-set-gravity-not-working/" class="article-date">
-  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
+    <a href="/2018/07/24/Android-ShowPopupAtLocation/" class="article-date">
+  <time datetime="2018-07-24T16:00:00.000Z" itemprop="datePublished">2018-07-25</time>
 </a>
     
   <div class="article-category">
@@ -82,7 +82,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      LinearLayout设置gravity不生效
+      PopupWindow show at location
     </h1>
   
 
@@ -90,13 +90,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
-<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
+        <p>Recently,UE Team has updated some features.One of them is click on the button,and show PopupWindow right above the button.<br>The point is can’t use hardcode because different devices has different resolution. So the best way is get the location in the window.<br>There is method named <code>getLocationInWindow(View view)</code> in View.java.All we have to do is invoke the method by the button and pass an array.This array will store two value,X coordinate and Y coordinate.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] viewLocation = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">view.getLocationInWindow(viewLocation);</span><br><span class="line"><span class="comment">//X coordinate viewLocation[0]</span></span><br><span class="line"><span class="comment">//Y coordinate viewLocation[1]</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/LinearLayout-set-gravity-not-working/" data-id="cjm1v20c9000cdomjr6rjttut" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/" data-id="cjm3cash500054wmjoomnvq1w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -105,20 +104,15 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/09/03/Constructor-Destructor/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/07/26/Android-Modify-shape-attributes/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Constructor&amp;Destructor
+          Modify shape attributes in code
         
       </div>
     </a>
   
-  
-    <a href="/2018/08/28/Matrix-Camera/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Matrix&amp;Camera</div>
-    </a>
   
 </nav>
 
@@ -161,7 +155,11 @@
       <ul>
         
           <li>
-            <a href="/2018/09/13/cpp-move-fun/">C++ move function</a>
+            <a href="/2018/09/14/Java-NIO/">Java_NIO</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/13/C-move-fun/">C++ move function</a>
           </li>
         
           <li>
@@ -173,11 +171,7 @@
           </li>
         
           <li>
-            <a href="/2018/09/05/Measure-Layout/">View的Measure&amp;和Layout</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/03/Constructor-Destructor/">Constructor&amp;Destructor</a>
+            <a href="/2018/09/05/Android-Measure-Layout/">View的Measure&amp;和Layout</a>
           </li>
         
       </ul>
