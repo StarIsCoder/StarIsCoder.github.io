@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Something">
 <meta property="og:description" content="项目中需要提供api和一个被动接受的回调，C++的回调方式主要有三种：  传递函数指针 实现接口 lamda表达式  实现接口新建一个接口类，ITokenGetCallback.hpp，添加需要其他类实现的虚函数。123456789#ifndef ITokenGetCallback_h#define ITokenGetCallback_hclass ITokenGetCallback &amp;#123;">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-27T12:01:30.844Z">
+<meta property="og:updated_time" content="2018-09-30T07:36:15.990Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++ Callback">
 <meta name="twitter:description" content="项目中需要提供api和一个被动接受的回调，C++的回调方式主要有三种：  传递函数指针 实现接口 lamda表达式  实现接口新建一个接口类，ITokenGetCallback.hpp，添加需要其他类实现的虚函数。123456789#ifndef ITokenGetCallback_h#define ITokenGetCallback_hclass ITokenGetCallback &amp;#123;">
@@ -108,11 +108,15 @@
 <p>然后将该函数作为参数放在你想使用的函数中。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> APIClient::getSpeakerVolume(OnVolumeCallback callback)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//do something</span></span><br><span class="line">    callback(volume);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在调用这个函数的地方实现这个lamda表达式<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gClient-&gt;getSpeakerVolume([](<span class="keyword">int</span> volume)&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"volume: "</span> &lt;&lt; volume &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
 <p>相当来说lamda表达式更简单一点。不过如果是多次回调还是应该用接口的方式，接口的方式在层次上也更分明。</p>
+<p>lamda表达式是这样定义的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[ capture clause ] (parameters) -&gt; return-type  </span><br><span class="line">&#123;   </span><br><span class="line">   definition of method   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中parameters和return-type可以省略。关于这两者和函数具体实现没什么好多说的，第一次知道还有捕获列表这样的东西。<br></p>
+<p>捕获列表就是用[]包起来的列表，可以传引用、指针、变量的拷贝，不过无法传递右值。通俗来说就是被这个捕获列表包起来的参数可以在lamda表达式中使用。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> j = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">auto</span> f = []&#123;</span><br><span class="line">    j = <span class="number">1</span>; <span class="comment">//invalid,Variable 'j' cannot be implicitly captured in a lambda with no capture-default specified</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>如果不在捕获列表中添加j的话是无法访问的。可以理解为用非传统的方式把变量作为参数传递进入函数。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjmkj3nms0008ygmjhh5qkdwu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjmojy0gt0008xgmjkswkzlff" class="article-share-link">Share</a>
       
       
     </footer>

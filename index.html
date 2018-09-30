@@ -92,11 +92,11 @@
 <p>java中对除了long和double以外的基本类型进行读写操作都是原子性的，因为long和double是64位的，JVM有可能将其分为两个32位的。</p>
 <p>这里说的读写操作并不包括自加等。因为自加其实是分成了两步来走。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">i++</span><br><span class="line"></span><br><span class="line"><span class="number">0</span>:    aload_0</span><br><span class="line"><span class="number">1</span>:    dup</span><br><span class="line"><span class="number">2</span>:    getfield</span><br><span class="line"><span class="number">5</span>:    iconst_1</span><br><span class="line"><span class="number">6</span>:    iadd</span><br><span class="line"><span class="number">7</span>:    putfield</span><br><span class="line"><span class="number">10</span>:   <span class="keyword">return</span></span><br></pre></td></tr></table></figure></p>
 <p>这个操作有put和get，如果在put和get之间发生了变化，那么得到的结果可能不正确，因此不是原子性操作。当然java中有AtomicInteger、AtomicLong、AtomicBoolean等原子类。</p>
-<h2 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h2><p>通俗的说就是当这个值被修改了，那么所有的读取操作都可以看到这个修改。</p>
+<h2 id="Volatile修饰词具有如下两种属性"><a href="#Volatile修饰词具有如下两种属性" class="headerlink" title="Volatile修饰词具有如下两种属性"></a>Volatile修饰词具有如下两种属性</h2><h3 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h3><p>通俗的说就是当这个值被修改了，那么所有的读取操作都可以看到这个修改。</p>
 <p>对一个普通的变量i来说，正常的读写操作是先将变量从主内存拷贝到工作内存（缓存）中，进行一定的操作之后，再写入主内存，但是什么时候写入是不确定的。那么由于两个线程工作在两个cpu上，如果cpu1修改了i，但是没有及时写入主内存，而cpu2直接去读取i，结果就是这个i不是最新的。</p>
 <p>用volatile修饰了的变量，在被修改之后会强制立即写入主内存。这样能保证在读取的时候一定是最新的。并且读取操作也是直接从主内存中读取。</p>
 <p>因此volatile保证了对于其他线程的可见性。</p>
-<h2 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h2><p>在JVM中，编译器和处理器可能会对指令进行重排，或许是为了优化，但是如果被volatile修饰的变量则会告诉编译器不要重排指令，按照顺序执行就可以，避免了并发产生的问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">a++;</span><br><span class="line">b++;</span><br></pre></td></tr></table></figure></p>
+<h3 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h3><p>在JVM中，编译器和处理器可能会对指令进行重排，或许是为了优化，但是如果被volatile修饰的变量则会告诉编译器不要重排指令，按照顺序执行就可以，避免了并发产生的问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">a++;</span><br><span class="line">b++;</span><br></pre></td></tr></table></figure></p>
 <p>以上代码可以重排列成如下，因为a与b之间没有依赖。如果有依赖并且重排的话则会产生并发问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">a++;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line">b++;</span><br></pre></td></tr></table></figure></p>
 <p>当然也可以使用synchronized和lock来保证有序，因为在某个时间段只有一个线程能执行被修饰的代码。</p>
 <p>优先选择一定是sychronized，除非只有一个变量，否则都不应该只使用volatile，他并不能保证并发的冲突不发生。同样的也不能改变自加不是原子性的本质。</p>
@@ -104,7 +104,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjmkj3nn7000xygmj8dkwfw9s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjmojy0ho000xxgmjxwisgsxy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -227,7 +227,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjmkj3nn7000nygmjv7ab1fdu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjmojy0h8000nxgmjm0seerg5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -281,11 +281,15 @@
 <p>然后将该函数作为参数放在你想使用的函数中。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> APIClient::getSpeakerVolume(OnVolumeCallback callback)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//do something</span></span><br><span class="line">    callback(volume);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在调用这个函数的地方实现这个lamda表达式<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gClient-&gt;getSpeakerVolume([](<span class="keyword">int</span> volume)&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"volume: "</span> &lt;&lt; volume &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
 <p>相当来说lamda表达式更简单一点。不过如果是多次回调还是应该用接口的方式，接口的方式在层次上也更分明。</p>
+<p>lamda表达式是这样定义的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[ capture clause ] (parameters) -&gt; return-type  </span><br><span class="line">&#123;   </span><br><span class="line">   definition of method   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中parameters和return-type可以省略。关于这两者和函数具体实现没什么好多说的，第一次知道还有捕获列表这样的东西。<br></p>
+<p>捕获列表就是用[]包起来的列表，可以传引用、指针、变量的拷贝，不过无法传递右值。通俗来说就是被这个捕获列表包起来的参数可以在lamda表达式中使用。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> j = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">auto</span> f = []&#123;</span><br><span class="line">    j = <span class="number">1</span>; <span class="comment">//invalid,Variable 'j' cannot be implicitly captured in a lambda with no capture-default specified</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>如果不在捕获列表中添加j的话是无法访问的。可以理解为用非传统的方式把变量作为参数传递进入函数。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjmkj3nms0008ygmjhh5qkdwu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjmojy0gt0008xgmjkswkzlff" class="article-share-link">Share</a>
       
       
     </footer>
@@ -350,7 +354,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjmkj3nn7000sygmjvexhyoyt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjmojy0ho000sxgmj382m98so" class="article-share-link">Share</a>
       
       
     </footer>
@@ -404,7 +408,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjmkj3nn7000lygmj44gbams0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjmojy0h8000lxgmjzgw57uhe" class="article-share-link">Share</a>
       
       
     </footer>
@@ -461,7 +465,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjmkj3nn7000vygmj0onmm3d2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjmojy0ho000vxgmjtiiuuoot" class="article-share-link">Share</a>
       
       
     </footer>
@@ -511,7 +515,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjmkj3nn70010ygmj7y68ioj3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjmojy0ho0010xgmjv0xiyce5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -580,7 +584,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjmkj3nmc0003ygmjg6rfrsha" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjmojy0gt0003xgmjpqikm2wc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -639,7 +643,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjmkj3nms000bygmjy42dr15x" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjmojy0gt000bxgmjr1b6aqg3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -687,7 +691,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjmkj3nmc0001ygmj2dcmd7jc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjmojy0gd0001xgmj5o113m9y" class="article-share-link">Share</a>
       
       
     </footer>
