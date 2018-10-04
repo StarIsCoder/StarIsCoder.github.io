@@ -5,19 +5,19 @@
   
 
   
-  <title>Modify shape attributes in code | Something</title>
+  <title>Lamda表达式-Preview | Something</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="123((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),            getResources().">
+  <meta name="description" content="final关键字Lamda表达式中引用的局部变量必须是final或既成事实上的值。换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。123456String str = &quot;hello&quot;;str = &quot;world&quot;;Runnable runnable">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Modify shape attributes in code">
-<meta property="og:url" content="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/index.html">
+<meta property="og:title" content="Lamda表达式-Preview">
+<meta property="og:url" content="http://yoursite.com/2018/09/25/Java-Lamda/index.html">
 <meta property="og:site_name" content="Something">
-<meta property="og:description" content="123((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),            getResources().">
+<meta property="og:description" content="final关键字Lamda表达式中引用的局部变量必须是final或既成事实上的值。换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。123456String str = &quot;hello&quot;;str = &quot;world&quot;;Runnable runnable">
 <meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2018-10-04T06:37:54.187Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Modify shape attributes in code">
-<meta name="twitter:description" content="123((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),            getResources().">
+<meta name="twitter:title" content="Lamda表达式-Preview">
+<meta name="twitter:description" content="final关键字Lamda表达式中引用的局部变量必须是final或既成事实上的值。换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。123456String str = &quot;hello&quot;;str = &quot;world&quot;;Runnable runnable">
   
     <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
   
@@ -64,14 +64,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Android-Modify-shape-attributes" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Java-Lamda" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/07/26/Android-Modify-shape-attributes/" class="article-date">
-  <time datetime="2018-07-26T16:00:00.000Z" itemprop="datePublished">2018-07-27</time>
+    <a href="/2018/09/25/Java-Lamda/" class="article-date">
+  <time datetime="2018-09-25T16:00:00.000Z" itemprop="datePublished">2018-09-26</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
   </div>
 
   </div>
@@ -82,7 +82,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Modify shape attributes in code
+      Lamda表达式-Preview
     </h1>
   
 
@@ -90,13 +90,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))</span><br><span class="line">    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),</span><br><span class="line">            getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size));</span><br></pre></td></tr></table></figure>
-<p>convert drawable to GradientDrawable,and invoke setSize or setStroke and so on.</p>
+        <h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>Lamda表达式中引用的局部变量必须是final或既成事实上的值。<br>换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">str = <span class="string">"world"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//Variable used in lambda expression should be final or effectively final</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//valid</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Lamda表达式是一个匿名的方法，将行为像数据一样传递。</li>
+<li>Lamda表达式也被称为闭包，未赋值的变量与周边环境隔离起来，进而被绑定到一个特定的值。</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjmu7mfon0004ncmjwscyf2y3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Lamda/" data-id="cjmu7mfp3000sncmjiqpl7t55" class="article-share-link">Share</a>
       
       
     </footer>
@@ -105,19 +109,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/09/26/Java-Volatile/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          扩展函数/属性/中缀调用
+          Volatile
         
       </div>
     </a>
   
   
-    <a href="/2018/07/24/Android-ShowPopupAtLocation/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/09/25/Java-Concurrent-AQS/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">PopupWindow show at location</div>
+      <div class="article-nav-title">Concurrent AQS</div>
     </a>
   
 </nav>

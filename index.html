@@ -80,7 +80,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/26/Java-Volatile/">Java_Volatile</a>
+      <a class="article-title" href="/2018/09/26/Java-Volatile/">Volatile</a>
     </h1>
   
 
@@ -104,7 +104,53 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjmojy0ho000xxgmjxwisgsxy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjmu7mfpi0010ncmj1tma24dq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java-Lamda" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/25/Java-Lamda/" class="article-date">
+  <time datetime="2018-09-25T16:00:00.000Z" itemprop="datePublished">2018-09-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/25/Java-Lamda/">Lamda表达式-Preview</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>Lamda表达式中引用的局部变量必须是final或既成事实上的值。<br>换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">str = <span class="string">"world"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//Variable used in lambda expression should be final or effectively final</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//valid</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Lamda表达式是一个匿名的方法，将行为像数据一样传递。</li>
+<li>Lamda表达式也被称为闭包，未赋值的变量与周边环境隔离起来，进而被绑定到一个特定的值。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/25/Java-Lamda/" data-id="cjmu7mfp3000sncmjiqpl7t55" class="article-share-link">Share</a>
       
       
     </footer>
@@ -132,7 +178,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/25/Java-Concurrent-AQS/">Java_Concurrent_AQS</a>
+      <a class="article-title" href="/2018/09/25/Java-Concurrent-AQS/">Concurrent AQS</a>
     </h1>
   
 
@@ -227,7 +273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjmojy0h8000nxgmjm0seerg5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjmu7mfp3000nncmjzawywcja" class="article-share-link">Share</a>
       
       
     </footer>
@@ -255,7 +301,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/20/C-Callback/">C++ Callback</a>
+      <a class="article-title" href="/2018/09/20/C-Callback/">Basic Callback</a>
     </h1>
   
 
@@ -289,7 +335,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjmojy0gt0008xgmjkswkzlff" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjmu7mfon0008ncmjqq6y2kqw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -317,7 +363,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/14/Java-NIO/">Java_NIO</a>
+      <a class="article-title" href="/2018/09/14/Java-NIO/">NIO</a>
     </h1>
   
 
@@ -354,7 +400,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjmojy0ho000sxgmj382m98so" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjmu7mfpi000vncmjea1behe4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -382,7 +428,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/13/C-move-fun/">C++ move function</a>
+      <a class="article-title" href="/2018/09/13/C-move-fun/">std move</a>
     </h1>
   
 
@@ -408,7 +454,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjmojy0h8000lxgmjzgw57uhe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjmu7mfp3000lncmj5qnwcqkl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -436,7 +482,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/07/Java-Serializable/">Java_Serializable</a>
+      <a class="article-title" href="/2018/09/07/Java-Serializable/">Serializable</a>
     </h1>
   
 
@@ -465,7 +511,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjmojy0ho000vxgmjtiiuuoot" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjmu7mfpi000xncmjzq6fhyjh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -493,7 +539,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/06/Kotlin-Constructor/">Kotlin Constructor</a>
+      <a class="article-title" href="/2018/09/06/Kotlin-Constructor/">Constructor</a>
     </h1>
   
 
@@ -515,7 +561,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjmojy0ho0010xgmjv0xiyce5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjmu7mfpi0012ncmjmz2m3zgp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -584,7 +630,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjmojy0gt0003xgmjpqikm2wc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjmu7mfon0003ncmjpz9w077w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -643,55 +689,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjmojy0gt000bxgmjr1b6aqg3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android-Matrix-Camera" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/28/Android-Matrix-Camera/" class="article-date">
-  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/Android-Matrix-Camera/">Matrix&amp;Camera</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在学习自定义view，先将学到了东西记录一下。</p>
-<h2 id="Matrix"><a href="#Matrix" class="headerlink" title="Matrix"></a>Matrix</h2><p>Matrix就是矩阵的意思，具体的数学原理已经还给老师了，因此只是记录使用方式。<br>由于矩阵并不满足交换律，即：<br>A<em>B ≠ B</em>A<br>因此矩阵的方法都是成对的，用pre或者post作为前缀表示前乘或者后乘，这个前和后的意思就是将初始矩阵放在前还是后的意思。<br>使用方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Matrix matrix = <span class="keyword">new</span> Matrix();</span><br><span class="line">matrix.preRotate(<span class="number">45</span>);</span><br><span class="line">matrix.postTranslate(<span class="number">200</span>, <span class="number">0</span>);</span><br><span class="line">canvas.setMatrix(matrix);</span><br><span class="line">canvas.drawBitmap(bitmap, <span class="number">100</span>, <span class="number">100</span>, paint);</span><br></pre></td></tr></table></figure></p>
-<p>Matrix的强大之处在于可以完成一切的形变，而canvas只支持一部分的形变。并且Matrix可以根据前乘和后乘（绝对不是根据简单的pre和post）来决定形变的顺序。</p>
-<h2 id="Camera"><a href="#Camera" class="headerlink" title="Camera"></a>Camera</h2><p>Camera顾名思义就是照相机，这是一个在三维坐标轴上处于z轴的一个相机，他的工作原理就是将三维模型投影在canvas，也就是我们实际看到的图形。插播一段它的坐标系。</p>
-<p>View的坐标系:以屏幕左上方为原点。x轴左负右正，y轴上负下正。</p>
-<p>Camera的坐标系:以屏幕左上方为原点，x轴左负右正,y轴上正下负，z轴内正外负。</p>
-<p>如果我们直接调用camera的rotate方法的话，假设让它绕x轴旋转30度，由于camera是始终处于z轴上的，因此如果这时候投影的话，那么投影出来的图形并不是我们想要的效果，而是不对称且右边拉长的结果。解决办法就是在旋转之前先将图片移到原点。之后再移回来，不过代码中canvas的移动要反过来写，因为它是反向执行的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">camera.rotateX(<span class="number">30</span>);</span><br><span class="line">canvas.translate(centerX, centerY); </span><br><span class="line">camera.applyToCanvas(canvas); </span><br><span class="line">canvas.translate(-centerX, -centerY);</span><br></pre></td></tr></table></figure></p>
-<p>其余的一些调用api的就不写了，等用的时候一查就有了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjmojy0gd0001xgmj5o113m9y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjmu7mfp3000bncmjegrsffap" class="article-share-link">Share</a>
       
       
     </footer>
@@ -705,7 +703,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -744,23 +742,23 @@
       <ul>
         
           <li>
-            <a href="/2018/09/26/Java-Volatile/">Java_Volatile</a>
+            <a href="/2018/09/26/Java-Volatile/">Volatile</a>
           </li>
         
           <li>
-            <a href="/2018/09/25/Java-Concurrent-AQS/">Java_Concurrent_AQS</a>
+            <a href="/2018/09/25/Java-Lamda/">Lamda表达式-Preview</a>
           </li>
         
           <li>
-            <a href="/2018/09/20/C-Callback/">C++ Callback</a>
+            <a href="/2018/09/25/Java-Concurrent-AQS/">Concurrent AQS</a>
           </li>
         
           <li>
-            <a href="/2018/09/14/Java-NIO/">Java_NIO</a>
+            <a href="/2018/09/20/C-Callback/">Basic Callback</a>
           </li>
         
           <li>
-            <a href="/2018/09/13/C-move-fun/">C++ move function</a>
+            <a href="/2018/09/14/Java-NIO/">NIO</a>
           </li>
         
       </ul>
