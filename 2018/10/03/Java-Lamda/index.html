@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Something">
 <meta property="og:description" content="final关键字Lamda表达式中引用的局部变量必须是final或既成事实上的值。换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。123456String str = &quot;hello&quot;;str = &quot;world&quot;;Runnable runnable">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-04T06:40:35.525Z">
+<meta property="og:updated_time" content="2018-10-04T08:34:27.629Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lamda表达式-Preview">
 <meta name="twitter:description" content="final关键字Lamda表达式中引用的局部变量必须是final或既成事实上的值。换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。123456String str = &quot;hello&quot;;str = &quot;world&quot;;Runnable runnable">
@@ -92,6 +92,8 @@
       
         <h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>Lamda表达式中引用的局部变量必须是final或既成事实上的值。<br>换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">str = <span class="string">"world"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//Variable used in lambda expression should be final or effectively final</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//valid</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="Predicate接口"><a href="#Predicate接口" class="headerlink" title="Predicate接口"></a>Predicate接口</h2><p>该接口表示传入的对象是否满足某种条件，并返回boolean作为真假判断。check下源码，该接口只接受一个参数，返回一个布尔值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>例如我们希望从一个int的列表中找到所有的偶数，那么Predicate可以这么写。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Predicate&lt;Integer&gt; predicate = integer -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> integer % <span class="number">2</span> == <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">predicate.negate();<span class="comment">// 过滤出所有的奇数</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
 <li>Lamda表达式是一个匿名的方法，将行为像数据一样传递。</li>
 <li>Lamda表达式也被称为闭包，未赋值的变量与周边环境隔离起来，进而被绑定到一个特定的值。</li>
@@ -100,7 +102,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjmu7pr9r000s5wmjmthjlr44" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjmubt9dw000s7smj9bst1m87" class="article-share-link">Share</a>
       
       
     </footer>
@@ -110,9 +112,9 @@
 <nav id="article-nav">
   
   
-    <a href="/2018/09/26/Java-Volatile/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/10/03/Java-Stream/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Volatile</div>
+      <div class="article-nav-title">Stream</div>
     </a>
   
 </nav>
@@ -160,6 +162,10 @@
           </li>
         
           <li>
+            <a href="/2018/10/03/Java-Stream/">Stream</a>
+          </li>
+        
+          <li>
             <a href="/2018/09/26/Java-Volatile/">Volatile</a>
           </li>
         
@@ -169,10 +175,6 @@
         
           <li>
             <a href="/2018/09/20/C-Callback/">Basic Callback</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/14/Java-NIO/">NIO</a>
           </li>
         
       </ul>
