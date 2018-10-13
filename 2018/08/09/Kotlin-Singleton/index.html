@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Something">
 <meta property="og:description" content="Object在Kotlin中，object是一个自带单例模式的数据类型，而在java中object是所有类的父类。如下是object分别在java和kotlin的代码：1234object ExampleObject &amp;#123;    fun example() &amp;#123;    &amp;#125;&amp;#125; 1234567891011public final class ExampleOb">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-10T08:51:41.322Z">
+<meta property="og:updated_time" content="2018-10-13T08:32:00.144Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Singleton">
 <meta name="twitter:description" content="Object在Kotlin中，object是一个自带单例模式的数据类型，而在java中object是所有类的父类。如下是object分别在java和kotlin的代码：1234object ExampleObject &amp;#123;    fun example() &amp;#123;    &amp;#125;&amp;#125; 1234567891011public final class ExampleOb">
@@ -98,7 +98,7 @@
 <p>静态单例模式还有另一种方式，区别在于只有调用getInstance方法时才会去实例化Single对象。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleHoleder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> Single single = <span class="keyword">new</span> Single();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingleHoleder.single;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这边static关键字能实现单例模式的主要原因在于被static修饰的变量或对象具有唯一性。那么为什么具有唯一性呢，这就得查看static的原理了。</p>
 <h2 id="Static关键字"><a href="#Static关键字" class="headerlink" title="Static关键字"></a>Static关键字</h2><p>根据定义，被static所修饰的变量有且只有该变量的一份拷贝，并且能在类中公用。换句话说是一个全局的变量。静态变量在加载类的时候就已经分配好了内存，因此该变量是属于类的而不是某个new出来的对象的。在往下到jvm还未了解到,本文关于static到此结束。</p>
-<h2 id="更好的单例模式"><a href="#更好的单例模式" class="headerlink" title="更好的单例模式"></a>更好的单例模式</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> <span class="keyword">private</span> <span class="keyword">constructor</span></span>() &#123;</span><br><span class="line">    init &#123; println(<span class="string">"This (<span class="variable">$this</span>) is a singleton"</span>) &#125;    </span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">object</span> Holder &#123; <span class="keyword">val</span> INSTANCE = Singleton() &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword">val</span> instance: Singleton <span class="keyword">by</span> lazy &#123; Holder.INSTANCE &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> b:String? = <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="更好的单例模式"><a href="#更好的单例模式" class="headerlink" title="更好的单例模式"></a>更好的单例模式</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> <span class="keyword">private</span> <span class="keyword">constructor</span></span>() &#123;</span><br><span class="line">    <span class="keyword">init</span> &#123; println(<span class="string">"This (<span class="variable">$this</span>) is a singleton"</span>) &#125;    </span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">object</span> Holder &#123; <span class="keyword">val</span> INSTANCE = Singleton() &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword">val</span> instance: Singleton <span class="keyword">by</span> lazy &#123; Holder.INSTANCE &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> b:String? = <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>将构造方法私有化，其他地方无法实例化该类。</li>
 <li>使用lazy关键字延迟instance的实例化，优化性能。</li>
@@ -117,7 +117,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjn2x2n0d0017xgmjshmlwqdf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjn76ntle001ckgmjpz3x0b66" class="article-share-link">Share</a>
       
       
     </footer>
@@ -182,6 +182,10 @@
       <ul>
         
           <li>
+            <a href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
+          </li>
+        
+          <li>
             <a href="/2018/10/09/Java-parallel/">并行化</a>
           </li>
         
@@ -195,10 +199,6 @@
         
           <li>
             <a href="/2018/09/26/Java-Volatile/">Volatile</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/25/Java-Concurrent-AQS/">Concurrent AQS</a>
           </li>
         
       </ul>
