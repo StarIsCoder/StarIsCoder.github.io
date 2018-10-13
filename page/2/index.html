@@ -62,6 +62,63 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java-Serializable" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/07/Java-Serializable/" class="article-date">
+  <time datetime="2018-09-07T16:00:00.000Z" itemprop="datePublished">2018-09-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/07/Java-Serializable/">Serializable</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>由于对象在程序结束的时候会被销毁，因此如果希望对象能够在程序不运行的时候仍然能保存信息，那么就需要用到对象的序列化操作，简单来说就是将对象转换成字节序列，等需要的时候再反序列化即可读取其中的信息。又或者在Android开发中通过intent传递对象的时候，需要将对象序列化然后才能传递。</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//写入文件</span></span><br><span class="line">ObjectOutputStream objectOutputStream = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">"test.obj"</span>));</span><br><span class="line">objectOutputStream.writeObject(<span class="keyword">new</span> Data(<span class="number">1</span>));</span><br><span class="line">objectOutputStream.close();</span><br><span class="line"><span class="comment">//读取文件</span></span><br><span class="line">ObjectInputStream objectInputStream = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">"test.obj"</span>));</span><br><span class="line">Data data = (Data) objectInputStream.readObject();</span><br><span class="line">System.out.println(data);</span><br></pre></td></tr></table></figure>
+<h2 id="transient关键字"><a href="#transient关键字" class="headerlink" title="transient关键字"></a>transient关键字</h2><p>如果某个类的属性不希望被序列化则可以加上transient关键字。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span>  <span class="keyword">private</span> String str;</span><br></pre></td></tr></table></figure></p>
+<p>当在反序列化读取的时候就会为null或者是类型的默认值。</p>
+<h2 id="序列化中的static"><a href="#序列化中的static" class="headerlink" title="序列化中的static"></a>序列化中的static</h2><p>如果在序列化之后修改了static类型的变量，那么打印出来会如何呢<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Data</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> n;</span><br><span class="line">    <span class="keyword">transient</span> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> i = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Data</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.n = n;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Data&#123;"</span> +</span><br><span class="line">                <span class="string">"n="</span> + n +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        ObjectOutputStream objectOutputStream = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">"test.obj"</span>));</span><br><span class="line">        objectOutputStream.writeObject(<span class="keyword">new</span> Data(<span class="number">1</span>));</span><br><span class="line">        objectOutputStream.close();</span><br><span class="line"></span><br><span class="line">        Data.i = <span class="number">10</span>;</span><br><span class="line">        ObjectInputStream objectInputStream = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">"test.obj"</span>));</span><br><span class="line">        Data data = (Data) objectInputStream.readObject();</span><br><span class="line">        System.out.println(data);</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果是10，原因是static是针对类的属性，而不是针对对象的属性。因为静态变量可以直接使用，所以序列化并不保存静态变量。</p>
+<h2 id="Externalizable"><a href="#Externalizable" class="headerlink" title="Externalizable"></a>Externalizable</h2><p>Externalizable是一个继承Serializable的接口，并增加了两个方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Externalizable</span> <span class="keyword">extends</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">writeExternal</span><span class="params">(ObjectOutput var1)</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">readExternal</span><span class="params">(ObjectInput var1)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这两个放在分别会在write和read的时候调用，我们可以实现这个接口，如果有其他操作可以放在这两个方法中，并且他会readExternal之前调用该类的无参构造方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Data</span> <span class="keyword">implements</span> <span class="title">Externalizable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> n;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Data</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.n = n;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Data</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"no pm constructor"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Data&#123;"</span> +</span><br><span class="line">                <span class="string">"n="</span> + n +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeExternal</span><span class="params">(ObjectOutput objectOutput)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"writeExternal()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readExternal</span><span class="params">(ObjectInput objectInput)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"readExternal()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        ObjectOutputStream objectOutputStream = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">"test.obj"</span>));</span><br><span class="line">        objectOutputStream.writeObject(<span class="keyword">new</span> Data(<span class="number">1</span>));</span><br><span class="line">        objectOutputStream.close();</span><br><span class="line"></span><br><span class="line">        ObjectInputStream objectInputStream = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">"test.obj"</span>));</span><br><span class="line">        Data data = (Data) objectInputStream.readObject();</span><br><span class="line">        System.out.println(data);</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">writeExternal()</span><br><span class="line">no pm constructor</span><br><span class="line">readExternal()</span><br><span class="line">Data&#123;n=0&#125;</span><br></pre></td></tr></table></figure>
+<p>奇怪的是打印出的n居然是零，但是我们写进去的是一个n=1的对象。原因是Externalizable调用了无参的构造方法重新赋值了一遍。</p>
+<p>这也是Serializable和Externalizable最大的区别：Serializable是完全根据二级制文件来构造对象，但是Externalizable是根据构造方法和readExternal方法来构造的。</p>
+<p>因此正确的做法需要在writeExternal和readExternal的时候写入和赋值。这样的好处是更容易控制变量的存亡。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeExternal</span><span class="params">(ObjectOutput objectOutput)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"writeExternal()"</span>);</span><br><span class="line">    objectOutput.writeInt(n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readExternal</span><span class="params">(ObjectInput objectInput)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"readExternal()"</span>);</span><br><span class="line">    n = objectInput.readInt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Externalizable的替代方法"><a href="#Externalizable的替代方法" class="headerlink" title="Externalizable的替代方法"></a>Externalizable的替代方法</h2><p>如果觉得Externalizable这样太麻烦的话，我们依然可以使用Serializable，不过需要添加两个方法。并遵循它们的特征签名<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeObject</span><span class="params">(ObjectOutputStream stream)</span> </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getStackTrace()[<span class="number">1</span>].getMethodName());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(ObjectInputStream stream)</span> </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getStackTrace()[<span class="number">1</span>].getMethodName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>查看下源码就知道如果我们实现了这两个方法（虽然只是添加，就当他是实现吧），那么就不会走正常的序列化流程，而转为使用我们自己实现的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invokeWriteObject</span><span class="params">(Object var1, ObjectOutputStream var2)</span> <span class="keyword">throws</span> IOException, UnsupportedOperationException </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.requireInitialized();</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.writeObjectMethod != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.writeObjectMethod.invoke(var1, var2);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException var5) &#123;</span><br><span class="line">            Throwable var4 = var5.getTargetException();</span><br><span class="line">            <span class="keyword">if</span> (var4 <span class="keyword">instanceof</span> IOException) &#123;</span><br><span class="line">                <span class="keyword">throw</span> (IOException)var4;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            throwMiscException(var4);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException var6) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InternalError(var6);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果我们自己实现的话实现方式和Externalizable一样<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeObject</span><span class="params">(ObjectOutputStream stream)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    stream.writeInt(n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(ObjectInputStream stream)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    n = stream.readInt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>序列化个人认为没有特别深入的必要，只要知道使用方法即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjn78cmn500109wmjcsvga4na" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Kotlin-Constructor" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/06/Kotlin-Constructor/" class="article-date">
@@ -102,7 +159,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjn76ntky0017kgmjmdylsoav" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjn78cmnl00199wmjr4ol83bj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -171,7 +228,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjn76ntk30003kgmjbzr8a78d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjn78cmlu00039wmj6y7pobfd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -230,49 +287,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjn76ntkj000bkgmj111xkttl" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
-  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/">LinearLayout设置gravity不生效</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
-<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjn76ntjo0000kgmjwuedjpl0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjn78cmma000b9wmj4vdndcia" class="article-share-link">Share</a>
       
       
     </footer>
@@ -320,7 +335,49 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjn76ntjo0001kgmjbvc8lpko" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjn78cmlu00019wmj795siwwt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
+  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/">LinearLayout设置gravity不生效</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
+<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjn78cmlf00009wmjfdnxcdqf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -366,7 +423,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjn76ntk30007kgmjtaps5cdq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjn78cmma00079wmj5sqpeqng" class="article-share-link">Share</a>
       
       
     </footer>
@@ -444,7 +501,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjn76ntkj000dkgmjeqqkgb29" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjn78cmma000d9wmjkxn2m5vc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -505,7 +562,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjn76ntkj000ikgmjeb2e9gan" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjn78cmmp000i9wmj3duj67ad" class="article-share-link">Share</a>
       
       
     </footer>
@@ -568,65 +625,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjn76ntle001ckgmjpz3x0b66" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-C-Pointer-Note" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/06/C-Pointer-Note/" class="article-date">
-  <time datetime="2018-08-06T16:00:00.000Z" itemprop="datePublished">2018-08-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/C-Pointer-Note/">Pointer Note</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>指针也是一种变量，特殊之处在于它存储的是变量的地址，如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">6</span>;</span><br><span class="line">    <span class="comment">//assign the address of i to pointer</span></span><br><span class="line">    <span class="keyword">int</span> *pointer = &amp;i;</span><br><span class="line">    <span class="keyword">int</span> *pointer1 = <span class="keyword">new</span> <span class="keyword">int</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>操作符*被叫做间接值或者解除应用</p>
-<p><em><strong>Warning: 一定要在对指针使用*之前，将指针初始化为一个确定的、适当的地址</strong></em></p>
-<h2 id="运算符new"><a href="#运算符new" class="headerlink" title="运算符new"></a>运算符new</h2><p>在C中，使用malloc来分配内存，在c++中则使用new关键字。<br>为一个数据对象获得并制定分配内存的通用格式：<br>_typeName * pointer_name = new typeName;_</p>
-<p>一旦我们不需要该指针，应该使用delete关键字将该指针释放，new和delete必须成对出现，否则会发生memory leak。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *ps = <span class="keyword">new</span> <span class="keyword">int</span>;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">delete</span> ps;</span><br></pre></td></tr></table></figure></p>
-<p>这将释放ps指针所指向的内存，但不会删除ps本身，也就是说可以继续将ps指向其他地址。</p>
-<h2 id="动态数组"><a href="#动态数组" class="headerlink" title="动态数组"></a>动态数组</h2><p>使用new关键字来创建动态数组，并且返回的是该数组第一个元素的地址，如果想要获得第二个元素的地址，则需要将该指针加1，如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">// insert code here...</span></span><br><span class="line">    <span class="keyword">int</span> *<span class="built_in">array</span> = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">    <span class="built_in">array</span>[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">array</span>[<span class="number">1</span>] = <span class="number">3</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">array</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">array</span> = <span class="built_in">array</span> + <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">array</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Result:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">3</span><br></pre></td></tr></table></figure></p>
-<h2 id="动态结构"><a href="#动态结构" class="headerlink" title="动态结构"></a>动态结构</h2><p>结构体同样可以使用new关键字。不同的是无法使用句点运算符，取而代之的是-&gt;运算符，如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">things</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> price;</span><br><span class="line">    <span class="keyword">int</span> sum;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">// insert code here...</span></span><br><span class="line">    things t = &#123;<span class="number">3</span>,<span class="number">18</span>&#125;;</span><br><span class="line">    things * tpt = &amp;t;</span><br><span class="line">    <span class="comment">//things * tpt = new things;</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; tpt-&gt;price;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Result:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3</span><br></pre></td></tr></table></figure></p>
-<h2 id="指针与字符串"><a href="#指针与字符串" class="headerlink" title="指针与字符串"></a>指针与字符串</h2><p>一般来说如果给cout提供一个指针的话，他将打印地址，但是如果指针的类型为char <em>，那么cout的指针其实指向的是char</em>的第一个字符的地址，并且会依次往后直到结束符。如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> * c = <span class="string">"dog"</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"c :"</span> &lt;&lt; c;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt;<span class="string">"*c :"</span> &lt;&lt; *c;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt;<span class="string">"第一个字符的地址 ："</span> &lt;&lt; (<span class="keyword">int</span>*)c;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">c :dog</span><br><span class="line">*c :d</span><br><span class="line">第一个字符的地址 ：0x100001edc</span><br></pre></td></tr></table></figure>
-<h2 id="管理内存的三种方式"><a href="#管理内存的三种方式" class="headerlink" title="管理内存的三种方式"></a>管理内存的三种方式</h2><ul>
-<li>自动存储<br>在函数内部定义的常规变量使用自动存储空间，被称为自动变量，也就是说在函数执行完成之后会自动销毁。自动变量存储在栈中，采用先进后出的形式。</li>
-<li>静态存储<br>变量成为静态的方式有两种，一是在函数外面定义；二是使用static关键字。</li>
-<li>动态存储<br>使用new和delete管理内存，它们管理了一个内存池，被成为自由存储空间或堆，这个内存池和静态比变量以及自动变量的内存是分开的。</li>
-</ul>
-<p>目前为C++ Primer Plus的第四章。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjn76ntkj000gkgmj30bun65g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjn78cmnl001e9wmjv4i0ixe9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -683,6 +682,10 @@
           </li>
         
           <li>
+            <a href="/2018/10/12/Java-Decorator/">装饰器</a>
+          </li>
+        
+          <li>
             <a href="/2018/10/09/Java-parallel/">并行化</a>
           </li>
         
@@ -692,10 +695,6 @@
         
           <li>
             <a href="/2018/10/03/Java-Stream/">Stream</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/26/Java-Volatile/">Volatile</a>
           </li>
         
       </ul>

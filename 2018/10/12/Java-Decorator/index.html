@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>装饰器 | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="以奶茶店为例子，如果有红茶和绿茶两种，那么应该是这样的1234567891011121314151617181920212223abstract class milktea &amp;#123;    String description;    public String getDescription() &amp;#123;        return description;    &amp;#125;    vo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="装饰器">
+<meta property="og:url" content="http://yoursite.com/2018/10/12/Java-Decorator/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="以奶茶店为例子，如果有红茶和绿茶两种，那么应该是这样的1234567891011121314151617181920212223abstract class milktea &amp;#123;    String description;    public String getDescription() &amp;#123;        return description;    &amp;#125;    vo">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-13T09:19:13.189Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="装饰器">
+<meta name="twitter:description" content="以奶茶店为例子，如果有红茶和绿茶两种，那么应该是这样的1234567891011121314151617181920212223abstract class milktea &amp;#123;    String description;    public String getDescription() &amp;#123;        return description;    &amp;#125;    vo">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java-Decorator" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/12/Java-Decorator/" class="article-date">
+  <time datetime="2018-10-12T16:00:00.000Z" itemprop="datePublished">2018-10-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      装饰器
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以奶茶店为例子，如果有红茶和绿茶两种，那么应该是这样的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">milktea</span> </span>&#123;</span><br><span class="line">    String description;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(getDescription());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">greenMilktea</span> <span class="keyword">extends</span> <span class="title">milktea</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">greenMilktea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        description = <span class="string">"green milktea"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">redMilktea</span> <span class="keyword">extends</span> <span class="title">milktea</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">redMilktea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        description = <span class="string">"red Milktea"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>都知道奶茶中可以加各种奇奇怪怪的东西，像燕麦，珍珠之类的，如果要加这些东西该怎么写比较好呢。</p>
+<p>第一种将所有能加的东西排列组合，并增加对应的类</p>
+<ul>
+<li>GreenMilkTeaWithPearl</li>
+<li>GreenMilkTeaWithSugar</li>
+<li>GreenMilkTeaWithSugarAndPearl</li>
+<li>RedMilkTeaWithPearl</li>
+<li>RedMilkTeaWithSugar</li>
+<li>RedMilkTeaWithSugarAndPearl</li>
+</ul>
+<p>这才只有两种配料，因此这种方式肯定不可取。</p>
+<p>第二种添加成员属性<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Milktea</span> </span>&#123;</span><br><span class="line">	<span class="comment">//配料</span></span><br><span class="line">    <span class="keyword">boolean</span> addSugar;</span><br><span class="line">    <span class="keyword">boolean</span> addPearl;</span><br><span class="line">    <span class="keyword">boolean</span> addIce;</span><br><span class="line">    </span><br><span class="line">    String description;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(getDescription());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这种相对好一点但是也有很多冗余的代码。其实最好的方式还是按照奶茶店的模式来，将红茶和绿茶作为饮品，而珍珠、糖之类的作为配料单都拿出来。也就是先把茶给制作出来，然后在对这个茶加不同的配料或者是对这个奶茶进行装饰。</p>
+<p>那么我们做茶的配方（代码）是没有变的。我们需要增加配料就可以了。这里加了冰激淋和糖。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Icecream</span> <span class="keyword">extends</span> <span class="title">Ingredients</span> </span>&#123;</span><br><span class="line">    Milktea mt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Icecream</span><span class="params">(Milktea mt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mt = mt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mt.getDescription() + <span class="string">" add Icecream"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sugar</span> <span class="keyword">extends</span> <span class="title">Ingredients</span> </span>&#123;</span><br><span class="line">    Milktea mt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Sugar</span><span class="params">(Milktea mt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mt = mt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mt.getDescription() + <span class="string">" add Sugar"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>有个疑问为什么要传入奶茶对象呢，因为当然要知道冰激凌要加在哪一杯奶茶中啊。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//没有任何配料的奶茶</span></span><br><span class="line">    Milktea mt = <span class="keyword">new</span> GreenMilktea();</span><br><span class="line">    mt.show();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//制作一杯红茶</span></span><br><span class="line">    Milktea mt2 = <span class="keyword">new</span> RedMilktea();</span><br><span class="line">   	<span class="comment">//加冰淇淋</span></span><br><span class="line">    mt2 = <span class="keyword">new</span> Icecream(mt2);</span><br><span class="line">    <span class="comment">//加糖</span></span><br><span class="line">    mt2 = <span class="keyword">new</span> Sugar(mt2);</span><br><span class="line">    <span class="comment">//交给客户</span></span><br><span class="line">    mt2.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">green Milktea</span><br><span class="line">red Milktea add Icecream add Sugar</span><br></pre></td></tr></table></figure>
+<p>看起来就像是把一个对象作为参数传递进去并包装了一下，通过层层嵌套的形式将一个对象包装起来。如果又来一个新配料也好办，使用方式都是一样的，新增一个类，将想要装饰的类传进去。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">......</span><br><span class="line">psvm &#123;</span><br><span class="line">    mt2 = <span class="keyword">new</span> Pearl(mt2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pearl</span> <span class="keyword">extends</span> <span class="title">Ingredients</span> </span>&#123;</span><br><span class="line">    Milktea mt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Pearl</span><span class="params">(Milktea mt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mt = mt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mt.getDescription() + <span class="string">" add Pearl"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>好处：</p>
+<ul>
+<li>完全不用修改原有的代码，容易扩展新的功能。</li>
+<li>原始类可以非常简单，之后根据需要对原始类进行包装。</li>
+</ul>
+<p>坏处：</p>
+<ul>
+<li>由于是嵌套的初始化形式，因此看起来很复杂。如果层数多了跟代码会特别困难。</li>
+</ul>
+<p>不管怎么说设计模式这种东西一定不能生搬硬套，而是要灵活应用。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjn78cmn5000s9wmj2ps2o3hq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/12/Kotlin-Delegation/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Delegation
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/09/Java-parallel/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">并行化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Java-Decorator/">装饰器</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/09/Java-parallel/">并行化</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/03/Java-Lamda/">Lamda表达式-Preview</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/03/Java-Stream/">Stream</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
