@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>JVM中的内存与对象 | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="虚拟机内存的各个区域按照私有和共享对区域进行区分  私有 程序计数器：当前线程所执行的字节码的行号指示器。在Java虚拟机里面，字节码解释器就是通过这个行号来读取下一条要运行的指令，也可以说是记录了正在执行的虚拟机字节码指令的地址。在线程切换还有基础的逻辑（if、循环、switch）都需要用到这个程序计数器。每条线程都有一个独立的程序计数器。 虚拟机栈：每个方法在创建的同时会创建一个栈帧（Sta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM中的内存与对象">
+<meta property="og:url" content="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="虚拟机内存的各个区域按照私有和共享对区域进行区分  私有 程序计数器：当前线程所执行的字节码的行号指示器。在Java虚拟机里面，字节码解释器就是通过这个行号来读取下一条要运行的指令，也可以说是记录了正在执行的虚拟机字节码指令的地址。在线程切换还有基础的逻辑（if、循环、switch）都需要用到这个程序计数器。每条线程都有一个独立的程序计数器。 虚拟机栈：每个方法在创建的同时会创建一个栈帧（Sta">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-16T02:55:17.851Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM中的内存与对象">
+<meta name="twitter:description" content="虚拟机内存的各个区域按照私有和共享对区域进行区分  私有 程序计数器：当前线程所执行的字节码的行号指示器。在Java虚拟机里面，字节码解释器就是通过这个行号来读取下一条要运行的指令，也可以说是记录了正在执行的虚拟机字节码指令的地址。在线程切换还有基础的逻辑（if、循环、switch）都需要用到这个程序计数器。每条线程都有一个独立的程序计数器。 虚拟机栈：每个方法在创建的同时会创建一个栈帧（Sta">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java-MeroryAndObjectOfJVM" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/15/Java-MeroryAndObjectOfJVM/" class="article-date">
+  <time datetime="2018-10-15T16:00:00.000Z" itemprop="datePublished">2018-10-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JVM中的内存与对象
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="虚拟机内存的各个区域"><a href="#虚拟机内存的各个区域" class="headerlink" title="虚拟机内存的各个区域"></a>虚拟机内存的各个区域</h2><p>按照私有和共享对区域进行区分</p>
+<ul>
+<li>私有<ul>
+<li>程序计数器：当前线程所执行的字节码的行号指示器。在Java虚拟机里面，字节码解释器就是通过这个行号来读取下一条要运行的指令，也可以说是记录了正在执行的虚拟机字节码指令的地址。在线程切换还有基础的逻辑（if、循环、switch）都需要用到这个程序计数器。每条线程都有一个独立的程序计数器。</li>
+<li>虚拟机栈：每个方法在创建的同时会创建一个栈帧（Stack Frame），用于存储局部变量表、操作数栈、方法出口等。也就是说当我们调用某个方法，那么就会有个栈帧入栈，当执行完成了，该栈帧就会出栈。也可把虚拟机栈叫做局部变量表，存放了基本数据类型和reference类型，returnAddress类型。</li>
+<li>本地方法栈：与虚拟机栈非常类似，不过本地方法栈执行的是native方法。</li>
+</ul>
+</li>
+<li>共享<ul>
+<li>堆：被所有线程共享的内存区域，唯一的目的就是存放对象实例，也是GC作用的主要区域。</li>
+<li>方法区：存储已被虚拟机加载的类信息、常量、静态变量等数据。<ul>
+<li>运行时常量池：存放编译期生成的各种字面量和符号引用。也就是加载类的各种描述信息。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h2><ol>
+<li>检查常量池中是否有该类的符号引用。并查看该类是否被加载、初始化，如果没有那么需要先执行类加载过程。</li>
+<li><p>为对象分配一块确定大小的内存，有两种方式，根据堆是否规整来决定，决定堆是否规整是由采用的GC方式是否带有压缩整理功能。</p>
+<ul>
+<li>指针碰撞：如果Java堆中内存是绝对规整的，那么会将堆分成两部分，一部分是已经使用的内存，一部分是未使用的内存，分界线就是指针，如果需要分配内存那么移动指针即可。</li>
+<li><p>空闲列表：如果不是绝对规整的，那么就需要创建两个列表来维护。</p>
+<p>需要考虑内存的分配是否有线程安全问题。一个方案是进行同步处理，采用CAS配上失败重试的方法来保证更新操作的原子性。另一种方案则是每个线程在堆中预先分配一小块内存。称为本地线程分配缓冲（Thread Local Allocation Buffer,TLAB），哪个线程需要创建对象，先从TLAB上分配，当TLAB分配光了，再用同步的方式分配新的TLAB。</p>
+</li>
+</ul>
+</li>
+<li><p>分配完内存之后，将分配到的内存空间都初始化为零值。保证对象的实例字段可以不被赋值就直接使用。</p>
+</li>
+<li>设置一些信息，例如类的元数据信息，哈希码，GC分代年龄等等。</li>
+<li>执行init方法，按照我们的意愿进行初始化。</li>
+</ol>
+<h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><p>对象的内存布局主要有三块：对象头、实例数据、对齐填充。</p>
+<p>对象头：</p>
+<p>第一部分为Mark Word，用于存储对象自身的运行时数据，例如哈希码、GC分代年龄、线程持有的锁等等。由于对象头信息与对象自身的数据没有关系，因此属于额外成本，因为被设计成非固定的数据结构以便能用最小的空间存储尽量多的信息。</p>
+<p>第二部分为类型指针，就是对象指向它的类元数据的指针，通过这个指针能知道这个这个对象是哪个类的实例。</p>
+<p>实例数据：该数据为对象存储的有效信息。也就是代码中所写的一切，包括父类继承的或者子类中定义的各种信息。</p>
+<p>对齐填充：因为HotSpot VM的自动内存管理系统要求对象的大小必须是8字节的整数倍，对象头部分刚好是8字节的整数倍，如果实例数据不是8字节的整数倍，需要通过对齐填充部分进行补齐操作。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjnb4yi1s000x2omjl9e4g1nu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/12/Java-Decorator/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">装饰器</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/15/Java-MeroryAndObjectOfJVM/">JVM中的内存与对象</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Java-Decorator/">装饰器</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/09/Java-parallel/">并行化</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/03/Java-Lamda/">Lamda表达式-Preview</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
