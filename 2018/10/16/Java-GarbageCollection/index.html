@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Garbage Collection | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="如果判断对象已死引用计数算法给对象添加一个引用计数器，每当有个地方引用他时计数器就加1，引用失效时，计数器就减1，当计数器为0时那么该对象则已经死亡。不过该算法不能解决对象之间循环引用的问题。但是也有优点那就是因为实现简单因此判定效率很高。12345678ObjectA A = new ObjectA();ObjectB B = new ObjectB();A.instance = B;B.ins">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Garbage Collection">
+<meta property="og:url" content="http://yoursite.com/2018/10/16/Java-GarbageCollection/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="如果判断对象已死引用计数算法给对象添加一个引用计数器，每当有个地方引用他时计数器就加1，引用失效时，计数器就减1，当计数器为0时那么该对象则已经死亡。不过该算法不能解决对象之间循环引用的问题。但是也有优点那就是因为实现简单因此判定效率很高。12345678ObjectA A = new ObjectA();ObjectB B = new ObjectB();A.instance = B;B.ins">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/assets/Java_GC/HeapStructure.png">
+<meta property="og:updated_time" content="2018-10-17T06:13:48.042Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Garbage Collection">
+<meta name="twitter:description" content="如果判断对象已死引用计数算法给对象添加一个引用计数器，每当有个地方引用他时计数器就加1，引用失效时，计数器就减1，当计数器为0时那么该对象则已经死亡。不过该算法不能解决对象之间循环引用的问题。但是也有优点那就是因为实现简单因此判定效率很高。12345678ObjectA A = new ObjectA();ObjectB B = new ObjectB();A.instance = B;B.ins">
+<meta name="twitter:image" content="http://yoursite.com/assets/Java_GC/HeapStructure.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java-GarbageCollection" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/16/Java-GarbageCollection/" class="article-date">
+  <time datetime="2018-10-16T16:00:00.000Z" itemprop="datePublished">2018-10-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Garbage Collection
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="如果判断对象已死"><a href="#如果判断对象已死" class="headerlink" title="如果判断对象已死"></a>如果判断对象已死</h2><h3 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h3><p>给对象添加一个引用计数器，每当有个地方引用他时计数器就加1，引用失效时，计数器就减1，当计数器为0时那么该对象则已经死亡。不过该算法不能解决对象之间循环引用的问题。但是也有优点那就是因为实现简单因此判定效率很高。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ObjectA A = <span class="keyword">new</span> ObjectA();</span><br><span class="line">ObjectB B = <span class="keyword">new</span> ObjectB();</span><br><span class="line">A.instance = B;</span><br><span class="line">B.instance = A;</span><br><span class="line"></span><br><span class="line"><span class="comment">//如果使用引用计数，即使赋值为null也无法回收,因为互相引用，计数器不会为0</span></span><br><span class="line">A = <span class="keyword">null</span>;</span><br><span class="line">B = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h3><p>基本思想是通过一系列称为GC Roots的对象作为起始点，从这些节点往下搜索，搜索所走过的路径称为引用链，当一个对象到GC Roots没有任何引用链相连的时候，那么这个对象就是不可用的。</p>
+<p>GC Roots最大的特点就是它一定不会被回收，以虚拟机栈举例，如果栈中有个对象A引用了对象B,如果B没有引用其他对象，那么以A为起始点的可达性分析就结束了，并且A和B都不会回收。</p>
+<p>可作为GC Roots的对象包括以下：</p>
+<ul>
+<li>虚拟机栈中引用的对象。</li>
+<li>方法区中类静态属性引用的对象。</li>
+<li>方法区中常量引用的对象。</li>
+<li>本地方法栈中JNI引用的对象。</li>
+</ul>
+<h2 id="对象死亡过程"><a href="#对象死亡过程" class="headerlink" title="对象死亡过程"></a>对象死亡过程</h2><p>要真正宣告一个对象死亡，至少需要两次标记过程：</p>
+<ol>
+<li>如果对象经过可达性分析之后没有发现任何和GC Roots相连接的引用链，那么会进行第一次标记并进行一次筛选，筛选条件为是否需要执行对象的finalize方法，当对象没有覆盖或者已经执行过finalize，就不会再执行finalize。</li>
+<li>如果确实需要执行finalize方法，这个对象会被放在F-Queue队列中，之后被一个由虚拟机自动建立的Finalizer线程去执行。如果finalize方法中仍然没有和引用链上的对象建立连接，GC会对F-Queue进行第二次标记，然后彻底进行回收。</li>
+</ol>
+<p><strong>Warning:由于finalize方法运行代价高昂，不确定性大，因此不建议复写该方法，如果有收尾的处理放在try-finally中更好。</strong></p>
+<h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><h3 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h3><p>顾名思义，一共分为两个阶段，标记出所有需要回收的对象（@对象死亡过程），完成标记之后统一回收所有的对象。</p>
+<p>该算法有两个缺点：1.效率不高 2.标记清除之后会产生大量不连续的内存碎片，碎片太多会导致以后需要分配较大对象时，由于连续内存不够需要提前触发一次GC。</p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>基本思想是将可用内存等分为两个部分，每次分配内存都只从其中一个分配，当A内存用完了，将A内存中还存活的对象全部复制到B内存上去，再把A内存一次清理掉。这样能解决内存碎片的问题，但是代价则是将内存缩小为原来的一半。但是没有必要严格按照1:1的比例来切割，因为新生代中的对象98%都是很快就回收了的。</p>
+<h3 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h3><p>标记整理算法和标记清除算法的标记过程是一样的。但在清理之前多了一步，就是将所有存活的对象向一端移动。</p>
+<p>由于复制算法在对象存活率较高的老年代要复制很多对象，该算法适用于老年代。</p>
+<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>根据对象存活周期的不同将内存划分为几块，一般为新生代和老年代。新生代由于大批对象死亡，因此使用复制算法，而老年代由于存活率高，就需要用标记清除或者标记整理的算法。</p>
+<p><em>Stop The World:GC进行时必须暂停Java的所有线程。</em></p>
+<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p>垃圾收集器是收集算法的具体实现</p>
+<h3 id="Serial收集器"><a href="#Serial收集器" class="headerlink" title="Serial收集器"></a>Serial收集器</h3><p>该收集器是单线程收集器，只使用一个CPU或者线程区完成GC。因此优点在于简单高效，然而缺点也很明显它在进行垃圾收集时，必须暂停其他所有的工作线程。</p>
+<h3 id="ParNew收集器"><a href="#ParNew收集器" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h3><p>该收集器是Serial收集器的多线程版本，除了使用多线程之外，其余的例如收集算法、Stop The World、回收策略等等都和Serial收集器完全一样。</p>
+<p>它作为Server模式下的虚拟机中首选的新生代收集器原因之一是只有它能和CMS收集器配合工作。</p>
+<h3 id="Parallel-Scavenge收集器"><a href="#Parallel-Scavenge收集器" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h3><p>Parallel Scavenge收集器是一个新生代收集器。Parallel Scavenge收集器的目标是达到一个可控制的吞吐量。可以通过设置收集器的参数来控制吞吐量。</p>
+<p>吞吐量：CPU用于运行代码的时间占比，如果虚拟机一共运行了100分钟，GC了10分钟，那么吞吐量就是90%。</p>
+<h3 id="Serial-Old收集器"><a href="#Serial-Old收集器" class="headerlink" title="Serial Old收集器"></a>Serial Old收集器</h3><p>Serial Old收集器是Serial收集器的老年代版本。同样单线程，采用标记整理算法。</p>
+<h3 id="Parallel-Old收集器"><a href="#Parallel-Old收集器" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h3><p>Parallel Old收集器是Parallel Scavenge收集器的老年代版本。使用多线程和标记整理算法。</p>
+<h3 id="CMS收集器"><a href="#CMS收集器" class="headerlink" title="CMS收集器"></a>CMS收集器</h3><p>Concurrent Mark Sweep从名字可以看出这是一个并发的收集器，以获取最短回收停顿时间为目标的收集器。并且基于标记清除算法。不过有以下三个缺点</p>
+<ul>
+<li>由于是并发，会在一定程度上占用CPU。</li>
+<li>无法处理浮动垃圾，因为在GC过程中没有停顿，因次会有新的对象生成。</li>
+<li>由于是标记清除算法，因此会有大量内存碎片生成。</li>
+</ul>
+<h2 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h2><ul>
+<li>新生代<ul>
+<li>Edan区</li>
+<li>两个Survivor区</li>
+</ul>
+</li>
+<li>老年代</li>
+<li><p>永久代</p>
+</li>
+<li><p>Minor GC: 在新生代发生的垃圾收集动作，较频繁，时间短</p>
+</li>
+<li>Major GC/Full GC: 在老年代发生的GC,速度较慢。</li>
+</ul>
+<p>大多数情况，新建的对象将分配到Edan区，当Edan区空间不足时，就会触发一次Minor GC，也就是将Edan区清空，然后将存活的对象拷贝到Survivor区，并将Survivor区内对象的年龄默认设置为1，之后每经过一次GC就会增长1，并且会在两个Survivor区之间互相切换。当成长到15的时候就会被转移到老年代。当然这个阀值可以通过参数设置。</p>
+<p>至于为什么需要两个Survivor区，假设只有一个Survivor区，那么第一次执行GC，将存活的对象拷贝到Survivor区，暂时没毛病，程序运行了一段时间又满了，这时候再执行GC，但是在这种情况下对Survivor区执行GC的话就会在Survivor区内造成大量的内存碎片，因此需要两个Survivor区的主要原因是为了清除生成的碎片，能保证有一块Survivor永远处于干净状态。另一个原因是可以继续对Survivor区进行复制的垃圾收集算法，也是为了提升GC的性能。</p>
+<p>对于某些大对象将直接进入老年代，大对象就是指需要大量连续内存的对象，例如长字符串或者数组。</p>
+<p><img src="/assets/Java_GC/HeapStructure.png" alt=""></p>
+<p>图解：<a href="http://www.tothenew.com/blog/java-garbage-collection-an-overview/" target="_blank" rel="noopener">http://www.tothenew.com/blog/java-garbage-collection-an-overview/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjncrhhuc000vyomjyg35e90p" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/15/Java-MeroryAndObjectOfJVM/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JVM中的内存与对象</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/16/Java-GarbageCollection/">Garbage Collection</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/15/Java-MeroryAndObjectOfJVM/">JVM中的内存与对象</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Java-Decorator/">装饰器</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/09/Java-parallel/">并行化</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
