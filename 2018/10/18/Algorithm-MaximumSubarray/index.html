@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Maximum Subarray | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum. Example:123Input: [-2,1,-3,4,-1,2,1,-5,4],Output: 6Explanation:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maximum Subarray">
+<meta property="og:url" content="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum. Example:123Input: [-2,1,-3,4,-1,2,1,-5,4],Output: 6Explanation:">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-19T03:31:13.823Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Maximum Subarray">
+<meta name="twitter:description" content="Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum. Example:123Input: [-2,1,-3,4,-1,2,1,-5,4],Output: 6Explanation:">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Algorithm-MaximumSubarray" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/18/Algorithm-MaximumSubarray/" class="article-date">
+  <time datetime="2018-10-18T16:00:00.000Z" itemprop="datePublished">2018-10-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Maximum Subarray
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.</p>
+<p>Example:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [-2,1,-3,4,-1,2,1,-5,4],</span><br><span class="line">Output: 6</span><br><span class="line">Explanation: [4,-1,2,1] has the largest sum = 6.</span><br></pre></td></tr></table></figure></p>
+<p>先来一个暴力穷举法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> max = nums[<span class="number">0</span>] &gt; <span class="number">0</span> ? <span class="number">0</span> : nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; nums.length; j++) &#123;</span><br><span class="line">        sum += nums[j];</span><br><span class="line">                max = Math.max(sum, max);</span><br><span class="line">        &#125;</span><br><span class="line">        sum = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">return</span> max;</span><br></pre></td></tr></table></figure></p>
+<p>这里是从0 ~ i递增的方式累加，重新换种递减的方式<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> max = nums[<span class="number">0</span>] &gt; <span class="number">0</span> ? <span class="number">0</span> : nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt;= <span class="number">0</span>; j--) &#123;</span><br><span class="line">        sum += nums[j];</span><br><span class="line">        max = Math.max(sum, max);</span><br><span class="line">    &#125;</span><br><span class="line">    sum = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">return</span> max;</span><br></pre></td></tr></table></figure></p>
+<p>在累加的过程中可以把这个内层的循环优化一下。例如有个数组{1,2,3,-5,4}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1 + 2 + 3 + -5 + 4 =  (1 + 2 + 3 + -5) + 4</span><br><span class="line">1 + 2 + 3 + -5 = (1 + 2 + 3) + -5</span><br><span class="line">1 + 2 + 3 = (1 + 2) + 3</span><br><span class="line">1 + 2 = (1) + 2</span><br><span class="line">1 = 1</span><br></pre></td></tr></table></figure></p>
+<p>如果抽象一下的话就是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(i) = A[i] + sum(i - 1)</span><br></pre></td></tr></table></figure></p>
+<p>那么如果是求之前总和的最大值，就是比较一下A[i] + sum(i - 1) 和 A[i]或者也可以说是sum(i - 1)是否大于零<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maxSum(i) = max(A[i], A[i] + sum(i - <span class="number">1</span>))</span><br></pre></td></tr></table></figure></p>
+<p>因此优化后的代码为<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> max = nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">int</span> maxSum[] = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">maxSum[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    maxSum[i] = Math.max(nums[i], maxSum[i - <span class="number">1</span>] + nums[i]);</span><br><span class="line">    max = Math.max(maxSum[i], max);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> max;</span><br></pre></td></tr></table></figure></p>
+<p>由于maxSum的数组不是必要的，可以用一个变量来代替。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">int</span> max = nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">int</span> maxSum = nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    maxSum = Math.max(nums[i], maxSum + nums[i]);</span><br><span class="line">    max = Math.max(maxSum, max);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> max;</span><br></pre></td></tr></table></figure></p>
+<p>参考文章：<a href="http://theoryofprogramming.com/2016/10/21/dynamic-programming-kadanes-algorithm/" target="_blank" rel="noopener">http://theoryofprogramming.com/2016/10/21/dynamic-programming-kadanes-algorithm/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjnfgk3xd0000g0mjr0lyg90b" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/16/Java-GarbageCollection/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Garbage Collection</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/18/Algorithm-MaximumSubarray/">Maximum Subarray</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/16/Java-GarbageCollection/">Garbage Collection</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/15/Java-MeroryAndObjectOfJVM/">JVM中的内存与对象</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/12/Java-Decorator/">装饰器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
