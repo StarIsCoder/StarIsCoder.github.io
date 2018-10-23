@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
 
@@ -25,7 +25,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
 </head>
-
+</html>
 <body>
   <div id="container">
     <div id="wrap">
@@ -62,7 +62,53 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-C-Inline-Reference" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android-区分tablet和mobile" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/26/Android-区分tablet和mobile/" class="article-date">
+  <time datetime="2018-08-26T16:00:00.000Z" itemprop="datePublished">2018-08-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/26/Android-区分tablet和mobile/">区分tablet和mobile</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近项目上UE有个需求是增加一个按钮切换横竖屏，当然很容易想到使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);</span><br></pre></td></tr></table></figure></p>
+<p>传入的值一般有如下，按字面意思理解即可：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SCREEN_ORIENTATION_PORTRAIT</span><br><span class="line">SCREEN_ORIENTATION_LANDSCAPE</span><br><span class="line">SCREEN_ORIENTATION_REVERSE_PORTRAIT</span><br><span class="line">SCREEN_ORIENTATION_LANDSCAPE</span><br></pre></td></tr></table></figure></p>
+<p>但是这样设置有个问题，那就是手动设置了横竖屏之后系统的AutoRotate失效了。有一种workaround就是手动去处理转屏事件。加一个内部类继承OrientationEventListener。只要底层重力传感器的值发生变化就会回调这个类中的onOrientationChanged方法。之后根据上报的orientation值和一些flag进行横竖屏处理。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">IncallOrientationListener</span> <span class="keyword">extends</span> <span class="title">OrientationEventListener</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">IncallOrientationListener</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onOrientationChanged</span><span class="params">(<span class="keyword">int</span> orientation)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//do anything what we want</span></span><br><span class="line">        orientationUtils.onOrientationChanged(getApplicationContext(), orientation);</span><br><span class="line">    &#125;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然而在上一次GT的时候发现平板下横竖屏全反了，原因是平板是横着的时候oreintation为0，这时候如果设置SCREEN_ORIENTATION_PORTRAIT就会有问题，当转屏之后又设置了SCREEN_ORIENTATION_LANDSCAPE。也就是说对于横着的平板和手机相比应该走完全相反的逻辑。那么就需要区分平板和手机了，官方似乎没有相关文档，但是根据以前我处理分屏下布局的bug，系统应该是根据长宽的大小比较来决定是使用port文件夹还是land文件夹下的布局。这个在stackoverflow上的workaround<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isTablet</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (context.getResources().getConfiguration().screenLayout &amp; Configuration.SCREENLAYOUT_SIZE_MASK) &gt;= Configuration.SCREENLAYOUT_SIZE_LARGE;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实我个人认为通过长宽来判断应该设置横屏还是竖屏更合理一点。因为有的平板就是放大版的手机，这种平板其实就应该走手机的逻辑。用WindowManagerService来获取屏幕的宽高。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);</span><br><span class="line">DisplayMetrics metrics = <span class="keyword">new</span> DisplayMetrics();</span><br><span class="line">wm.getDefaultDisplay().getMetrics(metrics);</span><br><span class="line"><span class="keyword">int</span> heightPixels = metrics.heightPixels;</span><br><span class="line">Log.d(TAG, <span class="string">"heightPixels :"</span> + heightPixels);</span><br><span class="line"><span class="keyword">int</span> widthPixels = metrics.widthPixels;</span><br><span class="line">Log.d(TAG, <span class="string">"widthPixels :"</span> + widthPixels);</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">heightPixels :1440 widthPixels :2560 //横屏</span><br><span class="line">heightPixels :2560 widthPixels :1440 //竖屏</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjnlmubr20008lgmjixr7mgyp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-C-Inline-Reference" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/23/C-Inline-Reference/" class="article-date">
   <time datetime="2018-08-23T16:00:00.000Z" itemprop="datePublished">2018-08-24</time>
@@ -130,7 +176,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjnfgk3xt000fg0mjh8xtyccw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjnlmubr2000flgmj7862ow5l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -140,7 +186,7 @@
 
 
   
-    <article id="post-C-function-array" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-C-function-array" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/16/C-function-array/" class="article-date">
   <time datetime="2018-08-16T16:00:00.000Z" itemprop="datePublished">2018-08-17</time>
@@ -191,7 +237,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjnfgk3y8000kg0mjd0a7oduy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjnlmubri000klgmjp3x2y4ys" class="article-share-link">Share</a>
       
       
     </footer>
@@ -201,7 +247,7 @@
 
 
   
-    <article id="post-Kotlin-Singleton" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Kotlin-Singleton" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/09/Kotlin-Singleton/" class="article-date">
   <time datetime="2018-08-09T16:00:00.000Z" itemprop="datePublished">2018-08-10</time>
@@ -254,7 +300,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjnfgk3yo001eg0mjtcad9twd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjnlmubry001hlgmj949k3eap" class="article-share-link">Share</a>
       
       
     </footer>
@@ -264,7 +310,7 @@
 
 
   
-    <article id="post-C-Pointer-Note" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-C-Pointer-Note" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/06/C-Pointer-Note/" class="article-date">
   <time datetime="2018-08-06T16:00:00.000Z" itemprop="datePublished">2018-08-07</time>
@@ -312,7 +358,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjnfgk3y8000hg0mjpsxa87gx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjnlmubr2000hlgmjiao2unk0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -322,7 +368,7 @@
 
 
   
-    <article id="post-Java-Container" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Java-Container" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/04/Java-Container/" class="article-date">
   <time datetime="2018-08-04T16:00:00.000Z" itemprop="datePublished">2018-08-05</time>
@@ -384,7 +430,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjnfgk3y8000qg0mjxkinha7v" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjnlmubri000tlgmjwroytd9c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -394,7 +440,7 @@
 
 
   
-    <article id="post-Kotlin-扩展函数-属性-中缀调用" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Kotlin-扩展函数-属性-中缀调用" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" class="article-date">
   <time datetime="2018-07-27T16:00:00.000Z" itemprop="datePublished">2018-07-28</time>
@@ -435,7 +481,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjnfgk3yo001hg0mjviamg50l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjnlmubry001ilgmjagybcxa3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -445,7 +491,7 @@
 
 
   
-    <article id="post-Android-Modify-shape-attributes" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android-Modify-shape-attributes" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/26/Android-Modify-shape-attributes/" class="article-date">
   <time datetime="2018-07-26T16:00:00.000Z" itemprop="datePublished">2018-07-27</time>
@@ -477,7 +523,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjnfgk3xt0005g0mjyrwi3ywx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjnlmubqn0005lgmjg5ibc9yt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -487,7 +533,7 @@
 
 
   
-    <article id="post-Android-ShowPopupAtLocation" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android-ShowPopupAtLocation" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/24/Android-ShowPopupAtLocation/" class="article-date">
   <time datetime="2018-07-24T16:00:00.000Z" itemprop="datePublished">2018-07-25</time>
@@ -518,7 +564,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/" data-id="cjnfgk3xt0007g0mj5vbjqyf6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/" data-id="cjnlmubr20007lgmjq6ouyv47" class="article-share-link">Share</a>
       
       
     </footer>
@@ -571,6 +617,10 @@
       <ul>
         
           <li>
+            <a href="/2018/10/22/Java-ClassFileFormat/">Class File Format</a>
+          </li>
+        
+          <li>
             <a href="/2018/10/18/Algorithm-MaximumSubarray/">Maximum Subarray</a>
           </li>
         
@@ -584,10 +634,6 @@
         
           <li>
             <a href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/12/Java-Decorator/">装饰器</a>
           </li>
         
       </ul>
