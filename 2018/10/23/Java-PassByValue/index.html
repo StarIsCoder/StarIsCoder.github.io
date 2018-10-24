@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Pass by value or reference | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Given a sorted linked list, delete all duplicates such that each element appear only once.Example 1:12Input: 1-&amp;gt;1-&amp;gt;2Output: 1-&amp;gt;2 Example 2:12Input: 1-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;3Output: 1-&amp;gt;2-&amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pass by value or reference">
+<meta property="og:url" content="http://yoursite.com/2018/10/23/Java-PassByValue/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="Given a sorted linked list, delete all duplicates such that each element appear only once.Example 1:12Input: 1-&amp;gt;1-&amp;gt;2Output: 1-&amp;gt;2 Example 2:12Input: 1-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;3Output: 1-&amp;gt;2-&amp;g">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/assets/Java_PassByValue/passbyvalue1.png">
+<meta property="og:image" content="http://yoursite.com/assets/Java_PassByValue/passbyvalue2.png">
+<meta property="og:updated_time" content="2018-10-24T08:00:46.046Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pass by value or reference">
+<meta name="twitter:description" content="Given a sorted linked list, delete all duplicates such that each element appear only once.Example 1:12Input: 1-&amp;gt;1-&amp;gt;2Output: 1-&amp;gt;2 Example 2:12Input: 1-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;3Output: 1-&amp;gt;2-&amp;g">
+<meta name="twitter:image" content="http://yoursite.com/assets/Java_PassByValue/passbyvalue1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java-PassByValue" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/23/Java-PassByValue/" class="article-date">
+  <time datetime="2018-10-23T16:00:00.000Z" itemprop="datePublished">2018-10-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Pass by value or reference
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Given a sorted linked list, delete all duplicates such that each element appear only once.<br>Example 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 1-&gt;1-&gt;2</span><br><span class="line">Output: 1-&gt;2</span><br></pre></td></tr></table></figure></p>
+<p>Example 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 1-&gt;1-&gt;2-&gt;3-&gt;3</span><br><span class="line">Output: 1-&gt;2-&gt;3</span><br></pre></td></tr></table></figure></p>
+<p>解题上并不难，移动的节点时候判断与后一个是否一样，如果一样就跳过。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ListNode <span class="title">deleteDuplicates</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    ListNode current = head;</span><br><span class="line">    <span class="keyword">while</span> (current != <span class="keyword">null</span> &amp;&amp; current.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (current.next.val == current.val) &#123;</span><br><span class="line">            current.next = current.next.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            current = current.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不过在main函数里执行的时候，我发现获取最终结果，不需要使用该方法return的ListNode，直接将原链表作为参数传入，方法执行完之后原链表就发生了变化。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Same code</span></span><br><span class="line">deleteDuplicates(first);</span><br><span class="line">ListNode resultNode = deleteDuplicates(first);</span><br></pre></td></tr></table></figure></p>
+<p>这突然让我有点怀疑java究竟是pass by value还是reference。Java中最突出的特点之一就是没有指针。如果都是按值传递为什么原链表会发生变化呢。最经典的swap说明了Java的按值传递性。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">20</span>;</span><br><span class="line">    swap(i, j);</span><br><span class="line">    System.out.println(<span class="string">"i :"</span> + i);</span><br><span class="line">    System.out.println(<span class="string">"j :"</span> + j);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp = i;</span><br><span class="line">    i = j;</span><br><span class="line">    j = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i : 10</span><br><span class="line">j : 20</span><br></pre></td></tr></table></figure>
+<p>但是下面这个例子好像又表示pass by reference<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Dog mDog = <span class="keyword">new</span> Dog(<span class="string">"Rover"</span>);</span><br><span class="line">    foo(mDog);</span><br><span class="line">    System.out.println(mDog.getName());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">(Dog someDog)</span> </span>&#123;</span><br><span class="line">    someDog.setName(<span class="string">"Max1"</span>);     <span class="comment">// AAA</span></span><br><span class="line">    someDog = <span class="keyword">new</span> Dog(<span class="string">"Fifi"</span>);  <span class="comment">// BBB</span></span><br><span class="line">    someDog.setName(<span class="string">"Rowlf"</span>);   <span class="comment">// CCC</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Max1</span><br></pre></td></tr></table></figure>
+<p>也就是说Java在传递参数的时候对基础类型和非基础类型的处理是不同的。基础类型的话是完全字面意义上的pass-by-value。而非基础类型的话，其实是创建了一个新的对象newObject（空对象），然后将这个newObject的引用指向传入的参数。如图中所示，图片来源：<a href="https://stackoverflow.com/questions/9404625/java-pass-by-reference/9404727#9404727" target="_blank" rel="noopener">https://stackoverflow.com/questions/9404625/java-pass-by-reference/9404727#9404727</a></p>
+<p><img src="/assets/Java_PassByValue/passbyvalue1.png" alt=""></p>
+<p><img src="/assets/Java_PassByValue/passbyvalue2.png" alt=""></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在Java中，确实一切都是pass by value。但是拷贝是引用还是变量取决于源数据类型。</p>
+<ol>
+<li>如果是基础类型，那么参数是pass by value。</li>
+<li>如果是对象，那么对象的引用是pass by value。</li>
+<li>在方法内部修改对象的引用是不会影响原引用的。</li>
+<li>在方法内部修改collection和map类型会影响原数据。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjnmvdw2k0015tsmj2rcmv8v1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/22/Java-ClassFileFormat/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Class File Format</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/23/Java-PassByValue/">Pass by value or reference</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/22/Java-ClassFileFormat/">Class File Format</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/18/Algorithm-MaximumSubarray/">Maximum Subarray</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/16/Java-GarbageCollection/">Garbage Collection</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/15/Java-MeroryAndObjectOfJVM/">JVM中的内存与对象</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -62,6 +62,64 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java-PassByValue" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/23/Java-PassByValue/" class="article-date">
+  <time datetime="2018-10-23T16:00:00.000Z" itemprop="datePublished">2018-10-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/23/Java-PassByValue/">Pass by value or reference</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Given a sorted linked list, delete all duplicates such that each element appear only once.<br>Example 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 1-&gt;1-&gt;2</span><br><span class="line">Output: 1-&gt;2</span><br></pre></td></tr></table></figure></p>
+<p>Example 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 1-&gt;1-&gt;2-&gt;3-&gt;3</span><br><span class="line">Output: 1-&gt;2-&gt;3</span><br></pre></td></tr></table></figure></p>
+<p>解题上并不难，移动的节点时候判断与后一个是否一样，如果一样就跳过。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ListNode <span class="title">deleteDuplicates</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    ListNode current = head;</span><br><span class="line">    <span class="keyword">while</span> (current != <span class="keyword">null</span> &amp;&amp; current.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (current.next.val == current.val) &#123;</span><br><span class="line">            current.next = current.next.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            current = current.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不过在main函数里执行的时候，我发现获取最终结果，不需要使用该方法return的ListNode，直接将原链表作为参数传入，方法执行完之后原链表就发生了变化。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Same code</span></span><br><span class="line">deleteDuplicates(first);</span><br><span class="line">ListNode resultNode = deleteDuplicates(first);</span><br></pre></td></tr></table></figure></p>
+<p>这突然让我有点怀疑java究竟是pass by value还是reference。Java中最突出的特点之一就是没有指针。如果都是按值传递为什么原链表会发生变化呢。最经典的swap说明了Java的按值传递性。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">20</span>;</span><br><span class="line">    swap(i, j);</span><br><span class="line">    System.out.println(<span class="string">"i :"</span> + i);</span><br><span class="line">    System.out.println(<span class="string">"j :"</span> + j);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp = i;</span><br><span class="line">    i = j;</span><br><span class="line">    j = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i : 10</span><br><span class="line">j : 20</span><br></pre></td></tr></table></figure>
+<p>但是下面这个例子好像又表示pass by reference<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Dog mDog = <span class="keyword">new</span> Dog(<span class="string">"Rover"</span>);</span><br><span class="line">    foo(mDog);</span><br><span class="line">    System.out.println(mDog.getName());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">(Dog someDog)</span> </span>&#123;</span><br><span class="line">    someDog.setName(<span class="string">"Max1"</span>);     <span class="comment">// AAA</span></span><br><span class="line">    someDog = <span class="keyword">new</span> Dog(<span class="string">"Fifi"</span>);  <span class="comment">// BBB</span></span><br><span class="line">    someDog.setName(<span class="string">"Rowlf"</span>);   <span class="comment">// CCC</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Max1</span><br></pre></td></tr></table></figure>
+<p>也就是说Java在传递参数的时候对基础类型和非基础类型的处理是不同的。基础类型的话是完全字面意义上的pass-by-value。而非基础类型的话，其实是创建了一个新的对象newObject（空对象），然后将这个newObject的引用指向传入的参数。如图中所示，图片来源：<a href="https://stackoverflow.com/questions/9404625/java-pass-by-reference/9404727#9404727" target="_blank" rel="noopener">https://stackoverflow.com/questions/9404625/java-pass-by-reference/9404727#9404727</a></p>
+<p><img src="/assets/Java_PassByValue/passbyvalue1.png" alt=""></p>
+<p><img src="/assets/Java_PassByValue/passbyvalue2.png" alt=""></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在Java中，确实一切都是pass by value。但是拷贝是引用还是变量取决于源数据类型。</p>
+<ol>
+<li>如果是基础类型，那么参数是pass by value。</li>
+<li>如果是对象，那么对象的引用是pass by value。</li>
+<li>在方法内部修改对象的引用是不会影响原引用的。</li>
+<li>在方法内部修改collection和map类型会影响原数据。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjnmvdw2k0015tsmj2rcmv8v1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java-ClassFileFormat" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/22/Java-ClassFileFormat/" class="article-date">
@@ -99,7 +157,7 @@
 <h3 id="版本号"><a href="#版本号" class="headerlink" title="版本号"></a>版本号</h3><p>在魔数之后的4个字节存储的是class文件的版本号，前两个字节是次版本号，后两个是主版本号。Java版本号是从45开始的，例如JDK1.1能支持版本号45.0 ~ 45.65535的Class文件，JDK1.2则能执行45.0 ~ 46.65535的Class文件。这边示例的class文件是用JDK11，因此应该是55。</p>
 <p><img src="/assets/Java_ClassFileDetail/Class_VersionNumber.jpg" alt=""></p>
 <h3 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h3><p>常量池：常量池可以理解为class文件中的资源仓库，它是class文件结构中与其他项目关联最多的数据类型。</p>
-<p>由于一个类中有多少方法和变量是不确定的，因此常量池入口有一项u2类型的数据，代表常量池容量计数值。不过这个容量计数是从1开始的。也就是说如果这个值是57，那么就有56个常量，之所以把0空出来是因为如果某个常量的索引不引用任何一个常量就可以用0来表示。图中的容量计数值为55，因此一共有54个常量。</p>
+<p>由于一个类中有多少方法和变量是不确定的，因此常量池入口有一项u2类型的数据，代表常量池容量计数值。不过这个容量计数是从1开始的。也就是说如果这个值是57，那么就有56个常量，之所以把0空出来是因为如果某个常量的索引不引用任何一个常量就可以用0来表示。图中的容量计数值为59，因此一共有58个常量。</p>
 <p><img src="/assets/Java_ClassFileDetail/Class_NumberOfConstant.jpg" alt=""></p>
 <p>常量池主要存放两大类常量：字面量和符合引用</p>
 <ul>
@@ -114,14 +172,14 @@
 <p>常量池中的常量每一个都是一个表，并且表的结构数据不同，有的是三列，有的是两列，为了区分它们的结构，这些表的第一位是一个u1类型的标志位，代表属于哪种表的类型也就是说代表哪一种常量类型。例如如果是1那么表示是utf8类型的常量，如果是10那么就是方法的符号引用。</p>
 <p><img src="/assets/Java_ClassFileDetail/Constant_pool.png" alt=""></p>
 <p>查看下第一个常量是0A，也就是10，10对应常量池中的项目类型是CONSTANT_Methodref_info，而这个类型一共有三个参数，第一个是tag，也就是10，第二个和第三个都是u2类型，如图中是0E（14）和1B（27），分别表示指向声明方法和指向名称的索引。</p>
-<p><img src="/assets/Java_ClassFileDetail/FirstElement.png" alt=""></p>
-<p>可以使用javap反编译来确认下。一共有54项。并且第一个常量是这样的，和用hex friend计算出来是一样的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#1 = Methodref          #14.#27</span><br></pre></td></tr></table></figure></p>
-<p><img src="/assets/Java_ClassFileDetail/javapResult.png" alt=""></p>
+<p><img src="/assets/Java_ClassFileDetail/FirstElement.jpg" alt=""></p>
+<p>可以使用javap反编译来确认下。第一个常量是这样的，和用hex friend计算出来是一样的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#1 = Methodref          #14.#27</span><br></pre></td></tr></table></figure></p>
+<p><img src="/assets/Java_ClassFileDetail/javapResult.jpg" alt=""></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjnlmubri000plgmj7iro9x64" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjnmvdw24000ptsmj004ymbg5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -171,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjnlmubq70000lgmjfiyh186h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjnmvdw190000tsmjhn8pucc7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -266,7 +324,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjnlmubri000xlgmjfiiiant3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjnmvdw24000xtsmjmtpjpsj7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -344,7 +402,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjnlmubry0011lgmjivezpnj8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjnmvdw2k0011tsmjcy8g35r1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -392,7 +450,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjnlmubry001elgmjm89ekg9p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjnmvdw2k001htsmjghqekefv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -460,7 +518,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjnlmubri000ulgmjob9dwsj3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjnmvdw24000utsmjd5fg2q9r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -529,7 +587,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjnlmubry001algmjfv2p7ezv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjnmvdw2k001dtsmjp91inv9r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -580,7 +638,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjnlmubry0016lgmjj4eriv1c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjnmvdw2k0019tsmj4zyrn6wa" class="article-share-link">Share</a>
       
       
     </footer>
@@ -628,59 +686,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjnlmubri000ylgmjdp40j9vj" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java-Volatile" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/26/Java-Volatile/" class="article-date">
-  <time datetime="2018-09-26T16:00:00.000Z" itemprop="datePublished">2018-09-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/26/Java-Volatile/">Volatile</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p>原子性操作是指不能被线程调度机制中断的操作，一旦操作开始，在可能发生的上下文切换之前执行完。</p>
-<p>java中对除了long和double以外的基本类型进行读写操作都是原子性的，因为long和double是64位的，JVM有可能将其分为两个32位的。</p>
-<p>这里说的读写操作并不包括自加等。因为自加其实是分成了两步来走。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">i++</span><br><span class="line"></span><br><span class="line"><span class="number">0</span>:    aload_0</span><br><span class="line"><span class="number">1</span>:    dup</span><br><span class="line"><span class="number">2</span>:    getfield</span><br><span class="line"><span class="number">5</span>:    iconst_1</span><br><span class="line"><span class="number">6</span>:    iadd</span><br><span class="line"><span class="number">7</span>:    putfield</span><br><span class="line"><span class="number">10</span>:   <span class="keyword">return</span></span><br></pre></td></tr></table></figure></p>
-<p>这个操作有put和get，如果在put和get之间发生了变化，那么得到的结果可能不正确，因此不是原子性操作。当然java中有AtomicInteger、AtomicLong、AtomicBoolean等原子类。</p>
-<h2 id="Volatile修饰词具有如下两种属性"><a href="#Volatile修饰词具有如下两种属性" class="headerlink" title="Volatile修饰词具有如下两种属性"></a>Volatile修饰词具有如下两种属性</h2><h3 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h3><p>通俗的说就是当这个值被修改了，那么所有的读取操作都可以看到这个修改。</p>
-<p>对一个普通的变量i来说，正常的读写操作是先将变量从主内存拷贝到工作内存（缓存）中，进行一定的操作之后，再写入主内存，但是什么时候写入是不确定的。那么由于两个线程工作在两个cpu上，如果cpu1修改了i，但是没有及时写入主内存，而cpu2直接去读取i，结果就是这个i不是最新的。</p>
-<p>用volatile修饰了的变量，在被修改之后会强制立即写入主内存。这样能保证在读取的时候一定是最新的。并且读取操作也是直接从主内存中读取。</p>
-<p>因此volatile保证了对于其他线程的可见性。</p>
-<h3 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h3><p>在JVM中，编译器和处理器可能会对指令进行重排，或许是为了优化，但是如果被volatile修饰的变量则会告诉编译器不要重排指令，按照顺序执行就可以，避免了并发产生的问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">a++;</span><br><span class="line">b++;</span><br></pre></td></tr></table></figure></p>
-<p>以上代码可以重排列成如下，因为a与b之间没有依赖。如果有依赖并且重排的话则会产生并发问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">a++;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line">b++;</span><br></pre></td></tr></table></figure></p>
-<p>当然也可以使用synchronized和lock来保证有序，因为在某个时间段只有一个线程能执行被修饰的代码。</p>
-<p>优先选择一定是sychronized，除非只有一个变量，否则都不应该只使用volatile，他并不能保证并发的冲突不发生。同样的也不能改变自加不是原子性的本质。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjnlmubry0019lgmjmlzsh90q" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjnmvdw2k000ytsmj5hhuq543" class="article-share-link">Share</a>
       
       
     </footer>
@@ -733,6 +739,10 @@
       <ul>
         
           <li>
+            <a href="/2018/10/23/Java-PassByValue/">Pass by value or reference</a>
+          </li>
+        
+          <li>
             <a href="/2018/10/22/Java-ClassFileFormat/">Class File Format</a>
           </li>
         
@@ -746,10 +756,6 @@
         
           <li>
             <a href="/2018/10/15/Java-MeroryAndObjectOfJVM/">JVM中的内存与对象</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
           </li>
         
       </ul>

@@ -62,6 +62,48 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
+  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/">LinearLayout设置gravity不生效</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
+<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjnmvdw190001tsmjk24u4ivh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Android-区分tablet和mobile" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/26/Android-区分tablet和mobile/" class="article-date">
@@ -98,7 +140,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjnlmubr20008lgmjixr7mgyp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjnmvdw1p0008tsmjg7v5nbpg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -176,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjnlmubr2000flgmj7862ow5l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjnmvdw1p000ftsmjncd3iuhp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -237,7 +279,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjnlmubri000klgmjp3x2y4ys" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjnmvdw24000ktsmjfv173pmn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -300,7 +342,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjnlmubry001hlgmj949k3eap" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjnmvdw2k001itsmjob59oxbe" class="article-share-link">Share</a>
       
       
     </footer>
@@ -358,7 +400,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjnlmubr2000hlgmjiao2unk0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjnmvdw24000htsmjr78tomxe" class="article-share-link">Share</a>
       
       
     </footer>
@@ -430,7 +472,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjnlmubri000tlgmjwroytd9c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjnmvdw24000ttsmjkm49r5k9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -481,7 +523,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjnlmubry001ilgmjagybcxa3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjnmvdw30001ltsmjzl55uvcw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -523,7 +565,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjnlmubqn0005lgmjg5ibc9yt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjnmvdw1p0005tsmjyupqj0md" class="article-share-link">Share</a>
       
       
     </footer>
@@ -564,7 +606,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/" data-id="cjnlmubr20007lgmjq6ouyv47" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/" data-id="cjnmvdw1p0007tsmjztwr85jt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -617,6 +659,10 @@
       <ul>
         
           <li>
+            <a href="/2018/10/23/Java-PassByValue/">Pass by value or reference</a>
+          </li>
+        
+          <li>
             <a href="/2018/10/22/Java-ClassFileFormat/">Class File Format</a>
           </li>
         
@@ -630,10 +676,6 @@
         
           <li>
             <a href="/2018/10/15/Java-MeroryAndObjectOfJVM/">JVM中的内存与对象</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
           </li>
         
       </ul>
