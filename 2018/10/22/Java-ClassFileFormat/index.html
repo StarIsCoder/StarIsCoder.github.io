@@ -21,7 +21,10 @@
 <meta property="og:image" content="http://yoursite.com/assets/Java_ClassFileDetail/Constant_pool.png">
 <meta property="og:image" content="http://yoursite.com/assets/Java_ClassFileDetail/FirstElement.jpg">
 <meta property="og:image" content="http://yoursite.com/assets/Java_ClassFileDetail/javapResult.jpg">
-<meta property="og:updated_time" content="2018-10-24T08:00:46.031Z">
+<meta property="og:image" content="http://yoursite.com/assets/Java_ClassFileDetail/this_class.jpg">
+<meta property="og:image" content="http://yoursite.com/assets/Java_ClassFileDetail/this_class2.jpg">
+<meta property="og:image" content="http://yoursite.com/assets/Java_ClassFileDetail/javap_method.jpg">
+<meta property="og:updated_time" content="2018-10-24T09:25:50.190Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Class File Format">
 <meta name="twitter:description" content="概述Class文件是一组以8位字节为基础单位的二进制流，可以用Hex Friend等工具打开。CLass结构：   无符号数：基本类型，u1,u2,u4,u4分别代表一个字节、两个字节、四个字节、八个字节的无符号数。 表：多个无符号数或者其他表作为数据项构成的复合数据类型，习惯以_info结尾，整个class文件本质上就是一张表。   class具体结构魔数每个class文件的头4个字节称为魔数，">
@@ -127,11 +130,22 @@
 <p><img src="/assets/Java_ClassFileDetail/FirstElement.jpg" alt=""></p>
 <p>可以使用javap反编译来确认下。第一个常量是这样的，和用hex friend计算出来是一样的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#1 = Methodref          #14.#27</span><br></pre></td></tr></table></figure></p>
 <p><img src="/assets/Java_ClassFileDetail/javapResult.jpg" alt=""></p>
+<h3 id="访问标志"><a href="#访问标志" class="headerlink" title="访问标志"></a>访问标志</h3><p>常量池之后是access_flags，这个标志用于识别一些类或者接口层次的访问信息，例如这个class是类还是接口，是public还是abstract等等。使用javap也可以看到标志。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flags: (0x0021) ACC_PUBLIC, ACC_SUPER</span><br></pre></td></tr></table></figure></p>
+<h3 id="类索引、父类索引、接口索引集合"><a href="#类索引、父类索引、接口索引集合" class="headerlink" title="类索引、父类索引、接口索引集合"></a>类索引、父类索引、接口索引集合</h3><p>类索引和父类索引都是一个u2类型的数据，而接口索引集合是一组u2类型的数据。Class文件中由这三项来确定继承关系。</p>
+<p>类索引和父类索引各自指向一个类型为CONSTANT_Class_info的类描述符常量，通过这个类描述符常量中的索引值可以找到定义在CONSTANT_Utf8_info类型的常量中的全限定名字符串。</p>
+<p>例如图中this_class的索引是13，而13的索引又指向了55，55则代表这个类名。</p>
+<p><img src="/assets/Java_ClassFileDetail/this_class.jpg" alt=""></p>
+<p><img src="/assets/Java_ClassFileDetail/this_class2.jpg" alt=""></p>
+<h3 id="字段表集合"><a href="#字段表集合" class="headerlink" title="字段表集合"></a>字段表集合</h3><p>field_info用于描述接口或者类中声明的变量。字段包括类级变量以及实例级变量，不包括方法中的临时变量。</p>
+<p>字段表的结构用access_flags来表示作用域、是否final、是否static等等，另外用了两个索引来表示这个变量的名称和类型（有映射的字符，例如int对应I）。另外还有两个字段存储额外的信息，如果我们给一个变量赋了初始值，那么这两个字段就会有对应的值。</p>
+<h3 id="方法表集合"><a href="#方法表集合" class="headerlink" title="方法表集合"></a>方法表集合</h3><p>类似于字段表集合，由于方法没有volatile和transient关键字，因此access_flags中没有ACC_VOLATILE标志和ACC_TRANSIENT标志。而增加了synchronized、native等修饰方法的关键字。由于和字段表集合大同小异，不多赘述。</p>
+<p>但是需要注意的是方法中的代码被单独存放在了方法表中的code字段下，可以看到下图是用javap反编译出的main方法。access_flags是ACC_PUBLIC和ACC_STATIC，descriptor表示传入的参数和返回值。code字段下是方法中的代码。</p>
+<p><img src="/assets/Java_ClassFileDetail/javap_method.jpg" alt=""></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjnmvdw24000ptsmj004ymbg5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjnmygqrq000pxsmj74r1atjj" class="article-share-link">Share</a>
       
       
     </footer>
