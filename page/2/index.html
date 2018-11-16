@@ -62,6 +62,74 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java-Decorator" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/12/Java-Decorator/" class="article-date">
+  <time datetime="2018-10-12T16:00:00.000Z" itemprop="datePublished">2018-10-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/12/Java-Decorator/">装饰器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以奶茶店为例子，如果有红茶和绿茶两种，那么应该是这样的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">milktea</span> </span>&#123;</span><br><span class="line">    String description;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(getDescription());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">greenMilktea</span> <span class="keyword">extends</span> <span class="title">milktea</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">greenMilktea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        description = <span class="string">"green milktea"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">redMilktea</span> <span class="keyword">extends</span> <span class="title">milktea</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">redMilktea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        description = <span class="string">"red Milktea"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>都知道奶茶中可以加各种奇奇怪怪的东西，像燕麦，珍珠之类的，如果要加这些东西该怎么写比较好呢。</p>
+<p>第一种将所有能加的东西排列组合，并增加对应的类</p>
+<ul>
+<li>GreenMilkTeaWithPearl</li>
+<li>GreenMilkTeaWithSugar</li>
+<li>GreenMilkTeaWithSugarAndPearl</li>
+<li>RedMilkTeaWithPearl</li>
+<li>RedMilkTeaWithSugar</li>
+<li>RedMilkTeaWithSugarAndPearl</li>
+</ul>
+<p>这才只有两种配料，因此这种方式肯定不可取。</p>
+<p>第二种添加成员属性<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Milktea</span> </span>&#123;</span><br><span class="line">	<span class="comment">//配料</span></span><br><span class="line">    <span class="keyword">boolean</span> addSugar;</span><br><span class="line">    <span class="keyword">boolean</span> addPearl;</span><br><span class="line">    <span class="keyword">boolean</span> addIce;</span><br><span class="line">    </span><br><span class="line">    String description;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(getDescription());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这种相对好一点但是也有很多冗余的代码。其实最好的方式还是按照奶茶店的模式来，将红茶和绿茶作为饮品，而珍珠、糖之类的作为配料单都拿出来。也就是先把茶给制作出来，然后在对这个茶加不同的配料或者是对这个奶茶进行装饰。</p>
+<p>那么我们做茶的配方（代码）是没有变的。我们需要增加配料就可以了。这里加了冰激淋和糖。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Icecream</span> <span class="keyword">extends</span> <span class="title">Ingredients</span> </span>&#123;</span><br><span class="line">    Milktea mt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Icecream</span><span class="params">(Milktea mt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mt = mt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mt.getDescription() + <span class="string">" add Icecream"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sugar</span> <span class="keyword">extends</span> <span class="title">Ingredients</span> </span>&#123;</span><br><span class="line">    Milktea mt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Sugar</span><span class="params">(Milktea mt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mt = mt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mt.getDescription() + <span class="string">" add Sugar"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>有个疑问为什么要传入奶茶对象呢，因为当然要知道冰激凌要加在哪一杯奶茶中啊。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//没有任何配料的奶茶</span></span><br><span class="line">    Milktea mt = <span class="keyword">new</span> GreenMilktea();</span><br><span class="line">    mt.show();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//制作一杯红茶</span></span><br><span class="line">    Milktea mt2 = <span class="keyword">new</span> RedMilktea();</span><br><span class="line">   	<span class="comment">//加冰淇淋</span></span><br><span class="line">    mt2 = <span class="keyword">new</span> Icecream(mt2);</span><br><span class="line">    <span class="comment">//加糖</span></span><br><span class="line">    mt2 = <span class="keyword">new</span> Sugar(mt2);</span><br><span class="line">    <span class="comment">//交给客户</span></span><br><span class="line">    mt2.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">green Milktea</span><br><span class="line">red Milktea add Icecream add Sugar</span><br></pre></td></tr></table></figure>
+<p>看起来就像是把一个对象作为参数传递进去并包装了一下，通过层层嵌套的形式将一个对象包装起来。如果又来一个新配料也好办，使用方式都是一样的，新增一个类，将想要装饰的类传进去。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">......</span><br><span class="line">psvm &#123;</span><br><span class="line">    mt2 = <span class="keyword">new</span> Pearl(mt2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pearl</span> <span class="keyword">extends</span> <span class="title">Ingredients</span> </span>&#123;</span><br><span class="line">    Milktea mt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Pearl</span><span class="params">(Milktea mt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mt = mt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mt.getDescription() + <span class="string">" add Pearl"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>好处：</p>
+<ul>
+<li>完全不用修改原有的代码，容易扩展新的功能。</li>
+<li>原始类可以非常简单，之后根据需要对原始类进行包装。</li>
+</ul>
+<p>坏处：</p>
+<ul>
+<li>由于是嵌套的初始化形式，因此看起来很复杂。如果层数多了跟代码会特别困难。</li>
+</ul>
+<p>不管怎么说设计模式这种东西一定不能生搬硬套，而是要灵活应用。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjojlc1hh000yiwmjrxw15h3m" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java-parallel" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/09/Java-parallel/" class="article-date">
@@ -121,55 +189,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjojla4yz001g2gmj8jgmth2g" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java-Lamda" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/03/Java-Lamda/" class="article-date">
-  <time datetime="2018-10-03T16:00:00.000Z" itemprop="datePublished">2018-10-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/03/Java-Lamda/">Lamda表达式-Preview</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>Lamda表达式中引用的局部变量必须是final或既成事实上的值。<br>换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">str = <span class="string">"world"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//Variable used in lambda expression should be final or effectively final</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//valid</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="Predicate接口"><a href="#Predicate接口" class="headerlink" title="Predicate接口"></a>Predicate接口</h2><p>该接口表示传入的对象是否满足某种条件，并返回boolean作为真假判断。check下源码，该接口只接受一个参数，返回一个布尔值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>例如我们希望从一个int的列表中找到所有的偶数，那么Predicate可以这么写。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Predicate&lt;Integer&gt; predicate = integer -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> integer % <span class="number">2</span> == <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">predicate.negate();<span class="comment">// 过滤出所有的奇数</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>Lamda表达式是一个匿名的方法，将行为像数据一样传递。</li>
-<li>Lamda表达式也被称为闭包，未赋值的变量与周边环境隔离起来，进而被绑定到一个特定的值。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjojla4yj00132gmjrb8n3tst" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjojlc1hx001giwmj8i2vmr45" class="article-share-link">Share</a>
       
       
     </footer>
@@ -220,7 +240,55 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjojla4yj001c2gmjcxndbgle" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjojlc1hx001ciwmjkf2abhe9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java-Lamda" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/03/Java-Lamda/" class="article-date">
+  <time datetime="2018-10-03T16:00:00.000Z" itemprop="datePublished">2018-10-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/03/Java-Lamda/">Lamda表达式-Preview</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>Lamda表达式中引用的局部变量必须是final或既成事实上的值。<br>换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">str = <span class="string">"world"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//Variable used in lambda expression should be final or effectively final</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//valid</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="Predicate接口"><a href="#Predicate接口" class="headerlink" title="Predicate接口"></a>Predicate接口</h2><p>该接口表示传入的对象是否满足某种条件，并返回boolean作为真假判断。check下源码，该接口只接受一个参数，返回一个布尔值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>例如我们希望从一个int的列表中找到所有的偶数，那么Predicate可以这么写。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Predicate&lt;Integer&gt; predicate = integer -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> integer % <span class="number">2</span> == <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">predicate.negate();<span class="comment">// 过滤出所有的奇数</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Lamda表达式是一个匿名的方法，将行为像数据一样传递。</li>
+<li>Lamda表达式也被称为闭包，未赋值的变量与周边环境隔离起来，进而被绑定到一个特定的值。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjojlc1hh0013iwmjkgbcpz48" class="article-share-link">Share</a>
       
       
     </footer>
@@ -272,7 +340,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjojla4yj001f2gmj3kf6ugy3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjojlc1hx001fiwmjwc0l0ruz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -395,7 +463,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjojla4y4000u2gmjrvqyyfvg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjojlc1hh000uiwmjf128oojh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -457,7 +525,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjojla4xo000c2gmjulqyf1ib" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjojlc1h2000ciwmjbz5vskx0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -522,7 +590,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjojla4yj00172gmj33fizjby" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjojlc1hh0017iwmjd6tcq9dw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -576,7 +644,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjojla4y4000p2gmjdlctappd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjojlc1h2000piwmjnttr3lco" class="article-share-link">Share</a>
       
       
     </footer>
@@ -633,57 +701,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjojla4yj001b2gmjt7sztghc" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Kotlin-Constructor" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/06/Kotlin-Constructor/" class="article-date">
-  <time datetime="2018-09-06T16:00:00.000Z" itemprop="datePublished">2018-09-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/06/Kotlin-Constructor/">Constructor</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>最近在自定义布局的时候发现kotlin的构造函数和java差的很多，因此重新学习记录下，先从简单的开始，模仿java中的写法<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(i: <span class="built_in">Int</span>)</span><br><span class="line">    <span class="keyword">constructor</span>(i: <span class="built_in">Int</span>, j: <span class="built_in">Int</span>)</span><br><span class="line">    <span class="keyword">constructor</span>(name: String, i: <span class="built_in">Int</span>, j: <span class="built_in">Int</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(@NotNull String name, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(name, <span class="string">"name"</span>);</span><br><span class="line">      <span class="keyword">super</span>();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到这种写法和java差不多。kotlin还允许在class定义的时候直接写构造函数，这种构造函数叫主构造函数。</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">constructor</span>/*可省略*/</span>(i: <span class="built_in">Int</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>像这种直接在类名旁边的叫primary constructor，而类似于java那种写法的构造函数叫Secondary Constructors。主构造函数只能有一个，次构造函数可以有多个。但是由于主构造函数不能加代码，因此kotlin提供了init关键字<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">constructor</span>/*可省略*/</span>(i: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        println(<span class="string">"primary constructor i = <span class="variable">$i</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">      String var2 = <span class="string">"primary constructor i = "</span> + i;</span><br><span class="line">      System.out.println(var2);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那如果想同时有主构造函数和次构造函数怎么办呢,按照官方api说的是需要或直接或间接的委托于主构造函数，一开始没看懂，后来看了转成的java源码，原来他说的委托就是在次构造函数中调用主构造函数<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span>(name: String) &#123;</span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        println(<span class="string">"primary"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">constructor</span>() : <span class="keyword">this</span>(String())</span><br><span class="line">    <span class="keyword">constructor</span>(i: <span class="built_in">Int</span>) : <span class="keyword">this</span>(String())</span><br><span class="line">    <span class="keyword">constructor</span>(j: <span class="built_in">Int</span>, string: String) : <span class="keyword">this</span>(string)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(@NotNull String name)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(name, <span class="string">"name"</span>);</span><br><span class="line">      <span class="keyword">super</span>();</span><br><span class="line">      String var2 = <span class="string">"primary"</span>;</span><br><span class="line">      System.out.println(var2);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>(<span class="keyword">new</span> String());</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>(<span class="keyword">new</span> String());</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> j, @NotNull String string)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(string, <span class="string">"string"</span>);</span><br><span class="line">      <span class="keyword">this</span>(string);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>从这边可以看到init代码块中的代码是在主构造函数中的，不过由于次构造函数都会调用主构造函数，所以也无需纠结这个init代码块是否会被调用。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjojla4yz001j2gmjkz86loq2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjojlc1hx001biwmj55o4a1ea" class="article-share-link">Share</a>
       
       
     </footer>
@@ -736,6 +754,10 @@
       <ul>
         
           <li>
+            <a href="/2018/11/16/Untitled-2/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2018/11/16/Untitled-1/">(no title)</a>
           </li>
         
@@ -749,10 +771,6 @@
         
           <li>
             <a href="/2018/10/23/Java-PassByValue/">Pass by value or reference</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/22/Java-ClassFileFormat/">Class File Format</a>
           </li>
         
       </ul>
