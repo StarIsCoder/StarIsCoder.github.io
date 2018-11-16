@@ -62,143 +62,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Java-Decorator" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/12/Java-Decorator/" class="article-date">
-  <time datetime="2018-10-12T16:00:00.000Z" itemprop="datePublished">2018-10-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/12/Java-Decorator/">装饰器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以奶茶店为例子，如果有红茶和绿茶两种，那么应该是这样的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">milktea</span> </span>&#123;</span><br><span class="line">    String description;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(getDescription());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">greenMilktea</span> <span class="keyword">extends</span> <span class="title">milktea</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">greenMilktea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        description = <span class="string">"green milktea"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">redMilktea</span> <span class="keyword">extends</span> <span class="title">milktea</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">redMilktea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        description = <span class="string">"red Milktea"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>都知道奶茶中可以加各种奇奇怪怪的东西，像燕麦，珍珠之类的，如果要加这些东西该怎么写比较好呢。</p>
-<p>第一种将所有能加的东西排列组合，并增加对应的类</p>
-<ul>
-<li>GreenMilkTeaWithPearl</li>
-<li>GreenMilkTeaWithSugar</li>
-<li>GreenMilkTeaWithSugarAndPearl</li>
-<li>RedMilkTeaWithPearl</li>
-<li>RedMilkTeaWithSugar</li>
-<li>RedMilkTeaWithSugarAndPearl</li>
-</ul>
-<p>这才只有两种配料，因此这种方式肯定不可取。</p>
-<p>第二种添加成员属性<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Milktea</span> </span>&#123;</span><br><span class="line">	<span class="comment">//配料</span></span><br><span class="line">    <span class="keyword">boolean</span> addSugar;</span><br><span class="line">    <span class="keyword">boolean</span> addPearl;</span><br><span class="line">    <span class="keyword">boolean</span> addIce;</span><br><span class="line">    </span><br><span class="line">    String description;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(getDescription());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这种相对好一点但是也有很多冗余的代码。其实最好的方式还是按照奶茶店的模式来，将红茶和绿茶作为饮品，而珍珠、糖之类的作为配料单都拿出来。也就是先把茶给制作出来，然后在对这个茶加不同的配料或者是对这个奶茶进行装饰。</p>
-<p>那么我们做茶的配方（代码）是没有变的。我们需要增加配料就可以了。这里加了冰激淋和糖。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Icecream</span> <span class="keyword">extends</span> <span class="title">Ingredients</span> </span>&#123;</span><br><span class="line">    Milktea mt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Icecream</span><span class="params">(Milktea mt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mt = mt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mt.getDescription() + <span class="string">" add Icecream"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sugar</span> <span class="keyword">extends</span> <span class="title">Ingredients</span> </span>&#123;</span><br><span class="line">    Milktea mt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Sugar</span><span class="params">(Milktea mt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mt = mt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mt.getDescription() + <span class="string">" add Sugar"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>有个疑问为什么要传入奶茶对象呢，因为当然要知道冰激凌要加在哪一杯奶茶中啊。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//没有任何配料的奶茶</span></span><br><span class="line">    Milktea mt = <span class="keyword">new</span> GreenMilktea();</span><br><span class="line">    mt.show();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//制作一杯红茶</span></span><br><span class="line">    Milktea mt2 = <span class="keyword">new</span> RedMilktea();</span><br><span class="line">   	<span class="comment">//加冰淇淋</span></span><br><span class="line">    mt2 = <span class="keyword">new</span> Icecream(mt2);</span><br><span class="line">    <span class="comment">//加糖</span></span><br><span class="line">    mt2 = <span class="keyword">new</span> Sugar(mt2);</span><br><span class="line">    <span class="comment">//交给客户</span></span><br><span class="line">    mt2.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">green Milktea</span><br><span class="line">red Milktea add Icecream add Sugar</span><br></pre></td></tr></table></figure>
-<p>看起来就像是把一个对象作为参数传递进去并包装了一下，通过层层嵌套的形式将一个对象包装起来。如果又来一个新配料也好办，使用方式都是一样的，新增一个类，将想要装饰的类传进去。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">......</span><br><span class="line">psvm &#123;</span><br><span class="line">    mt2 = <span class="keyword">new</span> Pearl(mt2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pearl</span> <span class="keyword">extends</span> <span class="title">Ingredients</span> </span>&#123;</span><br><span class="line">    Milktea mt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Pearl</span><span class="params">(Milktea mt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mt = mt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mt.getDescription() + <span class="string">" add Pearl"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>好处：</p>
-<ul>
-<li>完全不用修改原有的代码，容易扩展新的功能。</li>
-<li>原始类可以非常简单，之后根据需要对原始类进行包装。</li>
-</ul>
-<p>坏处：</p>
-<ul>
-<li>由于是嵌套的初始化形式，因此看起来很复杂。如果层数多了跟代码会特别困难。</li>
-</ul>
-<p>不管怎么说设计模式这种东西一定不能生搬硬套，而是要灵活应用。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjojlc1hh000yiwmjrxw15h3m" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java-parallel" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/09/Java-parallel/" class="article-date">
-  <time datetime="2018-10-09T16:00:00.000Z" itemprop="datePublished">2018-10-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/09/Java-parallel/">并行化</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="并行和并发的区别"><a href="#并行和并发的区别" class="headerlink" title="并行和并发的区别"></a>并行和并发的区别</h2><ul>
-<li>并行：并行更着重于硬件层面，在不同的cpu上同时工作。</li>
-<li>并发：并发更着重与软件层面，描述的情况是两个以上的action可能同时发生。</li>
-</ul>
-<h2 id="stream的并行化处理"><a href="#stream的并行化处理" class="headerlink" title="stream的并行化处理"></a>stream的并行化处理</h2><p>调用parallelStream方法即可将stream并行化。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//list中的元素求和</span></span><br><span class="line">result = linkedList.stream().parallel().mapToInt(integer -&gt; integer).sum();</span><br></pre></td></tr></table></figure></p>
-<p>对应的串行化则是sequential()方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result = linkedList.stream().sequential().mapToInt(integer -&gt; integer).sum();</span><br></pre></td></tr></table></figure></p>
-<p>那么我们check下两者的运行时间<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    List&lt;Long&gt; times = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    List&lt;Integer&gt; linkedList = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000000</span>; i++) &#123;</span><br><span class="line">        linkedList.add(<span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">        <span class="comment">//Parallel</span></span><br><span class="line">        result = linkedList.stream().parallel().mapToInt(integer -&gt; integer).sum();</span><br><span class="line">        <span class="comment">//Sequential</span></span><br><span class="line">        result = linkedList.stream().sequential().mapToInt(integer -&gt; integer).sum();</span><br><span class="line">        System.out.println(result);</span><br><span class="line">        times.add(System.currentTimeMillis() - startTime);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(getAverage(times));</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">private</span> <span class="keyword">long</span> <span class="title">getAverage</span><span class="params">(List&lt;Long&gt; times)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> average = times.stream().reduce((acc, element) -&gt; acc + element).get() / times.size();</span><br><span class="line">    <span class="keyword">return</span> average;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Parallel Result:1754</span><br><span class="line">Sequential Result:249</span><br></pre></td></tr></table></figure>
-<p>可以看到并行并不是一定性能更好，并行能提升性能的前提在于数据量足够大，主要有四点</p>
-<ul>
-<li>数据大小：如上例，只有输入的数据足够大的时候才有用。</li>
-<li>源数据结构：上述例子使用的数据结构是LinkedList,之后用ArrayList看看效果。</li>
-<li>装箱：处理基本类型要比装箱类型要快。</li>
-<li>核的数量：如果只有一个cpu，那就没有并行的意义。换句话说核越多，性能提升幅度越大。</li>
-</ul>
-<p>换成ArrayList试下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; linkedList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000000</span>; i++) &#123;</span><br><span class="line">        linkedList.add(<span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">        result = linkedList.stream().parallel().mapToInt(integer -&gt; integer).sum();</span><br><span class="line">        times.add(System.currentTimeMillis() - startTime);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(getAverage(times));</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result:86</span><br></pre></td></tr></table></figure>
-<p>可以看到性能一下子就提升了。因此数据结构对数据并行化影响很大。</p>
-<p>因为求和原理是fork/join框架，也就是fork递归细分问题，最后通过join将数据整合，因此数据结构分解的性能至关重要。</p>
-<ul>
-<li>T1:ArrayList、数组或IntStream,支持随机读取。</li>
-<li>T2:HashSet、TreeSet等等。</li>
-<li>T3:上述的LinkedList，还有长度未知的BufferedReader.lines，因为不知从哪里开始分解。</li>
-</ul>
-<h2 id="数据的并行化处理"><a href="#数据的并行化处理" class="headerlink" title="数据的并行化处理"></a>数据的并行化处理</h2><p>需要将一个数组作为参数传入Arrays.parallelSetAll()方法，不过需要注意的是<strong>传入的数组会被修改</strong>，并不是创建一个新的数组。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">double</span>[] doubles = <span class="keyword">new</span> <span class="keyword">double</span>[<span class="number">10</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        doubles[i] = i;</span><br><span class="line">    &#125;</span><br><span class="line">    Arrays.parallelSetAll(doubles, i -&gt; i + <span class="number">0.5</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">double</span> d : doubles) &#123;</span><br><span class="line">        System.out.println(d);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">0.5</span><br><span class="line">1.5</span><br><span class="line">2.5</span><br><span class="line">3.5</span><br><span class="line">4.5</span><br><span class="line">5.5</span><br><span class="line">6.5</span><br><span class="line">7.5</span><br><span class="line">8.5</span><br><span class="line">9.5</span><br></pre></td></tr></table></figure>
-<h2 id="并行化的陷阱"><a href="#并行化的陷阱" class="headerlink" title="并行化的陷阱"></a>并行化的陷阱</h2><p>下面代码在串行和并行情况下结果不一样<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; integerList = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">integerList.add(<span class="number">1</span>);</span><br><span class="line">integerList.add(<span class="number">2</span>);</span><br><span class="line">integerList.add(<span class="number">3</span>);</span><br><span class="line">integerList.add(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">int</span> i = integerList.stream().parallel().reduce(<span class="number">5</span>, (acc, element) -&gt; acc * element);</span><br><span class="line">System.out.println(i);</span><br></pre></td></tr></table></figure></p>
-<p>原因在于并行化了之后每个元素都执行了reduce(5, (acc, element) -&gt; acc * element)。</p>
-<p>原来是5 <em> 1 </em> 2 <em> 3 </em> 4，并行化后变成了5 <em> (5 </em> 1) <em> (5 </em> 2) <em> (5 </em> 3) <em> (5 </em> 4)。<br>正确的应该是<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = integerList.stream().parallel().reduce(<span class="number">1</span>, (acc, element) -&gt; acc * element) * <span class="number">5</span>;</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjojlc1hx001giwmj8i2vmr45" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-Java-Stream" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/03/Java-Stream/" class="article-date">
@@ -240,7 +103,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjojlc1hx001ciwmjkf2abhe9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjojldk09001d0smjijlw0qus" class="article-share-link">Share</a>
       
       
     </footer>
@@ -288,7 +151,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjojlc1hh0013iwmjkgbcpz48" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjojldk0900130smjdfegjf8s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -340,7 +203,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjojlc1hx001fiwmjwc0l0ruz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjojldk09001f0smjsdtlb60m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -463,7 +326,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjojlc1hh000uiwmjf128oojh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjojldjzt000v0smjbiigk47a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -525,7 +388,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjojlc1h2000ciwmjbz5vskx0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjojldjy200080smjo8101cg1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -590,7 +453,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjojlc1hh0017iwmjd6tcq9dw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjojldk0900170smjoch6uyfj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -644,7 +507,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjojlc1h2000piwmjnttr3lco" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjojldjzt000r0smjquxhyijv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -701,7 +564,126 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjojlc1hx001biwmj55o4a1ea" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjojldk09001b0smjfjs0b2wi" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Kotlin-Constructor" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/06/Kotlin-Constructor/" class="article-date">
+  <time datetime="2018-09-06T16:00:00.000Z" itemprop="datePublished">2018-09-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/06/Kotlin-Constructor/">Constructor</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>最近在自定义布局的时候发现kotlin的构造函数和java差的很多，因此重新学习记录下，先从简单的开始，模仿java中的写法<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(i: <span class="built_in">Int</span>)</span><br><span class="line">    <span class="keyword">constructor</span>(i: <span class="built_in">Int</span>, j: <span class="built_in">Int</span>)</span><br><span class="line">    <span class="keyword">constructor</span>(name: String, i: <span class="built_in">Int</span>, j: <span class="built_in">Int</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(@NotNull String name, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(name, <span class="string">"name"</span>);</span><br><span class="line">      <span class="keyword">super</span>();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到这种写法和java差不多。kotlin还允许在class定义的时候直接写构造函数，这种构造函数叫主构造函数。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">constructor</span>/*可省略*/</span>(i: <span class="built_in">Int</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>像这种直接在类名旁边的叫primary constructor，而类似于java那种写法的构造函数叫Secondary Constructors。主构造函数只能有一个，次构造函数可以有多个。但是由于主构造函数不能加代码，因此kotlin提供了init关键字<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">constructor</span>/*可省略*/</span>(i: <span class="built_in">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        println(<span class="string">"primary constructor i = <span class="variable">$i</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">      String var2 = <span class="string">"primary constructor i = "</span> + i;</span><br><span class="line">      System.out.println(var2);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那如果想同时有主构造函数和次构造函数怎么办呢,按照官方api说的是需要或直接或间接的委托于主构造函数，一开始没看懂，后来看了转成的java源码，原来他说的委托就是在次构造函数中调用主构造函数<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span>(name: String) &#123;</span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        println(<span class="string">"primary"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">constructor</span>() : <span class="keyword">this</span>(String())</span><br><span class="line">    <span class="keyword">constructor</span>(i: <span class="built_in">Int</span>) : <span class="keyword">this</span>(String())</span><br><span class="line">    <span class="keyword">constructor</span>(j: <span class="built_in">Int</span>, string: String) : <span class="keyword">this</span>(string)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(@NotNull String name)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(name, <span class="string">"name"</span>);</span><br><span class="line">      <span class="keyword">super</span>();</span><br><span class="line">      String var2 = <span class="string">"primary"</span>;</span><br><span class="line">      System.out.println(var2);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>(<span class="keyword">new</span> String());</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>(<span class="keyword">new</span> String());</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> j, @NotNull String string)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(string, <span class="string">"string"</span>);</span><br><span class="line">      <span class="keyword">this</span>(string);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从这边可以看到init代码块中的代码是在主构造函数中的，不过由于次构造函数都会调用主构造函数，所以也无需纠结这个init代码块是否会被调用。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjojldk0o001j0smjezf5rwtw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android-Measure-Layout" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/05/Android-Measure-Layout/" class="article-date">
+  <time datetime="2018-09-05T16:00:00.000Z" itemprop="datePublished">2018-09-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/05/Android-Measure-Layout/">View的Measure&amp;和Layout</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在自定义view的时候比较重要的就是三个方法。</p>
+<ul>
+<li>onMeasure(int widthMeasureSpec, int heightMeasureSpec)</li>
+<li>onLayout(boolean changed, int left, int top, int right, int bottom)</li>
+<li>onDraw(Canvas canvas)</li>
+</ul>
+<h2 id="onMeasure"><a href="#onMeasure" class="headerlink" title="onMeasure"></a>onMeasure</h2><p>onMeasure方法是在view的measure方法中调用的。主要是控制控件的尺寸。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">measure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            ......</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (cacheIndex &lt; <span class="number">0</span> || sIgnoreMeasureCache) &#123;</span><br><span class="line">                <span class="comment">// measure ourselves, this should set the measured dimension flag back</span></span><br><span class="line">                onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">                mPrivateFlags3 &amp;= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">long</span> value = mMeasureCache.valueAt(cacheIndex);</span><br><span class="line">                <span class="comment">// Casting a long to int drops the high 32 bits, no mask needed</span></span><br><span class="line">                setMeasuredDimensionRaw((<span class="keyword">int</span>) (value &gt;&gt; <span class="number">32</span>), (<span class="keyword">int</span>) value);</span><br><span class="line">                mPrivateFlags3 |= PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ......</span><br></pre></td></tr></table></figure></p>
+<p>继续看onMeasure的实现，一直到最后一系列的调用就是给mMeasuredWidth和mMeasuredHeight赋值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),</span><br><span class="line">                getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setMeasuredDimension</span><span class="params">(<span class="keyword">int</span> measuredWidth, <span class="keyword">int</span> measuredHeight)</span></span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> optical = isLayoutModeOptical(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">if</span> (optical != isLayoutModeOptical(mParent)) &#123;</span><br><span class="line">        Insets insets = getOpticalInsets();</span><br><span class="line">        <span class="keyword">int</span> opticalWidth  = insets.left + insets.right;</span><br><span class="line">        <span class="keyword">int</span> opticalHeight = insets.top  + insets.bottom;</span><br><span class="line"></span><br><span class="line">        measuredWidth  += optical ? opticalWidth  : -opticalWidth;</span><br><span class="line">        measuredHeight += optical ? opticalHeight : -opticalHeight;</span><br><span class="line">    &#125;</span><br><span class="line">    setMeasuredDimensionRaw(measuredWidth, measuredHeight);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getDefaultSize</span><span class="params">(<span class="keyword">int</span> size, <span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = size;</span><br><span class="line">    <span class="keyword">int</span> specMode = MeasureSpec.getMode(measureSpec);</span><br><span class="line">    <span class="keyword">int</span> specSize = MeasureSpec.getSize(measureSpec);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">            result = size;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">            result = specSize;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>插播一段：因为在调用measure方法的时候传入的两个参数widthMeasureSpec和heightMeasureSpec都是通过MeasureSpec构造出来的，因此这个类可以简单了解下。</p>
+<p>这个measureSpec是一个32位int类型的数据，前两位表示mode，后30位表示size。因为他的掩码是11后面加30个零。例如getMode，掩码和measureSpec进行与运算，得到的一定是measureSpec的前两位，即mode值。也就是说根据mode值来设置返回不同的size。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MODE_MASK  = <span class="number">0x3</span> &lt;&lt; MODE_SHIFT;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMode</span><span class="params">(<span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (measureSpec &amp; MODE_MASK);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">(<span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (measureSpec &amp; ~MODE_MASK);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>因此如果复写onMeasure方法，能改动的变量也只有重新设置mMeasuredHeight和mMeasuredWidth。也就是调用setMeasuredDimension这个方法，将我们需要的height和width传进去即可。</strong></p>
+<h2 id="onLayout"><a href="#onLayout" class="headerlink" title="onLayout"></a>onLayout</h2><p>onLayout方法一样也是在layout()方法中调用的，作用是控制子控件的布局。因此view的onLayout方法是空的,因为只有ViewGroup才有子控件。不过ViewGroup的onLayout方法也只是个抽象类，实现的地方还是在ViewGroup的子类中。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed,<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>例如LinearLayout的onLayout方法,根据orientation进行不同的布局排版。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mOrientation == VERTICAL) &#123;</span><br><span class="line">        layoutVertical(l, t, r, b);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        layoutHorizontal(l, t, r, b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>之前碰到一个坑就是在vertical的LinearLayout情况下gravity的top和bottom不生效，当时理解为因为纵向线形布局的高度都是根据子view来决定的，这边看下源码印象更深刻,以vertical为例。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (absoluteGravity &amp; Gravity.HORIZONTAL_GRAVITY_MASK) &#123;</span><br><span class="line">        <span class="keyword">case</span> Gravity.CENTER_HORIZONTAL:</span><br><span class="line">            childLeft = paddingLeft + ((childSpace - childWidth) / <span class="number">2</span>)</span><br><span class="line">                                + lp.leftMargin - lp.rightMargin;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">         <span class="keyword">case</span> Gravity.RIGHT:</span><br><span class="line">            childLeft = childRight - childWidth - lp.rightMargin;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> Gravity.LEFT:</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            childLeft = paddingLeft + lp.leftMargin;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在layoutVertical中对子view的排版只有RIGHT和LEFT两个属性，并没有对TOP和BOTTOM处理。</p>
+<p>其余还有些padding和margin等balabala各种属性要考虑到其中就不赘述了。</p>
+<h2 id="自定义Layout属性"><a href="#自定义Layout属性" class="headerlink" title="自定义Layout属性"></a>自定义Layout属性</h2><p>在学习写自定义Layout的时候，顺便练习了下自定义属性，主要以下几步</p>
+<ul>
+<li><p>新建attrs.xml,declare-styleable的name是自定义的布局名称，attr的name和format都自己定义</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">"MyLayout"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">"isVertical"</span> <span class="attr">format</span>=<span class="string">"boolean"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在布局文件中设置该属性</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">MyLayout</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">.......</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:isVertical</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在该类初始化的时候获取属性值</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isVertical: <span class="built_in">Boolean</span> = <span class="literal">false</span></span><br><span class="line"><span class="keyword">var</span> t = context?.obtainStyledAttributes(attrs, R.styleable.MyLayout)</span><br><span class="line">isVertical = t!!.getBoolean(R.styleable.MyLayout_isVertical, <span class="literal">false</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjojldjy200040smjw5m4q1gx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -754,14 +736,6 @@
       <ul>
         
           <li>
-            <a href="/2018/11/16/Untitled-2/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/16/Untitled-1/">(no title)</a>
-          </li>
-        
-          <li>
             <a href="/2018/11/14/OS-bash-profile-mac/">bash_profile for mac</a>
           </li>
         
@@ -771,6 +745,14 @@
         
           <li>
             <a href="/2018/10/23/Java-PassByValue/">Pass by value or reference</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/22/Java-ClassFileFormat/">Class File Format</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/18/Algorithm-MaximumSubarray/">Maximum Subarray</a>
           </li>
         
       </ul>
