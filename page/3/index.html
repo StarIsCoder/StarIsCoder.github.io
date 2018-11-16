@@ -111,49 +111,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjoif1i1x000f40mjndpyj151" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
-  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/">LinearLayout设置gravity不生效</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
-<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjoif1i1h000140mjwehcrpz2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjojkct2t000focmj3gqdwswo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -201,7 +159,49 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjoif1i1h000340mjwbmv93wf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjojkct2d0003ocmjpdh0xvxq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
+  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/">LinearLayout设置gravity不生效</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
+<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjojkct2d0001ocmjymduu03u" class="article-share-link">Share</a>
       
       
     </footer>
@@ -247,7 +247,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjoif1i1x000b40mjbehb6dxh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjojkct2t000bocmjti1mrtuy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -325,7 +325,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjoif1i2e000h40mjr8eiq2db" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjojkct2t000hocmjo3966c52" class="article-share-link">Share</a>
       
       
     </footer>
@@ -386,7 +386,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjoif1i2e000m40mjvl47yrtb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjojkct38000mocmj70g6aniy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -449,7 +449,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjoif1i38001j40mj4oasul3t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjojkct3o001oocmjcwzgipst" class="article-share-link">Share</a>
       
       
     </footer>
@@ -507,7 +507,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjoif1i2e000k40mjv4mzgf0q" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjojkct38000kocmji9yczjuk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -579,7 +579,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjoif1i2s000v40mjqlidhhu3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjojkct38000vocmj3ev4qzkr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -630,7 +630,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjoif1i38001l40mjwthsegks" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjojkct3o001qocmjio9u5pdv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -683,7 +683,7 @@
       <ul>
         
           <li>
-            <a href="/2018/11/14/OS-bash-profile-mac/">script</a>
+            <a href="/2018/11/14/OS-bash-profile-mac/">bash_profile for mac</a>
           </li>
         
           <li>
