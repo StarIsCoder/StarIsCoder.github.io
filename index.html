@@ -93,12 +93,14 @@
 <p>可以看到是在执行do_free的时候产生的crash。一开始产生的堆栈一直指向的是将json转成string的一个函数，但是仔细查看了之后发现这一块逻辑没有问题，考虑到是在free的时候出现的问题，就去查看了free相关的函数，最后通过注释排查法找到了原因所在。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> ProximityRequestBodyBuilder::buildInitConnection(<span class="keyword">const</span> InitConnectionRequest&amp; request,<span class="built_in">std</span>::<span class="built_in">string</span> &amp; requestBody)&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> tmp;</span><br><span class="line">    <span class="keyword">json_t</span> *methodParaJson = json_object();</span><br><span class="line">    </span><br><span class="line">    tmp = request.displayName;</span><br><span class="line">    json_object_set_new(methodParaJson, <span class="string">"displayName"</span>, json_string(tmp.c_str()));</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">json_t</span> *requestJson = wrapper(methodParaJson, <span class="string">"initConnection"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> *requestStr = json_dumps(requestJson, <span class="number">0</span>);</span><br><span class="line">    requestBody = <span class="built_in">std</span>::<span class="built_in">string</span>(requestStr);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">free</span>(requestStr);</span><br><span class="line">    json_decref(requestJson);</span><br><span class="line">    json_decref(methodParaJson);<span class="comment">//导致了crash</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">json_t</span> *ProximityRequestBodyBuilder::wrapper(<span class="keyword">json_t</span> *parameterJson, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;methodName)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">json_t</span> *root = json_object();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//wrap token</span></span><br><span class="line">    json_object_set_new(root, <span class="string">"token"</span>, json_string(<span class="string">"ed2f"</span>));</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//wrap method</span></span><br><span class="line">    <span class="keyword">json_t</span> *methodPara = json_object();</span><br><span class="line">    json_object_set_new(methodPara, methodName.c_str(), parameterJson);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//wrap request</span></span><br><span class="line">    json_object_set_new(root, <span class="string">"request"</span>, methodPara);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在Jannson中使用的引用计数法，也就是哪里用到了这个对象就+1，对应的函数是<code>json_incref</code>，如果这个对象之后没用的话要-1，对应的函数是<code>json_decref</code>。</p>
 <p>但是在调用了<code>json_decref(requestJson)</code>之后，<code>methodParaJson</code>的引用计数也-1，那么之后再调用<code>json_decref(methodParaJson)</code>，就出现了各种问题。</p>
-<p>至于两者为什么会有耦合关系，是因为用<code>requestJson</code>将<code>methodParaJson</code>包装了一次。不过这边既然他自动给我-1，那讲道理在包装的时候应该也自动+1比较合理。关于这点已经提了issue：<a href="https://github.com/akheron/jansson/issues/449" target="_blank" rel="noopener">https://github.com/akheron/jansson/issues/449</a></p>
+<p>至于两者为什么会有耦合关系，是因为用<code>requestJson</code>将<code>methodParaJson</code>包装了一次。不过这边既然他自动给我-1，那讲道理在包装的时候应该也自动+1比较合理。</p>
+<p>后来check了一下源码才发现不应该用<code>json_object_set_new</code>,而应该用<code>json_object_set</code>。因为<code>json_object_set</code>才是真正+1的地方，而<code>json_object_set_new</code>并没有+1，其实感觉new这个关键字有一点误导人。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">json_object_set</span><span class="params">(<span class="keyword">json_t</span> *object, <span class="keyword">const</span> <span class="keyword">char</span> *key, <span class="keyword">json_t</span> *value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> json_object_set_new(object, key, json_incref(value));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">json_object_set_new</span><span class="params">(<span class="keyword">json_t</span> *json, <span class="keyword">const</span> <span class="keyword">char</span> *key, <span class="keyword">json_t</span> *value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!key || !utf8_check_string(key, <span class="built_in">strlen</span>(key)))</span><br><span class="line">    &#123;</span><br><span class="line">        json_decref(value);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> json_object_set_new_nocheck(json, key, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>关于这点已经提了issue：<a href="https://github.com/akheron/jansson/issues/449" target="_blank" rel="noopener">https://github.com/akheron/jansson/issues/449</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjoy214dt000uq0mjk8ljqcku" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjoy60bo2000u6omj0dks6nh5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -187,7 +189,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjoy214dd000mq0mjs22vl43r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjoy60bo2000m6omj33qhz0mm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -252,7 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjoy214eo0020q0mj4ezvuai4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjoy60box00206omj63g6nny0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -313,7 +315,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjoy214cy0007q0mjn88r6xc2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjoy60bnn00076omj9nqezwlx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -371,7 +373,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjoy214e9001eq0mj2moxn6o9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjoy60boi001e6omjjo481rub" class="article-share-link">Share</a>
       
       
     </footer>
@@ -451,7 +453,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjoy214dt000vq0mjx09p7tmd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjoy60bo2000v6omj30t2a8bd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -501,7 +503,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjoy214ci0000q0mj4yamjmk0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjoy60bmr00006omjpxnldxqt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -596,7 +598,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjoy214dt0015q0mj0ymngt40" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjoy60boi00156omjf1ha5tb0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -674,7 +676,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjoy214dt001aq0mj4i6r03q7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjoy60boi001a6omjj2gpn9gm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -722,7 +724,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjoy214e9001sq0mjq4z781gw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjoy60box001s6omjf05axch0" class="article-share-link">Share</a>
       
       
     </footer>
