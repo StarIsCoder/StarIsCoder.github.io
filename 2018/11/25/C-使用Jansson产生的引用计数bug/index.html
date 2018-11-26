@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>使用Jansson产生的引用计数bug | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在使用Jannson的时候，偶现了一个bug。1JanssonTest(83740,0x1003ac380) malloc: *** error for object 0x100600058: incorrect checksum for freed object - object was probably modified after being freed. 跟踪了一下代码发现是在free">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Jansson产生的引用计数bug">
+<meta property="og:url" content="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="最近在使用Jannson的时候，偶现了一个bug。1JanssonTest(83740,0x1003ac380) malloc: *** error for object 0x100600058: incorrect checksum for freed object - object was probably modified after being freed. 跟踪了一下代码发现是在free">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-26T08:31:47.980Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Jansson产生的引用计数bug">
+<meta name="twitter:description" content="最近在使用Jannson的时候，偶现了一个bug。1JanssonTest(83740,0x1003ac380) malloc: *** error for object 0x100600058: incorrect checksum for freed object - object was probably modified after being freed. 跟踪了一下代码发现是在free">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-C-使用Jansson产生的引用计数bug" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/25/C-使用Jansson产生的引用计数bug/" class="article-date">
+  <time datetime="2018-11-25T16:00:00.000Z" itemprop="datePublished">2018-11-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用Jansson产生的引用计数bug
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在使用Jannson的时候，偶现了一个bug。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JanssonTest(83740,0x1003ac380) malloc: *** error for object 0x100600058: incorrect checksum for freed object - object was probably modified after being freed.</span><br></pre></td></tr></table></figure></p>
+<p>跟踪了一下代码发现是在free的时候出现的问题。由于是free的时候出现的，因此crash的堆栈还有所不同。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">jsonp_free</span><span class="params">(<span class="keyword">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!ptr)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    (*do_free)(ptr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到是在执行do_free的时候产生的crash。一开始产生的堆栈一直指向的是将json转成string的一个函数，但是仔细查看了之后发现这一块逻辑没有问题，考虑到是在free的时候出现的问题，就去查看了free相关的函数，最后通过注释排查法找到了原因所在。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> ProximityRequestBodyBuilder::buildInitConnection(<span class="keyword">const</span> InitConnectionRequest&amp; request,<span class="built_in">std</span>::<span class="built_in">string</span> &amp; requestBody)&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> tmp;</span><br><span class="line">    <span class="keyword">json_t</span> *methodParaJson = json_object();</span><br><span class="line">    </span><br><span class="line">    tmp = request.displayName;</span><br><span class="line">    json_object_set_new(methodParaJson, <span class="string">"displayName"</span>, json_string(tmp.c_str()));</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">json_t</span> *requestJson = wrapper(methodParaJson, <span class="string">"initConnection"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> *requestStr = json_dumps(requestJson, <span class="number">0</span>);</span><br><span class="line">    requestBody = <span class="built_in">std</span>::<span class="built_in">string</span>(requestStr);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">free</span>(requestStr);</span><br><span class="line">    json_decref(requestJson);</span><br><span class="line">    json_decref(methodParaJson);<span class="comment">//导致了crash</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">json_t</span> *ProximityRequestBodyBuilder::wrapper(<span class="keyword">json_t</span> *parameterJson, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;methodName)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">json_t</span> *root = json_object();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//wrap token</span></span><br><span class="line">    json_object_set_new(root, <span class="string">"token"</span>, json_string(<span class="string">"ed2f"</span>));</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//wrap method</span></span><br><span class="line">    <span class="keyword">json_t</span> *methodPara = json_object();</span><br><span class="line">    json_object_set_new(methodPara, methodName.c_str(), parameterJson);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//wrap request</span></span><br><span class="line">    json_object_set_new(root, <span class="string">"request"</span>, methodPara);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在Jannson中使用的引用计数法，也就是哪里用到了这个对象就+1，对应的函数是<code>json_incref</code>，如果这个对象之后没用的话要-1，对应的函数是<code>json_decref</code>。</p>
+<p>但是在调用了<code>json_decref(requestJson)</code>之后，<code>methodParaJson</code>的引用计数也-1，那么之后再调用<code>json_decref(methodParaJson)</code>，就出现了各种问题。</p>
+<p>至于两者为什么会有耦合关系，是因为用<code>requestJson</code>将<code>methodParaJson</code>包装了一次。不过这边既然他自动给我-1，那讲道理在包装的时候应该也自动+1比较合理。关于这点已经提了issue：<a href="https://github.com/akheron/jansson/issues/449" target="_blank" rel="noopener">https://github.com/akheron/jansson/issues/449</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjoy214dt000uq0mjk8ljqcku" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/15/C-Qt-Note/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Qt first&amp;last note</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/25/C-使用Jansson产生的引用计数bug/">使用Jansson产生的引用计数bug</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/15/C-Qt-Note/">Qt first&amp;last note</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/14/OS-bash-profile-mac/">bash_profile for mac</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/08/Android-Screenshot/">Screenshot</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/23/Java-PassByValue/">Pass by value or reference</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
