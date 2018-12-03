@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Dynamic Programming | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="动态规划动态规划的原则就是讲复杂问题分为若干个简单的子问题依次求解，在某些地方有那么一点像递归，不过由于递归的循环调用会使得某些计算重复，使用动态规划的优化思路就是保存已经计算好的值。 FibonacciFibonacci以前都是用递归写的，但是这样的话就会有很多重复的值或者是已经计算好的值没有重复利用。1234567private void fib() &amp;#123;    fibresult[0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dynamic Programming">
+<meta property="og:url" content="http://yoursite.com/2018/12/02/Algorithm-DP/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="动态规划动态规划的原则就是讲复杂问题分为若干个简单的子问题依次求解，在某些地方有那么一点像递归，不过由于递归的循环调用会使得某些计算重复，使用动态规划的优化思路就是保存已经计算好的值。 FibonacciFibonacci以前都是用递归写的，但是这样的话就会有很多重复的值或者是已经计算好的值没有重复利用。1234567private void fib() &amp;#123;    fibresult[0">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/assets/Algorithm_DP/fib_tree.png">
+<meta property="og:updated_time" content="2018-12-03T11:53:15.803Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dynamic Programming">
+<meta name="twitter:description" content="动态规划动态规划的原则就是讲复杂问题分为若干个简单的子问题依次求解，在某些地方有那么一点像递归，不过由于递归的循环调用会使得某些计算重复，使用动态规划的优化思路就是保存已经计算好的值。 FibonacciFibonacci以前都是用递归写的，但是这样的话就会有很多重复的值或者是已经计算好的值没有重复利用。1234567private void fib() &amp;#123;    fibresult[0">
+<meta name="twitter:image" content="http://yoursite.com/assets/Algorithm_DP/fib_tree.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Algorithm-DP" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/02/Algorithm-DP/" class="article-date">
+  <time datetime="2018-12-02T16:00:00.000Z" itemprop="datePublished">2018-12-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Dynamic Programming
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>动态规划的原则就是讲复杂问题分为若干个简单的子问题依次求解，在某些地方有那么一点像递归，不过由于递归的循环调用会使得某些计算重复，使用动态规划的优化思路就是保存已经计算好的值。</p>
+<h2 id="Fibonacci"><a href="#Fibonacci" class="headerlink" title="Fibonacci"></a>Fibonacci</h2><p>Fibonacci以前都是用递归写的，但是这样的话就会有很多重复的值或者是已经计算好的值没有重复利用。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fib</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    fibresult[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    fibresult[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; n; i++) &#123;</span><br><span class="line">        fibresult[i] = fibresult[i - <span class="number">1</span>] + fibresult[i - <span class="number">2</span>];</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不过如图中所示，fib(4)调用了两次，fib(3)调用了三次等等。</p>
+<p><img src="/assets/Algorithm_DP/fib_tree.png" alt=""></p>
+<p>因此如果能把fib(4)和fib(i)保存起来的话会好很多。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fib</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DP[<span class="number">0</span>] = DP[<span class="number">1</span>] = <span class="number">1</span>; </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        DP[i] = DP[i-<span class="number">1</span>] + DP[i-<span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="卖酒的最高收益"><a href="#卖酒的最高收益" class="headerlink" title="卖酒的最高收益"></a>卖酒的最高收益</h2><p>酒架上有N瓶酒，每瓶酒的价格不同，分别为pi，酒的价格随着年份增长，比如一瓶酒原来10，假设今年为year 1，等到了year y，酒的价格就变为了10 * y。</p>
+<p>现在你想把这些酒全卖了，但是有两个规定，一是一年只能卖一瓶，二是每次都只能从酒架上的最左边或者最右边卖酒。要求出最高收益。</p>
+<p>比如有这四瓶酒，p1=1, p2=4, p3=2, p4=3，那么最高收益就是1 <em> 1 + 3 </em> 2 + 2 <em> 3 + 4 </em> 4 = 29。</p>
+<p>很明显需要用到递归，每一次都取最左边的收益和最右边收益之间的最大值即可。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maximumSellWineProfie</span><span class="params">(<span class="keyword">int</span> year, <span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (begin &gt; end) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Math.max(maximumSellWineProfie(year + <span class="number">1</span>, begin + <span class="number">1</span>, end) + year * p[begin],</span><br><span class="line">            maximumSellWineProfie(year + <span class="number">1</span>, begin, end - <span class="number">1</span>) + year * p[end]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不过year这个变量似乎是用不上的，因为他是可以根据酒瓶的数量计算出来的。因此将year去掉的话<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maximumSellWineProfie</span><span class="params">(<span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (begin &gt; end) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> year = p.length - (end - begin + <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> Math.max(maximumSellWineProfie(begin + <span class="number">1</span>, end) + year * p[begin],</span><br><span class="line">                    maximumSellWineProfie(begin, end - <span class="number">1</span>) + year * p[end]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ok，现在开始有点像之前的Fibonacci了，那么接下来的任务就是将计算的值保存下来，因为有两个变量所以需要一个二维数组。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> N;</span><br><span class="line"><span class="keyword">int</span> p[N];</span><br><span class="line"><span class="keyword">int</span> cache[N][N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">profit</span><span class="params">(<span class="keyword">int</span> be, <span class="keyword">int</span> en)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (be &gt; en)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// initial value</span></span><br><span class="line">    <span class="keyword">if</span> (cache[be][en] != -<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> cache[be][en];</span><br><span class="line">    <span class="keyword">int</span> year = N - (en-be+<span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> cache[be][en] = max(</span><br><span class="line">        profit(be+<span class="number">1</span>, en) + year * p[be],</span><br><span class="line">        profit(be, en-<span class="number">1</span>) + year * p[en]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以发现动态规划也不是一步实现的，而是先用递归或者循环，然后删除一些不需要的变量，避免重复的计算加以优化即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjp89b3di0000m8mjva15r1ho" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/25/C-使用Jansson产生的引用计数bug/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用Jansson产生的引用计数bug</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/12/02/Algorithm-DP/">Dynamic Programming</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/25/C-使用Jansson产生的引用计数bug/">使用Jansson产生的引用计数bug</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/15/C-Qt-Note/">Qt first&amp;last note</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/14/OS-bash-profile-mac/">bash_profile for mac</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/08/Android-Screenshot/">Screenshot</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

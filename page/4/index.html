@@ -62,6 +62,64 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-C-Pointer-Note" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/06/C-Pointer-Note/" class="article-date">
+  <time datetime="2018-08-06T16:00:00.000Z" itemprop="datePublished">2018-08-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/06/C-Pointer-Note/">Pointer Note</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>指针也是一种变量，特殊之处在于它存储的是变量的地址，如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">6</span>;</span><br><span class="line">    <span class="comment">//assign the address of i to pointer</span></span><br><span class="line">    <span class="keyword">int</span> *pointer = &amp;i;</span><br><span class="line">    <span class="keyword">int</span> *pointer1 = <span class="keyword">new</span> <span class="keyword">int</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>操作符*被叫做间接值或者解除应用</p>
+<p><em><strong>Warning: 一定要在对指针使用*之前，将指针初始化为一个确定的、适当的地址</strong></em></p>
+<h2 id="运算符new"><a href="#运算符new" class="headerlink" title="运算符new"></a>运算符new</h2><p>在C中，使用malloc来分配内存，在c++中则使用new关键字。<br>为一个数据对象获得并制定分配内存的通用格式：<br>_typeName * pointer_name = new typeName;_</p>
+<p>一旦我们不需要该指针，应该使用delete关键字将该指针释放，new和delete必须成对出现，否则会发生memory leak。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *ps = <span class="keyword">new</span> <span class="keyword">int</span>;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">delete</span> ps;</span><br></pre></td></tr></table></figure></p>
+<p>这将释放ps指针所指向的内存，但不会删除ps本身，也就是说可以继续将ps指向其他地址。</p>
+<h2 id="动态数组"><a href="#动态数组" class="headerlink" title="动态数组"></a>动态数组</h2><p>使用new关键字来创建动态数组，并且返回的是该数组第一个元素的地址，如果想要获得第二个元素的地址，则需要将该指针加1，如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">// insert code here...</span></span><br><span class="line">    <span class="keyword">int</span> *<span class="built_in">array</span> = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">    <span class="built_in">array</span>[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">array</span>[<span class="number">1</span>] = <span class="number">3</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">array</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">array</span> = <span class="built_in">array</span> + <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">array</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Result:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">3</span><br></pre></td></tr></table></figure></p>
+<h2 id="动态结构"><a href="#动态结构" class="headerlink" title="动态结构"></a>动态结构</h2><p>结构体同样可以使用new关键字。不同的是无法使用句点运算符，取而代之的是-&gt;运算符，如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">things</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> price;</span><br><span class="line">    <span class="keyword">int</span> sum;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">// insert code here...</span></span><br><span class="line">    things t = &#123;<span class="number">3</span>,<span class="number">18</span>&#125;;</span><br><span class="line">    things * tpt = &amp;t;</span><br><span class="line">    <span class="comment">//things * tpt = new things;</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; tpt-&gt;price;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Result:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3</span><br></pre></td></tr></table></figure></p>
+<h2 id="指针与字符串"><a href="#指针与字符串" class="headerlink" title="指针与字符串"></a>指针与字符串</h2><p>一般来说如果给cout提供一个指针的话，他将打印地址，但是如果指针的类型为char <em>，那么cout的指针其实指向的是char</em>的第一个字符的地址，并且会依次往后直到结束符。如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> * c = <span class="string">"dog"</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"c :"</span> &lt;&lt; c;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt;<span class="string">"*c :"</span> &lt;&lt; *c;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt;<span class="string">"第一个字符的地址 ："</span> &lt;&lt; (<span class="keyword">int</span>*)c;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">c :dog</span><br><span class="line">*c :d</span><br><span class="line">第一个字符的地址 ：0x100001edc</span><br></pre></td></tr></table></figure>
+<h2 id="管理内存的三种方式"><a href="#管理内存的三种方式" class="headerlink" title="管理内存的三种方式"></a>管理内存的三种方式</h2><ul>
+<li>自动存储<br>在函数内部定义的常规变量使用自动存储空间，被称为自动变量，也就是说在函数执行完成之后会自动销毁。自动变量存储在栈中，采用先进后出的形式。</li>
+<li>静态存储<br>变量成为静态的方式有两种，一是在函数外面定义；二是使用static关键字。</li>
+<li>动态存储<br>使用new和delete管理内存，它们管理了一个内存池，被成为自由存储空间或堆，这个内存池和静态比变量以及自动变量的内存是分开的。</li>
+</ul>
+<p>目前为C++ Primer Plus的第四章。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjp89b3ed000lm8mj2td7h8px" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java-Container" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/04/Java-Container/" class="article-date">
@@ -124,7 +182,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjoy60boi00106omjkfyy9iqz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjp89b3ed0011m8mjivbhqqtt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -175,7 +233,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjoy60box001x6omjzvh9d6v7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjp89b3f9001tm8mj9c59xisa" class="article-share-link">Share</a>
       
       
     </footer>
@@ -217,7 +275,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjoy60bnn00056omjptavkk3b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjp89b3dy0007m8mjooxcramk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -258,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/" data-id="cjoy60bnn00086omjyjsmlvwc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/" data-id="cjp89b3dy000bm8mjk9ymocig" class="article-share-link">Share</a>
       
       
     </footer>
@@ -298,7 +356,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -309,6 +367,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/12/02/Algorithm-DP/">Dynamic Programming</a>
+          </li>
         
           <li>
             <a href="/2018/11/25/C-使用Jansson产生的引用计数bug/">使用Jansson产生的引用计数bug</a>
@@ -324,10 +386,6 @@
         
           <li>
             <a href="/2018/11/08/Android-Screenshot/">Screenshot</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/23/Java-PassByValue/">Pass by value or reference</a>
           </li>
         
       </ul>
