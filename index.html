@@ -62,6 +62,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Algorithm-TraversalBinaryTree" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/03/Algorithm-TraversalBinaryTree/" class="article-date">
+  <time datetime="2018-12-03T16:00:00.000Z" itemprop="datePublished">2018-12-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/03/Algorithm-TraversalBinaryTree/">Traversal Binary Tree</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>遍历二叉树主要有三种方式</p>
+<ul>
+<li>中序(Inorder)</li>
+<li>前序(Preorder)</li>
+<li>后序(Postorder)</li>
+</ul>
+<p>假设有一个这样的二叉树<br>     5<br>   /   \<br>  1     3<br> / \   / \<br>4   2 6   7</p>
+<ul>
+<li>前序：5 - 1 - 4 - 2 - 3 - 6 - 7</li>
+<li>后序：4 - 2 - 1 - 6 - 7 - 3 - 5</li>
+<li>中序：4 - 1 - 2 - 5 - 6 - 3 - 7</li>
+</ul>
+<p>然后看下如何用代码实现这些,可以看到区别在于是先遍历还是先处理节点上的数据。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printPostorder</span><span class="params">(List list, TreeNode node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    printPostorder(list, node.left);</span><br><span class="line">    printPostorder(list, node.right);</span><br><span class="line">    list.add(node.val);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printPreorder</span><span class="params">(List list, TreeNode node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    list.add(node.val);</span><br><span class="line">    printPreorder(list, node.left);</span><br><span class="line">    printPreorder(list, node.right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printInorder</span><span class="params">(List list, TreeNode node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    printInorder(list, node.left);</span><br><span class="line">    list.add(node.val);</span><br><span class="line">    printInorder(list, node.right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjp9kjspk0004jsmj8xwicc2n" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Algorithm-DP" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/02/Algorithm-DP/" class="article-date">
@@ -104,7 +157,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjp9i667000003smj21oufzqc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjp9kjsoo0000jsmj58xa37ju" class="article-share-link">Share</a>
       
       
     </footer>
@@ -152,7 +205,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjp9i668b000u3smjrk90w9iw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjp9kjsqf000zjsmjawapzbay" class="article-share-link">Share</a>
       
       
     </footer>
@@ -241,7 +294,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjp9i667w000o3smjghrqoeya" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjp9kjsqf000rjsmj7uhocptc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -306,7 +359,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjp9i668r001u3smj6qlygx09" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjp9kjsra0023jsmjfk0tkbi3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -367,7 +420,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjp9i667g00083smjcv1nk0ly" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjp9kjspz000cjsmj5dudaztz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -425,7 +478,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjp9i668r001d3smjux7xz866" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjp9kjsqu001kjsmjh046aptn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -505,7 +558,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjp9i668b000x3smj1jbjzgdl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjp9kjsqf0011jsmj1x1cvtbf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -555,7 +608,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjp9i667000013smj5age2uki" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjp9kjspk0003jsmjf329ikq2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -650,85 +703,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjp9i668b00153smjjvuwg4ue" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java-MeroryAndObjectOfJVM" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/15/Java-MeroryAndObjectOfJVM/" class="article-date">
-  <time datetime="2018-10-15T16:00:00.000Z" itemprop="datePublished">2018-10-16</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/15/Java-MeroryAndObjectOfJVM/">JVM中的内存与对象</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="虚拟机内存的各个区域"><a href="#虚拟机内存的各个区域" class="headerlink" title="虚拟机内存的各个区域"></a>虚拟机内存的各个区域</h2><p>按照私有和共享对区域进行区分</p>
-<ul>
-<li>私有<ul>
-<li>程序计数器：当前线程所执行的字节码的行号指示器。在Java虚拟机里面，字节码解释器就是通过这个行号来读取下一条要运行的指令，也可以说是记录了正在执行的虚拟机字节码指令的地址。在线程切换还有基础的逻辑（if、循环、switch）都需要用到这个程序计数器。每条线程都有一个独立的程序计数器。</li>
-<li>虚拟机栈：每个方法在创建的同时会创建一个栈帧（Stack Frame），用于存储局部变量表、操作数栈、方法出口等。也就是说当我们调用某个方法，那么就会有个栈帧入栈，当执行完成了，该栈帧就会出栈。也可把虚拟机栈叫做局部变量表，存放了基本数据类型和reference类型，returnAddress类型。</li>
-<li>本地方法栈：与虚拟机栈非常类似，不过本地方法栈执行的是native方法。</li>
-</ul>
-</li>
-<li>共享<ul>
-<li>堆：被所有线程共享的内存区域，唯一的目的就是存放对象实例，也是GC作用的主要区域。</li>
-<li>方法区：存储已被虚拟机加载的类信息、常量、静态变量等数据。<ul>
-<li>运行时常量池：存放编译期生成的各种字面量和符号引用。也就是加载类的各种描述信息。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h2><ol>
-<li>检查常量池中是否有该类的符号引用。并查看该类是否被加载、初始化，如果没有那么需要先执行类加载过程。</li>
-<li><p>为对象分配一块确定大小的内存，有两种方式，根据堆是否规整来决定，决定堆是否规整是由采用的GC方式是否带有压缩整理功能。</p>
-<ul>
-<li>指针碰撞：如果Java堆中内存是绝对规整的，那么会将堆分成两部分，一部分是已经使用的内存，一部分是未使用的内存，分界线就是指针，如果需要分配内存那么移动指针即可。</li>
-<li><p>空闲列表：如果不是绝对规整的，那么就需要创建两个列表来维护。</p>
-<p>需要考虑内存的分配是否有线程安全问题。一个方案是进行同步处理，采用CAS配上失败重试的方法来保证更新操作的原子性。另一种方案则是每个线程在堆中预先分配一小块内存。称为本地线程分配缓冲（Thread Local Allocation Buffer,TLAB），哪个线程需要创建对象，先从TLAB上分配，当TLAB分配光了，再用同步的方式分配新的TLAB。</p>
-</li>
-</ul>
-</li>
-<li><p>分配完内存之后，将分配到的内存空间都初始化为零值。保证对象的实例字段可以不被赋值就直接使用。</p>
-</li>
-<li>设置一些信息，例如类的元数据信息，哈希码，GC分代年龄等等。</li>
-<li>执行init方法，按照我们的意愿进行初始化。</li>
-</ol>
-<h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><p>对象的内存布局主要有三块：对象头、实例数据、对齐填充。</p>
-<p>对象头：</p>
-<p>第一部分为Mark Word，用于存储对象自身的运行时数据，例如哈希码、GC分代年龄、线程持有的锁等等。由于对象头信息与对象自身的数据没有关系，因此属于额外成本，因为被设计成非固定的数据结构以便能用最小的空间存储尽量多的信息。</p>
-<p>第二部分为类型指针，就是对象指向它的类元数据的指针，通过这个指针能知道这个这个对象是哪个类的实例。</p>
-<p>实例数据：该数据为对象存储的有效信息。也就是代码中所写的一切，包括父类继承的或者子类中定义的各种信息。</p>
-<p>对齐填充：因为HotSpot VM的自动内存管理系统要求对象的大小必须是8字节的整数倍，对象头部分刚好是8字节的整数倍，如果实例数据不是8字节的整数倍，需要通过对齐填充部分进行补齐操作。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjp9i668b00193smj8qc99vqv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjp9kjsqf001ajsmjoej0xa6p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -781,6 +756,10 @@
       <ul>
         
           <li>
+            <a href="/2018/12/03/Algorithm-TraversalBinaryTree/">Traversal Binary Tree</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/02/Algorithm-DP/">Dynamic Programming</a>
           </li>
         
@@ -794,10 +773,6 @@
         
           <li>
             <a href="/2018/11/14/OS-bash-profile-mac/">bash_profile for mac</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/08/Android-Screenshot/">Screenshot</a>
           </li>
         
       </ul>

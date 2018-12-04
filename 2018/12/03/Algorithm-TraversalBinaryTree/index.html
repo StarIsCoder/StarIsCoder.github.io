@@ -5,19 +5,19 @@
   
 
   
-  <title>LinearLayout设置gravity不生效 | Something</title>
+  <title>Traversal Binary Tree | Something</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。1234TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(1000))var params = button_view">
+  <meta name="description" content="遍历二叉树主要有三种方式  中序(Inorder) 前序(Preorder) 后序(Postorder)  假设有一个这样的二叉树     5   /   \  1     3 / \   / \4   2 6   7  前序：5 - 1 - 4 - 2 - 3 - 6 - 7 后序：4 - 2 - 1 - 6 - 7 - 3 - 5 中序：4 - 1 - 2 - 5 - 6 - 3 - 7  然">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LinearLayout设置gravity不生效">
-<meta property="og:url" content="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/index.html">
+<meta property="og:title" content="Traversal Binary Tree">
+<meta property="og:url" content="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/index.html">
 <meta property="og:site_name" content="Something">
-<meta property="og:description" content="最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。1234TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(1000))var params = button_view">
+<meta property="og:description" content="遍历二叉树主要有三种方式  中序(Inorder) 前序(Preorder) 后序(Postorder)  假设有一个这样的二叉树     5   /   \  1     3 / \   / \4   2 6   7  前序：5 - 1 - 4 - 2 - 3 - 6 - 7 后序：4 - 2 - 1 - 6 - 7 - 3 - 5 中序：4 - 1 - 2 - 5 - 6 - 3 - 7  然">
 <meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2018-12-04T09:55:25.579Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LinearLayout设置gravity不生效">
-<meta name="twitter:description" content="最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。1234TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(1000))var params = button_view">
+<meta name="twitter:title" content="Traversal Binary Tree">
+<meta name="twitter:description" content="遍历二叉树主要有三种方式  中序(Inorder) 前序(Preorder) 后序(Postorder)  假设有一个这样的二叉树     5   /   \  1     3 / \   / \4   2 6   7  前序：5 - 1 - 4 - 2 - 3 - 6 - 7 后序：4 - 2 - 1 - 6 - 7 - 3 - 5 中序：4 - 1 - 2 - 5 - 6 - 3 - 7  然">
   
     <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
   
@@ -64,14 +64,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope="" itemprop="blogPost">
+        <section id="main"><article id="post-Algorithm-TraversalBinaryTree" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
-  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
+    <a href="/2018/12/03/Algorithm-TraversalBinaryTree/" class="article-date">
+  <time datetime="2018-12-03T16:00:00.000Z" itemprop="datePublished">2018-12-04</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
   </div>
 
   </div>
@@ -82,7 +82,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      LinearLayout设置gravity不生效
+      Traversal Binary Tree
     </h1>
   
 
@@ -90,13 +90,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
-<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
+        <p>遍历二叉树主要有三种方式</p>
+<ul>
+<li>中序(Inorder)</li>
+<li>前序(Preorder)</li>
+<li>后序(Postorder)</li>
+</ul>
+<p>假设有一个这样的二叉树<br>     5<br>   /   \<br>  1     3<br> / \   / \<br>4   2 6   7</p>
+<ul>
+<li>前序：5 - 1 - 4 - 2 - 3 - 6 - 7</li>
+<li>后序：4 - 2 - 1 - 6 - 7 - 3 - 5</li>
+<li>中序：4 - 1 - 2 - 5 - 6 - 3 - 7</li>
+</ul>
+<p>然后看下如何用代码实现这些,可以看到区别在于是先遍历还是先处理节点上的数据。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printPostorder</span><span class="params">(List list, TreeNode node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    printPostorder(list, node.left);</span><br><span class="line">    printPostorder(list, node.right);</span><br><span class="line">    list.add(node.val);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printPreorder</span><span class="params">(List list, TreeNode node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    list.add(node.val);</span><br><span class="line">    printPreorder(list, node.left);</span><br><span class="line">    printPreorder(list, node.right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printInorder</span><span class="params">(List list, TreeNode node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    printInorder(list, node.left);</span><br><span class="line">    list.add(node.val);</span><br><span class="line">    printInorder(list, node.right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjp9kjspk0005jsmjdfbptz9j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjp9kjspk0004jsmj8xwicc2n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -105,19 +116,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/08/28/Android-Matrix-Camera/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Matrix&amp;Camera
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/08/26/Android-区分tablet和mobile/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/12/02/Algorithm-DP/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">区分tablet和mobile</div>
+      <div class="article-nav-title">Dynamic Programming</div>
     </a>
   
 </nav>

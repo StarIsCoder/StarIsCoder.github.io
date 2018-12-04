@@ -62,6 +62,60 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-C-move-fun" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/13/C-move-fun/" class="article-date">
+  <time datetime="2018-09-13T16:00:00.000Z" itemprop="datePublished">2018-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/13/C-move-fun/">std move</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在查看别人搭的框架时，看到在传值的时候使用了std::move。因此学习一下这个函数的使用。<br>首先google查看官方解释：</p>
+<p>In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an rvalue reference type.</p>
+<p>简单来说就是将一个值转化为右值。目的是为了提升效率，减少拷贝的数量。也就是进行深拷贝。</p>
+<h2 id="右值"><a href="#右值" class="headerlink" title="右值"></a>右值</h2><p>那么右值又是什么？还是查看微软的官方解释吧。</p>
+<p><em>Every C++ expression is either an lvalue or an rvalue. An lvalue refers to an object that persists beyond a single expression. You can think of an lvalue as an object that has a name. All variables, including nonmodifiable (const) variables, are lvalues. An rvalue is a temporary value that does not persist beyond the expression that uses it.</em></p>
+<p>在c++中，表达式是要么左值要么右值，左值表示他对一个对象的应用远远超过了一个表达式（可以忽略），其实也可以<strong>把左值看成一个有名字的对象</strong>。所有的变量，常量都是左值。右值是一个临时变量，并不会比表达式保存的更久。</p>
+<p>这个左和右是相对于等于号的。等于号左边必然是一个变量，右边是一个表示式或者是一个临时变量。感觉还是不太好用语言来解释这玩意。贴一段官方的sample。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Correct usage: the variable i is an lvalue.  </span></span><br><span class="line">i = <span class="number">7</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// Incorrect usage: The left operand must be an lvalue (C2106).  </span></span><br><span class="line"><span class="number">7</span> = i; <span class="comment">// C2106  </span></span><br><span class="line">j * <span class="number">4</span> = <span class="number">7</span>; <span class="comment">// C2106  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// Correct usage: the dereferenced pointer is an lvalue.  </span></span><br><span class="line">*p = i;   </span><br><span class="line">  </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> ci = <span class="number">7</span>;  </span><br><span class="line"><span class="comment">// Incorrect usage: the variable is a non-modifiable lvalue (C3892).  </span></span><br><span class="line">ci = <span class="number">9</span>; <span class="comment">// C3892  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// Correct usage: the conditional operator returns an lvalue.  </span></span><br><span class="line">((i &lt; <span class="number">3</span>) ? i : j) = <span class="number">7</span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="move"><a href="#move" class="headerlink" title="move"></a>move</h2><p>还是看回move函数，比如在写交换函数的时候我们通常这么写。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="built_in">string</span> &amp;,<span class="built_in">string</span> &amp;)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="built_in">string</span> x = <span class="string">"abc"</span>;</span><br><span class="line">    <span class="built_in">string</span> y = <span class="string">"wang"</span>;</span><br><span class="line">    swap(x, y);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; y &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="built_in">string</span> &amp; x,<span class="built_in">string</span> &amp; y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> tmp = x;</span><br><span class="line">    x = y;</span><br><span class="line">    y = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样的话其实在执行交换的过程中会产生三个copy的对象，会影响性能。不过有时候我们传递了某个值之后就不再不需要他了，如果留着一个拷贝的话也会占用空间，因此可以使用move函数来表示这个值以后没用了，已经传走了。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="built_in">string</span> &amp; x,<span class="built_in">string</span> &amp; y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> tmp = move(x);</span><br><span class="line">    x = move(y);</span><br><span class="line">    y = move(tmp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样就不会有三分拷贝，而是值的转移。不过这么写似乎看不出值已经传走了。用个vector试一下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; v;</span><br><span class="line">    <span class="built_in">string</span> str = <span class="string">"test"</span>;</span><br><span class="line">    v.push_back(str);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"str :"</span> &lt;&lt; str &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;v.size(); i++) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"vector"</span> &lt;&lt; i &lt;&lt; <span class="string">" :"</span> &lt;&lt; v[i] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"after move"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    v.push_back(move(str));</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"str :"</span> &lt;&lt; str &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;v.size(); i++) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"vector"</span> &lt;&lt; i &lt;&lt; <span class="string">" :"</span> &lt;&lt; v[i] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">str :test</span><br><span class="line">vector0 :test</span><br><span class="line">after move</span><br><span class="line">str :</span><br><span class="line">vector0 :test</span><br><span class="line">vector1 :test</span><br></pre></td></tr></table></figure>
+<p>可以看到str已经为空并且作为右值存在了vector中。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>并不是只在传递值的时候可以用move，更关键的是当你想把某个左值转化成右值的时候需要用到这个函数。</p>
+<p>因为查看该函数的源码就是将传入的值转为右值引用。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">move(_Tp&amp;&amp; <span class="keyword">__t</span>) _NOEXCEPT</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> remove_reference&lt;_Tp&gt;::type _Up;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;_Up&amp;&amp;&gt;(<span class="keyword">__t</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjp9kjsqf000wjsmjs74o6ehj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java-Serializable" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/07/Java-Serializable/" class="article-date">
@@ -109,7 +163,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjp9i668r001e3smjhzziy9i3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjp9kjsqu001mjsmj7vxb2453" class="article-share-link">Share</a>
       
       
     </footer>
@@ -159,7 +213,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjp9i668r001m3smj8112s1tl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjp9kjsra001ujsmjnjh24tm0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -228,7 +282,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjp9i667g00053smjnuqzupua" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjp9kjspk0009jsmjtxuvajnz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -287,7 +341,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjp9i667w000g3smjcz9wolr5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjp9kjspz000kjsmjutjyd0tg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -335,7 +389,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjp9i667g00043smjxbpyxru8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjp9kjspk0006jsmj63ufg199" class="article-share-link">Share</a>
       
       
     </footer>
@@ -377,7 +431,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjp9i667g00033smjnos215q1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjp9kjspk0005jsmjdfbptz9j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -423,7 +477,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjp9i667g000c3smjv6kvdiiz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjp9kjspz000fjsmjkkkvnrc9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -501,7 +555,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjp9i667w000j3smje8zzb8fm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjp9kjspz000njsmjdtetiean" class="article-share-link">Share</a>
       
       
     </footer>
@@ -562,70 +616,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjp9i667w000q3smjl5wvy0h1" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Kotlin-Singleton" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/09/Kotlin-Singleton/" class="article-date">
-  <time datetime="2018-08-09T16:00:00.000Z" itemprop="datePublished">2018-08-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/09/Kotlin-Singleton/">Singleton</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p>在Kotlin中，object是一个自带单例模式的数据类型，而在java中object是所有类的父类。如下是object分别在java和kotlin的代码：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> ExampleObject &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">example</span><span class="params">()</span></span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ExampleObject</span> </span>&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> ExampleObject INSTANCE;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">example</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">static</span> &#123;</span><br><span class="line">      ExampleObject var0 = <span class="keyword">new</span> ExampleObject();</span><br><span class="line">      INSTANCE = var0;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到，kotlin中的object是对应java中的静态单例模式。因此如果想在kotlin中写出单例模式，可以直接使用object关键字即可。同时因为使用的是static实现单例模式，因此也保证了线程安全。后续会介绍更好的写法。</p>
-<h2 id="Java-Singleton"><a href="#Java-Singleton" class="headerlink" title="Java Singleton"></a>Java Singleton</h2><p>这里其实对java中使用static来实现单例模式不是很清晰，主要的问题在于为什么static修饰的对象指向的是同一个内存地址。即使我这么写<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Single single = <span class="keyword">new</span> Single();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Single single = Single.single;</span><br><span class="line">        System.out.println(single);</span><br><span class="line">        Single single1 = Single.single;</span><br><span class="line">        System.out.println(single1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Result:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Single@2b193f2d</span><br><span class="line">Single@2b193f2d</span><br></pre></td></tr></table></figure></p>
-<p>静态单例模式还有另一种方式，区别在于只有调用getInstance方法时才会去实例化Single对象。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleHoleder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> Single single = <span class="keyword">new</span> Single();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingleHoleder.single;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这边static关键字能实现单例模式的主要原因在于被static修饰的变量或对象具有唯一性。那么为什么具有唯一性呢，这就得查看static的原理了。</p>
-<h2 id="Static关键字"><a href="#Static关键字" class="headerlink" title="Static关键字"></a>Static关键字</h2><p>根据定义，被static所修饰的变量有且只有该变量的一份拷贝，并且能在类中公用。换句话说是一个全局的变量。静态变量在加载类的时候就已经分配好了内存，因此该变量是属于类的而不是某个new出来的对象的。在往下到jvm还未了解到,本文关于static到此结束。</p>
-<h2 id="更好的单例模式"><a href="#更好的单例模式" class="headerlink" title="更好的单例模式"></a>更好的单例模式</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> <span class="keyword">private</span> <span class="keyword">constructor</span></span>() &#123;</span><br><span class="line">    <span class="keyword">init</span> &#123; println(<span class="string">"This (<span class="variable">$this</span>) is a singleton"</span>) &#125;    </span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">object</span> Holder &#123; <span class="keyword">val</span> INSTANCE = Singleton() &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword">val</span> instance: Singleton <span class="keyword">by</span> lazy &#123; Holder.INSTANCE &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> b:String? = <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>将构造方法私有化，其他地方无法实例化该类。</li>
-<li>使用lazy关键字延迟instance的实例化，优化性能。</li>
-<li>使用companion关键字实现java中static的效果。</li>
-</ul>
-<h2 id="kotlin中的companion"><a href="#kotlin中的companion" class="headerlink" title="kotlin中的companion"></a>kotlin中的companion</h2><p>由于kotlin中object默认是单例模式，因此没有static关键字，那么如果我们想要全局变量该怎么做呢，答案就是companion。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">private</span> <span class="keyword">constructor</span></span>() &#123;</span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword">val</span> i = <span class="number">1</span></span><br><span class="line">        <span class="keyword">val</span> instance = Test()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    println(Test.i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result : 1</span><br></pre></td></tr></table></figure>
-<p>这样就实现了static的效果。再来看一下decompile后的代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">   <span class="meta">@NotNull</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Test instance = <span class="keyword">new</span> Test();</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Test.Companion Companion = <span class="keyword">new</span> Test.Companion((DefaultConstructorMarker)<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Companion</span> </span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getI</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> Test.i;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@NotNull</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Test <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> Test.instance;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">private</span> <span class="title">Companion</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// $FF: synthetic method</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="title">Companion</span><span class="params">(DefaultConstructorMarker $constructor_marker)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">this</span>();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到变量i被static所修饰。并且companion是对所有类公开的，因此适合用来实现单例模式。</p>
-<p><em>Warning:一个类中只能有一个被companion修饰的object。</em></p>
-<p>参考文档：</p>
-<p><a href="https://antonioleiva.com/objects-kotlin/" target="_blank" rel="noopener">https://antonioleiva.com/objects-kotlin/</a></p>
-<p><a href="https://medium.com/@adinugroho/singleton-in-kotlin-502f80fd8a63" target="_blank" rel="noopener">https://medium.com/@adinugroho/singleton-in-kotlin-502f80fd8a63</a></p>
-<p><a href="https://www.journaldev.com/18662/kotlin-singleton-companion-object" target="_blank" rel="noopener">https://www.journaldev.com/18662/kotlin-singleton-companion-object</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjp9i668r001q3smjleh1fzhb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjp9kjsqf000ujsmjrd4cjgwv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -678,6 +669,10 @@
       <ul>
         
           <li>
+            <a href="/2018/12/03/Algorithm-TraversalBinaryTree/">Traversal Binary Tree</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/02/Algorithm-DP/">Dynamic Programming</a>
           </li>
         
@@ -691,10 +686,6 @@
         
           <li>
             <a href="/2018/11/14/OS-bash-profile-mac/">bash_profile for mac</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/08/Android-Screenshot/">Screenshot</a>
           </li>
         
       </ul>
