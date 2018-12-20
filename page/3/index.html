@@ -62,6 +62,68 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-C-Callback" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/20/C-Callback/" class="article-date">
+  <time datetime="2018-09-20T16:00:00.000Z" itemprop="datePublished">2018-09-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/20/C-Callback/">Basic Callback</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>项目中需要提供api和一个被动接受的回调，C++的回调方式主要有三种：</p>
+<ul>
+<li>传递函数指针</li>
+<li>实现接口</li>
+<li>lamda表达式</li>
+</ul>
+<h3 id="实现接口"><a href="#实现接口" class="headerlink" title="实现接口"></a>实现接口</h3><p>新建一个接口类，ITokenGetCallback.hpp，添加需要其他类实现的虚函数。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> ITokenGetCallback_h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ITokenGetCallback_h</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ITokenGetCallback</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">virtual</span> ~ITokenGetCallback() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">onGetToken</span><span class="params">(<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* ITokenGetCallback_h */</span></span></span><br></pre></td></tr></table></figure></p>
+<p><em>BTW:一般在构造接口的时候需要把析构函数也虚化，原因是为了确保对象在被回收之后析构函数能被调用。这就涉及到虚函数的具体实现意义了。</em></p>
+<p>贴一个stackoverflow上的例子。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"I'm eating generic food."</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span> <span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"I'm eating a rat."</span>; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Animal *animal = <span class="keyword">new</span> Animal;</span><br><span class="line">Animal *cat = <span class="keyword">new</span> Cat;</span><br><span class="line">animal-&gt;eat(); <span class="comment">// outputs: "I'm eating generic food." </span></span><br><span class="line">cat-&gt;eat(); <span class="comment">// outputs: "I'm eating generic food."</span></span><br></pre></td></tr></table></figure>
+<p>即使我们给他赋值子类，但是函数的调用还是基于指针的类型，这里可以类比到析构函数。</p>
+<p>添加一个实现该接口的类<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> TokenGet::onGetToken(<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> * token)&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"on get token"</span> &lt;&lt; token &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>剩余要做的事情就是把这个类传递到想调用的地方。可以使用set或者作为构造函数的参数传入。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过函数参数传递</span></span><br><span class="line">TokenGet* callback = <span class="keyword">new</span> TokenGet();</span><br><span class="line">gClient-&gt;StartRecording(callback);</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> callback = <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;TokenGet&gt;(<span class="keyword">new</span> TokenGet());</span><br><span class="line">gClient-&gt;setCallback(callback);</span><br></pre></td></tr></table></figure></p>
+<p>之后在想调用的地方调用这个call即可。接口的方式属于OOP的一种模式吧，这方面和java很类似。</p>
+<h3 id="lamda表达式"><a href="#lamda表达式" class="headerlink" title="lamda表达式"></a>lamda表达式</h3><p>这种方式一般用在次数比较少的回调。<br>用std的function包装一个方法并设置返回值和参数。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> OnVolumeCallback = <span class="built_in">std</span>::function&lt;<span class="keyword">void</span>(<span class="keyword">int</span> volume)&gt;;</span><br></pre></td></tr></table></figure></p>
+<p>然后将该函数作为参数放在你想使用的函数中。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> APIClient::getSpeakerVolume(OnVolumeCallback callback)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//do something</span></span><br><span class="line">    callback(volume);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在调用这个函数的地方实现这个lamda表达式<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gClient-&gt;getSpeakerVolume([](<span class="keyword">int</span> volume)&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"volume: "</span> &lt;&lt; volume &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>相当来说lamda表达式更简单一点。不过如果是多次回调还是应该用接口的方式，接口的方式在层次上也更分明。</p>
+<p>lamda表达式是这样定义的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[ capture clause ] (parameters) -&gt; return-type  </span><br><span class="line">&#123;   </span><br><span class="line">   definition of method   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中parameters和return-type可以省略。关于这两者和函数具体实现没什么好多说的，第一次知道还有捕获列表这样的东西。<br></p>
+<p>捕获列表就是用[]包起来的列表，可以传引用、指针、变量的拷贝，不过无法传递右值。通俗来说就是被这个捕获列表包起来的参数可以在lamda表达式中使用。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> j = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">auto</span> f = []&#123;</span><br><span class="line">    j = <span class="number">1</span>; <span class="comment">//invalid,Variable 'j' cannot be implicitly captured in a lambda with no capture-default specified</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>如果不在捕获列表中添加j的话是无法访问的。可以理解为用非传统的方式把变量作为参数传递进入函数。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjpw14cm6000fi8mj2b4lqlj1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java-NIO" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/14/Java-NIO/" class="article-date">
@@ -117,7 +179,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjpkl8mhq001dq0mjqf93uan7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjpw14cn1001bi8mjr944gojd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -171,7 +233,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjpkl8mha000tq0mjtl2nyxqm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjpw14cmm000ri8mjrutz2sf9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -228,7 +290,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjpkl8mhq001hq0mjw654by4b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjpw14cn1001fi8mjfoxoje04" class="article-share-link">Share</a>
       
       
     </footer>
@@ -278,7 +340,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjpkl8mi5001pq0mjbhj7smok" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjpw14cn1001ni8mjzneihxn0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -347,7 +409,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjpkl8mgu0007q0mjx2xjuokq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjpw14clr0007i8mjzjmlzymp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -406,49 +468,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjpkl8mha000jq0mjv78hcezz" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
-  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/">LinearLayout设置gravity不生效</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
-<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjpkl8mge0004q0mjlrmslydc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjpw14cm6000gi8mjk8mwdm9k" class="article-share-link">Share</a>
       
       
     </footer>
@@ -496,7 +516,49 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjpkl8mgu0005q0mj0rfgmta4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjpw14clr0005i8mjjwbj9mn0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
+  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/">LinearLayout设置gravity不生效</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
+<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjpw14clr0004i8mjrw0ejpxw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -542,85 +604,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjpkl8mgu000fq0mjd6ck28gn" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-C-Inline-Reference" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/23/C-Inline-Reference/" class="article-date">
-  <time datetime="2018-08-23T16:00:00.000Z" itemprop="datePublished">2018-08-24</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/23/C-Inline-Reference/">inline&amp;reference</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="C-内联函数"><a href="#C-内联函数" class="headerlink" title="C++内联函数"></a>C++内联函数</h2><p>传统函数：当我们调用函数的时候，其实是将该指令的内存地址保存下来，并将函数参数复制到堆栈。当函数运行完之后再跳回去。这样来回跳跃会加大开销。因此还有另一种函数，叫做内联函数。</p>
-<p>内联函数：简单来说就是将函数的代码替换函数调用，这样就不用跳到其他地方执行，但是如果有10个地方调用了这个函数，那么就会有10个函数代码的拷贝。</p>
-<ul>
-<li>在函数声明前加上inline</li>
-<li>在函数定义前加上inline</li>
-</ul>
-<p><strong>Warning: 如果内联函数过大或者调用了自己（不支持递归），那么编译器不会将其作为内联函数。并不是所有的编译器启用了这个特性。</strong></p>
-<h3 id="内联与宏"><a href="#内联与宏" class="headerlink" title="内联与宏"></a>内联与宏</h3><p>inline关键字是C++新增的特性。C语言则使用#define。但C语言中时、是通过文本替换而不是传递参数。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SQUARE(X) X*X</span></span><br><span class="line">a = SQUARE(<span class="number">5</span> + <span class="number">1</span>); </span><br><span class="line"><span class="comment">// a = 5 + 1 * 5 + 1 not a = 6 * 6</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="引用变量"><a href="#引用变量" class="headerlink" title="引用变量"></a>引用变量</h2><p>基本概念：引用是已定义的变量的别名。使用&amp;符号表示引用。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i;</span><br><span class="line"><span class="keyword">int</span> &amp; another = i;<span class="comment">//alias for i</span></span><br></pre></td></tr></table></figure></p>
-<p>int&amp;表示指向int的引用，上述表示i和another指向相同的值和内存单元。如果改变了another，那么i也会改变。<br>引用其实就是另一个变量的完美复制品，除了名称不一样其他一模一样，表现在指针中则是：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> &amp; i = rats;</span><br></pre></td></tr></table></figure></p>
-<p>等同于<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> * <span class="keyword">const</span> pr = &amp;rats;</span><br></pre></td></tr></table></figure></p>
-<p><em><strong>引用和指针最大的区别就是引用在声明的时候必须初始化。</strong></em></p>
-<h3 id="引用用作函数参数"><a href="#引用用作函数参数" class="headerlink" title="引用用作函数参数"></a>引用用作函数参数</h3><p>也就是将某种类型的引用作为参数传入函数。在代码方面，如果使用value传递的话会有一个变量的copy，而引用的则不会有两个变量，只会有两个名称。之后在函数中不管怎么处理都只是在操作这个copy而没有改变他的原始值。</p>
-<p>如果我们定义了一个函数的参数是引用，那么则必须传一个变量进去，传入表达式则是不规范的。例如：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">square</span><span class="params">(<span class="keyword">int</span> &amp; i)</span></span>;</span><br><span class="line">square(x + <span class="number">3</span>);<span class="comment">//  INVALID</span></span><br></pre></td></tr></table></figure></p>
-<p>当然有的编译器不会报错，只是弹一个warning出来，那是因为如果实参和引用参数不匹配的话就会生成临时变量。并且只有当参数是const引用时才会这么做。<br>如果参数是const类型，那么在以下情况会生成临时变量</p>
-<ul>
-<li>实参的类型正确，但不是左值。</li>
-<li>实参的类型不正确，但可以转换为正确的类型。</li>
-</ul>
-<p>左值其实就是指处于等号左边的值，那么什么样的值可以放等号左边呢，自然是变量，引用等等。像字面常量，表达式则都属于非左值。如下例：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">refcube</span><span class="params">(<span class="keyword">const</span> <span class="keyword">double</span> &amp; ra)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ra * ra * ra;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> side = <span class="number">3.0</span>;</span><br><span class="line"><span class="keyword">long</span> edge = <span class="number">5L</span></span><br><span class="line"><span class="keyword">double</span> c1 = refcube(edge);<span class="comment">//临时变量，因为edge类型与参数不匹配</span></span><br><span class="line"><span class="keyword">double</span> c2 = refcube(<span class="number">7.0</span>);<span class="comment">//临时变量，非左值，字面常量</span></span><br><span class="line"><span class="keyword">double</span> c3 = refcube(side + <span class="number">3.0</span>);<span class="comment">//临时变量，非左值，表达式</span></span><br></pre></td></tr></table></figure>
-<h2 id="何时使用引用参数"><a href="#何时使用引用参数" class="headerlink" title="何时使用引用参数"></a>何时使用引用参数</h2><ul>
-<li>函数中的数据对象需要被修改</li>
-<li>数据较大时需要提高程序的运行速度。</li>
-</ul>
-<p>第二个原因有点类似于指针，那么什么时候使用指针，什么时候使用引用呢：</p>
-<ul>
-<li>如果数据对象很小，则按值传递。</li>
-<li>如果数据对象是数组，那么使用指针，同时也是唯一的选择。</li>
-<li>如果是较大的数据结构则使用指针或引用。</li>
-<li>如果是类对象，则使用const引用。</li>
-</ul>
-<h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h2><p>也很简单，就是在函数定义的时候给参数一个默认值。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">open</span><span class="params">(<span class="keyword">int</span> n = <span class="number">1</span>)</span></span></span><br></pre></td></tr></table></figure></p>
-<p>但是有个规矩那就是必须从右向左添加默认值。</p>
-<h2 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h2><p>其实就是同一个函数，但是参数类型或者数量不同叫做函数重载。在java中是必须严格按照参数类型或者数量来调用函数的，但是在c++中如果调用的函数不与任何函数原型匹配，那么就会尝试使用标准类型转换强制进行匹配。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> i = <span class="number">1</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    test(<span class="number">2.2</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span> <span class="params">(<span class="keyword">int</span> i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result:2</span><br></pre></td></tr></table></figure>
-<p>而关于const也可以用于重载函数，不过只有在修饰的参数是引用或者指针的时候才可以。</p>
-<h2 id="函数模版"><a href="#函数模版" class="headerlink" title="函数模版"></a>函数模版</h2><p>简单来说就是使用泛型来定义函数，编译器会按照模版创建对应的函数，例如有个函数的作用是交换传入的两个参数，那么不管传入是int还是double都可以使用同一个函数模版。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Swap</span><span class="params">(T &amp;a,T &amp;b)</span></span>;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">30</span>;</span><br><span class="line">    Swap(i,j);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; j &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">double</span> d1 = <span class="number">2.2</span>;</span><br><span class="line">    <span class="keyword">double</span> d2 = <span class="number">4.4</span>;</span><br><span class="line">    Swap(d1, d2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; d1 &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; d2 &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Swap</span><span class="params">(T &amp;a,T &amp;b)</span> </span>&#123;</span><br><span class="line">    T temp;</span><br><span class="line">    temp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjpkl8mha000kq0mjrphtbsml" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjpw14cm6000ci8mjmkn4y115" class="article-share-link">Share</a>
       
       
     </footer>
@@ -673,6 +657,10 @@
       <ul>
         
           <li>
+            <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
           </li>
         
@@ -686,10 +674,6 @@
         
           <li>
             <a href="/2018/11/25/C-使用Jansson产生的引用计数bug/">使用Jansson产生的引用计数bug</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/15/C-Qt-Note/">Qt first&amp;last note</a>
           </li>
         
       </ul>

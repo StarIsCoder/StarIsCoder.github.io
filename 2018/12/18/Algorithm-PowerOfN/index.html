@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Power of N | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在判断是否为n的次方时发现有很多种有意思的解法。当然最容易想到的是一定是不断除n，观察最后是否能除干净。这里以2为例子，之后都可以讲2替换成3或者i来使用loop。 1234567public  boolean isPowerOfTwo(int n) &amp;#123;    if (n &amp;lt; 1) return false;    while (n % 2 == 0) &amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Power of N">
+<meta property="og:url" content="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="在判断是否为n的次方时发现有很多种有意思的解法。当然最容易想到的是一定是不断除n，观察最后是否能除干净。这里以2为例子，之后都可以讲2替换成3或者i来使用loop。 1234567public  boolean isPowerOfTwo(int n) &amp;#123;    if (n &amp;lt; 1) return false;    while (n % 2 == 0) &amp;#123;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-12-20T03:10:24.676Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Power of N">
+<meta name="twitter:description" content="在判断是否为n的次方时发现有很多种有意思的解法。当然最容易想到的是一定是不断除n，观察最后是否能除干净。这里以2为例子，之后都可以讲2替换成3或者i来使用loop。 1234567public  boolean isPowerOfTwo(int n) &amp;#123;    if (n &amp;lt; 1) return false;    while (n % 2 == 0) &amp;#123;">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Algorithm-PowerOfN" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/18/Algorithm-PowerOfN/" class="article-date">
+  <time datetime="2018-12-18T16:00:00.000Z" itemprop="datePublished">2018-12-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Power of N
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在判断是否为n的次方时发现有很多种有意思的解法。当然最容易想到的是一定是不断除n，观察最后是否能除干净。这里以2为例子，之后都可以讲2替换成3或者i来使用loop。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">boolean</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">while</span> (n % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">         n /= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> n == <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2的次方"><a href="#2的次方" class="headerlink" title="2的次方"></a>2的次方</h2><p>由于如果n是2的次方，那么转换成2进制一定会是1 + n个0的形式。因此可以考虑将其转为2进制然后再判断<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">boolean</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    String str = Integer.toBinaryString(n);</span><br><span class="line">    System.out.println(str);</span><br><span class="line">    <span class="keyword">char</span> array[] = str.toCharArray();</span><br><span class="line">    <span class="keyword">if</span> (array[<span class="number">0</span>] != <span class="string">'1'</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (array[i] != <span class="string">'0'</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>网上还看到一种比较tricky的，那就是如果n是2的次方，那么n-1对应的二进制一定全是1，只要将两者做与运算即可<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">boolean</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">int</span> ret = n &amp; (n - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> ret == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还可以使用正则表达式来对n的二进制进行判断<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">boolean</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    String str = Integer.toBinaryString(n);</span><br><span class="line">    <span class="keyword">return</span> str.matches(<span class="string">"^10*$"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="3的次方"><a href="#3的次方" class="headerlink" title="3的次方"></a>3的次方</h2><p>Java中提供了将传入的数转化成你想要的进制数，<code>Integer.toString(n, radix)</code>，意思是将n转化为radix进制的数。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer.toString(<span class="number">8</span>, <span class="number">2</span>) -&gt; log2(<span class="number">8</span>) = <span class="number">3</span>, <span class="keyword">return</span> <span class="number">1000</span></span><br><span class="line">Integer.toString(<span class="number">81</span>, <span class="number">3</span>) -&gt; log3(<span class="number">81</span>) = <span class="number">4</span>, <span class="keyword">return</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure></p>
+<p>因此可以使用这个api然后判断是否为1 + n个0的形式<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isPowerOfThree</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    String baseChange = Integer.toString(n, <span class="number">3</span>);</span><br><span class="line">    <span class="keyword">return</span> baseChange.matches(<span class="string">"^10*$"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还有就是用数学上的log公式了，logb(n) / logb(m) = logm(n),同时由于Math的log方法返回的是double类型，需要用 % 1 是否为零来判断是否为integer类型。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isPowerOfThree</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (Math.log10(n) / Math.log10(<span class="number">3</span>)) % <span class="number">1</span> == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后一种也非常的tricky，由于int类型是有范围的，因此可以取最大的3的次方数来除以n。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPowerOfThree</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> n &gt; <span class="number">0</span> &amp;&amp; <span class="number">1162261467</span> % n == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4的次方"><a href="#4的次方" class="headerlink" title="4的次方"></a>4的次方</h2><p>由于4的次方和2的次方，因此可以在2的次方上过滤。首先4的次方一定也是1 + n个0的形式，但不同的是它的零的个数一定是偶数。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">boolean</span> <span class="title">isPowerOfFour</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Integer.bitCount(num) == <span class="number">1</span> &amp;&amp; (Integer.toBinaryString(num).length() - <span class="number">1</span>) % <span class="number">2</span> == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还有种方式同样是用二进制，由于4的次方数转化成2进制之后，1所在的位置一定是奇数位，从0计数<br>eg.<br>8  -&gt; 1000<br>16 -&gt; 10000<br>32 -&gt; 100000<br>因此只需要过滤到偶数位的即可</p>
+<p>num&amp;(num-1)是为了判断是否为2的次方，而由于5 -&gt; 0101，是用来过滤偶数位的1。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> num &gt; <span class="number">0</span> &amp;&amp; (num&amp;(num-<span class="number">1</span>)) == <span class="number">0</span> &amp;&amp; (num &amp; <span class="number">0x55555555</span>) != <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjpw14cnh001zi8mj3rdbtnv2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/12/06/Java-HashMapInfiniteLoop/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">HashMap Infinite Loop</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/03/Algorithm-TraversalBinaryTree/">Traversal Binary Tree</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/02/Algorithm-DP/">Dynamic Programming</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/25/C-使用Jansson产生的引用计数bug/">使用Jansson产生的引用计数bug</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
