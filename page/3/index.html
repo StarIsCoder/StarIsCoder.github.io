@@ -62,6 +62,129 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java-Concurrent-AQS" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/25/Java-Concurrent-AQS/" class="article-date">
+  <time datetime="2018-09-25T16:00:00.000Z" itemprop="datePublished">2018-09-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/25/Java-Concurrent-AQS/">Concurrent AQS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>除了使用synchronized关键字，还可以显式使用lock对象来解决并发问题。</p>
+<h2 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">lock.lock();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">//add code you want to lock</span></span><br><span class="line">    count++;    </span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    lock.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ReentrantLock是一个能和synchronized实现同样功能的对象，只是在实现方面更为灵活一点，比如尝试获取锁，过一段时间放弃它。因此被lock住的线程是线程安全的。</p>
+<p>ReentrantLock分为公平模式和非公平模式,非公平模式其实就是在lock的时候多了个操作，就是尝试下能否直接获取，拿不到就乖乖排队。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">NonfairSync</span> <span class="keyword">extends</span> <span class="title">Sync</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">7316153563782823691L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Performs lock.  Try immediate barge, backing up to normal</span></span><br><span class="line"><span class="comment">     * acquire on failure.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, <span class="number">1</span>))</span><br><span class="line">            setExclusiveOwnerThread(Thread.currentThread());</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            acquire(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Sync object for fair locks</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">FairSync</span> <span class="keyword">extends</span> <span class="title">Sync</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">3000897897090466540L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        acquire(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>一定要使用try和finally的组合，能确保锁被释放，以防引起阻塞。</strong></p>
+<h2 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h2><p>这个lock是以read和write成对的锁。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ReadWriteLock lock = <span class="keyword">new</span> ReentrantReadWriteLock();</span><br><span class="line"></span><br><span class="line">lock.readLock().lock();</span><br><span class="line"><span class="comment">//add code to read</span></span><br><span class="line">lock.readLock().unlock();</span><br><span class="line"></span><br><span class="line">lock.writeLock().lock();</span><br><span class="line"><span class="comment">//add code to write</span></span><br><span class="line">lock.writeLock().unlock();</span><br></pre></td></tr></table></figure></p>
+<p>该对象在实例化的时候可以传个boolean值表示选择公平模式还是非公平模式。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ReentrantReadWriteLock</span><span class="params">(<span class="keyword">boolean</span> fair)</span> </span>&#123;</span><br><span class="line">    sync = fair ? <span class="keyword">new</span> FairSync() : <span class="keyword">new</span> NonfairSync();</span><br><span class="line">    readerLock = <span class="keyword">new</span> ReadLock(<span class="keyword">this</span>);</span><br><span class="line">    writerLock = <span class="keyword">new</span> WriteLock(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>公平模式：先到先得，晚来的排队，不管是读锁还是写锁都没有特权。</li>
+<li>非公平模式：不阻塞write锁。write锁优先级高<br>默认采用的是非公平模式。</li>
+</ul>
+<p>write锁是独占模式，互相干扰，而read锁则是共享模式，read锁之间互不干扰。</p>
+<p>具体原理需要先去理解下AQS的框架才行。因为ReentrantLock中几乎所有的方法都是调用被sync对象封装起来的方法，而这个sync对象是AbstractQueuedSynchronizer（AQS）的子类。也就是说大体逻辑都在AQS中得以实现，ReentrantLock和ReentrantReadWriteLock进行了不同的定制而已。</p>
+<h2 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>既然是sychronizer，那必须有一个flag来代表lock或者unlock。在AQS中使用state来维护。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The synchronization state.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> state;</span><br></pre></td></tr></table></figure></p>
+<p>有了state，必须要有state对应的get/set方法。在AQS中是<em>acquire</em>和<em>release</em>。不过被包装在了子类中名称不太一样，比如Lock.lock,Semaphore.acquire,CountDownLatch.await.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ReentrantLock.java</span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    acquire(<span class="number">1</span>);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//AbstractQueuedSynchronizer.java </span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//tryAcquire的实现在ReentrantLock中</span></span><br><span class="line">    <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp;</span><br><span class="line">        acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</span><br><span class="line">        selfInterrupt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>每个synchronizer必须支持以下三个特性：</p>
+<ul>
+<li>阻塞的synchronization和非阻塞的synchronization</li>
+<li>超时选项</li>
+<li>可以通过interruption来打断</li>
+</ul>
+<p>将state分为两种情况：</p>
+<ul>
+<li>exclusive mode：独占模式，在同一个时间只有一个线程可以访问(acquire和release)</li>
+<li>share mode：共享模式，有多个线程可以同时访问(acquireShared和releaseShared)</li>
+</ul>
+<h3 id="设计思想"><a href="#设计思想" class="headerlink" title="设计思想"></a>设计思想</h3><p>同步的问题主要围绕对锁的逻辑处理，也就是acquire和release。</p>
+<p>获取锁的操作：</p>
+<p><em>while (state不允许acquire) {</em></p>
+<p><em>将该thread排队</em></p>
+<p>_}_</p>
+<p><em>如果在队列中就从队列中清除</em></p>
+<p>释放锁的操作：</p>
+<p><em>更新state</em></p>
+<p><em>if(允许其他被阻塞的线程acquire) {</em></p>
+<p><em>释放在队列中的一个或多个线程</em></p>
+<p>_}_</p>
+<p>因此它必须有以下三个模块</p>
+<ul>
+<li>原子性操作state</li>
+<li>阻塞和释放线程</li>
+<li>维护队列</li>
+</ul>
+<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><p>在AQS中的state是一个32位int类型的变量，0表示未被持有，1表示已经被持有。并且扩展出了get/set和compareAndSet,而它们之所以能完成原子性操作主要是基于volatile关键字。</p>
+<p>compareAndSet这个方法会传入两个参数，expect和update,如果current state和expect相等，则会直接更新update。</p>
+<p>而AQS的实现类必须实现tryAcquire和tryRelease方法，返回为true则表示持有锁成功。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//AbstractQueuedSynchronizer.java </span></span><br><span class="line"><span class="comment">//默认直接抛出异常，需要子类重写</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Block"><a href="#Block" class="headerlink" title="Block"></a>Block</h3><p>在AQS中使用LockSupport的park和unpark方法来真正实现lock功能。park方法和unpark作为成对出现，并且park方法可以传入timeout的参数，用来实现timeout的同步锁。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LockSupport.parkNanos(<span class="keyword">this</span>, nanosTimeout);</span><br></pre></td></tr></table></figure></p>
+<p>这里LockSupport只是作为工具类，具体的逻辑还是要看queue中是怎么处理的。</p>
+<h3 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h3><p>通过源码查看到内部维护了一个Node的内部类，并且该Node既有prev又有next的成员变量，因此这是一个双向的链表。以acquire为例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp;</span><br><span class="line">        acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</span><br><span class="line">        selfInterrupt();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">addWaiter</span><span class="params">(Node mode)</span> </span>&#123;</span><br><span class="line">    Node node = <span class="keyword">new</span> Node(Thread.currentThread(), mode);</span><br><span class="line">    Node pred = tail;</span><br><span class="line">    <span class="keyword">if</span> (pred != <span class="keyword">null</span>) &#123;</span><br><span class="line">        node.prev = pred;</span><br><span class="line">        <span class="keyword">if</span> (compareAndSetTail(pred, node)) &#123;</span><br><span class="line">            pred.next = node;</span><br><span class="line">            <span class="keyword">return</span> node;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    enq(node);</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>tryAcquire-&gt;先尝试获取状态，由子类自己实现 </li>
+<li><p>addWaiter-&gt;生成一个节点，并将节点放入队列中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">acquireQueued</span><span class="params">(<span class="keyword">final</span> Node node, <span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">boolean</span> interrupted = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="keyword">final</span> Node p = node.predecessor();</span><br><span class="line">            <span class="keyword">if</span> (p == head &amp;&amp; tryAcquire(arg)) &#123;</span><br><span class="line">                setHead(node);</span><br><span class="line">                p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">                failed = <span class="keyword">false</span>;</span><br><span class="line">                <span class="keyword">return</span> interrupted;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</span><br><span class="line">                parkAndCheckInterrupt())</span><br><span class="line">                interrupted = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (failed)</span><br><span class="line">            cancelAcquire(node);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用自旋锁，并且如果前面一个是头节点了则不断去尝试获取状态。也就是说下一个就到这个线程，那么他就会一直去尝试获取，确保能最快获取到状态</p>
+</li>
+<li><p>shouldParkAfterFailedAcquire(p, node)-&gt;如果在该线程还有其他线程在等待，那么就判断是否需要挂起操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">shouldParkAfterFailedAcquire</span><span class="params">(Node pred, Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ws = pred.waitStatus;</span><br><span class="line">    <span class="keyword">if</span> (ws == Node.SIGNAL)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (ws &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            node.prev = pred = pred.prev;</span><br><span class="line">        &#125; <span class="keyword">while</span> (pred.waitStatus &gt; <span class="number">0</span>);</span><br><span class="line">        pred.next = node;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           compareAndSetWaitStatus(pred, ws, Node.SIGNAL);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>只有当节点的线程状态为SIGNAL的时候，才需要进行挂起操作</p>
+</li>
+<li>ws&gt;0表示前一个节点是canceled状态，因此就持续往前找，直到找个一个有效的节点，并将新生成的节点放在其后</li>
+<li>如果不是canceled状态，那么需要将其切为SIGNAL状态</li>
+<li><p>如果需要挂起那么就使用LockSupport.park将其挂起，等待unpark<br>结合release来看</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (tryRelease(arg)) &#123;</span><br><span class="line">        Node h = head;</span><br><span class="line">        <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</span><br><span class="line">            unparkSuccessor(h);</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>tryRelease-&gt;同样的想用子类的去释放状态</p>
+</li>
+<li><p>如果成功释放了，那么唤醒队列中的头节点</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">unparkSuccessor</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ws = node.waitStatus;</span><br><span class="line">    <span class="keyword">if</span> (ws &lt; <span class="number">0</span>)</span><br><span class="line">        compareAndSetWaitStatus(node, ws, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    Node s = node.next;</span><br><span class="line">    <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.waitStatus &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        s = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">for</span> (Node t = tail; t != <span class="keyword">null</span> &amp;&amp; t != node; t = t.prev)</span><br><span class="line">            <span class="keyword">if</span> (t.waitStatus &lt;= <span class="number">0</span>)</span><br><span class="line">                s = t;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (s != <span class="keyword">null</span>)</span><br><span class="line">        LockSupport.unpark(s.thread);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>LockSupport.unpark(s.thread) -&gt; 唤醒头节点的后续节点</p>
+</li>
+<li>由于已经unpark了所以acquireQueued会继续执行，当、一旦头节点释放资源，后续节点则可以tryAcquire</li>
+</ul>
+<p>原则上来说该队列是FIFO原则，先来先到。</p>
+<p>比如在银行拿号，如果柜台有人了，那么你得排队</p>
+<ul>
+<li>前面就轮到你了，那么你尝试排个队，如果失败，那么你认定前面还在处理业务，就标记为SIGNAl，过了一会儿又看了下，o！是SIGNAL，那么我还是先休息下，也就是park操作。</li>
+<li>后面又来一个人，看到你在排队但不是SIGNAL，那么把你置为SIGNAL，然后再试一次，失败之后发现是SIGNAL，那么他就直接休息（park）了。</li>
+<li>如果看到前面的人不排了，也就是cancel状态，那么就一直往前找，直到找到一个确实在排队的人，排在他后面。如果前面一个人状态不太对但是也确实在排，那会把他标记成SIGNAL。</li>
+</ul>
+<p>具体还有很多细节问题没有深入，暂时只是知道一个大概。毕竟AQS是java锁机制的一个基础，还是需要多看几遍才行。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjqz2uokn00167wmj9i4bt3r0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-C-Callback" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/20/C-Callback/" class="article-date">
@@ -114,7 +237,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjpw14cm6000fi8mj2b4lqlj1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjqz2uok7000k7wmj09b55c9f" class="article-share-link">Share</a>
       
       
     </footer>
@@ -179,7 +302,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjpw14cn1001bi8mjr944gojd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjqz2uokn001k7wmjlcs27zxb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -233,7 +356,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjpw14cmm000ri8mjrutz2sf9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjqz2uok7000y7wmjkbbdl7i0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -290,7 +413,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjpw14cn1001fi8mjfoxoje04" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjqz2uol2001o7wmjj2mjh5d6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -340,7 +463,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjpw14cn1001ni8mjzneihxn0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjqz2uol2001w7wmj7yalh26p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -409,7 +532,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjpw14clr0007i8mjzjmlzymp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjqz2uojr00087wmjzylkuzcq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -468,7 +591,49 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjpw14cm6000gi8mjk8mwdm9k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjqz2uok7000l7wmjnq5zc1ua" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
+  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/">LinearLayout设置gravity不生效</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
+<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjqz2uojc00057wmj3cv6nkln" class="article-share-link">Share</a>
       
       
     </footer>
@@ -516,95 +681,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjpw14clr0005i8mjjwbj9mn0" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
-  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/">LinearLayout设置gravity不生效</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
-<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjpw14clr0004i8mjrw0ejpxw" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android-区分tablet和mobile" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/26/Android-区分tablet和mobile/" class="article-date">
-  <time datetime="2018-08-26T16:00:00.000Z" itemprop="datePublished">2018-08-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/26/Android-区分tablet和mobile/">区分tablet和mobile</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近项目上UE有个需求是增加一个按钮切换横竖屏，当然很容易想到使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);</span><br></pre></td></tr></table></figure></p>
-<p>传入的值一般有如下，按字面意思理解即可：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SCREEN_ORIENTATION_PORTRAIT</span><br><span class="line">SCREEN_ORIENTATION_LANDSCAPE</span><br><span class="line">SCREEN_ORIENTATION_REVERSE_PORTRAIT</span><br><span class="line">SCREEN_ORIENTATION_LANDSCAPE</span><br></pre></td></tr></table></figure></p>
-<p>但是这样设置有个问题，那就是手动设置了横竖屏之后系统的AutoRotate失效了。有一种workaround就是手动去处理转屏事件。加一个内部类继承OrientationEventListener。只要底层重力传感器的值发生变化就会回调这个类中的onOrientationChanged方法。之后根据上报的orientation值和一些flag进行横竖屏处理。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">IncallOrientationListener</span> <span class="keyword">extends</span> <span class="title">OrientationEventListener</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">IncallOrientationListener</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onOrientationChanged</span><span class="params">(<span class="keyword">int</span> orientation)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//do anything what we want</span></span><br><span class="line">        orientationUtils.onOrientationChanged(getApplicationContext(), orientation);</span><br><span class="line">    &#125;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然而在上一次GT的时候发现平板下横竖屏全反了，原因是平板是横着的时候oreintation为0，这时候如果设置SCREEN_ORIENTATION_PORTRAIT就会有问题，当转屏之后又设置了SCREEN_ORIENTATION_LANDSCAPE。也就是说对于横着的平板和手机相比应该走完全相反的逻辑。那么就需要区分平板和手机了，官方似乎没有相关文档，但是根据以前我处理分屏下布局的bug，系统应该是根据长宽的大小比较来决定是使用port文件夹还是land文件夹下的布局。这个在stackoverflow上的workaround<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isTablet</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (context.getResources().getConfiguration().screenLayout &amp; Configuration.SCREENLAYOUT_SIZE_MASK) &gt;= Configuration.SCREENLAYOUT_SIZE_LARGE;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>其实我个人认为通过长宽来判断应该设置横屏还是竖屏更合理一点。因为有的平板就是放大版的手机，这种平板其实就应该走手机的逻辑。用WindowManagerService来获取屏幕的宽高。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);</span><br><span class="line">DisplayMetrics metrics = <span class="keyword">new</span> DisplayMetrics();</span><br><span class="line">wm.getDefaultDisplay().getMetrics(metrics);</span><br><span class="line"><span class="keyword">int</span> heightPixels = metrics.heightPixels;</span><br><span class="line">Log.d(TAG, <span class="string">"heightPixels :"</span> + heightPixels);</span><br><span class="line"><span class="keyword">int</span> widthPixels = metrics.widthPixels;</span><br><span class="line">Log.d(TAG, <span class="string">"widthPixels :"</span> + widthPixels);</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">heightPixels :1440 widthPixels :2560 //横屏</span><br><span class="line">heightPixels :2560 widthPixels :1440 //竖屏</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjpw14cm6000ci8mjmkn4y115" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjqz2uojr00077wmj5qr0b69g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -644,7 +721,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -655,6 +732,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/">make_shared vs shared_ptr</a>
+          </li>
         
           <li>
             <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
@@ -672,10 +753,6 @@
             <a href="/2018/12/02/Algorithm-DP/">Dynamic Programming</a>
           </li>
         
-          <li>
-            <a href="/2018/11/25/C-使用Jansson产生的引用计数bug/">使用Jansson产生的引用计数bug</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -688,7 +765,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 Star<br>
+      &copy; 2019 Star<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

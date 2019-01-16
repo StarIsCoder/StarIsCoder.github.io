@@ -5,15 +5,19 @@
   
 
   
-  <title>Archives: 2018 | Something</title>
+  <title>make_shared vs shared_ptr | Something</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Something">
-<meta property="og:url" content="http://yoursite.com/archives/2018/page/4/index.html">
+  <meta name="description" content="最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。 查了下代码发生确实在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="make_shared vs shared_ptr">
+<meta property="og:url" content="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/index.html">
 <meta property="og:site_name" content="Something">
+<meta property="og:description" content="最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。 查了下代码发生确实在">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-01-16T11:02:09.531Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Something">
+<meta name="twitter:title" content="make_shared vs shared_ptr">
+<meta name="twitter:description" content="最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。 查了下代码发生确实在">
   
     <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
   
@@ -60,178 +64,71 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/08/23/C-Inline-Reference/" class="archive-article-date">
-  <time datetime="2018-08-23T16:00:00.000Z" itemprop="datePublished">Aug 24</time>
+        <section id="main"><article id="post-C-shared-ptr-vs-maked-shared" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/" class="article-date">
+  <time datetime="2019-01-15T16:00:00.000Z" itemprop="datePublished">2019-01-16</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/23/C-Inline-Reference/">inline&amp;reference</a>
+    <h1 class="article-title" itemprop="name">
+      make_shared vs shared_ptr
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/08/16/C-function-array/" class="archive-article-date">
-  <time datetime="2018-08-16T16:00:00.000Z" itemprop="datePublished">Aug 17</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/16/C-function-array/">函数与数组</a>
-    </h1>
-  
+        <p>最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。</p>
+<p>查了下代码发生确实在实例化的时候是用new出来的裸指针<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ObjectA m_ObjectA = <span class="keyword">new</span> ObjectA();</span><br></pre></td></tr></table></figure></p>
+<p>应该变成<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;ObjectA&gt; m_ObjectA = make_shared&lt;ObjectA&gt;();</span><br></pre></td></tr></table></figure></p>
+<p>但是shared_ptr又有两种创建方式<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;Object&gt; p1 = <span class="built_in">std</span>::make_shared&lt;Object&gt;(<span class="string">"foo"</span>);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;Object&gt; p2(<span class="keyword">new</span> Object(<span class="string">"foo"</span>));</span><br></pre></td></tr></table></figure></p>
+<p>最主要的差别在于make_shared执行一次堆分配(将shared_ptr执行的两次堆分配合在一起)，而shared_ptr会执行两次堆分配。由于make_shared只执行一次堆分配因此效率更高。但make_shared只有一次堆分配，因此只有当两者都没有被引用时才会释放。</p>
+<ul>
+<li>Shared_ptr：<ol>
+<li>引用计数</li>
+<li>对象数据</li>
+</ol>
+</li>
+<li>Make_shared：<ol>
+<li>引用计数和对象数据</li>
+</ol>
+</li>
+</ul>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/08/09/Kotlin-Singleton/" class="archive-article-date">
-  <time datetime="2018-08-09T16:00:00.000Z" itemprop="datePublished">Aug 10</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/09/Kotlin-Singleton/">Singleton</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/08/06/C-Pointer-Note/" class="archive-article-date">
-  <time datetime="2018-08-06T16:00:00.000Z" itemprop="datePublished">Aug 7</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjqz2uokn000z7wmj1l5k4gku" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/06/C-Pointer-Note/">Pointer Note</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/08/04/Java-Container/" class="archive-article-date">
-  <time datetime="2018-08-04T16:00:00.000Z" itemprop="datePublished">Aug 5</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/04/Java-Container/">Container</a>
-    </h1>
-  
-
-    </header>
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/12/18/Algorithm-PowerOfN/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Power of N</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" class="archive-article-date">
-  <time datetime="2018-07-27T16:00:00.000Z" itemprop="datePublished">Jul 28</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/">扩展函数/属性/中缀调用</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/07/26/Android-Modify-shape-attributes/" class="archive-article-date">
-  <time datetime="2018-07-26T16:00:00.000Z" itemprop="datePublished">Jul 27</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/26/Android-Modify-shape-attributes/">Modify shape attributes in code</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/07/24/Android-ShowPopupAtLocation/" class="archive-article-date">
-  <time datetime="2018-07-24T16:00:00.000Z" itemprop="datePublished">Jul 25</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/24/Android-ShowPopupAtLocation/">PopupWindow show at location</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/archives/2018/page/3/">&laquo; Prev</a><a class="page-number" href="/archives/2018/">1</a><a class="page-number" href="/archives/2018/page/2/">2</a><a class="page-number" href="/archives/2018/page/3/">3</a><span class="page-number current">4</span>
-  </nav>
 
 </section>
         

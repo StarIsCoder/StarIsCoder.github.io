@@ -62,6 +62,62 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-C-shared-ptr-vs-maked-shared" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/" class="article-date">
+  <time datetime="2019-01-15T16:00:00.000Z" itemprop="datePublished">2019-01-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/15/C-shared-ptr-vs-maked-shared/">make_shared vs shared_ptr</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。</p>
+<p>查了下代码发生确实在实例化的时候是用new出来的裸指针<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ObjectA m_ObjectA = <span class="keyword">new</span> ObjectA();</span><br></pre></td></tr></table></figure></p>
+<p>应该变成<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;ObjectA&gt; m_ObjectA = make_shared&lt;ObjectA&gt;();</span><br></pre></td></tr></table></figure></p>
+<p>但是shared_ptr又有两种创建方式<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;Object&gt; p1 = <span class="built_in">std</span>::make_shared&lt;Object&gt;(<span class="string">"foo"</span>);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;Object&gt; p2(<span class="keyword">new</span> Object(<span class="string">"foo"</span>));</span><br></pre></td></tr></table></figure></p>
+<p>最主要的差别在于make_shared执行一次堆分配(将shared_ptr执行的两次堆分配合在一起)，而shared_ptr会执行两次堆分配。由于make_shared只执行一次堆分配因此效率更高。但make_shared只有一次堆分配，因此只有当两者都没有被引用时才会释放。</p>
+<ul>
+<li>Shared_ptr：<ol>
+<li>引用计数</li>
+<li>对象数据</li>
+</ol>
+</li>
+<li>Make_shared：<ol>
+<li>引用计数和对象数据</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjqz2uokn000z7wmj1l5k4gku" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Algorithm-PowerOfN" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/18/Algorithm-PowerOfN/" class="article-date">
@@ -105,7 +161,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjpw14cnh001zi8mj3rdbtnv2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjqz2uojc00037wmjileza3ld" class="article-share-link">Share</a>
       
       
     </footer>
@@ -164,7 +220,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjpw14cmm0014i8mjlr821wgv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjqz2uokn001f7wmjdddhzzab" class="article-share-link">Share</a>
       
       
     </footer>
@@ -217,7 +273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjpw14clr0003i8mjlj7b6b5l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjqz2uojc00047wmjmzsurnrr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -269,7 +325,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjpw14clb0000i8mjycsl9wto" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjqz2uoiw00007wmjihm371i8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -317,7 +373,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjpw14cmm000si8mj6ffdt10s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjqz2uokn00127wmj6yb38ffw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -406,7 +462,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjpw14cmm000ni8mjjaa9gp73" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjqz2uok7000t7wmjmjpbmhma" class="article-share-link">Share</a>
       
       
     </footer>
@@ -471,7 +527,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjpw14cnh001vi8mjvhq29u0w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjqz2uol200247wmjc99eqey5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -532,7 +588,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjpw14clr0008i8mjv8svjikz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjqz2uojr000d7wmjy03qz5k2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -590,87 +646,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjpw14cn1001ci8mjfy9l4nzf" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java-ClassFileFormat" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/22/Java-ClassFileFormat/" class="article-date">
-  <time datetime="2018-10-22T16:00:00.000Z" itemprop="datePublished">2018-10-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/22/Java-ClassFileFormat/">Class File Format</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Class文件是一组以8位字节为基础单位的二进制流，可以用Hex Friend等工具打开。<br>CLass结构： </p>
-<ul>
-<li>无符号数：基本类型，u1,u2,u4,u4分别代表一个字节、两个字节、四个字节、八个字节的无符号数。</li>
-<li>表：多个无符号数或者其他表作为数据项构成的复合数据类型，习惯以_info结尾，整个class文件本质上就是一张表。</li>
-</ul>
-<p><img src="/assets/Java_ClassFileDetail/java-class-file-internal-structure.png" alt=""></p>
-<h2 id="class具体结构"><a href="#class具体结构" class="headerlink" title="class具体结构"></a>class具体结构</h2><h3 id="魔数"><a href="#魔数" class="headerlink" title="魔数"></a>魔数</h3><p>每个class文件的头4个字节称为魔数，它的唯一作用是确定这个文件是否为一个能被虚拟机接受的Class文件，大部分文件存储标准都是通过魔数来进行身份验证的。因为扩展名可以随意改动。对Class文件来说魔数值为<strong>0xCAFEBABE</strong>。</p>
-<p><img src="/assets/Java_ClassFileDetail/Class_MagicNumber.jpg" alt=""></p>
-<h3 id="版本号"><a href="#版本号" class="headerlink" title="版本号"></a>版本号</h3><p>在魔数之后的4个字节存储的是class文件的版本号，前两个字节是次版本号，后两个是主版本号。Java版本号是从45开始的，例如JDK1.1能支持版本号45.0 ~ 45.65535的Class文件，JDK1.2则能执行45.0 ~ 46.65535的Class文件。这边示例的class文件是用JDK11，因此应该是55。</p>
-<p><img src="/assets/Java_ClassFileDetail/Class_VersionNumber.jpg" alt=""></p>
-<h3 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h3><p>常量池：常量池可以理解为class文件中的资源仓库，它是class文件结构中与其他项目关联最多的数据类型。</p>
-<p>由于一个类中有多少方法和变量是不确定的，因此常量池入口有一项u2类型的数据，代表常量池容量计数值。不过这个容量计数是从1开始的。也就是说如果这个值是57，那么就有56个常量，之所以把0空出来是因为如果某个常量的索引不引用任何一个常量就可以用0来表示。图中的容量计数值为59，因此一共有58个常量。</p>
-<p><img src="/assets/Java_ClassFileDetail/Class_NumberOfConstant.jpg" alt=""></p>
-<p>常量池主要存放两大类常量：字面量和符合引用</p>
-<ul>
-<li>字面量：Java语音的常量概念，final修饰的关键字，字符串等等</li>
-<li>符号引用：<ul>
-<li>类和接口的全限定名</li>
-<li>字段的名称和描述符</li>
-<li>方法的名称和描述符</li>
-</ul>
-</li>
-</ul>
-<p>常量池中的常量每一个都是一个表，并且表的结构数据不同，有的是三列，有的是两列，为了区分它们的结构，这些表的第一位是一个u1类型的标志位，代表属于哪种表的类型也就是说代表哪一种常量类型。例如如果是1那么表示是utf8类型的常量，如果是10那么就是方法的符号引用。</p>
-<p><img src="/assets/Java_ClassFileDetail/Constant_pool.png" alt=""></p>
-<p>查看下第一个常量是0A，也就是10，10对应常量池中的项目类型是CONSTANT_Methodref_info，而这个类型一共有三个参数，第一个是tag，也就是10，第二个和第三个都是u2类型，如图中是0E（14）和1B（27），分别表示指向声明方法和指向名称的索引。</p>
-<p><img src="/assets/Java_ClassFileDetail/FirstElement.jpg" alt=""></p>
-<p>可以使用javap反编译来确认下。第一个常量是这样的，和用hex friend计算出来是一样的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#1 = Methodref          #14.#27</span><br></pre></td></tr></table></figure></p>
-<p><img src="/assets/Java_ClassFileDetail/javapResult.jpg" alt=""></p>
-<h3 id="访问标志"><a href="#访问标志" class="headerlink" title="访问标志"></a>访问标志</h3><p>常量池之后是access_flags，这个标志用于识别一些类或者接口层次的访问信息，例如这个class是类还是接口，是public还是abstract等等。使用javap也可以看到标志。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flags: (0x0021) ACC_PUBLIC, ACC_SUPER</span><br></pre></td></tr></table></figure></p>
-<h3 id="类索引、父类索引、接口索引集合"><a href="#类索引、父类索引、接口索引集合" class="headerlink" title="类索引、父类索引、接口索引集合"></a>类索引、父类索引、接口索引集合</h3><p>类索引和父类索引都是一个u2类型的数据，而接口索引集合是一组u2类型的数据。Class文件中由这三项来确定继承关系。</p>
-<p>类索引和父类索引各自指向一个类型为CONSTANT_Class_info的类描述符常量，通过这个类描述符常量中的索引值可以找到定义在CONSTANT_Utf8_info类型的常量中的全限定名字符串。</p>
-<p>例如图中this_class的索引是13，而13的索引又指向了55，55则代表这个类名。</p>
-<p><img src="/assets/Java_ClassFileDetail/this_class.jpg" alt=""></p>
-<p><img src="/assets/Java_ClassFileDetail/this_class2.jpg" alt=""></p>
-<h3 id="字段表集合"><a href="#字段表集合" class="headerlink" title="字段表集合"></a>字段表集合</h3><p>field_info用于描述接口或者类中声明的变量。字段包括类级变量以及实例级变量，不包括方法中的临时变量。</p>
-<p>字段表的结构用access_flags来表示作用域、是否final、是否static等等，另外用了两个索引来表示这个变量的名称和类型（有映射的字符，例如int对应I）。另外还有两个字段存储额外的信息，如果我们给一个变量赋了初始值，那么这两个字段就会有对应的值。</p>
-<h3 id="方法表集合"><a href="#方法表集合" class="headerlink" title="方法表集合"></a>方法表集合</h3><p>类似于字段表集合，由于方法没有volatile和transient关键字，因此access_flags中没有ACC_VOLATILE标志和ACC_TRANSIENT标志。而增加了synchronized、native等修饰方法的关键字。由于和字段表集合大同小异，不多赘述。</p>
-<p>但是需要注意的是方法中的代码被单独存放在了方法表中的code字段下，可以看到下图是用javap反编译出的main方法。access_flags是ACC_PUBLIC和ACC_STATIC，descriptor表示传入的参数和返回值。code字段下是方法中的代码。</p>
-<p><img src="/assets/Java_ClassFileDetail/javap_method.jpg" alt=""></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjpw14cmm000vi8mjdaldeid8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjqz2uol2001n7wmj4lf77kms" class="article-share-link">Share</a>
       
       
     </footer>
@@ -710,7 +686,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -721,6 +697,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/">make_shared vs shared_ptr</a>
+          </li>
         
           <li>
             <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
@@ -738,10 +718,6 @@
             <a href="/2018/12/02/Algorithm-DP/">Dynamic Programming</a>
           </li>
         
-          <li>
-            <a href="/2018/11/25/C-使用Jansson产生的引用计数bug/">使用Jansson产生的引用计数bug</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -754,7 +730,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 Star<br>
+      &copy; 2019 Star<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
