@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Delete half of files randomly | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Marvel中的灭霸可以打个响指就灭掉一半的人，然后在网上看到有个开源库，是执行脚本随机删除一半的文件。  https://github.com/hotvulcan/Thanos.sh  不过该库中用的是PowerShell Script，由于之前学过一点shell，这次就用shell试试，就当练习下shell的语法了。 用find命令列出路径下的所有文件，这个脚本是这样 12#!/bin/shf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Delete half of files randomly">
+<meta property="og:url" content="http://yoursite.com/2019/01/31/Shell-Thanos/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="Marvel中的灭霸可以打个响指就灭掉一半的人，然后在网上看到有个开源库，是执行脚本随机删除一半的文件。  https://github.com/hotvulcan/Thanos.sh  不过该库中用的是PowerShell Script，由于之前学过一点shell，这次就用shell试试，就当练习下shell的语法了。 用find命令列出路径下的所有文件，这个脚本是这样 12#!/bin/shf">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-01T06:08:45.559Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Delete half of files randomly">
+<meta name="twitter:description" content="Marvel中的灭霸可以打个响指就灭掉一半的人，然后在网上看到有个开源库，是执行脚本随机删除一半的文件。  https://github.com/hotvulcan/Thanos.sh  不过该库中用的是PowerShell Script，由于之前学过一点shell，这次就用shell试试，就当练习下shell的语法了。 用find命令列出路径下的所有文件，这个脚本是这样 12#!/bin/shf">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Shell-Thanos" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/31/Shell-Thanos/" class="article-date">
+  <time datetime="2019-01-31T16:00:00.000Z" itemprop="datePublished">2019-02-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Shell/">Shell</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Delete half of files randomly
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Marvel中的灭霸可以打个响指就灭掉一半的人，然后在网上看到有个开源库，是执行脚本随机删除一半的文件。</p>
+<ul>
+<li><a href="https://github.com/hotvulcan/Thanos.sh" target="_blank" rel="noopener">https://github.com/hotvulcan/Thanos.sh</a></li>
+</ul>
+<p>不过该库中用的是PowerShell Script，由于之前学过一点shell，这次就用shell试试，就当练习下shell的语法了。</p>
+<p>用find命令列出路径下的所有文件，这个脚本是这样</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">find . -<span class="built_in">type</span> f</span><br></pre></td></tr></table></figure>
+<p>其中type属性可以传递以下的参数，表示需要找到什么类型的文件</p>
+<p>-type c</p>
+<pre><code>File is of type c:
+
+b      block (buffered) special
+
+c      character (unbuffered) special
+
+d      directory
+
+p      named pipe (FIFO)
+
+f      regular file
+
+l      symbolic link; this is never true if the -L option or the  -follow  option  is  in  effect,
+       unless the symbolic link is broken.  If you want to search for symbolic links when -L is in
+       effect, use -xtype.
+
+s      socket
+
+D      door (Solaris)
+</code></pre><p>由于是随机删除一半，因此我们需要把<code>find</code>输出的内容砍掉一半并且打乱。打乱需要用到<code>shuf</code>指令，mac上这个命令默认不支持需要执行<code>brew install coreutils</code>安装下。</p>
+<p><code>shuf</code>可以传递<code>-n</code>的参数，表示最多输出的行数。</p>
+<p>这时候指令变成了<code>find . -type f | shuf -n  $[总文件数/2]</code>。</p>
+<p>还需要获取到总文件数，可以用<code>wc(Word count)</code>来统计。由于文件名是按行输出，因此我们需要使用<code>-l</code>参数来统计行数。</p>
+<p>这时候脚本变成了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">count=`find . -<span class="built_in">type</span> f | wc -l`</span><br><span class="line"><span class="built_in">echo</span> $[count/2]</span><br><span class="line">find . -<span class="built_in">type</span> f | shuf -n  $[count/2]</span><br></pre></td></tr></table></figure></p>
+<p>接下来只需要把<code>find</code>并且用<code>shuf</code>打乱后的结果放在<code>rm -rf</code>后面，需要用到<code>xargs</code>指令。</p>
+<p><code>xargs</code>表示可以把输出传递给<code>xargs</code>之后的指令。最后生成的脚本就是这样的，功能就是随机删除path路径下一半的文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">count=`find . -<span class="built_in">type</span> f | wc -l`</span><br><span class="line"><span class="built_in">echo</span> $[count/2]</span><br><span class="line">find [path] -<span class="built_in">type</span> f | shuf -n  $[count/2] | xargs rm -rf</span><br></pre></td></tr></table></figure>
+<p></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/31/Shell-Thanos/" data-id="cjrlnf1tv002460mjfxez9k6v" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">make_shared vs shared_ptr</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/01/31/Shell-Thanos/">Delete half of files randomly</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/">make_shared vs shared_ptr</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/03/Algorithm-TraversalBinaryTree/">Traversal Binary Tree</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

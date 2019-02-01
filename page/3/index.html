@@ -62,6 +62,58 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java-Volatile" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/26/Java-Volatile/" class="article-date">
+  <time datetime="2018-09-26T16:00:00.000Z" itemprop="datePublished">2018-09-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/26/Java-Volatile/">Volatile</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p>原子性操作是指不能被线程调度机制中断的操作，一旦操作开始，在可能发生的上下文切换之前执行完。</p>
+<p>java中对除了long和double以外的基本类型进行读写操作都是原子性的，因为long和double是64位的，JVM有可能将其分为两个32位的。</p>
+<p>这里说的读写操作并不包括自加等。因为自加其实是分成了两步来走。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">i++</span><br><span class="line"></span><br><span class="line"><span class="number">0</span>:    aload_0</span><br><span class="line"><span class="number">1</span>:    dup</span><br><span class="line"><span class="number">2</span>:    getfield</span><br><span class="line"><span class="number">5</span>:    iconst_1</span><br><span class="line"><span class="number">6</span>:    iadd</span><br><span class="line"><span class="number">7</span>:    putfield</span><br><span class="line"><span class="number">10</span>:   <span class="keyword">return</span></span><br></pre></td></tr></table></figure></p>
+<p>这个操作有put和get，如果在put和get之间发生了变化，那么得到的结果可能不正确，因此不是原子性操作。当然java中有AtomicInteger、AtomicLong、AtomicBoolean等原子类。</p>
+<h2 id="Volatile修饰词具有如下两种属性"><a href="#Volatile修饰词具有如下两种属性" class="headerlink" title="Volatile修饰词具有如下两种属性"></a>Volatile修饰词具有如下两种属性</h2><h3 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h3><p>通俗的说就是当这个值被修改了，那么所有的读取操作都可以看到这个修改。</p>
+<p>对一个普通的变量i来说，正常的读写操作是先将变量从主内存拷贝到工作内存（缓存）中，进行一定的操作之后，再写入主内存，但是什么时候写入是不确定的。那么由于两个线程工作在两个cpu上，如果cpu1修改了i，但是没有及时写入主内存，而cpu2直接去读取i，结果就是这个i不是最新的。</p>
+<p>用volatile修饰了的变量，在被修改之后会强制立即写入主内存。这样能保证在读取的时候一定是最新的。并且读取操作也是直接从主内存中读取。</p>
+<p>因此volatile保证了对于其他线程的可见性。</p>
+<h3 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h3><p>在JVM中，编译器和处理器可能会对指令进行重排，或许是为了优化，但是如果被volatile修饰的变量则会告诉编译器不要重排指令，按照顺序执行就可以，避免了并发产生的问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">a++;</span><br><span class="line">b++;</span><br></pre></td></tr></table></figure></p>
+<p>以上代码可以重排列成如下，因为a与b之间没有依赖。如果有依赖并且重排的话则会产生并发问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">a++;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line">b++;</span><br></pre></td></tr></table></figure></p>
+<p>当然也可以使用synchronized和lock来保证有序，因为在某个时间段只有一个线程能执行被修饰的代码。</p>
+<p>优先选择一定是sychronized，除非只有一个变量，否则都不应该只使用volatile，他并不能保证并发的冲突不发生。同样的也不能改变自加不是原子性的本质。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjrlnf1tf001r60mjldxq6ev5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java-Concurrent-AQS" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/25/Java-Concurrent-AQS/" class="article-date">
@@ -175,7 +227,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjrln8ijq0016qomjuyz12jyi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjrlnf1t0001660mjse2th87c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -237,7 +289,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjrln8iiv000kqomjb5qkyxk6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjrlnf1sk000k60mj0qlw6hsx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -302,7 +354,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjrln8ijq001kqomjv2kkpiyt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjrlnf1tf001k60mjy7v8zprr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -356,7 +408,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjrln8ijb000yqomj8oauzrqz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjrlnf1t0000y60mj9xcc14h9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -413,7 +465,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjrln8ijq001oqomjsrowgm55" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjrlnf1tv002760mjhqutrzmw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -463,7 +515,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjrln8ik6001wqomjk14vg9pj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjrlnf1tf001v60mjc55ofqbd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -532,7 +584,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjrln8iig0008qomjcnnot3o6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjrlnf1s4000860mjxyfvhz78" class="article-share-link">Share</a>
       
       
     </footer>
@@ -591,7 +643,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjrln8iiv000lqomju9upz0zi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjrlnf1sk000l60mjyq1ab6bq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -633,55 +685,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjrln8iig0005qomj0xfwfs5i" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android-Matrix-Camera" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/28/Android-Matrix-Camera/" class="article-date">
-  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/Android-Matrix-Camera/">Matrix&amp;Camera</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在学习自定义view，先将学到了东西记录一下。</p>
-<h2 id="Matrix"><a href="#Matrix" class="headerlink" title="Matrix"></a>Matrix</h2><p>Matrix就是矩阵的意思，具体的数学原理已经还给老师了，因此只是记录使用方式。<br>由于矩阵并不满足交换律，即：<br>A<em>B ≠ B</em>A<br>因此矩阵的方法都是成对的，用pre或者post作为前缀表示前乘或者后乘，这个前和后的意思就是将初始矩阵放在前还是后的意思。<br>使用方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Matrix matrix = <span class="keyword">new</span> Matrix();</span><br><span class="line">matrix.preRotate(<span class="number">45</span>);</span><br><span class="line">matrix.postTranslate(<span class="number">200</span>, <span class="number">0</span>);</span><br><span class="line">canvas.setMatrix(matrix);</span><br><span class="line">canvas.drawBitmap(bitmap, <span class="number">100</span>, <span class="number">100</span>, paint);</span><br></pre></td></tr></table></figure></p>
-<p>Matrix的强大之处在于可以完成一切的形变，而canvas只支持一部分的形变。并且Matrix可以根据前乘和后乘（绝对不是根据简单的pre和post）来决定形变的顺序。</p>
-<h2 id="Camera"><a href="#Camera" class="headerlink" title="Camera"></a>Camera</h2><p>Camera顾名思义就是照相机，这是一个在三维坐标轴上处于z轴的一个相机，他的工作原理就是将三维模型投影在canvas，也就是我们实际看到的图形。插播一段它的坐标系。</p>
-<p>View的坐标系:以屏幕左上方为原点。x轴左负右正，y轴上负下正。</p>
-<p>Camera的坐标系:以屏幕左上方为原点，x轴左负右正,y轴上正下负，z轴内正外负。</p>
-<p>如果我们直接调用camera的rotate方法的话，假设让它绕x轴旋转30度，由于camera是始终处于z轴上的，因此如果这时候投影的话，那么投影出来的图形并不是我们想要的效果，而是不对称且右边拉长的结果。解决办法就是在旋转之前先将图片移到原点。之后再移回来，不过代码中canvas的移动要反过来写，因为它是反向执行的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">camera.rotateX(<span class="number">30</span>);</span><br><span class="line">canvas.translate(centerX, centerY); </span><br><span class="line">camera.applyToCanvas(canvas); </span><br><span class="line">canvas.translate(-centerX, -centerY);</span><br></pre></td></tr></table></figure></p>
-<p>其余的一些调用api的就不写了，等用的时候一查就有了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjrln8iig0007qomjrteui25e" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjrlnf1s4000560mj4hivutwd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -706,7 +710,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li></ul>
     </div>
   </div>
 
@@ -721,7 +725,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -732,6 +736,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/01/31/Shell-Thanos/">Delete half of files randomly</a>
+          </li>
         
           <li>
             <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/">make_shared vs shared_ptr</a>
@@ -747,10 +755,6 @@
         
           <li>
             <a href="/2018/12/03/Algorithm-TraversalBinaryTree/">Traversal Binary Tree</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/02/Algorithm-DP/">Dynamic Programming</a>
           </li>
         
       </ul>
