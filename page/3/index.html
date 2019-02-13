@@ -62,6 +62,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java-Lamda" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/03/Java-Lamda/" class="article-date">
+  <time datetime="2018-10-03T16:00:00.000Z" itemprop="datePublished">2018-10-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/03/Java-Lamda/">Lamda表达式-Preview</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>Lamda表达式中引用的局部变量必须是final或既成事实上的值。<br>换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">str = <span class="string">"world"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//Variable used in lambda expression should be final or effectively final</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//valid</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="Predicate接口"><a href="#Predicate接口" class="headerlink" title="Predicate接口"></a>Predicate接口</h2><p>该接口表示传入的对象是否满足某种条件，并返回boolean作为真假判断。check下源码，该接口只接受一个参数，返回一个布尔值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>例如我们希望从一个int的列表中找到所有的偶数，那么Predicate可以这么写。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Predicate&lt;Integer&gt; predicate = integer -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> integer % <span class="number">2</span> == <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">predicate.negate();<span class="comment">// 过滤出所有的奇数</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Lamda表达式是一个匿名的方法，将行为像数据一样传递。</li>
+<li>Lamda表达式也被称为闭包，未赋值的变量与周边环境隔离起来，进而被绑定到一个特定的值。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjs2x2cwr001ky4mj1o8jakyn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java-Volatile" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/26/Java-Volatile/" class="article-date">
@@ -104,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjrlnf1tf001r60mjldxq6ev5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjs2x2cx6001wy4mj1n9cnmk9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -227,7 +275,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjrlnf1t0001660mjse2th87c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjs2x2cwb0017y4mjilu6gojw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -289,7 +337,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjrlnf1sk000k60mj0qlw6hsx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjs2x2cvv000ky4mjdz1sskaw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -354,7 +402,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjrlnf1tf001k60mjy7v8zprr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjs2x2cx6001oy4mj4iqly89m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -408,7 +456,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjrlnf1t0000y60mj9xcc14h9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjs2x2cwb000yy4mjbap3xdh1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -465,7 +513,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjrlnf1tv002760mjhqutrzmw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjs2x2cx6001sy4mjmjq4yuvg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -515,7 +563,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjrlnf1tf001v60mjc55ofqbd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjs2x2cx60020y4mjeweqc81g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -584,7 +632,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjrlnf1s4000860mjxyfvhz78" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjs2x2cvg0008y4mjd5sq4stj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -643,49 +691,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjrlnf1sk000l60mjyq1ab6bq" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
-  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/">LinearLayout设置gravity不生效</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
-<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjrlnf1s4000560mj4hivutwd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjs2x2cvv000ly4mj75bj1aja" class="article-share-link">Share</a>
       
       
     </footer>
@@ -699,7 +705,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -738,6 +744,10 @@
       <ul>
         
           <li>
+            <a href="/2019/02/12/C-virtual-table/">virtual table</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/31/Shell-Thanos/">Delete half of files randomly</a>
           </li>
         
@@ -751,10 +761,6 @@
         
           <li>
             <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/03/Algorithm-TraversalBinaryTree/">Traversal Binary Tree</a>
           </li>
         
       </ul>

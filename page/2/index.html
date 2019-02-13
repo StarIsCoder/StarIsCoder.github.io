@@ -62,6 +62,67 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Android-Screenshot" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/08/Android-Screenshot/" class="article-date">
+  <time datetime="2018-11-08T16:00:00.000Z" itemprop="datePublished">2018-11-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/08/Android-Screenshot/">Screenshot</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>虽然没做过android screenshot，但是一直以为调用某个系统提供的api，今天搜索了一下才知道各个版本之间的screenshot方式还不太一样。</p>
+<p>4.0以下采用JNI ： <a href="http://blog.csdn.net/zmyde2010/article/details/6925498" target="_blank" rel="noopener">http://blog.csdn.net/zmyde2010/article/details/6925498</a></p>
+<p>4.0~4.2采用反射方法获取截屏api ：<a href="http://blog.csdn.net/cjd6568358/article/details/39120037" target="_blank" rel="noopener">http://blog.csdn.net/cjd6568358/article/details/39120037</a></p>
+<p>4.3~4.4 api被hide标签修饰，需要root，执行<code>adb shell  /system/bin/screencap -p /sdcard/screenshot.png</code></p>
+<p>5.0以上则主要用MediaProjection来实现。</p>
+<p>其实也不算很复杂，用MediaProjectionManager的<code>createScreenCaptureIntent</code>方法构建出一个intent并且发送出去就行。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">startScreenshot</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(), REQUEST_MEDIA_PROJECTION);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>查看源码其实是直接启动一个权限相关的Activity弹框，实际显示的时候也会弹框出现。当用户允许了之后就会开始截屏操作。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Intent <span class="title">createScreenCaptureIntent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Intent i = <span class="keyword">new</span> Intent();</span><br><span class="line">    <span class="keyword">final</span> ComponentName mediaProjectionPermissionDialogComponent =</span><br><span class="line">            ComponentName.unflattenFromString(mContext.getResources().getString(</span><br><span class="line">                    com.android.internal.R.string</span><br><span class="line">                    .config_mediaProjectionPermissionDialogComponent));</span><br><span class="line">    i.setComponent(mediaProjectionPermissionDialogComponent);</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;string name=<span class="string">"config_mediaProjectionPermissionDialogComponent"</span> translatable=<span class="string">"false"</span>&gt;</span><br><span class="line">    com.android.systemui/com.android.systemui.media.MediaProjectionPermissionActivity</span><br><span class="line">&lt;/string&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当然这边只是启动screenshot，还需要拿到screenshot的数据。既然是<code>startActivityForResult</code>，那肯定是在<code>onActivityResult</code>方法中拿到数据的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, @Nullable Intent data)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (requestCode == REQUEST_MEDIA_PROJECTION) &#123;</span><br><span class="line">        resultData = data;</span><br><span class="line">        <span class="keyword">this</span>.resultCode = resultCode;</span><br><span class="line">    &#125;</span><br><span class="line">    mediaProjection = mediaProjectionManager.getMediaProjection(<span class="keyword">this</span>.resultCode, resultData);</span><br><span class="line">    mediaProjection.createVirtualDisplay(<span class="string">"Screenshot"</span>, surfaceView.getWidth(),</span><br><span class="line">                surfaceView.getHeight(), screenDensity,</span><br><span class="line">                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,</span><br><span class="line">                mSurface, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>只要能正确实例化MediaProjection就可以拿到screenshot的数据了，这边是直接将其显示在surface上，如果希望保存下来的话需要实例化一个ImageReader。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ImageReader imageReader = ImageReader.newInstance(displayWidth, displayWidth, PixelFormat.RGBA_8888, <span class="number">2</span>);</span><br><span class="line">imageReader.setOnImageAvailableListener(<span class="keyword">new</span> ImageReader.OnImageAvailableListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onImageAvailable</span><span class="params">(ImageReader reader)</span> </span>&#123;</span><br><span class="line">        ......</span><br><span class="line">        <span class="comment">//Get screenshot</span></span><br><span class="line">        image = reader.acquireLatestImage();</span><br><span class="line">        Bitmap bitmap = convertImagetoBitmap(image);</span><br><span class="line">        ......</span><br><span class="line">        imageView.setImageBitmap(bitmap);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="keyword">null</span>);</span><br></pre></td></tr></table></figure></p>
+<p>不过，对比一下Qt下的截屏，Android真的是太复杂了，而且暂时也想不到有什么跨平台的方式能实现Android平台的screenshot。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> screenNumber = QApplication::desktop()-&gt;screenNumber(QCursor::pos());</span><br><span class="line">QScreen* screen = QApplication::screens().at(screenNumber);</span><br><span class="line">QRect screenGeometry = screen-&gt;geometry();</span><br><span class="line">QPixmap pixmap = screen-&gt;grabWindow(<span class="number">0</span>, screenGeometry.x(), screenGeometry.y(), screenGeometry.width(), screenGeometry.height());</span><br><span class="line">QImage screenshot = pixmap.toImage();</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><p>发送intent</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(), REQUEST_MEDIA_PROJECTION);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>覆写onActivityResult，在方法中拿到实例化的MediaRejection</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, @Nullable Intent data)</span> </span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    mediaProjection = mediaProjectionManager.getMediaProjection(<span class="keyword">this</span>.resultCode, resultData);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果要显示在SurfaceView上，就传入SurfaceView的Surface，如果要保存数据则传入<code>imageReader.getSurface()</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mediaProjection.createVirtualDisplay(<span class="string">"Screenshot"</span>, surfaceView.getWidth(),</span><br><span class="line">                surfaceView.getHeight(), screenDensity,</span><br><span class="line">                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,</span><br><span class="line">                <span class="comment">//surfaceView.getHolder().getSurface()</span></span><br><span class="line">                <span class="comment">//imageReader.getSurface()</span></span><br><span class="line">                mSurface, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjs2x2cvg000dy4mjgmkgpf4r" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java-PassByValue" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/23/Java-PassByValue/" class="article-date">
@@ -110,7 +171,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjrlnf1tf001n60mjy00ouo5x" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjs2x2cx6001py4mjqdnmadyl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -190,7 +251,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjrlnf1t0001360mjufeni8uc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjs2x2cwb0016y4mj6g73quer" class="article-share-link">Share</a>
       
       
     </footer>
@@ -240,7 +301,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjrlnf1rp000160mjkv1y97dp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjs2x2cv00001y4mjvxen9gmy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -335,7 +396,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjrlnf1t0001c60mjnw8dau97" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjs2x2cwr001fy4mjcwiwhyqg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -413,7 +474,55 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjrlnf1tf001j60mj8xraee1m" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjs2x2cwr001ly4mjcyp2uk6o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Kotlin-Delegation" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/12/Kotlin-Delegation/" class="article-date">
+  <time datetime="2018-10-12T16:00:00.000Z" itemprop="datePublished">2018-10-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="类代理"><a href="#类代理" class="headerlink" title="类代理"></a>类代理</h2><p>面向对象的特性中由于继承的存在关系，因此当扩展一个类并自行重新定义一些细节的时候，代码就会变的依赖于这个子类，而如果后期父类更新了，那么子类的实现可能与父类背道而驰，因此kotlin中默认将类修饰为final。但有的时候确实需要添加一些特定情况下才发生的新功能。</p>
+<p>因为在接口中定义的方法必须在实现类中全部实现，因此如果我们只是在原有的类上加一些新功能，那么会导致有很多重复的代码。</p>
+<p>在kotlin中可以通过by省略掉很多不需要的代码。如下代码中的test方法不用重写直接使用代理，也就是circle的test方法即可。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> redcircle = RedCircle(Circle())</span><br><span class="line">    redcircle.draw()</span><br><span class="line">    redcircle.test()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">val</span> descpition: String</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span> : <span class="type">Shape &#123;</span></span></span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">override</span> <span class="keyword">val</span> descpition: String</span><br><span class="line">        <span class="keyword">get</span>() = <span class="string">"Circle"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"draw <span class="variable">$descpition</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"test"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedCircle</span></span>(circle: Circle) : Shape <span class="keyword">by</span> circle &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(Circle().descpition + <span class="string">" is red"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result:circle is red</span><br></pre></td></tr></table></figure>
+<p>当然因为这里类比较简单，如果非常多的话例如collection接口，要实现五个方法，然而我们只是想新增一个方法，就会显得代码非常冗余<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCollection</span> :<span class="type">Collection</span>&lt;<span class="type">String</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">val</span> size: <span class="built_in">Int</span></span><br><span class="line">        <span class="keyword">get</span>() = TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change initializer of created properties use File | Settings | File Templates.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">contains</span><span class="params">(element: <span class="type">String</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">containsAll</span><span class="params">(elements: <span class="type">Collection</span>&lt;<span class="type">String</span>&gt;)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">isEmpty</span><span class="params">()</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">iterator</span><span class="params">()</span></span>: Iterator&lt;String&gt; &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>照例还是看下代理模式的java源码，这边只关注redCircle<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">redCircle</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">   <span class="comment">// $FF: synthetic field</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> circle $$delegate_0;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      String var1 = (<span class="keyword">new</span> circle()).getDescpition() + <span class="string">" is red"</span>;</span><br><span class="line">      System.out.println(var1);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">redCircle</span><span class="params">(@NotNull circle circle)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(circle, <span class="string">"circle"</span>);</span><br><span class="line">      <span class="keyword">super</span>();</span><br><span class="line">      <span class="keyword">this</span>.$$delegate_0 = circle;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@NotNull</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">getDescpition</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$$delegate_0.getDescpition();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.$$delegate_0.test();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到test方法由系统自动生成，并且是通过调用传入的circle对象来实现的。</p>
+<p>像kotlin的by关键字非常类似于java中的装饰器。本质上都是将原始类作为属性传入并保存，如果想保留原有的设计，那么直接调用原始类的方法即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjs2x2cxm0021y4mja4fue46l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -481,55 +590,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjrlnf1t0001a60mje05fbxyq" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Kotlin-Delegation" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/12/Kotlin-Delegation/" class="article-date">
-  <time datetime="2018-10-12T16:00:00.000Z" itemprop="datePublished">2018-10-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="类代理"><a href="#类代理" class="headerlink" title="类代理"></a>类代理</h2><p>面向对象的特性中由于继承的存在关系，因此当扩展一个类并自行重新定义一些细节的时候，代码就会变的依赖于这个子类，而如果后期父类更新了，那么子类的实现可能与父类背道而驰，因此kotlin中默认将类修饰为final。但有的时候确实需要添加一些特定情况下才发生的新功能。</p>
-<p>因为在接口中定义的方法必须在实现类中全部实现，因此如果我们只是在原有的类上加一些新功能，那么会导致有很多重复的代码。</p>
-<p>在kotlin中可以通过by省略掉很多不需要的代码。如下代码中的test方法不用重写直接使用代理，也就是circle的test方法即可。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> redcircle = RedCircle(Circle())</span><br><span class="line">    redcircle.draw()</span><br><span class="line">    redcircle.test()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">val</span> descpition: String</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span> : <span class="type">Shape &#123;</span></span></span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">override</span> <span class="keyword">val</span> descpition: String</span><br><span class="line">        <span class="keyword">get</span>() = <span class="string">"Circle"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"draw <span class="variable">$descpition</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"test"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedCircle</span></span>(circle: Circle) : Shape <span class="keyword">by</span> circle &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(Circle().descpition + <span class="string">" is red"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result:circle is red</span><br></pre></td></tr></table></figure>
-<p>当然因为这里类比较简单，如果非常多的话例如collection接口，要实现五个方法，然而我们只是想新增一个方法，就会显得代码非常冗余<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCollection</span> :<span class="type">Collection</span>&lt;<span class="type">String</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">val</span> size: <span class="built_in">Int</span></span><br><span class="line">        <span class="keyword">get</span>() = TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change initializer of created properties use File | Settings | File Templates.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">contains</span><span class="params">(element: <span class="type">String</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">containsAll</span><span class="params">(elements: <span class="type">Collection</span>&lt;<span class="type">String</span>&gt;)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">isEmpty</span><span class="params">()</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">iterator</span><span class="params">()</span></span>: Iterator&lt;String&gt; &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>照例还是看下代理模式的java源码，这边只关注redCircle<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">redCircle</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">   <span class="comment">// $FF: synthetic field</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> circle $$delegate_0;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      String var1 = (<span class="keyword">new</span> circle()).getDescpition() + <span class="string">" is red"</span>;</span><br><span class="line">      System.out.println(var1);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">redCircle</span><span class="params">(@NotNull circle circle)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(circle, <span class="string">"circle"</span>);</span><br><span class="line">      <span class="keyword">super</span>();</span><br><span class="line">      <span class="keyword">this</span>.$$delegate_0 = circle;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@NotNull</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">getDescpition</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$$delegate_0.getDescpition();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.$$delegate_0.test();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到test方法由系统自动生成，并且是通过调用传入的circle对象来实现的。</p>
-<p>像kotlin的by关键字非常类似于java中的装饰器。本质上都是将原始类作为属性传入并保存，如果想保留原有的设计，那么直接调用原始类的方法即可。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjrlnf1tf001w60mjo6mr89pw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjs2x2cwr001cy4mjguih1zlm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -598,55 +659,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjrlnf1tf001s60mjdc6mwbz9" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java-Lamda" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/03/Java-Lamda/" class="article-date">
-  <time datetime="2018-10-03T16:00:00.000Z" itemprop="datePublished">2018-10-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/03/Java-Lamda/">Lamda表达式-Preview</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>Lamda表达式中引用的局部变量必须是final或既成事实上的值。<br>换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">str = <span class="string">"world"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//Variable used in lambda expression should be final or effectively final</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//valid</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="Predicate接口"><a href="#Predicate接口" class="headerlink" title="Predicate接口"></a>Predicate接口</h2><p>该接口表示传入的对象是否满足某种条件，并返回boolean作为真假判断。check下源码，该接口只接受一个参数，返回一个布尔值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>例如我们希望从一个int的列表中找到所有的偶数，那么Predicate可以这么写。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Predicate&lt;Integer&gt; predicate = integer -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> integer % <span class="number">2</span> == <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">predicate.negate();<span class="comment">// 过滤出所有的奇数</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>Lamda表达式是一个匿名的方法，将行为像数据一样传递。</li>
-<li>Lamda表达式也被称为闭包，未赋值的变量与周边环境隔离起来，进而被绑定到一个特定的值。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjrlnf1tf001g60mj4oqrwwfi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjs2x2cx6001xy4mjkt306sdv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -698,7 +711,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjrlnf1tf001o60mjq2bphzv2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjs2x2cx6001ty4mjc312aisd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -712,7 +725,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -751,6 +764,10 @@
       <ul>
         
           <li>
+            <a href="/2019/02/12/C-virtual-table/">virtual table</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/31/Shell-Thanos/">Delete half of files randomly</a>
           </li>
         
@@ -764,10 +781,6 @@
         
           <li>
             <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/03/Algorithm-TraversalBinaryTree/">Traversal Binary Tree</a>
           </li>
         
       </ul>

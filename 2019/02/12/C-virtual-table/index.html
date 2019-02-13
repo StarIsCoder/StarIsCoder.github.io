@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>virtual table | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="和同事在讨论设计api接口什么方法该设置为virtual时，他说一般有子类会覆写该方法的时候用virtual修饰下，但是不能全用virtual因为开销会大一些。之后在网上查了和virtual相关的资料。 C++中关于Virtual function的意义在StackOverflow上有很多很好的解释，这里想看下具体的原理。 https://stackoverflow.com/questions/2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="virtual table">
+<meta property="og:url" content="http://yoursite.com/2019/02/12/C-virtual-table/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="和同事在讨论设计api接口什么方法该设置为virtual时，他说一般有子类会覆写该方法的时候用virtual修饰下，但是不能全用virtual因为开销会大一些。之后在网上查了和virtual相关的资料。 C++中关于Virtual function的意义在StackOverflow上有很多很好的解释，这里想看下具体的原理。 https://stackoverflow.com/questions/2">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-13T08:10:30.241Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="virtual table">
+<meta name="twitter:description" content="和同事在讨论设计api接口什么方法该设置为virtual时，他说一般有子类会覆写该方法的时候用virtual修饰下，但是不能全用virtual因为开销会大一些。之后在网上查了和virtual相关的资料。 C++中关于Virtual function的意义在StackOverflow上有很多很好的解释，这里想看下具体的原理。 https://stackoverflow.com/questions/2">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-C-virtual-table" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/12/C-virtual-table/" class="article-date">
+  <time datetime="2019-02-12T16:00:00.000Z" itemprop="datePublished">2019-02-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      virtual table
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>和同事在讨论设计api接口什么方法该设置为virtual时，他说一般有子类会覆写该方法的时候用virtual修饰下，但是不能全用virtual因为开销会大一些。之后在网上查了和virtual相关的资料。</p>
+<p>C++中关于Virtual function的意义在StackOverflow上有很多很好的解释，这里想看下具体的原理。</p>
+<p><a href="https://stackoverflow.com/questions/2391679/why-do-we-need-virtual-functions-in-c" target="_blank" rel="noopener">https://stackoverflow.com/questions/2391679/why-do-we-need-virtual-functions-in-c</a></p>
+<p>有个答案是说：如果没有virtual关键字那么就是early binding，意味着这个方法的实现在编译期间就根据指针的类型来决定了，而如果有virtual关键字那么就是late binding，它的方法的实现是在运行期间根据指针所指向的那个对象所决定的。</p>
+<p>假设有两个类：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"I'm eating generic food."</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span> <span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"I'm eating a rat."</span>; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>定义一个函数来传入这个类<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(Animal *xyz)</span> </span>&#123; xyz-&gt;eat(); &#125;</span><br></pre></td></tr></table></figure></p>
+<p>写入main函数测试下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Animal *animal = <span class="keyword">new</span> Animal;</span><br><span class="line">Cat *cat = <span class="keyword">new</span> Cat;</span><br><span class="line"></span><br><span class="line">func(animal); <span class="comment">// Outputs: "I'm eating generic food."</span></span><br><span class="line">func(cat);    <span class="comment">// Outputs: "I'm eating generic food."</span></span><br></pre></td></tr></table></figure></p>
+<p>根据early binding，在调用该函数的时候就已经决定了<code>eat()</code>的实现是在<code>Animal</code>中的。当然如果用virtual修饰的话，那么根据late binding，<code>eat()</code>的实现是根据new关键字之后来决定的。</p>
+<p>那么为什么用virtual修饰的就是late binding呢，这就涉及virtual table这个late binding的特殊形式，virtual table可以理解为每个有虚函数类的一组索引，这是编译器在编译期间就设置了的，同时编译器会设置一个隐藏的指针指向这个vtable，叫做<code>*_vptr</code>。再决定某个函数的具体实现时就是根据这个索引来查找的。</p>
+<p>一个基类可以抽象成这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Base</span><br><span class="line"> *_vptr       ----------------------&gt;       Base VTable</span><br><span class="line"> func1()      &lt;----------------------        func1()</span><br><span class="line"> func2()      &lt;----------------------        func2()</span><br></pre></td></tr></table></figure></p>
+<p>假设D1继承Base，并且覆写了<code>func1()</code>，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class D1</span><br><span class="line"> *_vptr            ----------------------&gt;       Base VTable</span><br><span class="line"> func1()           &lt;----------------------        func1()</span><br><span class="line"> Base::func2()     &lt;----------------------        func2()</span><br></pre></td></tr></table></figure></p>
+<p>D1中的VTable的<code>func1()</code>指向D1的原因是virtual table的填充原则是选择相对于这个类most-derived的函数，由于D1覆写了<code>func1()</code>，因此VTable中的<code>func1()</code>指向的是D1中的<code>func1()</code>。</p>
+<p>main函数如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    D1 d1;</span><br><span class="line">    Base *dPtr = &amp;d1;</span><br><span class="line">    dPtr-&gt;function1();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>虽然<code>dPtr</code>声明的时候是Base类，但是d1中的VTable赋值给了<code>dPtr</code>，或者说<code>dPtr</code>的<code>*_vptr</code>指向的是d1中的<code>*_vptr</code>，因此在调用函数的时候根据<code>*_vptr</code>的VTable来查找，而<code>*_vptr</code>的VTable其实就是d1的VTable，结果调用的是D1中的<code>func1()</code>。</p>
+<p>因此virtual function需要分配的更多就是因为多了virtual table。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjs2x2cwb0012y4mjal0eo16a" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/31/Shell-Thanos/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Delete half of files randomly</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/02/12/C-virtual-table/">virtual table</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/31/Shell-Thanos/">Delete half of files randomly</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/">make_shared vs shared_ptr</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
