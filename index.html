@@ -62,7 +62,100 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-C-virtual-table" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-ClassLoader" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/18/Java-ClassLoader/" class="article-date">
+  <time datetime="2019-02-18T16:00:00.000Z" itemprop="datePublished">2019-02-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/18/Java-ClassLoader/">Class Loader</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Class文件被加载到内存中需要以下几步</p>
+<ol>
+<li>加载</li>
+<li>验证 ——</li>
+<li>准备      |   连接阶段</li>
+<li>解析 ——</li>
+<li>初始化</li>
+<li>使用</li>
+<li>卸载</li>
+</ol>
+<ul>
+<li>解析阶段可能在初始化之前也可能在初始化之后，为了支持Java的运行时绑定。</li>
+<li>加载、验证、准备一定要在初始化之前完成</li>
+</ul>
+<h2 id="类初始化的时机"><a href="#类初始化的时机" class="headerlink" title="类初始化的时机"></a>类初始化的时机</h2><p>虚拟机严格规定了有且只有5种情况必须立即对类进行初始化：</p>
+<ol>
+<li>遇到new、getstatic、putstatic、invokestatic这4条字节码指令，最常见的就是new一个对象或者访问static变量</li>
+<li>对类进行反射调用</li>
+<li>初始化一个类时如果其父类未被初始化时</li>
+<li>虚拟机启动时会初始化main方法的那个类</li>
+<li>使用JDK1.7的动态语言支持时，如果一个java.lang.MethodHandle实例最后的解析结果REF_getStatic,REF_putStatic,REF_invokeStatic的方法句柄，并且这个方法所对应的类没有进行过初始化。</li>
+</ol>
+<h3 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h3><p>主要有三步</p>
+<ol>
+<li>通过一个类的全限定名来获取定义此类的二进制字节流。（例如jar、zip文件，网络等等）</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。（方法区存储类信息、常量和静态变量）</li>
+<li>在内存中生成一个代表这个类的java.lang.class对象。</li>
+</ol>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>目的是为了确保Class文件的字节流符合虚拟机的要求，并且不会危害到虚拟机。</p>
+<ol>
+<li>文件格式验证：主要是验证Class文件格式的规范，并且能被当前版本的虚拟机处理。例如是否魔数CAFEBABE开头，版本是否在范围内等等</li>
+<li>元数据验证：对类的描述进行语义分析即语法。例如是否有父类，是否继承了不应该继承的类，类中的字段或方法是否会和父类发生冲突。</li>
+<li>字节码验证：目的是为了确保程序语义是合法并合乎逻辑的。比如类型转换是否有效等等</li>
+<li>符号引用验证：这个阶段校验是在解析阶段中发生，即将符号引用转化为直接引用。主要是对类自身以外的信息进行匹配性校验，例如访问域是否符合规范，根据全限定名是否能找到对应的类等等。这个阶段的验证目的主要是为了解析动作能正常执行。</li>
+</ol>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>准备阶段是正式为类变量（静态变量）分配内存并设置类变量初始值的阶段。这些变量使用的内存都将在方法区中进行分配。这时候分配的还不包括实例变量，实例变量将在对象初始化之后分配在Java堆中，并且这里为类变量设置的初始值不是代码中的默认值而是虚拟机为它赋的初始值，例如有如下这个类变量<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> value = <span class="number">123</span>;</span><br></pre></td></tr></table></figure></p>
+<p>value在准备阶段之后被赋值为0而不是123，要等到类构造器方法<code>&lt;clinit&gt;</code>调用的时候才会赋值为123。但是有种特殊情况：如果这个值用<code>final</code>修饰，那么在编译的时候就会生成一个ConstantValue（假设123），之后在准备阶段就会直接用ConstantValue（123）赋值。</p>
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p>解析阶段主要是将符号引用转为直接引用。这两者之间的概念参考了这篇回答：<a href="https://www.zhihu.com/question/30300585" target="_blank" rel="noopener">https://www.zhihu.com/question/30300585</a></p>
+<p>由于编译的时候不知道class文件会被加载到内存的哪一块地址，因此只能用符号来代替，例如<code>A</code>要调用<code>test()</code>方法（假设对应的符号是#6），但是不知道<code>test()</code>方法会存在哪儿，只能用<code>A.#6</code>来表述，而当加载到了内存之后就可以将<code>#6</code>替换为实际的内存地址，而解析阶段干的就是这个工作。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>初始化阶段是执行类构造器<code>&lt;clinit&gt;</code>方法的过程，<code>&lt;clinit&gt;</code>是由编译器自动收集类中的所有类变量的赋值动作和静态语句块中的语句合并生成的。当然也是按照顺序收集的，因此如下代码会报错<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        i = <span class="number">0</span>;                  <span class="comment">//可以赋值</span></span><br><span class="line">        System.out.print(i);    <span class="comment">//不能访问，会提示 Illegal forward reference</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p> 对于class来说，子类的<code>&lt;clinit&gt;</code>方法执行之前一定会执行父类的，但对接口来说并不需要先执行父类的<code>&lt;clinit&gt;</code>方法，只有在使用的时候才会执行。</p>
+<p> <code>&lt;clinit&gt;</code>方法对于类或接口来说不是必须的，如果没有静态语句块或者类变量的话，编译器可以不为这个class生成<code>&lt;clinit&gt;</code>方法。</p>
+<h3 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h3><p> 类加载阶段中的“通过一个类的全限定名来获取定义此类的二进制字节流”被放到了JVM外部去实现，而实现这个模块的代码就是类加载器。</p>
+<p> 每一个类加载器都有一个独立的类名称空间，比较两个类是否相等，只有在两者是由同一个加载器加载的前提下才有意义，例如ClassLoader1和ClassLoader2都加载了HelloWorld.class，但其实两个HelloWorld.class并不同。</p>
+<p>从JVM来看三种不同的类加载器</p>
+<ul>
+<li>启动类加载器(Bootstrap ClassLoader): 用C++实现，是虚拟机自身的一部分。负责加载<code>&lt;JAVA_HOME&gt;\lib</code>目录下的文件。比如 java.util.<em>、java.io.</em>、java.nio.*。</li>
+<li>扩展类加载器(Extension ClassLoader): 负责加载<code>&lt;JAVA_HOME&gt;\lib\ext</code>目录下的文件。比如 swing 系列、xml 解析器等等。</li>
+<li>应用程序类加载器(Application ClassLoader): 这个加载器是<code>ClassLoader.getSystemClassLoader()</code>的返回值，因此也叫系统类加载器。负责加载用户类路径下的文件。如果没有自定义，那么一般默认是使用这个类加载器。</li>
+</ul>
+<h4 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h4><p>工作原理是：如果一个类加载器收到了类加载的请求，他不会自己加载，而是委派给父类加载，并且每层如此，只有当父类加载器无法完成这个加载请求时，才会由子加载器尝试加载。</p>
+<p>这个模型的好处一个是避免了重复加载的情况发生，保证同一个class被加载之后不会产生不同的结果，另一个是为了安全性，核心的类永远只会由启动类加载器加载。</p>
+<p>关于破坏双亲委派模型的内容需要重新写一篇。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/18/Java-ClassLoader/" data-id="cjsbrpefp00179wmjqw9n0wjr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-C-virtual-table" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/02/12/C-virtual-table/" class="article-date">
   <time datetime="2019-02-12T16:00:00.000Z" itemprop="datePublished">2019-02-13</time>
@@ -107,7 +200,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjs2x2cwb0012y4mjal0eo16a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjsbrpef900129wmjtdb316vm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -117,7 +210,7 @@
 
 
   
-    <article id="post-Shell-Thanos" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Shell-Thanos" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/31/Shell-Thanos/" class="article-date">
   <time datetime="2019-01-31T16:00:00.000Z" itemprop="datePublished">2019-02-01</time>
@@ -184,7 +277,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/31/Shell-Thanos/" data-id="cjs2x2cxm0029y4mjc39lek4d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/31/Shell-Thanos/" data-id="cjsbrpegk002d9wmjedjsys21" class="article-share-link">Share</a>
       
       
     </footer>
@@ -194,7 +287,7 @@ D      door (Solaris)
 
 
   
-    <article id="post-C-shared-ptr-vs-maked-shared" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-C-shared-ptr-vs-maked-shared" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/" class="article-date">
   <time datetime="2019-01-15T16:00:00.000Z" itemprop="datePublished">2019-01-16</time>
@@ -240,7 +333,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjs2x2cwb000zy4mjrcihm754" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjsbrpef9000z9wmjz0lm5zb7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -250,7 +343,7 @@ D      door (Solaris)
 
 
   
-    <article id="post-Algorithm-PowerOfN" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Algorithm-PowerOfN" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/18/Algorithm-PowerOfN/" class="article-date">
   <time datetime="2018-12-18T16:00:00.000Z" itemprop="datePublished">2018-12-19</time>
@@ -293,7 +386,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjs2x2cv00003y4mjooc3curi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjsbrpeee00039wmj0g252s35" class="article-share-link">Share</a>
       
       
     </footer>
@@ -303,7 +396,7 @@ D      door (Solaris)
 
 
   
-    <article id="post-Java-HashMapInfiniteLoop" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-HashMapInfiniteLoop" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/06/Java-HashMapInfiniteLoop/" class="article-date">
   <time datetime="2018-12-06T16:00:00.000Z" itemprop="datePublished">2018-12-07</time>
@@ -331,28 +424,28 @@ D      door (Solaris)
       
         <p>最近在网上看到HashMap无限循环的情况，感觉很有意思，因此记录一下。</p>
 <h2 id="Load-factor"><a href="#Load-factor" class="headerlink" title="Load factor"></a>Load factor</h2><p>先来确认下HashMap默认的容量是16，Load factor则是0.75,Load factor的意思是当容量超过了16 * 0.75（12）的时候，该HashMap就会扩容，也就是说当存入第13个键值对的时候，Hash<br>map就会扩容，也就是rehashing操作。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* The default initial capacity - MUST be a power of two.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* The load factor used when none specified in constructor.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/assets/Java_HashMapInfiniteLoop/hashmap-rehashing-process.png" alt=""></p>
+<p><img src="/assets/Java_HashMapInfiniteLoop/hashmap-rehashing-process.png" alt></p>
 <h2 id="Rehashing"><a href="#Rehashing" class="headerlink" title="Rehashing"></a>Rehashing</h2><p>Rehashing操作中主要干了以下几件事：</p>
 <ul>
 <li>建立一个双倍于之前size的数组</li>
 <li>将键值对从旧数组转移到新数组</li>
 <li>键值对会反向添加因为每次在新的数组中插入键值对都是从头部插入的</li>
 </ul>
-<p><img src="/assets/Java_HashMapInfiniteLoop/hashmap-transfer-keyvalue.png" alt=""></p>
+<p><img src="/assets/Java_HashMapInfiniteLoop/hashmap-transfer-keyvalue.png" alt></p>
 <h2 id="Infinite-Loop"><a href="#Infinite-Loop" class="headerlink" title="Infinite Loop"></a>Infinite Loop</h2><p>由于HashMap是非线程安全的，因此当线程1和线程2同时想插入第13个键值对的时候可能会发生无限循环的情况。</p>
 <p>扩容这一块jdk1.8前后不太一样，在1.8中使用了两个Node来确保transfer之后顺序不会改变。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//jdk 1.8之前</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable)</span> </span>&#123;</span><br><span class="line">    Entry[] src = table;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = newTable.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; src.length; j++) &#123;</span><br><span class="line">        Entry&lt;K,V&gt; e = src[j];</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            src[j] = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">do</span> &#123;</span><br><span class="line">                Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">                <span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</span><br><span class="line">                e.next = newTable[i];</span><br><span class="line">                newTable[i] = e;</span><br><span class="line">                e = next;</span><br><span class="line">            &#125; <span class="keyword">while</span> (e != <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//jdk 1.8之后</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> Node&lt;K,V&gt;[] resize() &#123;</span><br><span class="line">                    ......</span><br><span class="line">                    <span class="keyword">else</span> &#123; <span class="comment">// preserve order</span></span><br><span class="line">                        Node&lt;K,V&gt; loHead = <span class="keyword">null</span>, loTail = <span class="keyword">null</span>;</span><br><span class="line">                        Node&lt;K,V&gt; hiHead = <span class="keyword">null</span>, hiTail = <span class="keyword">null</span>;</span><br><span class="line">                        Node&lt;K,V&gt; next;</span><br><span class="line">                        <span class="keyword">do</span> &#123;</span><br><span class="line">                            next = e.next;</span><br><span class="line">                            <span class="keyword">if</span> ((e.hash &amp; oldCap) == <span class="number">0</span>) &#123;</span><br><span class="line">                                <span class="keyword">if</span> (loTail == <span class="keyword">null</span>)</span><br><span class="line">                                    loHead = e;</span><br><span class="line">                                <span class="keyword">else</span></span><br><span class="line">                                    loTail.next = e;</span><br><span class="line">                                loTail = e;</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">else</span> &#123;</span><br><span class="line">                                <span class="keyword">if</span> (hiTail == <span class="keyword">null</span>)</span><br><span class="line">                                    hiHead = e;</span><br><span class="line">                                <span class="keyword">else</span></span><br><span class="line">                                    hiTail.next = e;</span><br><span class="line">                                hiTail = e;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; <span class="keyword">while</span> ((e = next) != <span class="keyword">null</span>);</span><br><span class="line">                        <span class="keyword">if</span> (loTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">                            loTail.next = <span class="keyword">null</span>;</span><br><span class="line">                            newTab[j] = loHead;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">if</span> (hiTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">                            hiTail.next = <span class="keyword">null</span>;</span><br><span class="line">                            newTab[j + oldCap] = hiHead;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-5.png" alt=""></p>
+<p><img src="/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-5.png" alt></p>
 <p>旧数组中index为0的链表结构为 <code>90 -&gt; 1 -&gt; null</code>，假设新数组的index依旧为0。</p>
 <p>首先线程1执行，准备插入第13个键值对，这时候需要扩容，就会调用resize方法，当执行完了第一行代码<code>next = e.next;</code>，这时候线程2开始执行。</p>
 <p>线程2全部执行完之后，新数组中index为0的链表结构为 <code>1 -&gt; 90 -&gt; null</code>。</p>
 <p>这时候1继续执行，90移到新数组，1从队头插入，新index 0变成了<code>1 -&gt; 90</code>，然而由于线程2将1的next赋值为90，（正常情况1的next是null），然后1的next也就是90继续移动到新数组，同样的插入队头，这时的新index 0的数据结构变成了<code>90(由线程2设置的) -&gt; 1 -&gt; 90</code>。</p>
-<p><img src="/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-12.png" alt=""></p>
+<p><img src="/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-12.png" alt></p>
 <p>那么其实变相等于90的next指向1，1的next指向90，如果这时候再来对index为0的链表进行put操作就会陷入无限循环中。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjs2x2cwr001hy4mje5qlkw68" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjsbrpeg5001k9wmjfe1lrbk6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -362,7 +455,7 @@ D      door (Solaris)
 
 
   
-    <article id="post-Algorithm-TraversalBinaryTree" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Algorithm-TraversalBinaryTree" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/03/Algorithm-TraversalBinaryTree/" class="article-date">
   <time datetime="2018-12-03T16:00:00.000Z" itemprop="datePublished">2018-12-04</time>
@@ -405,7 +498,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjs2x2cv00004y4mjovdf474y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjsbrpeee00049wmjded8nlje" class="article-share-link">Share</a>
       
       
     </footer>
@@ -415,7 +508,7 @@ D      door (Solaris)
 
 
   
-    <article id="post-Algorithm-DP" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Algorithm-DP" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/02/Algorithm-DP/" class="article-date">
   <time datetime="2018-12-02T16:00:00.000Z" itemprop="datePublished">2018-12-03</time>
@@ -444,7 +537,7 @@ D      door (Solaris)
         <h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>动态规划的原则就是讲复杂问题分为若干个简单的子问题依次求解，在某些地方有那么一点像递归，不过由于递归的循环调用会使得某些计算重复，使用动态规划的优化思路就是保存已经计算好的值。</p>
 <h2 id="Fibonacci"><a href="#Fibonacci" class="headerlink" title="Fibonacci"></a>Fibonacci</h2><p>Fibonacci以前都是用递归写的，但是这样的话就会有很多重复的值或者是已经计算好的值没有重复利用。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fib</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    fibresult[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    fibresult[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; n; i++) &#123;</span><br><span class="line">        fibresult[i] = fibresult[i - <span class="number">1</span>] + fibresult[i - <span class="number">2</span>];</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>不过如图中所示，fib(4)调用了两次，fib(3)调用了三次等等。</p>
-<p><img src="/assets/Algorithm_DP/fib_tree.png" alt=""></p>
+<p><img src="/assets/Algorithm_DP/fib_tree.png" alt></p>
 <p>因此如果能把fib(4)和fib(i)保存起来的话会好很多。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fib</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DP[<span class="number">0</span>] = DP[<span class="number">1</span>] = <span class="number">1</span>; </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        DP[i] = DP[i-<span class="number">1</span>] + DP[i-<span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="卖酒的最高收益"><a href="#卖酒的最高收益" class="headerlink" title="卖酒的最高收益"></a>卖酒的最高收益</h2><p>酒架上有N瓶酒，每瓶酒的价格不同，分别为pi，酒的价格随着年份增长，比如一瓶酒原来10，假设今年为year 1，等到了year y，酒的价格就变为了10 * y。</p>
 <p>现在你想把这些酒全卖了，但是有两个规定，一是一年只能卖一瓶，二是每次都只能从酒架上的最左边或者最右边卖酒。要求出最高收益。</p>
@@ -457,7 +550,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjs2x2cv00000y4mja711ztq3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjsbrpedy00009wmj21fwhuuc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -467,7 +560,7 @@ D      door (Solaris)
 
 
   
-    <article id="post-C-使用Jansson产生的引用计数bug" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-C-使用Jansson产生的引用计数bug" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/11/25/C-使用Jansson产生的引用计数bug/" class="article-date">
   <time datetime="2018-11-25T16:00:00.000Z" itemprop="datePublished">2018-11-26</time>
@@ -505,7 +598,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjs2x2cwb0013y4mj1fjtqijb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjsbrpef900139wmjtxuujjr4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -515,7 +608,7 @@ D      door (Solaris)
 
 
   
-    <article id="post-C-Qt-Note" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-C-Qt-Note" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/11/15/C-Qt-Note/" class="article-date">
   <time datetime="2018-11-15T16:00:00.000Z" itemprop="datePublished">2018-11-16</time>
@@ -594,72 +687,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjs2x2cvv000ty4mjwpjini0l" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-OS-bash-profile-mac" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/11/14/OS-bash-profile-mac/" class="article-date">
-  <time datetime="2018-11-14T16:00:00.000Z" itemprop="datePublished">2018-11-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/OS/">OS</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/14/OS-bash-profile-mac/">bash_profile for mac</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>之前还在ODM的时候用的是Linux系统，关于环境配置有两个脚本文件经常修改，一个是bash_rc和/etc/profile，bash_rc是针对当前用户的，而/etc/profile是针对所有用户的。</p>
-<p>不过这次的topic是关于macOS环境下的。相对于Linux，mac下并没有bash_rc，取而代之的是bash_profile。</p>
-<p>bash_profile是在login shell(在填写username和password的时候启动的shell)启动的。至于bash_rc在mac上是没有的，如果习惯使用这个的话就需要在bash_profile中source ~/.bash_rc</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ -r ~/.bashrc ]; <span class="keyword">then</span></span><br><span class="line">   <span class="built_in">source</span> ~/.bashrc</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
-<p>或者这样写更短<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ -r ~/.bashrc ] &amp;&amp; . ~/.bashrc</span><br></pre></td></tr></table></figure></p>
-<p>和Linux一样，mac下也有/etc/profile。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">File /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># System-wide .profile for sh(1)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -x /usr/libexec/path_helper ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">eval</span> `/usr/libexec/path_helper -s`</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;BASH-no&#125;</span>"</span> != <span class="string">"no"</span> ]; <span class="keyword">then</span></span><br><span class="line">        [ -r /etc/bashrc ] &amp;&amp; . /etc/bashrc</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
-<p>可以看到是去执行了/etc/bashrc<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">File /etc/bashrc</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -z <span class="string">"<span class="variable">$PS1</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">   <span class="built_in">return</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">PS1=<span class="string">'\h:\W \u\$ '</span></span><br><span class="line"><span class="comment"># Make bash check its window size after a process completes</span></span><br><span class="line"><span class="built_in">shopt</span> -s checkwinsize</span><br><span class="line"></span><br><span class="line">[ -r <span class="string">"/etc/bashrc_<span class="variable">$TERM_PROGRAM</span>"</span> ] &amp;&amp; . <span class="string">"/etc/bashrc_<span class="variable">$TERM_PROGRAM</span>"</span></span><br></pre></td></tr></table></figure></p>
-<p>又去执行了bashrc_Apple_Terminal文件，而在这个文件中执行了bash_profile。</p>
-<p>因此具体的执行顺序是</p>
-<ul>
-<li>/etc/profile<ul>
-<li>/etc/bashrc<ul>
-<li>/etc/bashrc_Apple_Terminal</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>if it exists: ~/.bash_profile<ul>
-<li>when ~/.bash_profile does not exists, ~/.bash_login</li>
-<li>when neither ~/.bash_profile nor ~/.bash_login exist, ~/.profile</li>
-</ul>
-</li>
-<li>~/bash_profile can optionally source ~/.bashrc</li>
-</ul>
-<p>Tips:Oh-My-Zsh是mac中非常好用的针对Z-shell的框架，但是他不会自动执行bash_profile，需要在~/.zshrc中添加<code>[ -r ~/.bash_profile ] &amp;&amp; . ~/.bash_profile</code></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjs2x2cxm0028y4mj3cllc713" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjsbrpef9000t9wmjwdm70t7s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -712,6 +740,10 @@ D      door (Solaris)
       <ul>
         
           <li>
+            <a href="/2019/02/18/Java-ClassLoader/">Class Loader</a>
+          </li>
+        
+          <li>
             <a href="/2019/02/12/C-virtual-table/">virtual table</a>
           </li>
         
@@ -725,10 +757,6 @@ D      door (Solaris)
         
           <li>
             <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
           </li>
         
       </ul>

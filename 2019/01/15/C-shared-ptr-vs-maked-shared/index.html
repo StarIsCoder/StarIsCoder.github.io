@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Something">
 <meta property="og:description" content="最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。 查了下代码发生确实在">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-13T08:10:30.241Z">
+<meta property="og:updated_time" content="2019-02-19T12:50:52.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="make_shared vs shared_ptr">
 <meta name="twitter:description" content="最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。 查了下代码发生确实在">
@@ -64,7 +64,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-C-shared-ptr-vs-maked-shared" class="article article-type-post" itemscope="" itemprop="blogPost">
+        <section id="main"><article id="post-C-shared-ptr-vs-maked-shared" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/" class="article-date">
   <time datetime="2019-01-15T16:00:00.000Z" itemprop="datePublished">2019-01-16</time>
@@ -110,7 +110,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjs2x2cwb000zy4mjrcihm754" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjsbrpef9000z9wmjz0lm5zb7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -175,6 +175,10 @@
       <ul>
         
           <li>
+            <a href="/2019/02/18/Java-ClassLoader/">Class Loader</a>
+          </li>
+        
+          <li>
             <a href="/2019/02/12/C-virtual-table/">virtual table</a>
           </li>
         
@@ -188,10 +192,6 @@
         
           <li>
             <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
           </li>
         
       </ul>

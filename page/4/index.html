@@ -62,7 +62,108 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Android-Matrix-Camera" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-C-Constructor-Destructor" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/03/C-Constructor-Destructor/" class="article-date">
+  <time datetime="2018-09-03T16:00:00.000Z" itemprop="datePublished">2018-09-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/03/C-Constructor-Destructor/">Constructor&amp;Destructor</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>构造函数的定义就不写了，直接看下例子,这里的构造函数中初始化了number这个变量。</p>
+<p><em>插播一段：这里使用了ifndef和define来防止多重包含。即使多个文件include了这个头文件也只会包含一次。</em><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> Stock00_h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Stock00_h</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Stock</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> number_;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">    Stock(<span class="keyword">int</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Stock::display()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; number_ &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line">Stock::Stock(<span class="keyword">int</span> number)</span><br><span class="line">&#123;</span><br><span class="line">    number_ = number;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* Stock00_h */</span></span></span><br></pre></td></tr></table></figure></p>
+<p>如何使用：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="function">Stock <span class="title">stock1</span><span class="params">(<span class="number">100</span>)</span></span>;                <span class="comment">//隐式</span></span><br><span class="line">    Stock stock2 = Stock(<span class="number">100</span>);        <span class="comment">//显式</span></span><br><span class="line">    Stock stock3 &#123;<span class="number">100</span>&#125;;               <span class="comment">//类似初始化列表的情况</span></span><br><span class="line">    stock1.display();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Warning:</p>
+<ul>
+<li>如果该类定义了构造函数，那么当实例化该类的时候则必须调用它的构造方法</li>
+<li>构造函数的参数名不能与类成员相同。一种做法是在数据成员前面加上m_前缀，还有一种做法是在成员名称后面加后缀_。</li>
+</ul>
+<h2 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h2><p>析构函数是和构造函数对应的，一个是创建过程中调用，析构函数则是在对象销毁时调用的，不过大部分情况都是由系统自己调用，很少有显式调用的情况。析构函数不包含任何参数。</p>
+<ul>
+<li>静态存储类对象：程序结束时调用。</li>
+<li>自动存储类对象：函数结束时调用。</li>
+<li>new创建的对象：调用delete来释放内存时调用。</li>
+</ul>
+<h2 id="const成员函数"><a href="#const成员函数" class="headerlink" title="const成员函数"></a>const成员函数</h2><p>如果定义了一个const的类，调用该类的非const方法则会报错，因为不能保证调用的对象不被修改：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Stock stock1 &#123;<span class="number">100</span>&#125;;</span><br><span class="line">stock1.display();</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Stock::display()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; number_ &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>解决方式在函数最后加上const关键字:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Stock::display() <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; number_ &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a>this指针</h2><p>之前在尝试写成员变量的get/set方法时，发现在c++中this并不代表一个类，而是一个类的指针。并且可以表示隐式的访问，<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">stock1.topval(stock2);</span><br><span class="line"></span><br><span class="line">Stock &amp; Stock::topval(Stock &amp;s)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>-&gt;number_ &gt; s.number_) &#123;</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到在这个函数中，this表示stock1。</p>
+<p>基于C++ Primer plus第十章</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjsbrpef9000l9wmjgx2dso0k" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
+  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/">LinearLayout设置gravity不生效</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
+<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjsbrpeee00059wmjf5a5wkv3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android-Matrix-Camera" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/28/Android-Matrix-Camera/" class="article-date">
   <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
@@ -100,7 +201,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjs2x2cvg0007y4mjeziawrbp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjsbrpeeu00079wmj2958tf9y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -110,49 +211,7 @@
 
 
   
-    <article id="post-Android-LinearLayout-set-gravity-not-working" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/" class="article-date">
-  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/Android-LinearLayout-set-gravity-not-working/">LinearLayout设置gravity不生效</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在学习Transition动画的时候，有个动画是将button从左上移到右下，代码其实很简单。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TransitionManager.beginDelayedTransition(transitionContainer, ChangeBounds().setPathMotion(ArcMotion()).setDuration(<span class="number">1000</span>))</span><br><span class="line"><span class="keyword">var</span> params = button_view.layoutParams <span class="keyword">as</span> FrameLayout.LayoutParams</span><br><span class="line">params.gravity = Gravity.BOTTOM or Gravity.RIGHT</span><br><span class="line">button_view.layoutParams = params</span><br></pre></td></tr></table></figure></p>
-<p>这边使用的是FrameLayout,最开始使用LinearLayout的时候修改gravity始终无效。后来意识到因为LinearLayout是或横向或纵向的布局，因此如果当它处于横向的情况时，只有top和bottom是有效的，因为横向的布局都依赖于子控件的个数。反之如果是纵向布局，只有right和left是有效的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjs2x2cvg0005y4mjak47tgdj" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android-区分tablet和mobile" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Android-区分tablet和mobile" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/26/Android-区分tablet和mobile/" class="article-date">
   <time datetime="2018-08-26T16:00:00.000Z" itemprop="datePublished">2018-08-27</time>
@@ -188,7 +247,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjs2x2cvg000hy4mjxi4ya47y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjsbrpeeu000h9wmjvmaww1uz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -198,7 +257,7 @@
 
 
   
-    <article id="post-C-Inline-Reference" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-C-Inline-Reference" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/23/C-Inline-Reference/" class="article-date">
   <time datetime="2018-08-23T16:00:00.000Z" itemprop="datePublished">2018-08-24</time>
@@ -266,7 +325,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjs2x2cvv000oy4mj2xa784c6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjsbrpef9000o9wmj3dv94r24" class="article-share-link">Share</a>
       
       
     </footer>
@@ -276,7 +335,7 @@
 
 
   
-    <article id="post-C-function-array" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-C-function-array" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/16/C-function-array/" class="article-date">
   <time datetime="2018-08-16T16:00:00.000Z" itemprop="datePublished">2018-08-17</time>
@@ -327,7 +386,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjs2x2cvv000vy4mje9rjvykz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjsbrpef9000v9wmjr1h4zi8a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -337,7 +396,7 @@
 
 
   
-    <article id="post-Kotlin-Singleton" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Kotlin-Singleton" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/09/Kotlin-Singleton/" class="article-date">
   <time datetime="2018-08-09T16:00:00.000Z" itemprop="datePublished">2018-08-10</time>
@@ -390,7 +449,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjs2x2cxm0024y4mjfomy0lgb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjsbrpegk00259wmj6fi2gb8d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -400,7 +459,7 @@
 
 
   
-    <article id="post-C-Pointer-Note" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-C-Pointer-Note" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/06/C-Pointer-Note/" class="article-date">
   <time datetime="2018-08-06T16:00:00.000Z" itemprop="datePublished">2018-08-07</time>
@@ -448,7 +507,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjs2x2cvv000qy4mjq1fargog" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjsbrpef9000q9wmj5yq1u0in" class="article-share-link">Share</a>
       
       
     </footer>
@@ -458,7 +517,7 @@
 
 
   
-    <article id="post-Java-Container" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-Container" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/04/Java-Container/" class="article-date">
   <time datetime="2018-08-04T16:00:00.000Z" itemprop="datePublished">2018-08-05</time>
@@ -520,7 +579,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjs2x2cwr001ay4mjli0kirmb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjsbrpefp001c9wmjqchdfodn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -530,7 +589,7 @@
 
 
   
-    <article id="post-Kotlin-扩展函数-属性-中缀调用" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Kotlin-扩展函数-属性-中缀调用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" class="article-date">
   <time datetime="2018-07-27T16:00:00.000Z" itemprop="datePublished">2018-07-28</time>
@@ -571,49 +630,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjs2x2cxm0025y4mjve6u08gn" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android-Modify-shape-attributes" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/26/Android-Modify-shape-attributes/" class="article-date">
-  <time datetime="2018-07-26T16:00:00.000Z" itemprop="datePublished">2018-07-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/26/Android-Modify-shape-attributes/">Modify shape attributes in code</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))</span><br><span class="line">    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),</span><br><span class="line">            getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size));</span><br></pre></td></tr></table></figure>
-<p>convert drawable to GradientDrawable,and invoke setSize or setStroke and so on.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjs2x2cvg000by4mjdmazx10g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjsbrpegk00289wmj5oclbv8j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -666,6 +683,10 @@
       <ul>
         
           <li>
+            <a href="/2019/02/18/Java-ClassLoader/">Class Loader</a>
+          </li>
+        
+          <li>
             <a href="/2019/02/12/C-virtual-table/">virtual table</a>
           </li>
         
@@ -679,10 +700,6 @@
         
           <li>
             <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
           </li>
         
       </ul>

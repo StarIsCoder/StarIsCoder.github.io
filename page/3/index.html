@@ -62,7 +62,59 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Java-Lamda" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-Stream" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/03/Java-Stream/" class="article-date">
+  <time datetime="2018-10-03T16:00:00.000Z" itemprop="datePublished">2018-10-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/03/Java-Stream/">Stream</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>传统的for循环其实是使用迭代器iterator来实现的，例如从列表中取出所有的偶数。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i : integerList) &#123;</span><br><span class="line">	<span class="keyword">if</span> (i % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">	System.out.println(i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>用iterator来写就是，用文字来描述就是从列表中取出一个进行判断是否要输出，这是种串行化操作，叫做外部迭代。给人感觉就是都混在了一起。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Iterator&lt;Integer&gt; iterator = integerList.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">	<span class="keyword">int</span> i = iterator.next();</span><br><span class="line">	<span class="keyword">if</span> (i % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">		System.out.println(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而使用的stream是内部迭代。这时整个逻辑被分割开来，filter只负责过滤，foreach负责每个item如何处理。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">integerList.stream()</span><br><span class="line">		.filter(integer -&gt; integer % <span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">		.forEach(integer -&gt; System.out.println(integer));</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>惰性求值：只是用来描述stream，比如filter。</p>
+</li>
+<li><p>及早求值：希望得到返回结果，例如foreach或者count。</p>
+</li>
+</ul>
+<p><strong>判断惰性和及早只需要看返回值，如果返回值是stream，那么就是惰性，否则则是及早。</strong></p>
+<p>大致知道一些常用的，例如map（映射成别的值），filter（过滤），collect（生成新的列表）等等。尽量以后在敲代码的时候多用Lamda表达式，一是为了练习，二是Lamda表达式确实看起来舒服很多。</p>
+<h2 id="使用stream排序"><a href="#使用stream排序" class="headerlink" title="使用stream排序"></a>使用stream排序</h2><p>使用stream方法中的sorted方法可以给一个stream排序，也可以自定义，默认升序。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">list.stream().sorted() </span><br><span class="line"></span><br><span class="line">list.stream().sorted(Comparator.reverseOrder()) </span><br><span class="line"></span><br><span class="line">list.stream().sorted(Comparator.comparing(Student::getAge)) </span><br><span class="line"></span><br><span class="line">list.stream().sorted(Comparator.comparing(Student::getAge).reversed()) </span><br><span class="line"></span><br><span class="line"><span class="comment">//最后需要将排序完的结果转化成list</span></span><br><span class="line">list.stream().sorted().collect(Collectors.toList());</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjsbrpeg5001w9wmj7xdmvuzk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java-Lamda" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/03/Java-Lamda/" class="article-date">
   <time datetime="2018-10-03T16:00:00.000Z" itemprop="datePublished">2018-10-04</time>
@@ -100,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjs2x2cwr001ky4mj1o8jakyn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjsbrpeg5001l9wmj29mxyp3i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -110,7 +162,7 @@
 
 
   
-    <article id="post-Java-Volatile" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-Volatile" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/26/Java-Volatile/" class="article-date">
   <time datetime="2018-09-26T16:00:00.000Z" itemprop="datePublished">2018-09-27</time>
@@ -152,7 +204,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjs2x2cx6001wy4mj1n9cnmk9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjsbrpeg5001x9wmjmgy8ks7d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -162,7 +214,7 @@
 
 
   
-    <article id="post-Java-Concurrent-AQS" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-Concurrent-AQS" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/25/Java-Concurrent-AQS/" class="article-date">
   <time datetime="2018-09-25T16:00:00.000Z" itemprop="datePublished">2018-09-26</time>
@@ -275,7 +327,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjs2x2cwb0017y4mjilu6gojw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjsbrpefp001a9wmja5r45can" class="article-share-link">Share</a>
       
       
     </footer>
@@ -285,7 +337,7 @@
 
 
   
-    <article id="post-C-Callback" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-C-Callback" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/20/C-Callback/" class="article-date">
   <time datetime="2018-09-20T16:00:00.000Z" itemprop="datePublished">2018-09-21</time>
@@ -337,7 +389,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjs2x2cvv000ky4mjdz1sskaw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjsbrpef9000k9wmjsaf4ggey" class="article-share-link">Share</a>
       
       
     </footer>
@@ -347,7 +399,7 @@
 
 
   
-    <article id="post-Java-NIO" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-NIO" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/14/Java-NIO/" class="article-date">
   <time datetime="2018-09-14T16:00:00.000Z" itemprop="datePublished">2018-09-15</time>
@@ -402,7 +454,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjs2x2cx6001oy4mj4iqly89m" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjsbrpeg5001p9wmjp2ey4ga1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -412,7 +464,7 @@
 
 
   
-    <article id="post-C-move-fun" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-C-move-fun" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/13/C-move-fun/" class="article-date">
   <time datetime="2018-09-13T16:00:00.000Z" itemprop="datePublished">2018-09-14</time>
@@ -456,7 +508,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjs2x2cwb000yy4mjbap3xdh1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjsbrpef9000y9wmjvyovmie3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -466,7 +518,7 @@
 
 
   
-    <article id="post-Java-Serializable" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-Serializable" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/07/Java-Serializable/" class="article-date">
   <time datetime="2018-09-07T16:00:00.000Z" itemprop="datePublished">2018-09-08</time>
@@ -513,7 +565,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjs2x2cx6001sy4mjmjq4yuvg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjsbrpeg5001t9wmjw37nky65" class="article-share-link">Share</a>
       
       
     </footer>
@@ -523,7 +575,7 @@
 
 
   
-    <article id="post-Kotlin-Constructor" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Kotlin-Constructor" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/06/Kotlin-Constructor/" class="article-date">
   <time datetime="2018-09-06T16:00:00.000Z" itemprop="datePublished">2018-09-07</time>
@@ -563,7 +615,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjs2x2cx60020y4mjeweqc81g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjsbrpeg500219wmjbsdqot76" class="article-share-link">Share</a>
       
       
     </footer>
@@ -573,7 +625,7 @@
 
 
   
-    <article id="post-Android-Measure-Layout" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Android-Measure-Layout" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/05/Android-Measure-Layout/" class="article-date">
   <time datetime="2018-09-05T16:00:00.000Z" itemprop="datePublished">2018-09-06</time>
@@ -632,66 +684,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjs2x2cvg0008y4mjd5sq4stj" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-C-Constructor-Destructor" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/03/C-Constructor-Destructor/" class="article-date">
-  <time datetime="2018-09-03T16:00:00.000Z" itemprop="datePublished">2018-09-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/03/C-Constructor-Destructor/">Constructor&amp;Destructor</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>构造函数的定义就不写了，直接看下例子,这里的构造函数中初始化了number这个变量。</p>
-<p><em>插播一段：这里使用了ifndef和define来防止多重包含。即使多个文件include了这个头文件也只会包含一次。</em><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> Stock00_h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Stock00_h</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Stock</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> number_;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">    Stock(<span class="keyword">int</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Stock::display()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; number_ &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line">Stock::Stock(<span class="keyword">int</span> number)</span><br><span class="line">&#123;</span><br><span class="line">    number_ = number;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* Stock00_h */</span></span></span><br></pre></td></tr></table></figure></p>
-<p>如何使用：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="function">Stock <span class="title">stock1</span><span class="params">(<span class="number">100</span>)</span></span>;                <span class="comment">//隐式</span></span><br><span class="line">    Stock stock2 = Stock(<span class="number">100</span>);        <span class="comment">//显式</span></span><br><span class="line">    Stock stock3 &#123;<span class="number">100</span>&#125;;               <span class="comment">//类似初始化列表的情况</span></span><br><span class="line">    stock1.display();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Warning:</p>
-<ul>
-<li>如果该类定义了构造函数，那么当实例化该类的时候则必须调用它的构造方法</li>
-<li>构造函数的参数名不能与类成员相同。一种做法是在数据成员前面加上m_前缀，还有一种做法是在成员名称后面加后缀_。</li>
-</ul>
-<h2 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h2><p>析构函数是和构造函数对应的，一个是创建过程中调用，析构函数则是在对象销毁时调用的，不过大部分情况都是由系统自己调用，很少有显式调用的情况。析构函数不包含任何参数。</p>
-<ul>
-<li>静态存储类对象：程序结束时调用。</li>
-<li>自动存储类对象：函数结束时调用。</li>
-<li>new创建的对象：调用delete来释放内存时调用。</li>
-</ul>
-<h2 id="const成员函数"><a href="#const成员函数" class="headerlink" title="const成员函数"></a>const成员函数</h2><p>如果定义了一个const的类，调用该类的非const方法则会报错，因为不能保证调用的对象不被修改：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Stock stock1 &#123;<span class="number">100</span>&#125;;</span><br><span class="line">stock1.display();</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Stock::display()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; number_ &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>解决方式在函数最后加上const关键字:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Stock::display() <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; number_ &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a>this指针</h2><p>之前在尝试写成员变量的get/set方法时，发现在c++中this并不代表一个类，而是一个类的指针。并且可以表示隐式的访问，<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">stock1.topval(stock2);</span><br><span class="line"></span><br><span class="line">Stock &amp; Stock::topval(Stock &amp;s)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>-&gt;number_ &gt; s.number_) &#123;</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到在这个函数中，this表示stock1。</p>
-<p>基于C++ Primer plus第十章</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="cjs2x2cvv000ly4mj75bj1aja" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjsbrpeeu00089wmj6l1dvv60" class="article-share-link">Share</a>
       
       
     </footer>
@@ -744,6 +737,10 @@
       <ul>
         
           <li>
+            <a href="/2019/02/18/Java-ClassLoader/">Class Loader</a>
+          </li>
+        
+          <li>
             <a href="/2019/02/12/C-virtual-table/">virtual table</a>
           </li>
         
@@ -757,10 +754,6 @@
         
           <li>
             <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
           </li>
         
       </ul>

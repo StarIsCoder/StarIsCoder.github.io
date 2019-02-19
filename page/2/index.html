@@ -62,7 +62,72 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Android-Screenshot" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-OS-bash-profile-mac" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/14/OS-bash-profile-mac/" class="article-date">
+  <time datetime="2018-11-14T16:00:00.000Z" itemprop="datePublished">2018-11-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/OS/">OS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/14/OS-bash-profile-mac/">bash_profile for mac</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前还在ODM的时候用的是Linux系统，关于环境配置有两个脚本文件经常修改，一个是bash_rc和/etc/profile，bash_rc是针对当前用户的，而/etc/profile是针对所有用户的。</p>
+<p>不过这次的topic是关于macOS环境下的。相对于Linux，mac下并没有bash_rc，取而代之的是bash_profile。</p>
+<p>bash_profile是在login shell(在填写username和password的时候启动的shell)启动的。至于bash_rc在mac上是没有的，如果习惯使用这个的话就需要在bash_profile中source ~/.bash_rc</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ -r ~/.bashrc ]; <span class="keyword">then</span></span><br><span class="line">   <span class="built_in">source</span> ~/.bashrc</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<p>或者这样写更短<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ -r ~/.bashrc ] &amp;&amp; . ~/.bashrc</span><br></pre></td></tr></table></figure></p>
+<p>和Linux一样，mac下也有/etc/profile。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">File /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># System-wide .profile for sh(1)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -x /usr/libexec/path_helper ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">eval</span> `/usr/libexec/path_helper -s`</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;BASH-no&#125;</span>"</span> != <span class="string">"no"</span> ]; <span class="keyword">then</span></span><br><span class="line">        [ -r /etc/bashrc ] &amp;&amp; . /etc/bashrc</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<p>可以看到是去执行了/etc/bashrc<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">File /etc/bashrc</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -z <span class="string">"<span class="variable">$PS1</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">   <span class="built_in">return</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">PS1=<span class="string">'\h:\W \u\$ '</span></span><br><span class="line"><span class="comment"># Make bash check its window size after a process completes</span></span><br><span class="line"><span class="built_in">shopt</span> -s checkwinsize</span><br><span class="line"></span><br><span class="line">[ -r <span class="string">"/etc/bashrc_<span class="variable">$TERM_PROGRAM</span>"</span> ] &amp;&amp; . <span class="string">"/etc/bashrc_<span class="variable">$TERM_PROGRAM</span>"</span></span><br></pre></td></tr></table></figure></p>
+<p>又去执行了bashrc_Apple_Terminal文件，而在这个文件中执行了bash_profile。</p>
+<p>因此具体的执行顺序是</p>
+<ul>
+<li>/etc/profile<ul>
+<li>/etc/bashrc<ul>
+<li>/etc/bashrc_Apple_Terminal</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>if it exists: ~/.bash_profile<ul>
+<li>when ~/.bash_profile does not exists, ~/.bash_login</li>
+<li>when neither ~/.bash_profile nor ~/.bash_login exist, ~/.profile</li>
+</ul>
+</li>
+<li>~/bash_profile can optionally source ~/.bashrc</li>
+</ul>
+<p>Tips:Oh-My-Zsh是mac中非常好用的针对Z-shell的框架，但是他不会自动执行bash_profile，需要在~/.zshrc中添加<code>[ -r ~/.bash_profile ] &amp;&amp; . ~/.bash_profile</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjsbrpegk002a9wmjlddkex07" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android-Screenshot" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/11/08/Android-Screenshot/" class="article-date">
   <time datetime="2018-11-08T16:00:00.000Z" itemprop="datePublished">2018-11-09</time>
@@ -113,7 +178,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjs2x2cvg000dy4mjgmkgpf4r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjsbrpeeu000d9wmj8zedvitu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -123,7 +188,7 @@
 
 
   
-    <article id="post-Java-PassByValue" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-PassByValue" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/23/Java-PassByValue/" class="article-date">
   <time datetime="2018-10-23T16:00:00.000Z" itemprop="datePublished">2018-10-24</time>
@@ -158,8 +223,8 @@
 <p>但是下面这个例子好像又表示pass by reference<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Dog mDog = <span class="keyword">new</span> Dog(<span class="string">"Rover"</span>);</span><br><span class="line">    foo(mDog);</span><br><span class="line">    System.out.println(mDog.getName());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">(Dog someDog)</span> </span>&#123;</span><br><span class="line">    someDog.setName(<span class="string">"Max1"</span>);     <span class="comment">// AAA</span></span><br><span class="line">    someDog = <span class="keyword">new</span> Dog(<span class="string">"Fifi"</span>);  <span class="comment">// BBB</span></span><br><span class="line">    someDog.setName(<span class="string">"Rowlf"</span>);   <span class="comment">// CCC</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Max1</span><br></pre></td></tr></table></figure>
 <p>也就是说Java在传递参数的时候对基础类型和非基础类型的处理是不同的。基础类型的话是完全字面意义上的pass-by-value。而非基础类型的话，其实是创建了一个新的对象newObject（空对象），然后将这个newObject的引用指向传入的参数。如图中所示，图片来源：<a href="https://stackoverflow.com/questions/9404625/java-pass-by-reference/9404727#9404727" target="_blank" rel="noopener">https://stackoverflow.com/questions/9404625/java-pass-by-reference/9404727#9404727</a></p>
-<p><img src="/assets/Java_PassByValue/passbyvalue1.png" alt=""></p>
-<p><img src="/assets/Java_PassByValue/passbyvalue2.png" alt=""></p>
+<p><img src="/assets/Java_PassByValue/passbyvalue1.png" alt></p>
+<p><img src="/assets/Java_PassByValue/passbyvalue2.png" alt></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在Java中，确实一切都是pass by value。但是拷贝是引用还是变量取决于源数据类型。</p>
 <ol>
 <li>如果是基础类型，那么参数是pass by value。</li>
@@ -171,7 +236,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjs2x2cx6001py4mjqdnmadyl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjsbrpeg5001s9wmjfpkl86cg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -181,7 +246,7 @@
 
 
   
-    <article id="post-Java-ClassFileFormat" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-ClassFileFormat" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/22/Java-ClassFileFormat/" class="article-date">
   <time datetime="2018-10-22T16:00:00.000Z" itemprop="datePublished">2018-10-23</time>
@@ -212,14 +277,14 @@
 <li>无符号数：基本类型，u1,u2,u4,u4分别代表一个字节、两个字节、四个字节、八个字节的无符号数。</li>
 <li>表：多个无符号数或者其他表作为数据项构成的复合数据类型，习惯以_info结尾，整个class文件本质上就是一张表。</li>
 </ul>
-<p><img src="/assets/Java_ClassFileDetail/java-class-file-internal-structure.png" alt=""></p>
+<p><img src="/assets/Java_ClassFileDetail/java-class-file-internal-structure.png" alt></p>
 <h2 id="class具体结构"><a href="#class具体结构" class="headerlink" title="class具体结构"></a>class具体结构</h2><h3 id="魔数"><a href="#魔数" class="headerlink" title="魔数"></a>魔数</h3><p>每个class文件的头4个字节称为魔数，它的唯一作用是确定这个文件是否为一个能被虚拟机接受的Class文件，大部分文件存储标准都是通过魔数来进行身份验证的。因为扩展名可以随意改动。对Class文件来说魔数值为<strong>0xCAFEBABE</strong>。</p>
-<p><img src="/assets/Java_ClassFileDetail/Class_MagicNumber.jpg" alt=""></p>
+<p><img src="/assets/Java_ClassFileDetail/Class_MagicNumber.jpg" alt></p>
 <h3 id="版本号"><a href="#版本号" class="headerlink" title="版本号"></a>版本号</h3><p>在魔数之后的4个字节存储的是class文件的版本号，前两个字节是次版本号，后两个是主版本号。Java版本号是从45开始的，例如JDK1.1能支持版本号45.0 ~ 45.65535的Class文件，JDK1.2则能执行45.0 ~ 46.65535的Class文件。这边示例的class文件是用JDK11，因此应该是55。</p>
-<p><img src="/assets/Java_ClassFileDetail/Class_VersionNumber.jpg" alt=""></p>
+<p><img src="/assets/Java_ClassFileDetail/Class_VersionNumber.jpg" alt></p>
 <h3 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h3><p>常量池：常量池可以理解为class文件中的资源仓库，它是class文件结构中与其他项目关联最多的数据类型。</p>
 <p>由于一个类中有多少方法和变量是不确定的，因此常量池入口有一项u2类型的数据，代表常量池容量计数值。不过这个容量计数是从1开始的。也就是说如果这个值是57，那么就有56个常量，之所以把0空出来是因为如果某个常量的索引不引用任何一个常量就可以用0来表示。图中的容量计数值为59，因此一共有58个常量。</p>
-<p><img src="/assets/Java_ClassFileDetail/Class_NumberOfConstant.jpg" alt=""></p>
+<p><img src="/assets/Java_ClassFileDetail/Class_NumberOfConstant.jpg" alt></p>
 <p>常量池主要存放两大类常量：字面量和符合引用</p>
 <ul>
 <li>字面量：Java语音的常量概念，final修饰的关键字，字符串等等</li>
@@ -231,27 +296,27 @@
 </li>
 </ul>
 <p>常量池中的常量每一个都是一个表，并且表的结构数据不同，有的是三列，有的是两列，为了区分它们的结构，这些表的第一位是一个u1类型的标志位，代表属于哪种表的类型也就是说代表哪一种常量类型。例如如果是1那么表示是utf8类型的常量，如果是10那么就是方法的符号引用。</p>
-<p><img src="/assets/Java_ClassFileDetail/Constant_pool.png" alt=""></p>
+<p><img src="/assets/Java_ClassFileDetail/Constant_pool.png" alt></p>
 <p>查看下第一个常量是0A，也就是10，10对应常量池中的项目类型是CONSTANT_Methodref_info，而这个类型一共有三个参数，第一个是tag，也就是10，第二个和第三个都是u2类型，如图中是0E（14）和1B（27），分别表示指向声明方法和指向名称的索引。</p>
-<p><img src="/assets/Java_ClassFileDetail/FirstElement.jpg" alt=""></p>
+<p><img src="/assets/Java_ClassFileDetail/FirstElement.jpg" alt></p>
 <p>可以使用javap反编译来确认下。第一个常量是这样的，和用hex friend计算出来是一样的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#1 = Methodref          #14.#27</span><br></pre></td></tr></table></figure></p>
-<p><img src="/assets/Java_ClassFileDetail/javapResult.jpg" alt=""></p>
+<p><img src="/assets/Java_ClassFileDetail/javapResult.jpg" alt></p>
 <h3 id="访问标志"><a href="#访问标志" class="headerlink" title="访问标志"></a>访问标志</h3><p>常量池之后是access_flags，这个标志用于识别一些类或者接口层次的访问信息，例如这个class是类还是接口，是public还是abstract等等。使用javap也可以看到标志。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flags: (0x0021) ACC_PUBLIC, ACC_SUPER</span><br></pre></td></tr></table></figure></p>
 <h3 id="类索引、父类索引、接口索引集合"><a href="#类索引、父类索引、接口索引集合" class="headerlink" title="类索引、父类索引、接口索引集合"></a>类索引、父类索引、接口索引集合</h3><p>类索引和父类索引都是一个u2类型的数据，而接口索引集合是一组u2类型的数据。Class文件中由这三项来确定继承关系。</p>
 <p>类索引和父类索引各自指向一个类型为CONSTANT_Class_info的类描述符常量，通过这个类描述符常量中的索引值可以找到定义在CONSTANT_Utf8_info类型的常量中的全限定名字符串。</p>
 <p>例如图中this_class的索引是13，而13的索引又指向了55，55则代表这个类名。</p>
-<p><img src="/assets/Java_ClassFileDetail/this_class.jpg" alt=""></p>
-<p><img src="/assets/Java_ClassFileDetail/this_class2.jpg" alt=""></p>
+<p><img src="/assets/Java_ClassFileDetail/this_class.jpg" alt></p>
+<p><img src="/assets/Java_ClassFileDetail/this_class2.jpg" alt></p>
 <h3 id="字段表集合"><a href="#字段表集合" class="headerlink" title="字段表集合"></a>字段表集合</h3><p>field_info用于描述接口或者类中声明的变量。字段包括类级变量以及实例级变量，不包括方法中的临时变量。</p>
 <p>字段表的结构用access_flags来表示作用域、是否final、是否static等等，另外用了两个索引来表示这个变量的名称和类型（有映射的字符，例如int对应I）。另外还有两个字段存储额外的信息，如果我们给一个变量赋了初始值，那么这两个字段就会有对应的值。</p>
 <h3 id="方法表集合"><a href="#方法表集合" class="headerlink" title="方法表集合"></a>方法表集合</h3><p>类似于字段表集合，由于方法没有volatile和transient关键字，因此access_flags中没有ACC_VOLATILE标志和ACC_TRANSIENT标志。而增加了synchronized、native等修饰方法的关键字。由于和字段表集合大同小异，不多赘述。</p>
 <p>但是需要注意的是方法中的代码被单独存放在了方法表中的code字段下，可以看到下图是用javap反编译出的main方法。access_flags是ACC_PUBLIC和ACC_STATIC，descriptor表示传入的参数和返回值。code字段下是方法中的代码。</p>
-<p><img src="/assets/Java_ClassFileDetail/javap_method.jpg" alt=""></p>
+<p><img src="/assets/Java_ClassFileDetail/javap_method.jpg" alt></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjs2x2cwb0016y4mj6g73quer" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjsbrpefp00169wmjzby0fajy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -261,7 +326,7 @@
 
 
   
-    <article id="post-Algorithm-MaximumSubarray" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Algorithm-MaximumSubarray" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/18/Algorithm-MaximumSubarray/" class="article-date">
   <time datetime="2018-10-18T16:00:00.000Z" itemprop="datePublished">2018-10-19</time>
@@ -301,7 +366,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjs2x2cv00001y4mjvxen9gmy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjsbrpeee00019wmjk6r12ci8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -311,7 +376,7 @@
 
 
   
-    <article id="post-Java-GarbageCollection" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-GarbageCollection" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/16/Java-GarbageCollection/" class="article-date">
   <time datetime="2018-10-16T16:00:00.000Z" itemprop="datePublished">2018-10-17</time>
@@ -390,13 +455,13 @@
 <p>大多数情况，新建的对象将分配到Edan区，当Edan区空间不足时，就会触发一次Minor GC，也就是将Edan区清空，然后将存活的对象拷贝到Survivor区，并将Survivor区内对象的年龄默认设置为1，之后每经过一次GC就会增长1，并且会在两个Survivor区之间互相切换。当成长到15的时候就会被转移到老年代。当然这个阀值可以通过参数设置。</p>
 <p>至于为什么需要两个Survivor区，假设只有一个Survivor区，那么第一次执行GC，将存活的对象拷贝到Survivor区，暂时没毛病，程序运行了一段时间又满了，这时候再执行GC，但是在这种情况下对Survivor区执行GC的话就会在Survivor区内造成大量的内存碎片，因此需要两个Survivor区的主要原因是为了清除生成的碎片，能保证有一块Survivor永远处于干净状态。另一个原因是可以继续对Survivor区进行复制的垃圾收集算法，也是为了提升GC的性能。</p>
 <p>对于某些大对象将直接进入老年代，大对象就是指需要大量连续内存的对象，例如长字符串或者数组。</p>
-<p><img src="/assets/Java_GC/HeapStructure.png" alt=""></p>
+<p><img src="/assets/Java_GC/HeapStructure.png" alt></p>
 <p>图解：<a href="http://www.tothenew.com/blog/java-garbage-collection-an-overview/" target="_blank" rel="noopener">http://www.tothenew.com/blog/java-garbage-collection-an-overview/</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjs2x2cwr001fy4mjcwiwhyqg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjsbrpefp001h9wmju29gj7ur" class="article-share-link">Share</a>
       
       
     </footer>
@@ -406,7 +471,7 @@
 
 
   
-    <article id="post-Java-MeroryAndObjectOfJVM" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-MeroryAndObjectOfJVM" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/15/Java-MeroryAndObjectOfJVM/" class="article-date">
   <time datetime="2018-10-15T16:00:00.000Z" itemprop="datePublished">2018-10-16</time>
@@ -474,7 +539,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjs2x2cwr001ly4mjcyp2uk6o" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjsbrpeg5001o9wmjnr7vb19g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -484,55 +549,7 @@
 
 
   
-    <article id="post-Kotlin-Delegation" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/12/Kotlin-Delegation/" class="article-date">
-  <time datetime="2018-10-12T16:00:00.000Z" itemprop="datePublished">2018-10-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="类代理"><a href="#类代理" class="headerlink" title="类代理"></a>类代理</h2><p>面向对象的特性中由于继承的存在关系，因此当扩展一个类并自行重新定义一些细节的时候，代码就会变的依赖于这个子类，而如果后期父类更新了，那么子类的实现可能与父类背道而驰，因此kotlin中默认将类修饰为final。但有的时候确实需要添加一些特定情况下才发生的新功能。</p>
-<p>因为在接口中定义的方法必须在实现类中全部实现，因此如果我们只是在原有的类上加一些新功能，那么会导致有很多重复的代码。</p>
-<p>在kotlin中可以通过by省略掉很多不需要的代码。如下代码中的test方法不用重写直接使用代理，也就是circle的test方法即可。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> redcircle = RedCircle(Circle())</span><br><span class="line">    redcircle.draw()</span><br><span class="line">    redcircle.test()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">val</span> descpition: String</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span> : <span class="type">Shape &#123;</span></span></span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">override</span> <span class="keyword">val</span> descpition: String</span><br><span class="line">        <span class="keyword">get</span>() = <span class="string">"Circle"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"draw <span class="variable">$descpition</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"test"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedCircle</span></span>(circle: Circle) : Shape <span class="keyword">by</span> circle &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(Circle().descpition + <span class="string">" is red"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result:circle is red</span><br></pre></td></tr></table></figure>
-<p>当然因为这里类比较简单，如果非常多的话例如collection接口，要实现五个方法，然而我们只是想新增一个方法，就会显得代码非常冗余<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCollection</span> :<span class="type">Collection</span>&lt;<span class="type">String</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">val</span> size: <span class="built_in">Int</span></span><br><span class="line">        <span class="keyword">get</span>() = TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change initializer of created properties use File | Settings | File Templates.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">contains</span><span class="params">(element: <span class="type">String</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">containsAll</span><span class="params">(elements: <span class="type">Collection</span>&lt;<span class="type">String</span>&gt;)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">isEmpty</span><span class="params">()</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">iterator</span><span class="params">()</span></span>: Iterator&lt;String&gt; &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>照例还是看下代理模式的java源码，这边只关注redCircle<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">redCircle</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">   <span class="comment">// $FF: synthetic field</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> circle $$delegate_0;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      String var1 = (<span class="keyword">new</span> circle()).getDescpition() + <span class="string">" is red"</span>;</span><br><span class="line">      System.out.println(var1);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">redCircle</span><span class="params">(@NotNull circle circle)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(circle, <span class="string">"circle"</span>);</span><br><span class="line">      <span class="keyword">super</span>();</span><br><span class="line">      <span class="keyword">this</span>.$$delegate_0 = circle;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@NotNull</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">getDescpition</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$$delegate_0.getDescpition();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.$$delegate_0.test();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到test方法由系统自动生成，并且是通过调用传入的circle对象来实现的。</p>
-<p>像kotlin的by关键字非常类似于java中的装饰器。本质上都是将原始类作为属性传入并保存，如果想保留原有的设计，那么直接调用原始类的方法即可。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjs2x2cxm0021y4mja4fue46l" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java-Decorator" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Java-Decorator" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/12/Java-Decorator/" class="article-date">
   <time datetime="2018-10-12T16:00:00.000Z" itemprop="datePublished">2018-10-13</time>
@@ -590,7 +607,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjs2x2cwr001cy4mjguih1zlm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjsbrpefp001f9wmj5rhitut4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -600,7 +617,55 @@
 
 
   
-    <article id="post-Java-parallel" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Kotlin-Delegation" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/12/Kotlin-Delegation/" class="article-date">
+  <time datetime="2018-10-12T16:00:00.000Z" itemprop="datePublished">2018-10-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="类代理"><a href="#类代理" class="headerlink" title="类代理"></a>类代理</h2><p>面向对象的特性中由于继承的存在关系，因此当扩展一个类并自行重新定义一些细节的时候，代码就会变的依赖于这个子类，而如果后期父类更新了，那么子类的实现可能与父类背道而驰，因此kotlin中默认将类修饰为final。但有的时候确实需要添加一些特定情况下才发生的新功能。</p>
+<p>因为在接口中定义的方法必须在实现类中全部实现，因此如果我们只是在原有的类上加一些新功能，那么会导致有很多重复的代码。</p>
+<p>在kotlin中可以通过by省略掉很多不需要的代码。如下代码中的test方法不用重写直接使用代理，也就是circle的test方法即可。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> redcircle = RedCircle(Circle())</span><br><span class="line">    redcircle.draw()</span><br><span class="line">    redcircle.test()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">val</span> descpition: String</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span> : <span class="type">Shape &#123;</span></span></span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">override</span> <span class="keyword">val</span> descpition: String</span><br><span class="line">        <span class="keyword">get</span>() = <span class="string">"Circle"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"draw <span class="variable">$descpition</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"test"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedCircle</span></span>(circle: Circle) : Shape <span class="keyword">by</span> circle &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(Circle().descpition + <span class="string">" is red"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result:circle is red</span><br></pre></td></tr></table></figure>
+<p>当然因为这里类比较简单，如果非常多的话例如collection接口，要实现五个方法，然而我们只是想新增一个方法，就会显得代码非常冗余<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCollection</span> :<span class="type">Collection</span>&lt;<span class="type">String</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">val</span> size: <span class="built_in">Int</span></span><br><span class="line">        <span class="keyword">get</span>() = TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change initializer of created properties use File | Settings | File Templates.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">contains</span><span class="params">(element: <span class="type">String</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">containsAll</span><span class="params">(elements: <span class="type">Collection</span>&lt;<span class="type">String</span>&gt;)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">isEmpty</span><span class="params">()</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">iterator</span><span class="params">()</span></span>: Iterator&lt;String&gt; &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>照例还是看下代理模式的java源码，这边只关注redCircle<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">redCircle</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">   <span class="comment">// $FF: synthetic field</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> circle $$delegate_0;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      String var1 = (<span class="keyword">new</span> circle()).getDescpition() + <span class="string">" is red"</span>;</span><br><span class="line">      System.out.println(var1);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">redCircle</span><span class="params">(@NotNull circle circle)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(circle, <span class="string">"circle"</span>);</span><br><span class="line">      <span class="keyword">super</span>();</span><br><span class="line">      <span class="keyword">this</span>.$$delegate_0 = circle;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@NotNull</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">getDescpition</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$$delegate_0.getDescpition();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.$$delegate_0.test();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到test方法由系统自动生成，并且是通过调用传入的circle对象来实现的。</p>
+<p>像kotlin的by关键字非常类似于java中的装饰器。本质上都是将原始类作为属性传入并保存，如果想保留原有的设计，那么直接调用原始类的方法即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjsbrpeg500249wmjv82gs19y" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java-parallel" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/09/Java-parallel/" class="article-date">
   <time datetime="2018-10-09T16:00:00.000Z" itemprop="datePublished">2018-10-10</time>
@@ -659,59 +724,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjs2x2cx6001xy4mjkt306sdv" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java-Stream" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/03/Java-Stream/" class="article-date">
-  <time datetime="2018-10-03T16:00:00.000Z" itemprop="datePublished">2018-10-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/03/Java-Stream/">Stream</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>传统的for循环其实是使用迭代器iterator来实现的，例如从列表中取出所有的偶数。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i : integerList) &#123;</span><br><span class="line">	<span class="keyword">if</span> (i % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">	System.out.println(i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>用iterator来写就是，用文字来描述就是从列表中取出一个进行判断是否要输出，这是种串行化操作，叫做外部迭代。给人感觉就是都混在了一起。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Iterator&lt;Integer&gt; iterator = integerList.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">	<span class="keyword">int</span> i = iterator.next();</span><br><span class="line">	<span class="keyword">if</span> (i % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">		System.out.println(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>而使用的stream是内部迭代。这时整个逻辑被分割开来，filter只负责过滤，foreach负责每个item如何处理。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">integerList.stream()</span><br><span class="line">		.filter(integer -&gt; integer % <span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">		.forEach(integer -&gt; System.out.println(integer));</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li><p>惰性求值：只是用来描述stream，比如filter。</p>
-</li>
-<li><p>及早求值：希望得到返回结果，例如foreach或者count。</p>
-</li>
-</ul>
-<p><strong>判断惰性和及早只需要看返回值，如果返回值是stream，那么就是惰性，否则则是及早。</strong></p>
-<p>大致知道一些常用的，例如map（映射成别的值），filter（过滤），collect（生成新的列表）等等。尽量以后在敲代码的时候多用Lamda表达式，一是为了练习，二是Lamda表达式确实看起来舒服很多。</p>
-<h2 id="使用stream排序"><a href="#使用stream排序" class="headerlink" title="使用stream排序"></a>使用stream排序</h2><p>使用stream方法中的sorted方法可以给一个stream排序，也可以自定义，默认升序。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">list.stream().sorted() </span><br><span class="line"></span><br><span class="line">list.stream().sorted(Comparator.reverseOrder()) </span><br><span class="line"></span><br><span class="line">list.stream().sorted(Comparator.comparing(Student::getAge)) </span><br><span class="line"></span><br><span class="line">list.stream().sorted(Comparator.comparing(Student::getAge).reversed()) </span><br><span class="line"></span><br><span class="line"><span class="comment">//最后需要将排序完的结果转化成list</span></span><br><span class="line">list.stream().sorted().collect(Collectors.toList());</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjs2x2cx6001ty4mjc312aisd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjsbrpeg500209wmj7zt1d8qc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -764,6 +777,10 @@
       <ul>
         
           <li>
+            <a href="/2019/02/18/Java-ClassLoader/">Class Loader</a>
+          </li>
+        
+          <li>
             <a href="/2019/02/12/C-virtual-table/">virtual table</a>
           </li>
         
@@ -777,10 +794,6 @@
         
           <li>
             <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
           </li>
         
       </ul>

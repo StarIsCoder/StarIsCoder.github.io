@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://yoursite.com/assets/Java_HashMapInfiniteLoop/hashmap-transfer-keyvalue.png">
 <meta property="og:image" content="http://yoursite.com/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-5.png">
 <meta property="og:image" content="http://yoursite.com/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-12.png">
-<meta property="og:updated_time" content="2019-02-13T08:10:30.257Z">
+<meta property="og:updated_time" content="2019-02-19T12:50:52.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap Infinite Loop">
 <meta name="twitter:description" content="最近在网上看到HashMap无限循环的情况，感觉很有意思，因此记录一下。 Load factor先来确认下HashMap默认的容量是16，Load factor则是0.75,Load factor的意思是当容量超过了16 * 0.75（12）的时候，该HashMap就会扩容，也就是说当存入第13个键值对的时候，Hashmap就会扩容，也就是rehashing操作。123456789/*** The">
@@ -69,7 +69,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Java-HashMapInfiniteLoop" class="article article-type-post" itemscope="" itemprop="blogPost">
+        <section id="main"><article id="post-Java-HashMapInfiniteLoop" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/06/Java-HashMapInfiniteLoop/" class="article-date">
   <time datetime="2018-12-06T16:00:00.000Z" itemprop="datePublished">2018-12-07</time>
@@ -97,28 +97,28 @@
       
         <p>最近在网上看到HashMap无限循环的情况，感觉很有意思，因此记录一下。</p>
 <h2 id="Load-factor"><a href="#Load-factor" class="headerlink" title="Load factor"></a>Load factor</h2><p>先来确认下HashMap默认的容量是16，Load factor则是0.75,Load factor的意思是当容量超过了16 * 0.75（12）的时候，该HashMap就会扩容，也就是说当存入第13个键值对的时候，Hash<br>map就会扩容，也就是rehashing操作。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* The default initial capacity - MUST be a power of two.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* The load factor used when none specified in constructor.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/assets/Java_HashMapInfiniteLoop/hashmap-rehashing-process.png" alt=""></p>
+<p><img src="/assets/Java_HashMapInfiniteLoop/hashmap-rehashing-process.png" alt></p>
 <h2 id="Rehashing"><a href="#Rehashing" class="headerlink" title="Rehashing"></a>Rehashing</h2><p>Rehashing操作中主要干了以下几件事：</p>
 <ul>
 <li>建立一个双倍于之前size的数组</li>
 <li>将键值对从旧数组转移到新数组</li>
 <li>键值对会反向添加因为每次在新的数组中插入键值对都是从头部插入的</li>
 </ul>
-<p><img src="/assets/Java_HashMapInfiniteLoop/hashmap-transfer-keyvalue.png" alt=""></p>
+<p><img src="/assets/Java_HashMapInfiniteLoop/hashmap-transfer-keyvalue.png" alt></p>
 <h2 id="Infinite-Loop"><a href="#Infinite-Loop" class="headerlink" title="Infinite Loop"></a>Infinite Loop</h2><p>由于HashMap是非线程安全的，因此当线程1和线程2同时想插入第13个键值对的时候可能会发生无限循环的情况。</p>
 <p>扩容这一块jdk1.8前后不太一样，在1.8中使用了两个Node来确保transfer之后顺序不会改变。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//jdk 1.8之前</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable)</span> </span>&#123;</span><br><span class="line">    Entry[] src = table;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = newTable.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; src.length; j++) &#123;</span><br><span class="line">        Entry&lt;K,V&gt; e = src[j];</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            src[j] = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">do</span> &#123;</span><br><span class="line">                Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">                <span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</span><br><span class="line">                e.next = newTable[i];</span><br><span class="line">                newTable[i] = e;</span><br><span class="line">                e = next;</span><br><span class="line">            &#125; <span class="keyword">while</span> (e != <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//jdk 1.8之后</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> Node&lt;K,V&gt;[] resize() &#123;</span><br><span class="line">                    ......</span><br><span class="line">                    <span class="keyword">else</span> &#123; <span class="comment">// preserve order</span></span><br><span class="line">                        Node&lt;K,V&gt; loHead = <span class="keyword">null</span>, loTail = <span class="keyword">null</span>;</span><br><span class="line">                        Node&lt;K,V&gt; hiHead = <span class="keyword">null</span>, hiTail = <span class="keyword">null</span>;</span><br><span class="line">                        Node&lt;K,V&gt; next;</span><br><span class="line">                        <span class="keyword">do</span> &#123;</span><br><span class="line">                            next = e.next;</span><br><span class="line">                            <span class="keyword">if</span> ((e.hash &amp; oldCap) == <span class="number">0</span>) &#123;</span><br><span class="line">                                <span class="keyword">if</span> (loTail == <span class="keyword">null</span>)</span><br><span class="line">                                    loHead = e;</span><br><span class="line">                                <span class="keyword">else</span></span><br><span class="line">                                    loTail.next = e;</span><br><span class="line">                                loTail = e;</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">else</span> &#123;</span><br><span class="line">                                <span class="keyword">if</span> (hiTail == <span class="keyword">null</span>)</span><br><span class="line">                                    hiHead = e;</span><br><span class="line">                                <span class="keyword">else</span></span><br><span class="line">                                    hiTail.next = e;</span><br><span class="line">                                hiTail = e;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; <span class="keyword">while</span> ((e = next) != <span class="keyword">null</span>);</span><br><span class="line">                        <span class="keyword">if</span> (loTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">                            loTail.next = <span class="keyword">null</span>;</span><br><span class="line">                            newTab[j] = loHead;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">if</span> (hiTail != <span class="keyword">null</span>) &#123;</span><br><span class="line">                            hiTail.next = <span class="keyword">null</span>;</span><br><span class="line">                            newTab[j + oldCap] = hiHead;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-5.png" alt=""></p>
+<p><img src="/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-5.png" alt></p>
 <p>旧数组中index为0的链表结构为 <code>90 -&gt; 1 -&gt; null</code>，假设新数组的index依旧为0。</p>
 <p>首先线程1执行，准备插入第13个键值对，这时候需要扩容，就会调用resize方法，当执行完了第一行代码<code>next = e.next;</code>，这时候线程2开始执行。</p>
 <p>线程2全部执行完之后，新数组中index为0的链表结构为 <code>1 -&gt; 90 -&gt; null</code>。</p>
 <p>这时候1继续执行，90移到新数组，1从队头插入，新index 0变成了<code>1 -&gt; 90</code>，然而由于线程2将1的next赋值为90，（正常情况1的next是null），然后1的next也就是90继续移动到新数组，同样的插入队头，这时的新index 0的数据结构变成了<code>90(由线程2设置的) -&gt; 1 -&gt; 90</code>。</p>
-<p><img src="/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-12.png" alt=""></p>
+<p><img src="/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-12.png" alt></p>
 <p>那么其实变相等于90的next指向1，1的next指向90，如果这时候再来对index为0的链表进行put操作就会陷入无限循环中。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjs2x2cwr001hy4mje5qlkw68" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjsbrpeg5001k9wmjfe1lrbk6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -183,6 +183,10 @@
       <ul>
         
           <li>
+            <a href="/2019/02/18/Java-ClassLoader/">Class Loader</a>
+          </li>
+        
+          <li>
             <a href="/2019/02/12/C-virtual-table/">virtual table</a>
           </li>
         
@@ -196,10 +200,6 @@
         
           <li>
             <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
           </li>
         
       </ul>

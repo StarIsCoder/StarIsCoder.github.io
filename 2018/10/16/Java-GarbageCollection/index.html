@@ -15,7 +15,7 @@
 <meta property="og:description" content="如果判断对象已死引用计数算法给对象添加一个引用计数器，每当有个地方引用他时计数器就加1，引用失效时，计数器就减1，当计数器为0时那么该对象则已经死亡。不过该算法不能解决对象之间循环引用的问题。但是也有优点那就是因为实现简单因此判定效率很高。12345678ObjectA A = new ObjectA();ObjectB B = new ObjectB();A.instance = B;B.ins">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/assets/Java_GC/HeapStructure.png">
-<meta property="og:updated_time" content="2019-02-13T08:10:30.257Z">
+<meta property="og:updated_time" content="2019-02-19T12:50:52.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Garbage Collection">
 <meta name="twitter:description" content="如果判断对象已死引用计数算法给对象添加一个引用计数器，每当有个地方引用他时计数器就加1，引用失效时，计数器就减1，当计数器为0时那么该对象则已经死亡。不过该算法不能解决对象之间循环引用的问题。但是也有优点那就是因为实现简单因此判定效率很高。12345678ObjectA A = new ObjectA();ObjectB B = new ObjectB();A.instance = B;B.ins">
@@ -66,7 +66,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Java-GarbageCollection" class="article article-type-post" itemscope="" itemprop="blogPost">
+        <section id="main"><article id="post-Java-GarbageCollection" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/16/Java-GarbageCollection/" class="article-date">
   <time datetime="2018-10-16T16:00:00.000Z" itemprop="datePublished">2018-10-17</time>
@@ -145,13 +145,13 @@
 <p>大多数情况，新建的对象将分配到Edan区，当Edan区空间不足时，就会触发一次Minor GC，也就是将Edan区清空，然后将存活的对象拷贝到Survivor区，并将Survivor区内对象的年龄默认设置为1，之后每经过一次GC就会增长1，并且会在两个Survivor区之间互相切换。当成长到15的时候就会被转移到老年代。当然这个阀值可以通过参数设置。</p>
 <p>至于为什么需要两个Survivor区，假设只有一个Survivor区，那么第一次执行GC，将存活的对象拷贝到Survivor区，暂时没毛病，程序运行了一段时间又满了，这时候再执行GC，但是在这种情况下对Survivor区执行GC的话就会在Survivor区内造成大量的内存碎片，因此需要两个Survivor区的主要原因是为了清除生成的碎片，能保证有一块Survivor永远处于干净状态。另一个原因是可以继续对Survivor区进行复制的垃圾收集算法，也是为了提升GC的性能。</p>
 <p>对于某些大对象将直接进入老年代，大对象就是指需要大量连续内存的对象，例如长字符串或者数组。</p>
-<p><img src="/assets/Java_GC/HeapStructure.png" alt=""></p>
+<p><img src="/assets/Java_GC/HeapStructure.png" alt></p>
 <p>图解：<a href="http://www.tothenew.com/blog/java-garbage-collection-an-overview/" target="_blank" rel="noopener">http://www.tothenew.com/blog/java-garbage-collection-an-overview/</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjs2x2cwr001fy4mjcwiwhyqg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjsbrpefp001h9wmju29gj7ur" class="article-share-link">Share</a>
       
       
     </footer>
@@ -216,6 +216,10 @@
       <ul>
         
           <li>
+            <a href="/2019/02/18/Java-ClassLoader/">Class Loader</a>
+          </li>
+        
+          <li>
             <a href="/2019/02/12/C-virtual-table/">virtual table</a>
           </li>
         
@@ -229,10 +233,6 @@
         
           <li>
             <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/06/Java-HashMapInfiniteLoop/">HashMap Infinite Loop</a>
           </li>
         
       </ul>
