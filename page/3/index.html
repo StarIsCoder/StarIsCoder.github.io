@@ -104,7 +104,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjsbrpeg5001w9wmj7xdmvuzk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjspvm7bj001s10mjr5geugbk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -152,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjsbrpeg5001l9wmj29mxyp3i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjspvm7bj002010mj1w5kgnno" class="article-share-link">Share</a>
       
       
     </footer>
@@ -189,7 +189,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p>原子性操作是指不能被线程调度机制中断的操作，一旦操作开始，在可能发生的上下文切换之前执行完。</p>
-<p>java中对除了long和double以外的基本类型进行读写操作都是原子性的，因为long和double是64位的，JVM有可能将其分为两个32位的。</p>
+<p>java中对除了long和double以外的基本类型进行读写操作都是原子性的，因为long和double是64位的，JVM有可能将其分为两个32位的。不过新的jdk也实现了long和double的原子读写。</p>
 <p>这里说的读写操作并不包括自加等。因为自加其实是分成了两步来走。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">i++</span><br><span class="line"></span><br><span class="line"><span class="number">0</span>:    aload_0</span><br><span class="line"><span class="number">1</span>:    dup</span><br><span class="line"><span class="number">2</span>:    getfield</span><br><span class="line"><span class="number">5</span>:    iconst_1</span><br><span class="line"><span class="number">6</span>:    iadd</span><br><span class="line"><span class="number">7</span>:    putfield</span><br><span class="line"><span class="number">10</span>:   <span class="keyword">return</span></span><br></pre></td></tr></table></figure></p>
 <p>这个操作有put和get，如果在put和get之间发生了变化，那么得到的结果可能不正确，因此不是原子性操作。当然java中有AtomicInteger、AtomicLong、AtomicBoolean等原子类。</p>
 <h2 id="Volatile修饰词具有如下两种属性"><a href="#Volatile修饰词具有如下两种属性" class="headerlink" title="Volatile修饰词具有如下两种属性"></a>Volatile修饰词具有如下两种属性</h2><h3 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h3><p>通俗的说就是当这个值被修改了，那么所有的读取操作都可以看到这个修改。</p>
@@ -198,13 +198,31 @@
 <p>因此volatile保证了对于其他线程的可见性。</p>
 <h3 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h3><p>在JVM中，编译器和处理器可能会对指令进行重排，或许是为了优化，但是如果被volatile修饰的变量则会告诉编译器不要重排指令，按照顺序执行就可以，避免了并发产生的问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">a++;</span><br><span class="line">b++;</span><br></pre></td></tr></table></figure></p>
 <p>以上代码可以重排列成如下，因为a与b之间没有依赖。如果有依赖并且重排的话则会产生并发问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">a++;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line">b++;</span><br></pre></td></tr></table></figure></p>
+<p>但是在多线程中就不一定了，如下代码就可能出现并发问题：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">bool flag = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">()</span> </span>&#123;</span><br><span class="line">a = <span class="number">2</span>; <span class="comment">//1</span></span><br><span class="line">flag = <span class="keyword">true</span>; <span class="comment">//2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">multiply</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (flag) &#123; <span class="comment">//3</span></span><br><span class="line"><span class="keyword">int</span> ret = a * a;<span class="comment">//4</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果有两个线程同时执行<code>write</code>和<code>multiply</code>方法，ret不是一定为4.如果<code>write</code>方法中的1和2重排序下，先赋值flag再赋值a，那么在<code>multiply</code>中可能读到a的值为0；</p>
 <p>当然也可以使用synchronized和lock来保证有序，因为在某个时间段只有一个线程能执行被修饰的代码。</p>
 <p>优先选择一定是sychronized，除非只有一个变量，否则都不应该只使用volatile，他并不能保证并发的冲突不发生。同样的也不能改变自加不是原子性的本质。</p>
+<h3 id="happens-before"><a href="#happens-before" class="headerlink" title="happens-before"></a>happens-before</h3><p>说到重排序，插播一段happens-before原则，这个原则是为了保证线程A所执行的action对其他线程执行的action是可见的。如果没有这个原则，那么JVM就会随心所欲的修改action执行的顺序。</p>
+<p>以下是happens-before的几种规矩</p>
+<ol>
+<li><p>一个线程内的action</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">state 1     ------</span><br><span class="line">state 2			  |</span><br><span class="line">state 3 		  | - All states happen before state n</span><br><span class="line">				  |</span><br><span class="line">...		    ------</span><br><span class="line"></span><br><span class="line">state n</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>监视锁<br>在B线程获取锁之前，A线程会先将锁释放(同一个锁)。</p>
+</li>
+<li>被volatile修饰的变量<br>线程A和线程B都用到了被volatile修饰的变量，那么写的操作一定发生在读之前。</li>
+<li><p>线程开始规则<br><code>B.start()</code>一定发生在B的<code>run</code>方法中所有语句之前。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Thread B = <span class="keyword">new</span> Thread();</span><br><span class="line">B.start();</span><br><span class="line"></span><br><span class="line"><span class="comment">//Thread B</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//state 1</span></span><br><span class="line">    <span class="comment">//state 2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>线程join规则<br>调用了<code>join</code>方法，则需等待子线程的所有语句执行完才能只能<code>join</code>之后的代码。</p>
+</li>
+<li>传递性<br>如果A happens-before B，并且B happens-before C，那么A happens-before C。</li>
+</ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjsbrpeg5001x9wmjmgy8ks7d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjspvm7bj001t10mjpbxr3j67" class="article-share-link">Share</a>
       
       
     </footer>
@@ -327,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjsbrpefp001a9wmja5r45can" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjspvm7b3001a10mjaxrqwpl5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -389,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjsbrpef9000k9wmjsaf4ggey" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjspvm7a8000k10mj4v4pfrdc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -454,7 +472,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjsbrpeg5001p9wmjp2ey4ga1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjspvm7b3001l10mjlekf6ewg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -508,7 +526,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjsbrpef9000y9wmjvyovmie3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjspvm7ao000y10mj8mfpmft4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -565,7 +583,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjsbrpeg5001t9wmjw37nky65" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjspvm7bj001p10mjggjoogjw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -615,7 +633,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjsbrpeg500219wmjbsdqot76" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjspvm7bz002110mji21kab05" class="article-share-link">Share</a>
       
       
     </footer>
@@ -684,7 +702,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjsbrpeeu00089wmj6l1dvv60" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjspvm79t000810mjsure4ziq" class="article-share-link">Share</a>
       
       
     </footer>
