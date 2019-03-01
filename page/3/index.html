@@ -104,7 +104,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjspvm7bj001s10mjr5geugbk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjsq2s59g00233cmjnqfto0bt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -152,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjspvm7bj002010mj1w5kgnno" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjsq2s591001t3cmj60atsnn3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -188,7 +188,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p>原子性操作是指不能被线程调度机制中断的操作，一旦操作开始，在可能发生的上下文切换之前执行完。</p>
+        <h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p>原子性操作是指不能被线程调度机制中断的操作，一旦操作开始，在可能发生的上下文切换之前执行完。</p>
 <p>java中对除了long和double以外的基本类型进行读写操作都是原子性的，因为long和double是64位的，JVM有可能将其分为两个32位的。不过新的jdk也实现了long和double的原子读写。</p>
 <p>这里说的读写操作并不包括自加等。因为自加其实是分成了两步来走。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">i++</span><br><span class="line"></span><br><span class="line"><span class="number">0</span>:    aload_0</span><br><span class="line"><span class="number">1</span>:    dup</span><br><span class="line"><span class="number">2</span>:    getfield</span><br><span class="line"><span class="number">5</span>:    iconst_1</span><br><span class="line"><span class="number">6</span>:    iadd</span><br><span class="line"><span class="number">7</span>:    putfield</span><br><span class="line"><span class="number">10</span>:   <span class="keyword">return</span></span><br></pre></td></tr></table></figure></p>
 <p>这个操作有put和get，如果在put和get之间发生了变化，那么得到的结果可能不正确，因此不是原子性操作。当然java中有AtomicInteger、AtomicLong、AtomicBoolean等原子类。</p>
@@ -206,7 +206,7 @@
 <p>以下是happens-before的几种规矩</p>
 <ol>
 <li><p>一个线程内的action</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">state 1     ------</span><br><span class="line">state 2			  |</span><br><span class="line">state 3 		  | - All states happen before state n</span><br><span class="line">				  |</span><br><span class="line">...		    ------</span><br><span class="line"></span><br><span class="line">state n</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">state 1</span><br><span class="line">state 2	</span><br><span class="line">state 3     // All states happen before state n</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">state n</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>监视锁<br>在B线程获取锁之前，A线程会先将锁释放(同一个锁)。</p>
 </li>
@@ -222,7 +222,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjspvm7bj001t10mjpbxr3j67" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjsq2s59g00253cmji5j9j6pb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -345,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjspvm7b3001a10mjaxrqwpl5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjsq2s591001q3cmj2168vt58" class="article-share-link">Share</a>
       
       
     </footer>
@@ -407,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjspvm7a8000k10mj4v4pfrdc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjsq2s56v000k3cmjdj358irq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -472,7 +472,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjspvm7b3001l10mjlekf6ewg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjsq2s59g001z3cmjsnya5hqh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -526,7 +526,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjspvm7ao000y10mj8mfpmft4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjsq2s57r00173cmjegu2wjb5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -583,7 +583,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjspvm7bj001p10mjggjoogjw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjsq2s59g00213cmjny7a5387" class="article-share-link">Share</a>
       
       
     </footer>
@@ -633,7 +633,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjspvm7bz002110mji21kab05" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjsq2s59g00273cmjyqxo99zd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -702,7 +702,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjspvm79t000810mjsure4ziq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/05/Android-Measure-Layout/" data-id="cjsq2s56f00083cmje5rm8ckw" class="article-share-link">Share</a>
       
       
     </footer>
