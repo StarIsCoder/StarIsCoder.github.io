@@ -62,6 +62,46 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Algrothm-Search-Sort" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/04/Algrothm-Search-Sort/" class="article-date">
+  <time datetime="2019-03-04T16:00:00.000Z" itemprop="datePublished">2019-03-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/04/Algrothm-Search-Sort/">Search &amp; Sort</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">binarySearchIteration</span><span class="params">(<span class="keyword">int</span> input[], <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> l = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">int</span> r = input.length - <span class="number">1</span>;</span><br><span class="line">       <span class="keyword">while</span> (l &lt;= r) &#123;</span><br><span class="line">           <span class="keyword">int</span> tmp = (l + r) / <span class="number">2</span>;</span><br><span class="line">           <span class="keyword">int</span> value = input[tmp];</span><br><span class="line">           <span class="keyword">if</span> (value == target) &#123;</span><br><span class="line">               <span class="keyword">return</span> tmp;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (value &gt; target)</span><br><span class="line">               r = tmp - <span class="number">1</span>;</span><br><span class="line">           <span class="keyword">else</span></span><br><span class="line">               l = tmp + <span class="number">1</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">binarySearchRecursive</span><span class="params">(<span class="keyword">int</span> input[], <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> binarySearchRecursive(input, <span class="number">0</span>, input.length - <span class="number">1</span>, target);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">binarySearchRecursive</span><span class="params">(<span class="keyword">int</span> input[], <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (l &lt;= r) &#123;</span><br><span class="line">           <span class="keyword">int</span> tmp = (l + r) / <span class="number">2</span>;</span><br><span class="line">           <span class="keyword">if</span> (input[tmp] == target) <span class="keyword">return</span> tmp;</span><br><span class="line">           <span class="keyword">if</span> (input[tmp] &gt; target)</span><br><span class="line">               <span class="keyword">return</span> binarySearchRecursive(input, l, tmp - <span class="number">1</span>, target);</span><br><span class="line">           <span class="keyword">else</span></span><br><span class="line">               <span class="keyword">return</span> binarySearchRecursive(input, tmp + <span class="number">1</span>, r, target);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/04/Algrothm-Search-Sort/" data-id="cjsvkkqgv0005x0mjxnti6hib" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java-ClassLoader" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/02/18/Java-ClassLoader/" class="article-date">
@@ -145,7 +185,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/18/Java-ClassLoader/" data-id="cjsq31ps400159omjp6kkg2im" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/18/Java-ClassLoader/" data-id="cjsvkkqil001dx0mjv5fabo8y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -200,7 +240,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjsq31ps4000y9omjqrz8rgl1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjsvkkqi50015x0mjr7s7o39s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -277,7 +317,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/31/Shell-Thanos/" data-id="cjsq31psz00269omj8fumae8y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/31/Shell-Thanos/" data-id="cjsvkkqjw002nx0mjvc9qsqim" class="article-share-link">Share</a>
       
       
     </footer>
@@ -333,7 +373,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjsq31ps4000x9omj31mgz613" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjsvkkqi50014x0mjeqe2kvlt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -386,7 +426,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjsq31pr900039omjhy4y5q5v" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjsvkkqgf0003x0mjeltwjpjq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -445,7 +485,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjsq31ps4001e9omj2ephtr6r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjsvkkqj1001px0mjnk2bf5py" class="article-share-link">Share</a>
       
       
     </footer>
@@ -498,7 +538,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjsq31pr900049omjqmu3wnu0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjsvkkqgv0004x0mjjqf8274k" class="article-share-link">Share</a>
       
       
     </footer>
@@ -550,7 +590,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjsq31pr900009omj5zl6dlkv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjsvkkqfz0000x0mjftrfs1x6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -598,96 +638,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjsq31ps400119omjmz9enib5" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-C-Qt-Note" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/11/15/C-Qt-Note/" class="article-date">
-  <time datetime="2018-11-15T16:00:00.000Z" itemprop="datePublished">2018-11-16</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/15/C-Qt-Note/">Qt first&amp;last note</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>为了验证底层库的api是否可用需要在各个平台写DemoApp，但是如果每个平台各写一个有点重复工作了，因此需要用Qt写跨平台的应用，所以这可能是第一篇也是最后一篇和Qt相关的note。</p>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Qt是一种跨平台的应用框架和工具集，常见的Android、ios、windows和mac都可以支持。也就是可以一次编码多次编译生成各个不同的可执行文件，当然肯定是有一些约束或者未兼容好的地方。</p>
-<p>Qt业务逻辑用的C++，界面用的是QML（Qt Modeling Language），有点类似于JSON和CSS，并且支持JavaScript。</p>
-<h2 id="QML"><a href="#QML" class="headerlink" title="QML"></a>QML</h2><figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">Button</span> &#123;</span><br><span class="line">        <span class="attribute">id:</span><span class="string"> dialButton</span></span><br><span class="line">        <span class="attribute">objectName</span>: <span class="string">"dialButtonObject"</span></span><br><span class="line">        <span class="keyword">signal</span><span class="string"> dial</span>(<span class="built_in">string</span> address)</span><br><span class="line">        <span class="attribute">onClicked</span>: dialButton.dial(dialNumberTextEdit.text);</span><br><span class="line">        <span class="attribute">x</span>: <span class="number">23</span></span><br><span class="line">        <span class="attribute">y</span>: <span class="number">26</span></span><br><span class="line">        <span class="attribute">text</span>: qsTr(<span class="string">"Dial"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title">TextEdit</span> &#123;</span><br><span class="line">        <span class="attribute">id:</span><span class="string"> dialNumberTextEdit</span></span><br><span class="line">        <span class="attribute">x</span>: <span class="number">141</span></span><br><span class="line">        <span class="attribute">y</span>: <span class="number">36</span></span><br><span class="line">        <span class="attribute">width</span>: <span class="number">80</span></span><br><span class="line">        <span class="attribute">height</span>: <span class="number">20</span></span><br><span class="line">        <span class="attribute">font.pixelSize</span>: <span class="number">12</span></span><br><span class="line">        <span class="attribute">text</span>: qsTr(<span class="string">""</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title">Button</span> &#123;</span><br><span class="line">        <span class="attribute">id:</span><span class="string"> answerButton</span></span><br><span class="line">        <span class="attribute">objectName</span>: <span class="string">"answerButtonObject"</span></span><br><span class="line">        <span class="keyword">signal</span><span class="string"> answer</span>()</span><br><span class="line">        <span class="attribute">onClicked</span>: answerButton.answer();</span><br><span class="line">        <span class="attribute">x</span>: <span class="number">23</span></span><br><span class="line">        <span class="attribute">y</span>: <span class="number">128</span></span><br><span class="line">        <span class="attribute">text</span>: qsTr(<span class="string">"Answer"</span>)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>在QML中大致是用如上格式来设计，当然Qt也支持可视化的控件拖动工具。</p>
-<ul>
-<li>id:可以理解在qml中一个控件的句柄，例如我们希望获得TextEdit的值，那就可以用<code>dialNumberTextEdit.text</code></li>
-<li>objectName:在C++中找到该控件的一个类似于id的东西。</li>
-<li>signal：定义一个信号，可用它的id来发送<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dialButton.dial(dialNumberTextEdit.text);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="交互"><a href="#交互" class="headerlink" title="交互"></a>交互</h2><p>Qt中很重要的概念就是信号（signal）和槽（slot）。信号是发送方，槽是接收方，由于信号和槽才使得前后端交互。假设我们在界面上有个button，在c++需要监听这个button的点击事件。</p>
-<p>1.在QML中控件的onClicked事件发送一个信号<br><figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">Button</span> &#123;</span><br><span class="line">        <span class="attribute">id:</span><span class="string"> dialButton</span></span><br><span class="line">        <span class="attribute">objectName</span>: <span class="string">"dialButtonObject"</span></span><br><span class="line">        <span class="keyword">signal</span><span class="string"> dial</span>(<span class="built_in">string</span> address)</span><br><span class="line">        <span class="comment">//发送信号dial，参数为dialNumberTextEdit的text</span></span><br><span class="line">        <span class="attribute">onClicked</span>: dialButton.dial(dialNumberTextEdit.text);</span><br><span class="line">        <span class="attribute">x</span>: <span class="number">23</span></span><br><span class="line">        <span class="attribute">y</span>: <span class="number">26</span></span><br><span class="line">        <span class="attribute">text</span>: qsTr(<span class="string">"Dial"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string">1. 新建一个类集成QObject，并定义一个slot，名字不用和信号一样。</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>c++</span><br><span class="line">class <span class="attribute">DialButtonSlot</span>:<span class="attribute">public QObject &#123;</span></span><br><span class="line"><span class="attribute">    Q_OBJECT</span></span><br><span class="line"><span class="attribute">public slots</span>:</span><br><span class="line">    <span class="keyword">void</span> dial(QString message) &#123;</span><br><span class="line">        qDebug() &lt;&lt; message;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="attribute">public</span>:</span><br><span class="line">    DialButtonSlot();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>3.将信号和槽连接起来</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用component加载qml文件</span></span><br><span class="line"><span class="function">QQmlComponent <span class="title">component</span><span class="params">(&amp;engine,QUrl(QStringLiteral(<span class="string">"qrc:/main.qml"</span>)))</span></span>;</span><br><span class="line"><span class="comment">//实例化ViewLoader</span></span><br><span class="line">QObject *viewLoader = component.create();</span><br><span class="line"><span class="comment">//从ViewLoader中找到objectName为"dialButtonObject"的QObject</span></span><br><span class="line">QObject *dialButton = viewLoader-&gt;findChild&lt;QObject*&gt;(<span class="string">"dialButtonObject"</span>);</span><br><span class="line"><span class="comment">//实例化一个Slot</span></span><br><span class="line">DialButtonSlot dialButtonSlot;</span><br><span class="line"><span class="comment">//sender:dialButton</span></span><br><span class="line"><span class="comment">//receiver:dialButtonSlot</span></span><br><span class="line">QObject::connect(dialButton, SIGNAL(dial(QString)), &amp;dialButtonSlot, SLOT(dial(QString)));</span><br></pre></td></tr></table></figure>
-<p>这样当button点击之后被定义为slot的dial方法会被调用，我们就可以对拿到的数据进行处理。</p>
-<p>那么如果我们数据处理完了想更新ui怎么通知呢，同样用信号和槽的形式。</p>
-<ol>
-<li><p>头文件中定义一个signal</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">signals:</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">setTextField</span><span class="params">(QVariant text)</span></span>;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>QML中定义一个函数签名一样的方法</p>
-<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setTextField</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"setTextField: "</span> + text)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>同样将信号和槽连接起来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QObject::connect(&amp;handleTextField, SIGNAL(setTextField(QVariant)),window, SLOT(setTextField(QVariant)));</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在我们需要通知QML的地方发送信号即可</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">emit <span class="title">setTextField</span><span class="params">(<span class="string">"666666"</span>)</span></span>;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="QQuickImageProvider"><a href="#QQuickImageProvider" class="headerlink" title="QQuickImageProvider"></a>QQuickImageProvider</h2><p>QQuickImageProvider是某种用来存取图片的类。具体使用</p>
-<ol>
-<li>新建一个类继承QQuickImageProvider，覆写requestImage方法。<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SnapshotImageProvider</span>:</span><span class="keyword">public</span> QQuickImageProvider</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    SnapshotImageProvider();</span><br><span class="line">    <span class="function">QImage <span class="title">requestImage</span><span class="params">(<span class="keyword">const</span> QString &amp;id, QSize *size, <span class="keyword">const</span> QSize&amp; requestedSize)</span> override</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setSnapshotObject</span><span class="params">(HandleSnapshotId *handle)</span></span>&#123;</span><br><span class="line">        snapshotObject = handle;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    QImage screenshot;</span><br><span class="line">    HandleSnapshotId *snapshotObject;</span><br><span class="line">    QQuickWindow *m_window;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">QImage SnapshotImageProvider::requestImage(<span class="keyword">const</span> QString &amp;id, QSize *size, <span class="keyword">const</span> QSize&amp; requestedSize)&#123;</span><br><span class="line">    <span class="keyword">if</span> (id == <span class="string">"fetch"</span>) &#123;</span><br><span class="line">        qDebug() &lt;&lt; <span class="string">"id :"</span>&lt;&lt; snapshotObject-&gt;id;</span><br><span class="line">        <span class="keyword">return</span> screenshot;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        screenshot = ........</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> screenshot;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li><p>QML中给Imaged的source属性赋值为QQuickImageProvider。</p>
-<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">Image</span> &#123;</span><br><span class="line">    <span class="attribute">id:</span><span class="string"> snapshotImage</span></span><br><span class="line">    <span class="attribute">objectName</span>: <span class="string">"imageObject"</span></span><br><span class="line">    <span class="attribute">cache</span>: <span class="literal">false</span>;</span><br><span class="line">    <span class="attribute">x</span>: <span class="number">23</span></span><br><span class="line">    <span class="attribute">y</span>: <span class="number">259</span></span><br><span class="line">    <span class="attribute">width</span>: <span class="number">325</span></span><br><span class="line">    <span class="attribute">height</span>: <span class="number">445</span></span><br><span class="line">    <span class="attribute">source</span>: <span class="string">"image://snapshotimageprovider/presentation"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>把QQuickImageProvider添加到QQmlApplicationEngine中，在添加的时候传入的第一个参数表示这个QQuickImageProvider的名字，在用的时候也必须用这个名字，不过不区分大小写。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">engine.addImageProvider(<span class="string">"snapshotimageprovider"</span>,imageProvider);</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>QML在加载这个source的时候会主动去调用requestImage方法，并且他的第一个参数就是source属性中表示QQuickImageProvider名字后面的子串，如上代码，那么在requestImage方法中传入的第一个参数就是<code>&quot;presentation&quot;</code>，可以根据这个id进行不同的图片处理。</p>
-<p>如果想主动刷新那么只需要重新赋值source即可，但是需要先赋为空<br><figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">snapshotImage.source = <span class="string">""</span></span><br><span class="line">snapshotImage.source = <span class="string">"image://snapshotimageprovider/presentation"</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="In-the-end"><a href="#In-the-end" class="headerlink" title="In the end"></a>In the end</h2><p>当然这边只是Qt的冰山一角，不过用来做Demo的app是足矣了，不知道后续还有没有机会再用Qt开发，其实Qt也只是界面可以大部分跨平台开发，很多其他功能并不是很适用，例如Qt原生的AudioRecorder很多参数不支持set，像bitrate等等，到最后还是导入了mac自带的lib然后用宏区分平台来实现录音功能。因此如果只是简单界面的测试app用qt是可以的，如果涉及的模块较多就不太合适了。</p>
-<p>参考资料：<a href="https://andrew-jones.com/blog/qml2-to-c---and-back-again-with-signals-and-slots/" target="_blank" rel="noopener">https://andrew-jones.com/blog/qml2-to-c---and-back-again-with-signals-and-slots/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjsq31prp000q9omjiax58dts" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjsvkkqil0018x0mj559w3csd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -727,7 +678,7 @@ D      door (Solaris)
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -738,6 +689,10 @@ D      door (Solaris)
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/03/04/Algrothm-Search-Sort/">Search &amp; Sort</a>
+          </li>
         
           <li>
             <a href="/2019/02/18/Java-ClassLoader/">Class Loader</a>
@@ -753,10 +708,6 @@ D      door (Solaris)
         
           <li>
             <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/">make_shared vs shared_ptr</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
           </li>
         
       </ul>
