@@ -141,7 +141,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjsx18fge000wqwmjh4e2ufku" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjsyjwaog000wvkmjpif38xkd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -206,7 +206,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjsx18fhp002kqwmjpdcmaksh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjsyjwasc002svkmjidyqa607" class="article-share-link">Share</a>
       
       
     </footer>
@@ -267,7 +267,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjsx18fge000gqwmj996z19qk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjsyjwaog000gvkmjgyapv71a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -325,7 +325,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjsx18fh9001zqwmj393whzo1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjsyjwapb001xvkmjqad9n23l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -405,7 +405,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjsx18fgt001aqwmjwtl60zil" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjsyjwaox0018vkmj1rgzvj8y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -455,7 +455,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjsx18ffi0001qwmj71dzf4rb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjsyjwan50001vkmjuztonnzu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -550,7 +550,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjsx18fh9001nqwmjk2dayp37" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjsyjwapb001kvkmj9d7uo89r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -628,7 +628,55 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjsx18fh9001uqwmjwhv5oe0h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjsyjwapb001svkmjqori9jad" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Kotlin-Delegation" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/12/Kotlin-Delegation/" class="article-date">
+  <time datetime="2018-10-12T16:00:00.000Z" itemprop="datePublished">2018-10-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="类代理"><a href="#类代理" class="headerlink" title="类代理"></a>类代理</h2><p>面向对象的特性中由于继承的存在关系，因此当扩展一个类并自行重新定义一些细节的时候，代码就会变的依赖于这个子类，而如果后期父类更新了，那么子类的实现可能与父类背道而驰，因此kotlin中默认将类修饰为final。但有的时候确实需要添加一些特定情况下才发生的新功能。</p>
+<p>因为在接口中定义的方法必须在实现类中全部实现，因此如果我们只是在原有的类上加一些新功能，那么会导致有很多重复的代码。</p>
+<p>在kotlin中可以通过by省略掉很多不需要的代码。如下代码中的test方法不用重写直接使用代理，也就是circle的test方法即可。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> redcircle = RedCircle(Circle())</span><br><span class="line">    redcircle.draw()</span><br><span class="line">    redcircle.test()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">val</span> descpition: String</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span> : <span class="type">Shape &#123;</span></span></span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">override</span> <span class="keyword">val</span> descpition: String</span><br><span class="line">        <span class="keyword">get</span>() = <span class="string">"Circle"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"draw <span class="variable">$descpition</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"test"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedCircle</span></span>(circle: Circle) : Shape <span class="keyword">by</span> circle &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(Circle().descpition + <span class="string">" is red"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result:circle is red</span><br></pre></td></tr></table></figure>
+<p>当然因为这里类比较简单，如果非常多的话例如collection接口，要实现五个方法，然而我们只是想新增一个方法，就会显得代码非常冗余<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCollection</span> :<span class="type">Collection</span>&lt;<span class="type">String</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">val</span> size: <span class="built_in">Int</span></span><br><span class="line">        <span class="keyword">get</span>() = TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change initializer of created properties use File | Settings | File Templates.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">contains</span><span class="params">(element: <span class="type">String</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">containsAll</span><span class="params">(elements: <span class="type">Collection</span>&lt;<span class="type">String</span>&gt;)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">isEmpty</span><span class="params">()</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">iterator</span><span class="params">()</span></span>: Iterator&lt;String&gt; &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>照例还是看下代理模式的java源码，这边只关注redCircle<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">redCircle</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">   <span class="comment">// $FF: synthetic field</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> circle $$delegate_0;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      String var1 = (<span class="keyword">new</span> circle()).getDescpition() + <span class="string">" is red"</span>;</span><br><span class="line">      System.out.println(var1);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">redCircle</span><span class="params">(@NotNull circle circle)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(circle, <span class="string">"circle"</span>);</span><br><span class="line">      <span class="keyword">super</span>();</span><br><span class="line">      <span class="keyword">this</span>.$$delegate_0 = circle;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@NotNull</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">getDescpition</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$$delegate_0.getDescpition();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.$$delegate_0.test();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到test方法由系统自动生成，并且是通过调用传入的circle对象来实现的。</p>
+<p>像kotlin的by关键字非常类似于java中的装饰器。本质上都是将原始类作为属性传入并保存，如果想保留原有的设计，那么直接调用原始类的方法即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjsyjwapr002bvkmjcf81onx9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -696,55 +744,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjsx18fgt001kqwmjshlp1cgc" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Kotlin-Delegation" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/12/Kotlin-Delegation/" class="article-date">
-  <time datetime="2018-10-12T16:00:00.000Z" itemprop="datePublished">2018-10-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/12/Kotlin-Delegation/">Delegation</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="类代理"><a href="#类代理" class="headerlink" title="类代理"></a>类代理</h2><p>面向对象的特性中由于继承的存在关系，因此当扩展一个类并自行重新定义一些细节的时候，代码就会变的依赖于这个子类，而如果后期父类更新了，那么子类的实现可能与父类背道而驰，因此kotlin中默认将类修饰为final。但有的时候确实需要添加一些特定情况下才发生的新功能。</p>
-<p>因为在接口中定义的方法必须在实现类中全部实现，因此如果我们只是在原有的类上加一些新功能，那么会导致有很多重复的代码。</p>
-<p>在kotlin中可以通过by省略掉很多不需要的代码。如下代码中的test方法不用重写直接使用代理，也就是circle的test方法即可。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> redcircle = RedCircle(Circle())</span><br><span class="line">    redcircle.draw()</span><br><span class="line">    redcircle.test()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">val</span> descpition: String</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span> : <span class="type">Shape &#123;</span></span></span><br><span class="line">    <span class="keyword">open</span> <span class="keyword">override</span> <span class="keyword">val</span> descpition: String</span><br><span class="line">        <span class="keyword">get</span>() = <span class="string">"Circle"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"draw <span class="variable">$descpition</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"test"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedCircle</span></span>(circle: Circle) : Shape <span class="keyword">by</span> circle &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">draw</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(Circle().descpition + <span class="string">" is red"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Result:circle is red</span><br></pre></td></tr></table></figure>
-<p>当然因为这里类比较简单，如果非常多的话例如collection接口，要实现五个方法，然而我们只是想新增一个方法，就会显得代码非常冗余<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCollection</span> :<span class="type">Collection</span>&lt;<span class="type">String</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">val</span> size: <span class="built_in">Int</span></span><br><span class="line">        <span class="keyword">get</span>() = TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change initializer of created properties use File | Settings | File Templates.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">contains</span><span class="params">(element: <span class="type">String</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">containsAll</span><span class="params">(elements: <span class="type">Collection</span>&lt;<span class="type">String</span>&gt;)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">isEmpty</span><span class="params">()</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">iterator</span><span class="params">()</span></span>: Iterator&lt;String&gt; &#123;</span><br><span class="line">        TODO(<span class="string">"not implemented"</span>) <span class="comment">//To change body of created functions use File | Settings | File Templates.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>照例还是看下代理模式的java源码，这边只关注redCircle<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">redCircle</span> <span class="keyword">implements</span> <span class="title">Shape</span> </span>&#123;</span><br><span class="line">   <span class="comment">// $FF: synthetic field</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> circle $$delegate_0;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      String var1 = (<span class="keyword">new</span> circle()).getDescpition() + <span class="string">" is red"</span>;</span><br><span class="line">      System.out.println(var1);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">redCircle</span><span class="params">(@NotNull circle circle)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(circle, <span class="string">"circle"</span>);</span><br><span class="line">      <span class="keyword">super</span>();</span><br><span class="line">      <span class="keyword">this</span>.$$delegate_0 = circle;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@NotNull</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">getDescpition</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$$delegate_0.getDescpition();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.$$delegate_0.test();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到test方法由系统自动生成，并且是通过调用传入的circle对象来实现的。</p>
-<p>像kotlin的by关键字非常类似于java中的装饰器。本质上都是将原始类作为属性传入并保存，如果想保留原有的设计，那么直接调用原始类的方法即可。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjsx18fhp002dqwmjg86ddto7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjsyjwapb001ivkmjos0jcwxk" class="article-share-link">Share</a>
       
       
     </footer>

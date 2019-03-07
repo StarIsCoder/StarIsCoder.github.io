@@ -121,55 +121,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjsx18fhp0029qwmjpn9x5yjo" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java-Lamda" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/03/Java-Lamda/" class="article-date">
-  <time datetime="2018-10-03T16:00:00.000Z" itemprop="datePublished">2018-10-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/03/Java-Lamda/">Lamda表达式-Preview</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>Lamda表达式中引用的局部变量必须是final或既成事实上的值。<br>换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">str = <span class="string">"world"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//Variable used in lambda expression should be final or effectively final</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//valid</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="Predicate接口"><a href="#Predicate接口" class="headerlink" title="Predicate接口"></a>Predicate接口</h2><p>该接口表示传入的对象是否满足某种条件，并返回boolean作为真假判断。check下源码，该接口只接受一个参数，返回一个布尔值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>例如我们希望从一个int的列表中找到所有的偶数，那么Predicate可以这么写。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Predicate&lt;Integer&gt; predicate = integer -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> integer % <span class="number">2</span> == <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">predicate.negate();<span class="comment">// 过滤出所有的奇数</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>Lamda表达式是一个匿名的方法，将行为像数据一样传递。</li>
-<li>Lamda表达式也被称为闭包，未赋值的变量与周边环境隔离起来，进而被绑定到一个特定的值。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjsx18fh9001sqwmjew6ylrs4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjsyjwapr0027vkmjil1cmgec" class="article-share-link">Share</a>
       
       
     </footer>
@@ -221,7 +173,55 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjsx18fh90024qwmj9cw0pqp2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjsyjwapr0022vkmj5v4mnrc4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java-Lamda" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/03/Java-Lamda/" class="article-date">
+  <time datetime="2018-10-03T16:00:00.000Z" itemprop="datePublished">2018-10-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/03/Java-Lamda/">Lamda表达式-Preview</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>Lamda表达式中引用的局部变量必须是final或既成事实上的值。<br>换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">str = <span class="string">"world"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//Variable used in lambda expression should be final or effectively final</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//valid</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="Predicate接口"><a href="#Predicate接口" class="headerlink" title="Predicate接口"></a>Predicate接口</h2><p>该接口表示传入的对象是否满足某种条件，并返回boolean作为真假判断。check下源码，该接口只接受一个参数，返回一个布尔值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>例如我们希望从一个int的列表中找到所有的偶数，那么Predicate可以这么写。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Predicate&lt;Integer&gt; predicate = integer -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> integer % <span class="number">2</span> == <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">predicate.negate();<span class="comment">// 过滤出所有的奇数</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Lamda表达式是一个匿名的方法，将行为像数据一样传递。</li>
+<li>Lamda表达式也被称为闭包，未赋值的变量与周边环境隔离起来，进而被绑定到一个特定的值。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjsyjwapb001pvkmj4kfl1lwc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -291,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjsx18fh90027qwmjg1k2pol2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjsyjwapr0024vkmj1edailrr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -414,7 +414,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjsx18fgt001fqwmj6oq7tsfd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjsyjwasc002vvkmjn7ih0gvj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -476,7 +476,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjsx18fge000mqwmjkmsqaqc1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjsyjwaog000ivkmjhu1ljtsu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -541,7 +541,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjsx18fh9001xqwmj7gqz1xvi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjsyjwapb001uvkmjw08akup4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -595,7 +595,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjsx18fgt0011qwmj0o4xx0cr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjsyjwaox0011vkmjf09fbaeb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -652,7 +652,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjsx18fh90022qwmjsgz7uip7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/07/Java-Serializable/" data-id="cjsyjwapb001zvkmjkx4qo9y8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -702,7 +702,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjsx18fhp002bqwmj3tl2dki6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/06/Kotlin-Constructor/" data-id="cjsyjwapr0029vkmjo9i11f3w" class="article-share-link">Share</a>
       
       
     </footer>
