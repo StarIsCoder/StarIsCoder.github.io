@@ -62,9 +62,54 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Algrothm-Search-Sort" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Algrothm-Sort" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/03/04/Algrothm-Search-Sort/" class="article-date">
+    <a href="/2019/03/14/Algrothm-Sort/" class="article-date">
+  <time datetime="2019-03-14T16:00:00.000Z" itemprop="datePublished">2019-03-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/14/Algrothm-Sort/">Sort Algorithm</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><p>二分查找有两种，递归和循环。</p>
+<p>时间复杂度：</p>
+<ul>
+<li>O(Logn)</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">binarySearchIteration</span><span class="params">(<span class="keyword">int</span> input[], <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> l = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">int</span> r = input.length - <span class="number">1</span>;</span><br><span class="line">       <span class="keyword">while</span> (l &lt;= r) &#123;</span><br><span class="line">           <span class="keyword">int</span> tmp = (l + r) / <span class="number">2</span>;</span><br><span class="line">           <span class="keyword">int</span> value = input[tmp];</span><br><span class="line">           <span class="keyword">if</span> (value == target) &#123;</span><br><span class="line">               <span class="keyword">return</span> tmp;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (value &gt; target)</span><br><span class="line">               r = tmp - <span class="number">1</span>;</span><br><span class="line">           <span class="keyword">else</span></span><br><span class="line">               l = tmp + <span class="number">1</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">binarySearchRecursive</span><span class="params">(<span class="keyword">int</span> input[], <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> binarySearchRecursive(input, <span class="number">0</span>, input.length - <span class="number">1</span>, target);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">binarySearchRecursive</span><span class="params">(<span class="keyword">int</span> input[], <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (l &lt;= r) &#123;</span><br><span class="line">           <span class="keyword">int</span> tmp = (l + r) / <span class="number">2</span>;</span><br><span class="line">           <span class="keyword">if</span> (input[tmp] == target) <span class="keyword">return</span> tmp;</span><br><span class="line">           <span class="keyword">if</span> (input[tmp] &gt; target)</span><br><span class="line">               <span class="keyword">return</span> binarySearchRecursive(input, l, tmp - <span class="number">1</span>, target);</span><br><span class="line">           <span class="keyword">else</span></span><br><span class="line">               <span class="keyword">return</span> binarySearchRecursive(input, tmp + <span class="number">1</span>, r, target);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/14/Algrothm-Sort/" data-id="cjt9wbviv000554mjhflizvn3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Algrothm-Search" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/04/Algrothm-Search/" class="article-date">
   <time datetime="2019-03-04T16:00:00.000Z" itemprop="datePublished">2019-03-05</time>
 </a>
     
@@ -80,7 +125,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/04/Algrothm-Search-Sort/">Search &amp; Sort</a>
+      <a class="article-title" href="/2019/03/04/Algrothm-Search/">Search &amp; Sort</a>
     </h1>
   
 
@@ -88,13 +133,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><p>二分查找有两种，递归和循环。</p>
-<p>时间复杂度：</p>
-<ul>
-<li>O(Logn)</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">binarySearchIteration</span><span class="params">(<span class="keyword">int</span> input[], <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> l = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">int</span> r = input.length - <span class="number">1</span>;</span><br><span class="line">       <span class="keyword">while</span> (l &lt;= r) &#123;</span><br><span class="line">           <span class="keyword">int</span> tmp = (l + r) / <span class="number">2</span>;</span><br><span class="line">           <span class="keyword">int</span> value = input[tmp];</span><br><span class="line">           <span class="keyword">if</span> (value == target) &#123;</span><br><span class="line">               <span class="keyword">return</span> tmp;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (value &gt; target)</span><br><span class="line">               r = tmp - <span class="number">1</span>;</span><br><span class="line">           <span class="keyword">else</span></span><br><span class="line">               l = tmp + <span class="number">1</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">binarySearchRecursive</span><span class="params">(<span class="keyword">int</span> input[], <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> binarySearchRecursive(input, <span class="number">0</span>, input.length - <span class="number">1</span>, target);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">binarySearchRecursive</span><span class="params">(<span class="keyword">int</span> input[], <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (l &lt;= r) &#123;</span><br><span class="line">           <span class="keyword">int</span> tmp = (l + r) / <span class="number">2</span>;</span><br><span class="line">           <span class="keyword">if</span> (input[tmp] == target) <span class="keyword">return</span> tmp;</span><br><span class="line">           <span class="keyword">if</span> (input[tmp] &gt; target)</span><br><span class="line">               <span class="keyword">return</span> binarySearchRecursive(input, l, tmp - <span class="number">1</span>, target);</span><br><span class="line">           <span class="keyword">else</span></span><br><span class="line">               <span class="keyword">return</span> binarySearchRecursive(input, tmp + <span class="number">1</span>, r, target);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>快速排序主要的思想是分而治之，先选取一个基准数，第一次排序的时候将比基准数小的全部移到左边，而比基准数大的全部移到右边。这样就分成了两个数组，然后递归排序即可。</p>
+        <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>快速排序主要的思想是分而治之，先选取一个基准数，第一次排序的时候将比基准数小的全部移到左边，而比基准数大的全部移到右边。这样就分成了两个数组，然后递归排序即可。</p>
 <p>时间复杂度：</p>
 <ul>
 <li>Worst: O(n^2)</li>
@@ -143,7 +182,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/04/Algrothm-Search-Sort/" data-id="cjt8do5nk0005bcmjk6j3moeh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/04/Algrothm-Search/" data-id="cjt9wbviv000754mjiz04gv61" class="article-share-link">Share</a>
       
       
     </footer>
@@ -236,7 +275,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/18/Java-ClassLoader/" data-id="cjt8do5of001dbcmjrwgx65jl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/18/Java-ClassLoader/" data-id="cjt9wbvk6001f54mjsr2hmmfl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -291,7 +330,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjt8do5of0015bcmj9k1jr8yx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjt9wbvk6001954mjvm6k3n0b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -368,7 +407,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/31/Shell-Thanos/" data-id="cjt8do5pb002kbcmjt13udwq1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/31/Shell-Thanos/" data-id="cjt9wbvlw002j54mjiawv2eig" class="article-share-link">Share</a>
       
       
     </footer>
@@ -424,7 +463,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjt8do5of0014bcmj0wkdqrvr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjt9wbvk6001754mjp8noa899" class="article-share-link">Share</a>
       
       
     </footer>
@@ -477,7 +516,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjt8do5nk0003bcmjrsqkpvqj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjt9wbviv000354mjc524whl7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -536,7 +575,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjt8do5ov001pbcmjyrq09ksr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjt9wbvl1001r54mjh0za7v17" class="article-share-link">Share</a>
       
       
     </footer>
@@ -589,7 +628,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjt8do5nk0004bcmj4of7o3se" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjt9wbviv000454mjbo7hw8tr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -641,55 +680,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjt8do5n70000bcmjbc92q6vt" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-C-使用Jansson产生的引用计数bug" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/11/25/C-使用Jansson产生的引用计数bug/" class="article-date">
-  <time datetime="2018-11-25T16:00:00.000Z" itemprop="datePublished">2018-11-26</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/25/C-使用Jansson产生的引用计数bug/">使用Jansson产生的引用计数bug</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在使用Jannson的时候，偶现了一个bug。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JanssonTest(83740,0x1003ac380) malloc: *** error for object 0x100600058: incorrect checksum for freed object - object was probably modified after being freed.</span><br></pre></td></tr></table></figure></p>
-<p>跟踪了一下代码发现是在free的时候出现的问题。由于是free的时候出现的，因此crash的堆栈还有所不同。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">jsonp_free</span><span class="params">(<span class="keyword">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!ptr)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    (*do_free)(ptr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到是在执行do_free的时候产生的crash。一开始产生的堆栈一直指向的是将json转成string的一个函数，但是仔细查看了之后发现这一块逻辑没有问题，考虑到是在free的时候出现的问题，就去查看了free相关的函数，最后通过注释排查法找到了原因所在。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> ProximityRequestBodyBuilder::buildInitConnection(<span class="keyword">const</span> InitConnectionRequest&amp; request,<span class="built_in">std</span>::<span class="built_in">string</span> &amp; requestBody)&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> tmp;</span><br><span class="line">    <span class="keyword">json_t</span> *methodParaJson = json_object();</span><br><span class="line">    </span><br><span class="line">    tmp = request.displayName;</span><br><span class="line">    json_object_set_new(methodParaJson, <span class="string">"displayName"</span>, json_string(tmp.c_str()));</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">json_t</span> *requestJson = wrapper(methodParaJson, <span class="string">"initConnection"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> *requestStr = json_dumps(requestJson, <span class="number">0</span>);</span><br><span class="line">    requestBody = <span class="built_in">std</span>::<span class="built_in">string</span>(requestStr);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">free</span>(requestStr);</span><br><span class="line">    json_decref(requestJson);</span><br><span class="line">    json_decref(methodParaJson);<span class="comment">//导致了crash</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">json_t</span> *ProximityRequestBodyBuilder::wrapper(<span class="keyword">json_t</span> *parameterJson, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;methodName)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">json_t</span> *root = json_object();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//wrap token</span></span><br><span class="line">    json_object_set_new(root, <span class="string">"token"</span>, json_string(<span class="string">"ed2f"</span>));</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//wrap method</span></span><br><span class="line">    <span class="keyword">json_t</span> *methodPara = json_object();</span><br><span class="line">    json_object_set_new(methodPara, methodName.c_str(), parameterJson);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//wrap request</span></span><br><span class="line">    json_object_set_new(root, <span class="string">"request"</span>, methodPara);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在Jannson中使用的引用计数法，也就是哪里用到了这个对象就+1，对应的函数是<code>json_incref</code>，如果这个对象之后没用的话要-1，对应的函数是<code>json_decref</code>。</p>
-<p>但是在调用了<code>json_decref(requestJson)</code>之后，<code>methodParaJson</code>的引用计数也-1，那么之后再调用<code>json_decref(methodParaJson)</code>，就出现了各种问题。</p>
-<p>至于两者为什么会有耦合关系，是因为用<code>requestJson</code>将<code>methodParaJson</code>包装了一次。不过这边既然他自动给我-1，那讲道理在包装的时候应该也自动+1比较合理。</p>
-<p>后来check了一下源码才发现不应该用<code>json_object_set_new</code>,而应该用<code>json_object_set</code>。因为<code>json_object_set</code>才是真正+1的地方，而<code>json_object_set_new</code>并没有+1，其实感觉new这个关键字有一点误导人。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">json_object_set</span><span class="params">(<span class="keyword">json_t</span> *object, <span class="keyword">const</span> <span class="keyword">char</span> *key, <span class="keyword">json_t</span> *value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> json_object_set_new(object, key, json_incref(value));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">json_object_set_new</span><span class="params">(<span class="keyword">json_t</span> *json, <span class="keyword">const</span> <span class="keyword">char</span> *key, <span class="keyword">json_t</span> *value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!key || !utf8_check_string(key, <span class="built_in">strlen</span>(key)))</span><br><span class="line">    &#123;</span><br><span class="line">        json_decref(value);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> json_object_set_new_nocheck(json, key, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>关于这点已经提了issue：<a href="https://github.com/akheron/jansson/issues/449" target="_blank" rel="noopener">https://github.com/akheron/jansson/issues/449</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjt8do5of0018bcmjn64u9a15" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjt9wbvif000054mjqb7um9qi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -742,7 +733,11 @@ D      door (Solaris)
       <ul>
         
           <li>
-            <a href="/2019/03/04/Algrothm-Search-Sort/">Search &amp; Sort</a>
+            <a href="/2019/03/14/Algrothm-Sort/">Sort Algorithm</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/04/Algrothm-Search/">Search &amp; Sort</a>
           </li>
         
           <li>
@@ -755,10 +750,6 @@ D      door (Solaris)
         
           <li>
             <a href="/2019/01/31/Shell-Thanos/">Delete half of files randomly</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/">make_shared vs shared_ptr</a>
           </li>
         
       </ul>

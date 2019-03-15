@@ -62,6 +62,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-C-使用Jansson产生的引用计数bug" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/11/25/C-使用Jansson产生的引用计数bug/" class="article-date">
+  <time datetime="2018-11-25T16:00:00.000Z" itemprop="datePublished">2018-11-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/25/C-使用Jansson产生的引用计数bug/">使用Jansson产生的引用计数bug</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在使用Jannson的时候，偶现了一个bug。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JanssonTest(83740,0x1003ac380) malloc: *** error for object 0x100600058: incorrect checksum for freed object - object was probably modified after being freed.</span><br></pre></td></tr></table></figure></p>
+<p>跟踪了一下代码发现是在free的时候出现的问题。由于是free的时候出现的，因此crash的堆栈还有所不同。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">jsonp_free</span><span class="params">(<span class="keyword">void</span> *ptr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!ptr)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    (*do_free)(ptr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到是在执行do_free的时候产生的crash。一开始产生的堆栈一直指向的是将json转成string的一个函数，但是仔细查看了之后发现这一块逻辑没有问题，考虑到是在free的时候出现的问题，就去查看了free相关的函数，最后通过注释排查法找到了原因所在。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> ProximityRequestBodyBuilder::buildInitConnection(<span class="keyword">const</span> InitConnectionRequest&amp; request,<span class="built_in">std</span>::<span class="built_in">string</span> &amp; requestBody)&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> tmp;</span><br><span class="line">    <span class="keyword">json_t</span> *methodParaJson = json_object();</span><br><span class="line">    </span><br><span class="line">    tmp = request.displayName;</span><br><span class="line">    json_object_set_new(methodParaJson, <span class="string">"displayName"</span>, json_string(tmp.c_str()));</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">json_t</span> *requestJson = wrapper(methodParaJson, <span class="string">"initConnection"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> *requestStr = json_dumps(requestJson, <span class="number">0</span>);</span><br><span class="line">    requestBody = <span class="built_in">std</span>::<span class="built_in">string</span>(requestStr);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">free</span>(requestStr);</span><br><span class="line">    json_decref(requestJson);</span><br><span class="line">    json_decref(methodParaJson);<span class="comment">//导致了crash</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">json_t</span> *ProximityRequestBodyBuilder::wrapper(<span class="keyword">json_t</span> *parameterJson, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;methodName)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">json_t</span> *root = json_object();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//wrap token</span></span><br><span class="line">    json_object_set_new(root, <span class="string">"token"</span>, json_string(<span class="string">"ed2f"</span>));</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//wrap method</span></span><br><span class="line">    <span class="keyword">json_t</span> *methodPara = json_object();</span><br><span class="line">    json_object_set_new(methodPara, methodName.c_str(), parameterJson);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//wrap request</span></span><br><span class="line">    json_object_set_new(root, <span class="string">"request"</span>, methodPara);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在Jannson中使用的引用计数法，也就是哪里用到了这个对象就+1，对应的函数是<code>json_incref</code>，如果这个对象之后没用的话要-1，对应的函数是<code>json_decref</code>。</p>
+<p>但是在调用了<code>json_decref(requestJson)</code>之后，<code>methodParaJson</code>的引用计数也-1，那么之后再调用<code>json_decref(methodParaJson)</code>，就出现了各种问题。</p>
+<p>至于两者为什么会有耦合关系，是因为用<code>requestJson</code>将<code>methodParaJson</code>包装了一次。不过这边既然他自动给我-1，那讲道理在包装的时候应该也自动+1比较合理。</p>
+<p>后来check了一下源码才发现不应该用<code>json_object_set_new</code>,而应该用<code>json_object_set</code>。因为<code>json_object_set</code>才是真正+1的地方，而<code>json_object_set_new</code>并没有+1，其实感觉new这个关键字有一点误导人。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">json_object_set</span><span class="params">(<span class="keyword">json_t</span> *object, <span class="keyword">const</span> <span class="keyword">char</span> *key, <span class="keyword">json_t</span> *value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> json_object_set_new(object, key, json_incref(value));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">json_object_set_new</span><span class="params">(<span class="keyword">json_t</span> *json, <span class="keyword">const</span> <span class="keyword">char</span> *key, <span class="keyword">json_t</span> *value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!key || !utf8_check_string(key, <span class="built_in">strlen</span>(key)))</span><br><span class="line">    &#123;</span><br><span class="line">        json_decref(value);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> json_object_set_new_nocheck(json, key, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>关于这点已经提了issue：<a href="https://github.com/akheron/jansson/issues/449" target="_blank" rel="noopener">https://github.com/akheron/jansson/issues/449</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjt9wbvk6001b54mjarjlrj3o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-C-Qt-Note" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/11/15/C-Qt-Note/" class="article-date">
@@ -141,7 +189,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjt8do5o2000wbcmjecjc4fs0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjt9wbvjq000z54mjo9kre5je" class="article-share-link">Share</a>
       
       
     </footer>
@@ -206,7 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjt8do5pb002ibcmjywjxue2z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjt9wbvlw002m54mj6qirx0el" class="article-share-link">Share</a>
       
       
     </footer>
@@ -267,7 +315,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjt8do5nk000gbcmj11mzy61l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjt9wbvjb000g54mjbl251fcu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -325,7 +373,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjt8do5ov001zbcmjyichebzf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjt9wbvl1002054mj4xah3ekv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -405,7 +453,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjt8do5of001abcmjtidn2hq2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjt9wbvk6001d54mj76063cuw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -455,7 +503,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjt8do5n70001bcmjhvys5tm8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjt9wbvif000154mjc55opp4c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -550,7 +598,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjt8do5of001nbcmjt9bd1cqu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="cjt9wbvl1001p54mjw1rxhqaq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -628,75 +676,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjt8do5ov001ubcmjzsgfrw50" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java-Decorator" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/12/Java-Decorator/" class="article-date">
-  <time datetime="2018-10-12T16:00:00.000Z" itemprop="datePublished">2018-10-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/12/Java-Decorator/">装饰器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以奶茶店为例子，如果有红茶和绿茶两种，那么应该是这样的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">milktea</span> </span>&#123;</span><br><span class="line">    String description;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(getDescription());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">greenMilktea</span> <span class="keyword">extends</span> <span class="title">milktea</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">greenMilktea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        description = <span class="string">"green milktea"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">redMilktea</span> <span class="keyword">extends</span> <span class="title">milktea</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">redMilktea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        description = <span class="string">"red Milktea"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>都知道奶茶中可以加各种奇奇怪怪的东西，像燕麦，珍珠之类的，如果要加这些东西该怎么写比较好呢。</p>
-<p>第一种将所有能加的东西排列组合，并增加对应的类</p>
-<ul>
-<li>GreenMilkTeaWithPearl</li>
-<li>GreenMilkTeaWithSugar</li>
-<li>GreenMilkTeaWithSugarAndPearl</li>
-<li>RedMilkTeaWithPearl</li>
-<li>RedMilkTeaWithSugar</li>
-<li>RedMilkTeaWithSugarAndPearl</li>
-</ul>
-<p>这才只有两种配料，因此这种方式肯定不可取。</p>
-<p>第二种添加成员属性<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Milktea</span> </span>&#123;</span><br><span class="line">	<span class="comment">//配料</span></span><br><span class="line">    <span class="keyword">boolean</span> addSugar;</span><br><span class="line">    <span class="keyword">boolean</span> addPearl;</span><br><span class="line">    <span class="keyword">boolean</span> addIce;</span><br><span class="line">    </span><br><span class="line">    String description;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(getDescription());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这种相对好一点但是也有很多冗余的代码。其实最好的方式还是按照奶茶店的模式来，将红茶和绿茶作为饮品，而珍珠、糖之类的作为配料单都拿出来。也就是先把茶给制作出来，然后在对这个茶加不同的配料或者是对这个奶茶进行装饰。</p>
-<p>那么我们做茶的配方（代码）是没有变的。我们需要增加配料就可以了。这里加了冰激淋和糖。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Icecream</span> <span class="keyword">extends</span> <span class="title">Ingredients</span> </span>&#123;</span><br><span class="line">    Milktea mt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Icecream</span><span class="params">(Milktea mt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mt = mt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mt.getDescription() + <span class="string">" add Icecream"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sugar</span> <span class="keyword">extends</span> <span class="title">Ingredients</span> </span>&#123;</span><br><span class="line">    Milktea mt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Sugar</span><span class="params">(Milktea mt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mt = mt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mt.getDescription() + <span class="string">" add Sugar"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>有个疑问为什么要传入奶茶对象呢，因为当然要知道冰激凌要加在哪一杯奶茶中啊。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//没有任何配料的奶茶</span></span><br><span class="line">    Milktea mt = <span class="keyword">new</span> GreenMilktea();</span><br><span class="line">    mt.show();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//制作一杯红茶</span></span><br><span class="line">    Milktea mt2 = <span class="keyword">new</span> RedMilktea();</span><br><span class="line">   	<span class="comment">//加冰淇淋</span></span><br><span class="line">    mt2 = <span class="keyword">new</span> Icecream(mt2);</span><br><span class="line">    <span class="comment">//加糖</span></span><br><span class="line">    mt2 = <span class="keyword">new</span> Sugar(mt2);</span><br><span class="line">    <span class="comment">//交给客户</span></span><br><span class="line">    mt2.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">green Milktea</span><br><span class="line">red Milktea add Icecream add Sugar</span><br></pre></td></tr></table></figure>
-<p>看起来就像是把一个对象作为参数传递进去并包装了一下，通过层层嵌套的形式将一个对象包装起来。如果又来一个新配料也好办，使用方式都是一样的，新增一个类，将想要装饰的类传进去。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">......</span><br><span class="line">psvm &#123;</span><br><span class="line">    mt2 = <span class="keyword">new</span> Pearl(mt2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pearl</span> <span class="keyword">extends</span> <span class="title">Ingredients</span> </span>&#123;</span><br><span class="line">    Milktea mt;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Pearl</span><span class="params">(Milktea mt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mt = mt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mt.getDescription() + <span class="string">" add Pearl"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>好处：</p>
-<ul>
-<li>完全不用修改原有的代码，容易扩展新的功能。</li>
-<li>原始类可以非常简单，之后根据需要对原始类进行包装。</li>
-</ul>
-<p>坏处：</p>
-<ul>
-<li>由于是嵌套的初始化形式，因此看起来很复杂。如果层数多了跟代码会特别困难。</li>
-</ul>
-<p>不管怎么说设计模式这种东西一定不能生搬硬套，而是要灵活应用。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjt8do5of001kbcmjao2d3gyx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjt9wbvl1001w54mjjdzppena" class="article-share-link">Share</a>
       
       
     </footer>
@@ -744,7 +724,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjt8do5pb002dbcmjhclbi9f3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjt9wbvlh002c54mjkhomasb9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -797,7 +777,11 @@
       <ul>
         
           <li>
-            <a href="/2019/03/04/Algrothm-Search-Sort/">Search &amp; Sort</a>
+            <a href="/2019/03/14/Algrothm-Sort/">Sort Algorithm</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/04/Algrothm-Search/">Search &amp; Sort</a>
           </li>
         
           <li>
@@ -810,10 +794,6 @@
         
           <li>
             <a href="/2019/01/31/Shell-Thanos/">Delete half of files randomly</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/">make_shared vs shared_ptr</a>
           </li>
         
       </ul>
