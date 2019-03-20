@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Something">
 <meta property="og:description" content="并行和并发的区别 并行：并行更着重于硬件层面，在不同的cpu上同时工作。 并发：并发更着重与软件层面，描述的情况是两个以上的action可能同时发生。  stream的并行化处理调用parallelStream方法即可将stream并行化。12//list中的元素求和result = linkedList.stream().parallel().mapToInt(integer -&amp;gt; int">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-20T03:47:46.946Z">
+<meta property="og:updated_time" content="2019-03-20T05:29:28.818Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="并行化">
 <meta name="twitter:description" content="并行和并发的区别 并行：并行更着重于硬件层面，在不同的cpu上同时工作。 并发：并发更着重与软件层面，描述的情况是两个以上的action可能同时发生。  stream的并行化处理调用parallelStream方法即可将stream并行化。12//list中的元素求和result = linkedList.stream().parallel().mapToInt(integer -&amp;gt; int">
@@ -118,12 +118,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">0.5</span><br><span class="line">1.5</span><br><span class="line">2.5</span><br><span class="line">3.5</span><br><span class="line">4.5</span><br><span class="line">5.5</span><br><span class="line">6.5</span><br><span class="line">7.5</span><br><span class="line">8.5</span><br><span class="line">9.5</span><br></pre></td></tr></table></figure>
 <h2 id="并行化的陷阱"><a href="#并行化的陷阱" class="headerlink" title="并行化的陷阱"></a>并行化的陷阱</h2><p>下面代码在串行和并行情况下结果不一样<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; integerList = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">integerList.add(<span class="number">1</span>);</span><br><span class="line">integerList.add(<span class="number">2</span>);</span><br><span class="line">integerList.add(<span class="number">3</span>);</span><br><span class="line">integerList.add(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">int</span> i = integerList.stream().parallel().reduce(<span class="number">5</span>, (acc, element) -&gt; acc * element);</span><br><span class="line">System.out.println(i);</span><br></pre></td></tr></table></figure></p>
 <p>原因在于并行化了之后每个元素都执行了reduce(5, (acc, element) -&gt; acc * element)。</p>
-<p>原来是5 <em> 1 </em> 2 <em> 3 </em> 4，并行化后变成了5 <em> (5 </em> 1) <em> (5 </em> 2) <em> (5 </em> 3) <em> (5 </em> 4)。<br>正确的应该是<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = integerList.stream().parallel().reduce(<span class="number">1</span>, (acc, element) -&gt; acc * element) * <span class="number">5</span>;</span><br></pre></td></tr></table></figure></p>
+<p>原来是<code>5 * 1 * 2 * 3 * 4</code>，并行化后变成了<code>5 * (5 * 1) * (5 * 2) * (5 * 3) * (5 * 4)</code>。<br>正确的应该是<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = integerList.stream().parallel().reduce(<span class="number">1</span>, (acc, element) -&gt; acc * element) * <span class="number">5</span>;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjtgo2r7b002a4kmju4a3i1gq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjtgrplfw002a2kmjn4sriebi" class="article-share-link">Share</a>
       
       
     </footer>
