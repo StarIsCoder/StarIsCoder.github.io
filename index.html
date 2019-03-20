@@ -62,9 +62,85 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Algrothm-Sort" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Java-bytecode-execution-engine" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/03/14/Algrothm-Sort/" class="article-date">
+    <a href="/2019/03/18/Java-bytecode-execution-engine/" class="article-date">
+  <time datetime="2019-03-18T16:00:00.000Z" itemprop="datePublished">2019-03-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/18/Java-bytecode-execution-engine/">Bytecode Execution Engine</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="运行时栈帧结构"><a href="#运行时栈帧结构" class="headerlink" title="运行时栈帧结构"></a>运行时栈帧结构</h2><p>栈帧(stack frame)是用于支持虚拟机方法调用和方法执行的数据结构。它是虚拟机运行时数据区的虚拟机栈的栈元素。栈帧存储了局部变量、操作数栈、方法返回地址等。一个方法的调用到结束对应了一个栈帧的入栈和出栈。</p>
+<h3 id="局部变量表-Local-Variable-Table"><a href="#局部变量表-Local-Variable-Table" class="headerlink" title="局部变量表(Local Variable Table)"></a>局部变量表(Local Variable Table)</h3><p>局部变量表是一组变量值存储空间，用于存放参数和方法内部定义的局部变量。最小的单位是变量槽（Variable Slot）。虚拟机是通过索引来定位哪个槽的。如果执行的是非static方法，默认第0位是this。</p>
+<p>为了节省栈帧空间，局部变量表中的slot是可以复用的。因为方法中定义的局部变量不一定会覆盖整个方法体，比如for循环中的变量。</p>
+<p>slot复用可能导致GC问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] holder = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">64</span> * <span class="number">1024</span> * <span class="number">1024</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    System.gc();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上代码由于holder所占用的slot一直没人再使用，所以GC没法回收holder。如果希望回收holder，则只需要随便定义一个变量即可。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] holder = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">64</span> * <span class="number">1024</span> * <span class="number">1024</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">    System.gc();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="操作数栈"><a href="#操作数栈" class="headerlink" title="操作数栈"></a>操作数栈</h3><p>也就是操作栈，方法执行过程中会有各种字节码指令向操作栈写入或者读取内容。用1+1来举例的话。先将两个1压入栈中，用过add指令将最顶上的两个元素弹出并相加之后将结果压入栈中。</p>
+<h3 id="方法返回地址"><a href="#方法返回地址" class="headerlink" title="方法返回地址"></a>方法返回地址</h3><p>当一个方法开始执行之后，只有两种方式可以退出，一种是正常结束比如return。另一种则是运行过程中出现了异常。方法退出的实际过程就是等于把栈帧出栈。因此可能会恢复上层的局部变量表和操作栈，并将返回值压入调用者的操作栈中。</p>
+<h2 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h2><p>方法调用并不等于方法执行，唯一的任务就是决定调用哪一个方法。</p>
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p>在类加载的解析阶段主要就是将符号引用转化为直接引用，但是这样的一个前提就是在真正运行之前就能确定到底调用那个版本的方法并且在运行期间是不可改变的。符合这种“编译期可知，运行期不可变”的方法主要是static和private。</p>
+<p>Java虚拟机有5条方法调用字节码指令：</p>
+<ol>
+<li>invokestatic: 调用静态方法。</li>
+<li>invokespecial: 调用实例构造器，私有、父类方法。</li>
+<li>invokevirtual: 调用虚方法。</li>
+<li>invokeinterface: 调用接口方法。</li>
+<li>invokedynamic: 运行时动态解析。<br>以上1和2调用的方法都可以在解析阶段就确定唯一的版本。这类方法称为非虚方法，其他的称为虚方法。比较特殊的是final方法，虽然final是用invokevirtual指令来调用的但是由于它无法被重写因此也属于非虚方法。</li>
+</ol>
+<h3 id="分派"><a href="#分派" class="headerlink" title="分派"></a>分派</h3><p>分派主要分为静态单分派、静态多分派、动态单分派、动态多分派。先来确定两个概念：静态类型和实际类型。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Father son = <span class="keyword">new</span> Son();</span><br></pre></td></tr></table></figure></p>
+<p>上述代码中的<code>Father</code>叫做静态类型或外观类型，而<code>Son</code>叫做实际类型。两者最大的区别在于静态类型是编译期可知的，而实际类型是运行期间才可知的。</p>
+<h4 id="静态分派"><a href="#静态分派" class="headerlink" title="静态分派"></a>静态分派</h4><p>顾名思义就是根据静态类型来决定方法版本的分派叫做静态分派。比如<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">extends</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Woman</span> <span class="keyword">extends</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">helloWorld</span><span class="params">(Human guy)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"guy"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">helloWorld</span><span class="params">(Man man)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"man"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">helloWorld</span><span class="params">(Woman woman)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"woman"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Human man = <span class="keyword">new</span> Man();</span><br><span class="line">        Human woman = <span class="keyword">new</span> Woman();</span><br><span class="line">        Test test = <span class="keyword">new</span> Test();</span><br><span class="line">        test.helloWorld(man);</span><br><span class="line">        test.helloWorld(woman);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">guy</span><br><span class="line">guy</span><br></pre></td></tr></table></figure>
+<p>在确定方法接受者是<code>test</code>之后，决定哪个方法的版本只和方法的参数数量和参数类型有关。而方法的参数类型中只有静态类型。</p>
+<p>静态分派在虚拟机中的应用就是重载，重载是通过参数的静态类型来决定的。静态分派发生在编译期间，因此确定静态分派的动作不是由虚拟机执行的。</p>
+<h4 id="动态分派"><a href="#动态分派" class="headerlink" title="动态分派"></a>动态分派</h4><p>动态分派就是根据实际类型来决定方法版本。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">extends</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"Man"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Woman</span> <span class="keyword">extends</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"Woman"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Human man = <span class="keyword">new</span> Man();</span><br><span class="line">        Human woman = <span class="keyword">new</span> Woman();</span><br><span class="line">        ((Man) man).sayHello();</span><br><span class="line">        ((Woman) woman).sayHello();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>sayHello</code>的版本决定于<code>new</code>之后的实际类型。这就是动态分派应用在了重写中。</p>
+<p>使用javap查看字节码发现这里调用方法的指令用的是<code>invokevirtual</code>。这就有点类似于C++中<code>virtual</code>关键字的作用。</p>
+<p><code>invokevirtual</code>指令的解析过程主要有以下：</p>
+<ol>
+<li>找到操作数栈顶第一个元素所指向的对象的实际类型。</li>
+<li>如果找到与常量中的描述符和简单名称都相符的方法，则进行访问权限校验，如果通过则直接使用这个方法的引用。</li>
+<li>否则，从下往上依次检索父类并且验证。</li>
+<li>如果还找不到就跑出AbstractMethodError异常</li>
+</ol>
+<p>重写的本质就是在运行期间把方法的符号引用解析到不同的直接引用上。</p>
+<h4 id="动态分派的实现"><a href="#动态分派的实现" class="headerlink" title="动态分派的实现"></a>动态分派的实现</h4><p>由于动态分派比较耗时，因此在方法区中建立一个虚方法表(Virtual Method Table)，对于invokeinterface则是接口方法表(Interface Method Table)，也就是用索引来提高性能，这一点又和C++的VTable非常相似。方法表中每个索引对应方法的实际入口，如果子类未实现则会直接指向父类。</p>
+<p>关于Java动态类型、MethodHandle、Reflection之后另写一篇。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/18/Java-bytecode-execution-engine/" data-id="cjtgo2r7b00284kmj5vcbms8u" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Algrothm-Search" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/14/Algrothm-Search/" class="article-date">
   <time datetime="2019-03-14T16:00:00.000Z" itemprop="datePublished">2019-03-15</time>
 </a>
     
@@ -80,7 +156,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/14/Algrothm-Sort/">Sort Algorithm</a>
+      <a class="article-title" href="/2019/03/14/Algrothm-Search/">Search  Algorithm</a>
     </h1>
   
 
@@ -97,7 +173,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/14/Algrothm-Sort/" data-id="cjt9wbviv000554mjhflizvn3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/14/Algrothm-Search/" data-id="cjtgo2r5l00054kmjxfz9v7by" class="article-share-link">Share</a>
       
       
     </footer>
@@ -107,9 +183,9 @@
 
 
   
-    <article id="post-Algrothm-Search" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Algrothm-Sort" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/03/04/Algrothm-Search/" class="article-date">
+    <a href="/2019/03/04/Algrothm-Sort/" class="article-date">
   <time datetime="2019-03-04T16:00:00.000Z" itemprop="datePublished">2019-03-05</time>
 </a>
     
@@ -125,7 +201,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/04/Algrothm-Search/">Search &amp; Sort</a>
+      <a class="article-title" href="/2019/03/04/Algrothm-Sort/">Sort Algrothm</a>
     </h1>
   
 
@@ -182,7 +258,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/04/Algrothm-Search/" data-id="cjt9wbviv000754mjiz04gv61" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/04/Algrothm-Sort/" data-id="cjtgo2r5l00074kmjbu6mvzik" class="article-share-link">Share</a>
       
       
     </footer>
@@ -275,7 +351,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/18/Java-ClassLoader/" data-id="cjt9wbvk6001f54mjsr2hmmfl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/18/Java-ClassLoader/" data-id="cjtgo2r6w001f4kmjfbu2dkxi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -330,7 +406,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjt9wbvk6001954mjvm6k3n0b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjtgo2r6g00194kmjj62i3ce0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -407,7 +483,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/31/Shell-Thanos/" data-id="cjt9wbvlw002j54mjiawv2eig" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/31/Shell-Thanos/" data-id="cjtgo2r7r002o4kmjjl37hw6n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -463,7 +539,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjt9wbvk6001754mjp8noa899" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjtgo2r6g00174kmjnluez00l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -516,7 +592,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjt9wbviv000354mjc524whl7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjtgo2r5l00034kmjwaz4kp7j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -575,7 +651,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjt9wbvl1001r54mjh0za7v17" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjtgo2r6w001r4kmjq82h73nb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -628,59 +704,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjt9wbviv000454mjbo7hw8tr" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Algorithm-DP" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/12/02/Algorithm-DP/" class="article-date">
-  <time datetime="2018-12-02T16:00:00.000Z" itemprop="datePublished">2018-12-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/02/Algorithm-DP/">Dynamic Programming</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>动态规划的原则就是讲复杂问题分为若干个简单的子问题依次求解，在某些地方有那么一点像递归，不过由于递归的循环调用会使得某些计算重复，使用动态规划的优化思路就是保存已经计算好的值。</p>
-<h2 id="Fibonacci"><a href="#Fibonacci" class="headerlink" title="Fibonacci"></a>Fibonacci</h2><p>Fibonacci以前都是用递归写的，但是这样的话就会有很多重复的值或者是已经计算好的值没有重复利用。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fib</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    fibresult[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    fibresult[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; n; i++) &#123;</span><br><span class="line">        fibresult[i] = fibresult[i - <span class="number">1</span>] + fibresult[i - <span class="number">2</span>];</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>不过如图中所示，fib(4)调用了两次，fib(3)调用了三次等等。</p>
-<p><img src="/assets/Algorithm_DP/fib_tree.png" alt></p>
-<p>因此如果能把fib(4)和fib(i)保存起来的话会好很多。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fib</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DP[<span class="number">0</span>] = DP[<span class="number">1</span>] = <span class="number">1</span>; </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        DP[i] = DP[i-<span class="number">1</span>] + DP[i-<span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="卖酒的最高收益"><a href="#卖酒的最高收益" class="headerlink" title="卖酒的最高收益"></a>卖酒的最高收益</h2><p>酒架上有N瓶酒，每瓶酒的价格不同，分别为pi，酒的价格随着年份增长，比如一瓶酒原来10，假设今年为year 1，等到了year y，酒的价格就变为了10 * y。</p>
-<p>现在你想把这些酒全卖了，但是有两个规定，一是一年只能卖一瓶，二是每次都只能从酒架上的最左边或者最右边卖酒。要求出最高收益。</p>
-<p>比如有这四瓶酒，p1=1, p2=4, p3=2, p4=3，那么最高收益就是1 <em> 1 + 3 </em> 2 + 2 <em> 3 + 4 </em> 4 = 29。</p>
-<p>很明显需要用到递归，每一次都取最左边的收益和最右边收益之间的最大值即可。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maximumSellWineProfie</span><span class="params">(<span class="keyword">int</span> year, <span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (begin &gt; end) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Math.max(maximumSellWineProfie(year + <span class="number">1</span>, begin + <span class="number">1</span>, end) + year * p[begin],</span><br><span class="line">            maximumSellWineProfie(year + <span class="number">1</span>, begin, end - <span class="number">1</span>) + year * p[end]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>不过year这个变量似乎是用不上的，因为他是可以根据酒瓶的数量计算出来的。因此将year去掉的话<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maximumSellWineProfie</span><span class="params">(<span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (begin &gt; end) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> year = p.length - (end - begin + <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> Math.max(maximumSellWineProfie(begin + <span class="number">1</span>, end) + year * p[begin],</span><br><span class="line">                    maximumSellWineProfie(begin, end - <span class="number">1</span>) + year * p[end]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>ok，现在开始有点像之前的Fibonacci了，那么接下来的任务就是将计算的值保存下来，因为有两个变量所以需要一个二维数组。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> N;</span><br><span class="line"><span class="keyword">int</span> p[N];</span><br><span class="line"><span class="keyword">int</span> cache[N][N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">profit</span><span class="params">(<span class="keyword">int</span> be, <span class="keyword">int</span> en)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (be &gt; en)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// initial value</span></span><br><span class="line">    <span class="keyword">if</span> (cache[be][en] != -<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> cache[be][en];</span><br><span class="line">    <span class="keyword">int</span> year = N - (en-be+<span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> cache[be][en] = max(</span><br><span class="line">        profit(be+<span class="number">1</span>, en) + year * p[be],</span><br><span class="line">        profit(be, en-<span class="number">1</span>) + year * p[en]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以发现动态规划也不是一步实现的，而是先用递归或者循环，然后删除一些不需要的变量，避免重复的计算加以优化即可。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjt9wbvif000054mjqb7um9qi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjtgo2r5l00044kmjfnijqx72" class="article-share-link">Share</a>
       
       
     </footer>
@@ -733,11 +757,15 @@ D      door (Solaris)
       <ul>
         
           <li>
-            <a href="/2019/03/14/Algrothm-Sort/">Sort Algorithm</a>
+            <a href="/2019/03/18/Java-bytecode-execution-engine/">Bytecode Execution Engine</a>
           </li>
         
           <li>
-            <a href="/2019/03/04/Algrothm-Search/">Search &amp; Sort</a>
+            <a href="/2019/03/14/Algrothm-Search/">Search  Algorithm</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/04/Algrothm-Sort/">Sort Algrothm</a>
           </li>
         
           <li>
@@ -746,10 +774,6 @@ D      door (Solaris)
         
           <li>
             <a href="/2019/02/12/C-virtual-table/">virtual table</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/31/Shell-Thanos/">Delete half of files randomly</a>
           </li>
         
       </ul>
