@@ -100,7 +100,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjtgrplfw002e2kmjkbt83jnn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjtqujpk3002e9kmjfh3ld7qf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -168,7 +168,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjtgrplfg001m2kmjepr2ou3a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjtqujpj8001m9kmjgp8lelr9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -237,7 +237,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjtgrplfw002a2kmjn4sriebi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjtqujpk3002a9kmj4z4vmtxd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -289,7 +289,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjtgrplfw00242kmj7w5nqjho" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjtqujpjo00249kmj5w2oazr9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -317,7 +317,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/03/Java-Lamda/">Lamda表达式-Preview</a>
+      <a class="article-title" href="/2018/10/03/Java-Lamda/">Lamda表达式</a>
     </h1>
   
 
@@ -337,7 +337,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjtgrplfg001u2kmjxpbn0drt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjtqujpjo001u9kmj2xf6ttil" class="article-share-link">Share</a>
       
       
     </footer>
@@ -381,6 +381,7 @@
 <p>对一个普通的变量i来说，正常的读写操作是先将变量从主内存拷贝到工作内存（缓存）中，进行一定的操作之后，再写入主内存，但是什么时候写入是不确定的。那么由于两个线程工作在两个cpu上，如果cpu1修改了i，但是没有及时写入主内存，而cpu2直接去读取i，结果就是这个i不是最新的。</p>
 <p>用volatile修饰了的变量，在被修改之后会强制立即写入主内存。这样能保证在读取的时候一定是最新的。并且读取操作也是直接从主内存中读取。</p>
 <p>因此volatile保证了对于其他线程的可见性。</p>
+<p>同样能实现可见性的还有sychronized和final关键字，sychronized的可见性是由对一个变量执行unlock操作之前，必须先把次变量同步到主内存中(store、write操作)。而final关键字的可见性是被final修饰的变量在构造器中一旦初始化完成，并且构造器没有把<code>this</code>的引用传递出去，那在其他线程中就能看见final变量的值。</p>
 <h3 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h3><p>在JVM中，编译器和处理器可能会对指令进行重排，或许是为了优化，但是如果被volatile修饰的变量则会告诉编译器不要重排指令，按照顺序执行就可以，避免了并发产生的问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">a++;</span><br><span class="line">b++;</span><br></pre></td></tr></table></figure></p>
 <p>以上代码可以重排列成如下，因为a与b之间没有依赖。如果有依赖并且重排的话则会产生并发问题。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">a++;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line">b++;</span><br></pre></td></tr></table></figure></p>
 <p>但是在多线程中就不一定了，如下代码就可能出现并发问题：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">bool flag = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">()</span> </span>&#123;</span><br><span class="line">a = <span class="number">2</span>; <span class="comment">//1</span></span><br><span class="line">flag = <span class="keyword">true</span>; <span class="comment">//2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">multiply</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (flag) &#123; <span class="comment">//3</span></span><br><span class="line"><span class="keyword">int</span> ret = a * a;<span class="comment">//4</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -407,7 +408,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjtgrplfw00262kmjk3sqkoo4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjtqujpjo00269kmjv3n2lobc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -530,7 +531,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjtgrplfg001i2kmjjgy5mphq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjtqujpj8001i9kmjdmpozsax" class="article-share-link">Share</a>
       
       
     </footer>
@@ -592,7 +593,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjtgrplel000q2kmj9il6w73k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjtqujpis000q9kmjt5jndbyz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -657,7 +658,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjtgrplfg001y2kmj4y0l36gg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjtqujpjo001y9kmjutca1kgj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -711,7 +712,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjtgrplf100142kmjkqi8bimb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjtqujpis00149kmjncq2w0mn" class="article-share-link">Share</a>
       
       
     </footer>
