@@ -62,6 +62,84 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java-MeroryAndObjectOfJVM" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/15/Java-MeroryAndObjectOfJVM/" class="article-date">
+  <time datetime="2018-10-15T16:00:00.000Z" itemprop="datePublished">2018-10-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/15/Java-MeroryAndObjectOfJVM/">JVM中的内存与对象</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="虚拟机内存的各个区域"><a href="#虚拟机内存的各个区域" class="headerlink" title="虚拟机内存的各个区域"></a>虚拟机内存的各个区域</h2><p>按照私有和共享对区域进行区分</p>
+<ul>
+<li>私有<ul>
+<li>程序计数器：当前线程所执行的字节码的行号指示器。在Java虚拟机里面，字节码解释器就是通过这个行号来读取下一条要运行的指令，也可以说是记录了正在执行的虚拟机字节码指令的地址。在线程切换还有基础的逻辑（if、循环、switch）都需要用到这个程序计数器。每条线程都有一个独立的程序计数器。</li>
+<li>虚拟机栈：每个方法在创建的同时会创建一个栈帧（Stack Frame），用于存储局部变量表、操作数栈、方法出口等。也就是说当我们调用某个方法，那么就会有个栈帧入栈，当执行完成了，该栈帧就会出栈。也可把虚拟机栈叫做局部变量表，存放了基本数据类型和reference类型，returnAddress类型。</li>
+<li>本地方法栈：与虚拟机栈非常类似，不过本地方法栈执行的是native方法。</li>
+</ul>
+</li>
+<li>共享<ul>
+<li>堆：被所有线程共享的内存区域，唯一的目的就是存放对象实例，也是GC作用的主要区域。</li>
+<li>方法区：存储已被虚拟机加载的类信息、常量、静态变量等数据。<ul>
+<li>运行时常量池：存放编译期生成的各种字面量和符号引用。也就是加载类的各种描述信息。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h2><ol>
+<li>检查常量池中是否有该类的符号引用。并查看该类是否被加载、初始化，如果没有那么需要先执行类加载过程。</li>
+<li><p>为对象分配一块确定大小的内存，有两种方式，根据堆是否规整来决定，决定堆是否规整是由采用的GC方式是否带有压缩整理功能。</p>
+<ul>
+<li>指针碰撞：如果Java堆中内存是绝对规整的，那么会将堆分成两部分，一部分是已经使用的内存，一部分是未使用的内存，分界线就是指针，如果需要分配内存那么移动指针即可。</li>
+<li><p>空闲列表：如果不是绝对规整的，那么就需要创建两个列表来维护。</p>
+<p>需要考虑内存的分配是否有线程安全问题。一个方案是进行同步处理，采用CAS配上失败重试的方法来保证更新操作的原子性。另一种方案则是每个线程在堆中预先分配一小块内存。称为本地线程分配缓冲（Thread Local Allocation Buffer,TLAB），哪个线程需要创建对象，先从TLAB上分配，当TLAB分配光了，再用同步的方式分配新的TLAB。</p>
+</li>
+</ul>
+</li>
+<li><p>分配完内存之后，将分配到的内存空间都初始化为零值。保证对象的实例字段可以不被赋值就直接使用。</p>
+</li>
+<li>设置一些信息，例如类的元数据信息，哈希码，GC分代年龄等等。</li>
+<li>执行init方法，按照我们的意愿进行初始化。</li>
+</ol>
+<h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><p>对象的内存布局主要有三块：对象头、实例数据、对齐填充。</p>
+<p>对象头：</p>
+<p>第一部分为Mark Word，用于存储对象自身的运行时数据，例如哈希码、GC分代年龄、线程持有的锁等等。由于对象头信息与对象自身的数据没有关系，因此属于额外成本，因为被设计成非固定的数据结构以便能用最小的空间存储尽量多的信息。</p>
+<p>第二部分为类型指针，就是对象指向它的类元数据的指针，通过这个指针能知道这个这个对象是哪个类的实例。</p>
+<p>实例数据：该数据为对象存储的有效信息。也就是代码中所写的一切，包括父类继承的或者子类中定义的各种信息。</p>
+<p>对齐填充：因为HotSpot VM的自动内存管理系统要求对象的大小必须是8字节的整数倍，对象头部分刚好是8字节的整数倍，如果实例数据不是8字节的整数倍，需要通过对齐填充部分进行补齐操作。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="cjui64ojo001yt4mj5enoo6w6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Kotlin-Delegation" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/10/12/Kotlin-Delegation/" class="article-date">
@@ -100,7 +178,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjtqujpk3002e9kmjfh3ld7qf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="cjui64okj002kt4mjdgcxqisc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -168,7 +246,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjtqujpj8001m9kmjgp8lelr9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="cjui64oj8001pt4mjjoat7fj9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -237,7 +315,55 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjtqujpk3002a9kmj4z4vmtxd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/09/Java-parallel/" data-id="cjui64ok4002dt4mjchnbn43y" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java-Lamda" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/03/Java-Lamda/" class="article-date">
+  <time datetime="2018-10-03T16:00:00.000Z" itemprop="datePublished">2018-10-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/03/Java-Lamda/">Lamda表达式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>Lamda表达式中引用的局部变量必须是final或既成事实上的值。<br>换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">str = <span class="string">"world"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//Variable used in lambda expression should be final or effectively final</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//valid</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="Predicate接口"><a href="#Predicate接口" class="headerlink" title="Predicate接口"></a>Predicate接口</h2><p>该接口表示传入的对象是否满足某种条件，并返回boolean作为真假判断。check下源码，该接口只接受一个参数，返回一个布尔值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>例如我们希望从一个int的列表中找到所有的偶数，那么Predicate可以这么写。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Predicate&lt;Integer&gt; predicate = integer -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> integer % <span class="number">2</span> == <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">predicate.negate();<span class="comment">// 过滤出所有的奇数</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Lamda表达式是一个匿名的方法，将行为像数据一样传递。</li>
+<li>Lamda表达式也被称为闭包，未赋值的变量与周边环境隔离起来，进而被绑定到一个特定的值。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjui64ojo001vt4mj95vp0xu5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -289,55 +415,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjtqujpjo00249kmj5w2oazr9" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java-Lamda" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/03/Java-Lamda/" class="article-date">
-  <time datetime="2018-10-03T16:00:00.000Z" itemprop="datePublished">2018-10-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/03/Java-Lamda/">Lamda表达式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>Lamda表达式中引用的局部变量必须是final或既成事实上的值。<br>换句话说Lamda表达式需要的是值而不是变量，如果一个变量被final修饰了，那么表示它只会被赋值一次，那么便是个定值，而如果我们对某个普通变量多次赋值，对Lamda表达式来说他不知道到底该用哪个值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">str = <span class="string">"world"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//Variable used in lambda expression should be final or effectively final</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"hello"</span>;</span><br><span class="line">Runnable runnable = () -&gt; &#123;</span><br><span class="line">	<span class="comment">//valid</span></span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="Predicate接口"><a href="#Predicate接口" class="headerlink" title="Predicate接口"></a>Predicate接口</h2><p>该接口表示传入的对象是否满足某种条件，并返回boolean作为真假判断。check下源码，该接口只接受一个参数，返回一个布尔值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>例如我们希望从一个int的列表中找到所有的偶数，那么Predicate可以这么写。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Predicate&lt;Integer&gt; predicate = integer -&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> integer % <span class="number">2</span> == <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">predicate.negate();<span class="comment">// 过滤出所有的奇数</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>Lamda表达式是一个匿名的方法，将行为像数据一样传递。</li>
-<li>Lamda表达式也被称为闭包，未赋值的变量与周边环境隔离起来，进而被绑定到一个特定的值。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/03/Java-Lamda/" data-id="cjtqujpjo001u9kmj2xf6ttil" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/03/Java-Stream/" data-id="cjui64ojo0027t4mjz71a9qsv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -408,7 +486,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjtqujpjo00269kmjv3n2lobc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/26/Java-Volatile/" data-id="cjui64ok40029t4mjgjahpecd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -531,7 +609,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjtqujpj8001i9kmjdmpozsax" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/25/Java-Concurrent-AQS/" data-id="cjui64oj8001kt4mj6x8jdjfq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -593,7 +671,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjtqujpis000q9kmjt5jndbyz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/20/C-Callback/" data-id="cjui64oit000qt4mjjze3rpk5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -658,61 +736,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjtqujpjo001y9kmjutca1kgj" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-C-move-fun" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/13/C-move-fun/" class="article-date">
-  <time datetime="2018-09-13T16:00:00.000Z" itemprop="datePublished">2018-09-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/13/C-move-fun/">std move</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在查看别人搭的框架时，看到在传值的时候使用了std::move。因此学习一下这个函数的使用。<br>首先google查看官方解释：</p>
-<p>In particular, std::move produces an xvalue expression that identifies its argument t. It is exactly equivalent to a static_cast to an rvalue reference type.</p>
-<p>简单来说就是将一个值转化为右值。目的是为了提升效率，减少拷贝的数量。也就是进行深拷贝。</p>
-<h2 id="右值"><a href="#右值" class="headerlink" title="右值"></a>右值</h2><p>那么右值又是什么？还是查看微软的官方解释吧。</p>
-<p><em>Every C++ expression is either an lvalue or an rvalue. An lvalue refers to an object that persists beyond a single expression. You can think of an lvalue as an object that has a name. All variables, including nonmodifiable (const) variables, are lvalues. An rvalue is a temporary value that does not persist beyond the expression that uses it.</em></p>
-<p>在c++中，表达式是要么左值要么右值，左值表示他对一个对象的应用远远超过了一个表达式（可以忽略），其实也可以<strong>把左值看成一个有名字的对象</strong>。所有的变量，常量都是左值。右值是一个临时变量，并不会比表达式保存的更久。</p>
-<p>这个左和右是相对于等于号的。等于号左边必然是一个变量，右边是一个表示式或者是一个临时变量。感觉还是不太好用语言来解释这玩意。贴一段官方的sample。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Correct usage: the variable i is an lvalue.  </span></span><br><span class="line">i = <span class="number">7</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// Incorrect usage: The left operand must be an lvalue (C2106).  </span></span><br><span class="line"><span class="number">7</span> = i; <span class="comment">// C2106  </span></span><br><span class="line">j * <span class="number">4</span> = <span class="number">7</span>; <span class="comment">// C2106  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// Correct usage: the dereferenced pointer is an lvalue.  </span></span><br><span class="line">*p = i;   </span><br><span class="line">  </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> ci = <span class="number">7</span>;  </span><br><span class="line"><span class="comment">// Incorrect usage: the variable is a non-modifiable lvalue (C3892).  </span></span><br><span class="line">ci = <span class="number">9</span>; <span class="comment">// C3892  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// Correct usage: the conditional operator returns an lvalue.  </span></span><br><span class="line">((i &lt; <span class="number">3</span>) ? i : j) = <span class="number">7</span>;</span><br></pre></td></tr></table></figure></p>
-<h2 id="move"><a href="#move" class="headerlink" title="move"></a>move</h2><p>还是看回move函数，比如在写交换函数的时候我们通常这么写。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="built_in">string</span> &amp;,<span class="built_in">string</span> &amp;)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="built_in">string</span> x = <span class="string">"abc"</span>;</span><br><span class="line">    <span class="built_in">string</span> y = <span class="string">"wang"</span>;</span><br><span class="line">    swap(x, y);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; y &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="built_in">string</span> &amp; x,<span class="built_in">string</span> &amp; y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> tmp = x;</span><br><span class="line">    x = y;</span><br><span class="line">    y = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样的话其实在执行交换的过程中会产生三个copy的对象，会影响性能。不过有时候我们传递了某个值之后就不再不需要他了，如果留着一个拷贝的话也会占用空间，因此可以使用move函数来表示这个值以后没用了，已经传走了。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="built_in">string</span> &amp; x,<span class="built_in">string</span> &amp; y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> tmp = move(x);</span><br><span class="line">    x = move(y);</span><br><span class="line">    y = move(tmp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样就不会有三分拷贝，而是值的转移。不过这么写似乎看不出值已经传走了。用个vector试一下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; v;</span><br><span class="line">    <span class="built_in">string</span> str = <span class="string">"test"</span>;</span><br><span class="line">    v.push_back(str);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"str :"</span> &lt;&lt; str &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;v.size(); i++) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"vector"</span> &lt;&lt; i &lt;&lt; <span class="string">" :"</span> &lt;&lt; v[i] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"after move"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    v.push_back(move(str));</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"str :"</span> &lt;&lt; str &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;v.size(); i++) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"vector"</span> &lt;&lt; i &lt;&lt; <span class="string">" :"</span> &lt;&lt; v[i] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Result:</span><br><span class="line">str :test</span><br><span class="line">vector0 :test</span><br><span class="line">after move</span><br><span class="line">str :</span><br><span class="line">vector0 :test</span><br><span class="line">vector1 :test</span><br></pre></td></tr></table></figure>
-<p>可以看到str已经为空并且作为右值存在了vector中。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>并不是只在传递值的时候可以用move，更关键的是当你想把某个左值转化成右值的时候需要用到这个函数。</p>
-<p>因为查看该函数的源码就是将传入的值转为右值引用。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">move(_Tp&amp;&amp; <span class="keyword">__t</span>) _NOEXCEPT</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> remove_reference&lt;_Tp&gt;::type _Up;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;_Up&amp;&amp;&gt;(<span class="keyword">__t</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/13/C-move-fun/" data-id="cjtqujpis00149kmjncq2w0mn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/14/Java-NIO/" data-id="cjui64ojo0020t4mj9y36uj0r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -737,7 +761,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li></ul>
     </div>
   </div>
 
@@ -752,7 +776,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -763,6 +787,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/04/14/DataStructure-List-Stack-Queue/">List/Stack/Queue</a>
+          </li>
         
           <li>
             <a href="/2019/03/18/Java-bytecode-execution-engine/">Bytecode Execution Engine</a>
@@ -778,10 +806,6 @@
         
           <li>
             <a href="/2019/02/18/Java-ClassLoader/">Class Loader</a>
-          </li>
-        
-          <li>
-            <a href="/2019/02/12/C-virtual-table/">virtual table</a>
           </li>
         
       </ul>
