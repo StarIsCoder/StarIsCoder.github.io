@@ -107,11 +107,12 @@
 <p>这时候1继续执行，90移到新数组，1从队头插入，新index 0变成了<code>1 -&gt; 90</code>，然而由于线程2将1的next赋值为90，（正常情况1的next是null），然后1的next也就是90继续移动到新数组，同样的插入队头，这时的新index 0的数据结构变成了<code>90(由线程2设置的) -&gt; 1 -&gt; 90</code>。</p>
 <p><img src="/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-12.png" alt></p>
 <p>那么其实变相等于90的next指向1，1的next指向90，如果这时候再来对index为0的链表进行put操作就会陷入无限循环中。</p>
+<p>参考文章：<a href="http://javabypatel.blogspot.com/2016/01/infinite-loop-in-hashmap.html" target="_blank" rel="noopener">http://javabypatel.blogspot.com/2016/01/infinite-loop-in-hashmap.html</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjunxi2cl001v2omjhc44bznj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjvdgv9sq001v1gmju8n454h4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -164,7 +165,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjunxi2av00032omjw0xvwxd2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjvdgv9rf00041gmjmgqe52t4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -216,7 +217,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjunxi2af00002omjb6pgevze" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjvdgv9qz00001gmjfr2gmz3w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -264,7 +265,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjunxi2c5001b2omj322jf1gk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjvdgv9sa001b1gmj5k8zydk4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -353,7 +354,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjunxi2bq000z2omjxguqt38r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjvdgv9sa000z1gmj4kp7i1db" class="article-share-link">Share</a>
       
       
     </footer>
@@ -418,7 +419,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjunxi2dg002r2omjat0efmjo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjvdgv9t5002r1gmjr18ri936" class="article-share-link">Share</a>
       
       
     </footer>
@@ -479,7 +480,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjunxi2ba000i2omjk7ocg8pa" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjvdgv9ru000i1gmjftlw7ja5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -537,7 +538,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjunxi2cl00242omjw4rkwtwf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjvdgv9sq00241gmjxia2a5pq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -617,7 +618,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjunxi2c5001i2omjqq1py417" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjvdgv9sa001i1gmjnlajq9t4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -667,7 +668,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjunxi2av00012omjf5heu92a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjvdgv9qz00011gmjodss94i9" class="article-share-link">Share</a>
       
       
     </footer>

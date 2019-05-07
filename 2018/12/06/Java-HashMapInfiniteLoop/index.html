@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://yoursite.com/assets/Java_HashMapInfiniteLoop/hashmap-transfer-keyvalue.png">
 <meta property="og:image" content="http://yoursite.com/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-5.png">
 <meta property="og:image" content="http://yoursite.com/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-12.png">
-<meta property="og:updated_time" content="2019-04-19T10:25:38.773Z">
+<meta property="og:updated_time" content="2019-05-07T07:21:57.393Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap Infinite Loop">
 <meta name="twitter:description" content="最近在网上看到HashMap无限循环的情况，感觉很有意思，因此记录一下。 Load factor先来确认下HashMap默认的容量是16，Load factor则是0.75,Load factor的意思是当容量超过了16 * 0.75（12）的时候，该HashMap就会扩容，也就是说当存入第13个键值对的时候，Hashmap就会扩容，也就是rehashing操作。123456789/*** The">
@@ -114,11 +114,12 @@
 <p>这时候1继续执行，90移到新数组，1从队头插入，新index 0变成了<code>1 -&gt; 90</code>，然而由于线程2将1的next赋值为90，（正常情况1的next是null），然后1的next也就是90继续移动到新数组，同样的插入队头，这时的新index 0的数据结构变成了<code>90(由线程2设置的) -&gt; 1 -&gt; 90</code>。</p>
 <p><img src="/assets/Java_HashMapInfiniteLoop/infinite-loop-thread-1-state-part-12.png" alt></p>
 <p>那么其实变相等于90的next指向1，1的next指向90，如果这时候再来对index为0的链表进行put操作就会陷入无限循环中。</p>
+<p>参考文章：<a href="http://javabypatel.blogspot.com/2016/01/infinite-loop-in-hashmap.html" target="_blank" rel="noopener">http://javabypatel.blogspot.com/2016/01/infinite-loop-in-hashmap.html</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjunxi2cl001v2omjhc44bznj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjvdgv9sq001v1gmju8n454h4" class="article-share-link">Share</a>
       
       
     </footer>
