@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>JNI | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近项目中需要添加JNI接口，顺便学习了一下JNI。JNI简单来说就是Java和C++交互的一个中间层。Java可以通过JNI来调用C++代码，反之亦可。 HelloJNIJNI在Java中的体现需要用native关键字来修饰，而需要使用库则使用System.loadLibrary(&amp;quot;hello&amp;quot;)来加载库。先来个最基本的HelloJNI。 123456789101112pub">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNI">
+<meta property="og:url" content="http://yoursite.com/2019/05/17/Java-JNI/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="最近项目中需要添加JNI接口，顺便学习了一下JNI。JNI简单来说就是Java和C++交互的一个中间层。Java可以通过JNI来调用C++代码，反之亦可。 HelloJNIJNI在Java中的体现需要用native关键字来修饰，而需要使用库则使用System.loadLibrary(&amp;quot;hello&amp;quot;)来加载库。先来个最基本的HelloJNI。 123456789101112pub">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-18T10:14:42.223Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JNI">
+<meta name="twitter:description" content="最近项目中需要添加JNI接口，顺便学习了一下JNI。JNI简单来说就是Java和C++交互的一个中间层。Java可以通过JNI来调用C++代码，反之亦可。 HelloJNIJNI在Java中的体现需要用native关键字来修饰，而需要使用库则使用System.loadLibrary(&amp;quot;hello&amp;quot;)来加载库。先来个最基本的HelloJNI。 123456789101112pub">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java-JNI" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/17/Java-JNI/" class="article-date">
+  <time datetime="2019-05-17T16:00:00.000Z" itemprop="datePublished">2019-05-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JNI
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近项目中需要添加JNI接口，顺便学习了一下JNI。JNI简单来说就是Java和C++交互的一个中间层。Java可以通过JNI来调用C++代码，反之亦可。</p>
+<h2 id="HelloJNI"><a href="#HelloJNI" class="headerlink" title="HelloJNI"></a>HelloJNI</h2><p>JNI在Java中的体现需要用<code>native</code>关键字来修饰，而需要使用库则使用<code>System.loadLibrary(&quot;hello&quot;)</code>来加载库。先来个最基本的HelloJNI。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloJNI</span> </span>&#123;</span><br><span class="line">   <span class="keyword">static</span> &#123;</span><br><span class="line">      System.loadLibrary(<span class="string">"hello"</span>); </span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       HelloJNI hello = <span class="keyword">new</span> HelloJNI();</span><br><span class="line">       hello.sayHello();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用Javac编译这个文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac -h . HelloJNI.java</span><br></pre></td></tr></table></figure>
+<p>之后会生成HelloJNI.class和HelloJNI.h两个文件。生成头文件中定义了对应Native的方法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="comment">/* Header for class HelloJNI */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _Included_HelloJNI</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _Included_HelloJNI</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> &#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Class:     HelloJNI</span></span><br><span class="line"><span class="comment"> * Method:    sayHello</span></span><br><span class="line"><span class="comment"> * Signature: ()V</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">JNIEXPORT <span class="keyword">void</span> JNICALL Java_HelloJNI_sayHello</span><br><span class="line">  (JNIEnv *, jobject);</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>接下来就是实现这个Native的方法，需要导入jni.h和HelloJNI.h。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"HelloJNI.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_HelloJNI_sayHello</span><span class="params">(JNIEnv *env, jobject thiz)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">      <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Hello JNI"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后开始编译lib库，需要注意的是Java中<code>System.loadLibrary(&quot;hello&quot;)</code>这个lib的名称在编译库的时候需要加上lib，也就是libhello</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">g++ -c -fPIC -I$&#123;JAVA_HOME&#125;/include -I$&#123;JAVA_HOME&#125;/include/darwin HelloJNI.cpp -o HelloJNI.o</span><br><span class="line"></span><br><span class="line">g++ -dynamiclib -o libhello.dylib HelloJNI.o -lc</span><br></pre></td></tr></table></figure>
+<p>最后执行下，cp就是classpath，是指定类运行所依赖其他类的路径。-Djava.library.path指定加载库的路径。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp . -Djava.library.path=. HelloJNI</span><br></pre></td></tr></table></figure>
+<h2 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h2><p>通常调用lib库的函数需要传递一些参数，这就是需要JNI的帮忙了。</p>
+<p>如果是基础类型直接使用就可以。在JNI都有和JAVA一一对应的基础类型，例如jint - int、jboolean - boolean。</p>
+<p>JNI的基础类型也可以直接传入给C++的函数中。</p>
+<p>复杂一点的是传递一个对象，需要从对象中拿到成员变量值。</p>
+<p>首先需要搞清楚jobject和jclass的概念，其实和Java中的Object和Class的概念是一样的。Class可以理解为是一种模板，而Object则是具体的一个对象。下面代码中<code>User</code>就是一个类，而<code>star</code>就是一个具体的对象也就是Object</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User star = <span class="keyword">new</span> User();</span><br></pre></td></tr></table></figure>
+<p>假设有这样一个类User，有两个成员变量，name和password</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    String name;</span><br><span class="line">    String password;</span><br><span class="line">    User(String name, String password) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定义了一个native方法来传递User的参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">passUserObject</span><span class="params">(User user)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>对应的JNI函数为</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_HelloJNI_passUserObject</span><span class="params">(JNIEnv *env, jobject thiz, jobject user)</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>在JNI中是不能直接使用<code>user.name</code>来获取的，必须提供给JNI一个成员变量的名称和类型他才能看得懂。而这两者都是Class的概念，因此需要先拿到<code>user</code>的class，这两种方法都可以拿到</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jclass userClass = env-&gt;FindClass(<span class="string">"packagename/UserData"</span>);</span><br><span class="line">jclass cls = env-&gt;GetObjectClass(user);</span><br></pre></td></tr></table></figure>
+<p>接下来就是去拿成员变量的id，第二个参数是名称，第三个参数是类型。如果是自定义的类型则是<code>&quot;L+PackageName/Type;&quot;</code>,包名依然是用斜杠分开。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jfieldID name_id = env-&gt;GetFieldID(cls, <span class="string">"name"</span>, <span class="string">"Ljava/lang/String;"</span>);</span><br></pre></td></tr></table></figure>
+<p>之后就是根据这个id在传进来的对象<code>user</code>中取出<code>name</code>了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstring name = (jstring)env-&gt;GetObjectField(user , name_id);</span><br></pre></td></tr></table></figure>
+<p>如果是int类型的参数可以直接用<code>env-&gt;GetIntField(user, id)</code>。</p>
+<p>如果是枚举类型则稍微复杂一点。枚举类型都有个方法<code>ordinal</code>是返回枚举值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="class"><span class="keyword">class</span> <span class="title">VideoStreamType</span> </span>&#123;</span><br><span class="line">     NotVideo, <span class="comment">//VideoStreamType.NotVideo.ordinal return 0</span></span><br><span class="line">     Video,</span><br><span class="line">     Presentation</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>利用这个方法我们可以将枚举转化成int类型，然后再map成C++的枚举类型。</p>
+<p>首先将枚举类型变量取出 - <code>vsTypeJni_</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jfieldID vsType_id = env-&gt;GetFieldID(eccVideoParasClass, <span class="string">"vsType"</span>,<span class="string">"Lcom/star/VideoStreamType;"</span>);</span><br><span class="line">jobject vsTypeJni_ = env-&gt;GetObjectField(videoParas, vsType_id);</span><br></pre></td></tr></table></figure>
+<p>然后调用ordinal方法，返回<code>vsTypeJni_</code>对应的int值，这个<code>vsTypeJint</code>就是我们想要的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jclass vsTypeClass = env-&gt;GetObjectClass(vsTypeJni_);</span><br><span class="line">jmethodID ordinal = env-&gt;GetMethodID(vsTypeClass, <span class="string">"ordinal"</span>, <span class="string">"()I"</span>);</span><br><span class="line">jint vsTypeJint = env-&gt;CallIntMethod(vsTypeJni_, ordinal);</span><br></pre></td></tr></table></figure>
+<h2 id="调用Java方法"><a href="#调用Java方法" class="headerlink" title="调用Java方法"></a>调用Java方法</h2><p>在处理枚举类型的时候调用了Java方法，和获取变量一样，需要先获取方法id，第二个参数是方法名，第三个参数中括号中的是入参类型，括号后的是返回值，例如<code>env-&gt;GetMethodID(class, &quot;calculate&quot;, &quot;(III)I&quot;,jint a, jint b, jin c)</code>是这样的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">calculate</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> )</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>然后就可以调用Java方法了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env-&gt;CallObjectMethod(object, methodId);</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对JNI来说，它只是提供了一个Java和Native代码之间的桥梁，因此没有太多复杂的东西，jclass供我们获取方法或者变量的id，一旦id拿到我们就可以处理对象了。</p>
+<p>然而JNI也有缺点，它丢失了Java语言最大的特点:write once, run anywhere。并且由于多了一层导致程序更复杂并且在通信时有额外的消耗。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/05/17/Java-JNI/" data-id="cjvtcvl8m001y50mjgrn7y8x1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/04/15/DataStructure-Tree/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Tree</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/17/Java-JNI/">JNI</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/15/DataStructure-Tree/">Tree</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/14/DataStructure-List-Stack-Queue/">List/Stack/Queue</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/18/Java-bytecode-execution-engine/">Bytecode Execution Engine</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/14/Algrothm-Search/">Search  Algorithm</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

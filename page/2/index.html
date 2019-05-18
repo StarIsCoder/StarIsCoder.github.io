@@ -62,6 +62,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Algorithm-PowerOfN" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/18/Algorithm-PowerOfN/" class="article-date">
+  <time datetime="2018-12-18T16:00:00.000Z" itemprop="datePublished">2018-12-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/18/Algorithm-PowerOfN/">Power of N</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在判断是否为n的次方时发现有很多种有意思的解法。当然最容易想到的是一定是不断除n，观察最后是否能除干净。这里以2为例子，之后都可以讲2替换成3或者i来使用loop。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">boolean</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">while</span> (n % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">         n /= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> n == <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2的次方"><a href="#2的次方" class="headerlink" title="2的次方"></a>2的次方</h2><p>由于如果n是2的次方，那么转换成2进制一定会是1 + n个0的形式。因此可以考虑将其转为2进制然后再判断<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">boolean</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    String str = Integer.toBinaryString(n);</span><br><span class="line">    System.out.println(str);</span><br><span class="line">    <span class="keyword">char</span> array[] = str.toCharArray();</span><br><span class="line">    <span class="keyword">if</span> (array[<span class="number">0</span>] != <span class="string">'1'</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (array[i] != <span class="string">'0'</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>网上还看到一种比较tricky的，那就是如果n是2的次方，那么n-1对应的二进制一定全是1，只要将两者做与运算即可<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">boolean</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">int</span> ret = n &amp; (n - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> ret == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还可以使用正则表达式来对n的二进制进行判断<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">boolean</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    String str = Integer.toBinaryString(n);</span><br><span class="line">    <span class="keyword">return</span> str.matches(<span class="string">"^10*$"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="3的次方"><a href="#3的次方" class="headerlink" title="3的次方"></a>3的次方</h2><p>Java中提供了将传入的数转化成你想要的进制数，<code>Integer.toString(n, radix)</code>，意思是将n转化为radix进制的数。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer.toString(<span class="number">8</span>, <span class="number">2</span>) -&gt; log2(<span class="number">8</span>) = <span class="number">3</span>, <span class="keyword">return</span> <span class="number">1000</span></span><br><span class="line">Integer.toString(<span class="number">81</span>, <span class="number">3</span>) -&gt; log3(<span class="number">81</span>) = <span class="number">4</span>, <span class="keyword">return</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure></p>
+<p>因此可以使用这个api然后判断是否为1 + n个0的形式<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isPowerOfThree</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    String baseChange = Integer.toString(n, <span class="number">3</span>);</span><br><span class="line">    <span class="keyword">return</span> baseChange.matches(<span class="string">"^10*$"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还有就是用数学上的log公式了，logb(n) / logb(m) = logm(n),同时由于Math的log方法返回的是double类型，需要用 % 1 是否为零来判断是否为integer类型。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isPowerOfThree</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (Math.log10(n) / Math.log10(<span class="number">3</span>)) % <span class="number">1</span> == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后一种也非常的tricky，由于int类型是有范围的，因此可以取最大的3的次方数来除以n。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPowerOfThree</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> n &gt; <span class="number">0</span> &amp;&amp; <span class="number">1162261467</span> % n == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4的次方"><a href="#4的次方" class="headerlink" title="4的次方"></a>4的次方</h2><p>由于4的次方和2的次方，因此可以在2的次方上过滤。首先4的次方一定也是1 + n个0的形式，但不同的是它的零的个数一定是偶数。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">boolean</span> <span class="title">isPowerOfFour</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Integer.bitCount(num) == <span class="number">1</span> &amp;&amp; (Integer.toBinaryString(num).length() - <span class="number">1</span>) % <span class="number">2</span> == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还有种方式同样是用二进制，由于4的次方数转化成2进制之后，1所在的位置一定是奇数位，从0计数<br>eg.<br>8  -&gt; 1000<br>16 -&gt; 10000<br>32 -&gt; 100000<br>因此只需要过滤到偶数位的即可</p>
+<p>num&amp;(num-1)是为了判断是否为2的次方，而由于5 -&gt; 0101，是用来过滤偶数位的1。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> num &gt; <span class="number">0</span> &amp;&amp; (num&amp;(num-<span class="number">1</span>)) == <span class="number">0</span> &amp;&amp; (num &amp; <span class="number">0x55555555</span>) != <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjvtcvl7b000350mjpmatevi6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java-HashMapInfiniteLoop" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/06/Java-HashMapInfiniteLoop/" class="article-date">
@@ -112,7 +165,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjvdgv9sq001v1gmju8n454h4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjvtcvl8m001v50mj9xle8c4h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -165,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjvdgv9rf00041gmjmgqe52t4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjvtcvl7b000450mjg647snn8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -217,7 +270,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjvdgv9qz00001gmjfr2gmz3w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjvtcvl7b000050mjdqwg1ezd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -265,7 +318,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjvdgv9sa001b1gmj5k8zydk4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjvtcvl8m001b50mjxt0262ct" class="article-share-link">Share</a>
       
       
     </footer>
@@ -354,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjvdgv9sa000z1gmj4kp7i1db" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjvtcvl86000z50mjpvcdyfj2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -419,7 +472,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjvdgv9t5002r1gmjr18ri936" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjvtcvl9h002t50mj4lf92uvb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -480,7 +533,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjvdgv9ru000i1gmjftlw7ja5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjvtcvl7r000i50mj8jmod0t5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -538,7 +591,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjvdgv9sq00241gmjxia2a5pq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjvtcvl91002750mjo8itmo5i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -618,57 +671,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjvdgv9sa001i1gmjnlajq9t4" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Algorithm-MaximumSubarray" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/18/Algorithm-MaximumSubarray/" class="article-date">
-  <time datetime="2018-10-18T16:00:00.000Z" itemprop="datePublished">2018-10-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/18/Algorithm-MaximumSubarray/">Maximum Subarray</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.</p>
-<p>Example:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [-2,1,-3,4,-1,2,1,-5,4],</span><br><span class="line">Output: 6</span><br><span class="line">Explanation: [4,-1,2,1] has the largest sum = 6.</span><br></pre></td></tr></table></figure></p>
-<p>先来一个暴力穷举法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> max = nums[<span class="number">0</span>] &gt; <span class="number">0</span> ? <span class="number">0</span> : nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; nums.length; j++) &#123;</span><br><span class="line">        sum += nums[j];</span><br><span class="line">                max = Math.max(sum, max);</span><br><span class="line">        &#125;</span><br><span class="line">        sum = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">return</span> max;</span><br></pre></td></tr></table></figure></p>
-<p>这里是从0 ~ i递增的方式累加，重新换种递减的方式<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> max = nums[<span class="number">0</span>] &gt; <span class="number">0</span> ? <span class="number">0</span> : nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt;= <span class="number">0</span>; j--) &#123;</span><br><span class="line">        sum += nums[j];</span><br><span class="line">        max = Math.max(sum, max);</span><br><span class="line">    &#125;</span><br><span class="line">    sum = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">return</span> max;</span><br></pre></td></tr></table></figure></p>
-<p>在累加的过程中可以把这个内层的循环优化一下。例如有个数组{1,2,3,-5,4}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1 + 2 + 3 + -5 + 4 =  (1 + 2 + 3 + -5) + 4</span><br><span class="line">1 + 2 + 3 + -5 = (1 + 2 + 3) + -5</span><br><span class="line">1 + 2 + 3 = (1 + 2) + 3</span><br><span class="line">1 + 2 = (1) + 2</span><br><span class="line">1 = 1</span><br></pre></td></tr></table></figure></p>
-<p>如果抽象一下的话就是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(i) = A[i] + sum(i - 1)</span><br></pre></td></tr></table></figure></p>
-<p>那么如果是求之前总和的最大值，就是比较一下A[i] + sum(i - 1) 和 A[i]或者也可以说是sum(i - 1)是否大于零<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maxSum(i) = max(A[i], A[i] + sum(i - <span class="number">1</span>))</span><br></pre></td></tr></table></figure></p>
-<p>因此优化后的代码为<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> max = nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">int</span> maxSum[] = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">maxSum[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    maxSum[i] = Math.max(nums[i], maxSum[i - <span class="number">1</span>] + nums[i]);</span><br><span class="line">    max = Math.max(maxSum[i], max);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> max;</span><br></pre></td></tr></table></figure></p>
-<p>由于maxSum的数组不是必要的，可以用一个变量来代替。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">int</span> max = nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">int</span> maxSum = nums[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    maxSum = Math.max(nums[i], maxSum + nums[i]);</span><br><span class="line">    max = Math.max(maxSum, max);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> max;</span><br></pre></td></tr></table></figure></p>
-<p>参考文章：<a href="http://theoryofprogramming.com/2016/10/21/dynamic-programming-kadanes-algorithm/" target="_blank" rel="noopener">http://theoryofprogramming.com/2016/10/21/dynamic-programming-kadanes-algorithm/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="cjvdgv9qz00011gmjodss94i9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="cjvtcvl8m001i50mjwb4xslk4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -708,7 +711,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -719,6 +722,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/05/17/Java-JNI/">JNI</a>
+          </li>
         
           <li>
             <a href="/2019/04/15/DataStructure-Tree/">Tree</a>
@@ -734,10 +741,6 @@
         
           <li>
             <a href="/2019/03/14/Algrothm-Search/">Search  Algorithm</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/04/Algrothm-Sort/">Sort Algrothm</a>
           </li>
         
       </ul>
