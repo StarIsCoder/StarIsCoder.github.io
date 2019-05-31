@@ -5,19 +5,15 @@
   
 
   
-  <title>make_shared vs shared_ptr | Something</title>
+  <title>Archives: 2019 | Something</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。 查了下代码发生确实在">
-<meta property="og:type" content="article">
-<meta property="og:title" content="make_shared vs shared_ptr">
-<meta property="og:url" content="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Something">
+<meta property="og:url" content="http://yoursite.com/archives/2019/page/2/index.html">
 <meta property="og:site_name" content="Something">
-<meta property="og:description" content="最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。 查了下代码发生确实在">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-31T07:09:06.208Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="make_shared vs shared_ptr">
-<meta name="twitter:description" content="最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。 查了下代码发生确实在">
+<meta name="twitter:title" content="Something">
   
     <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
   
@@ -64,80 +60,45 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-C-shared-ptr-vs-maked-shared" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/" class="article-date">
-  <time datetime="2019-01-15T16:00:00.000Z" itemprop="datePublished">2019-01-16</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      make_shared vs shared_ptr
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/" class="archive-article-date">
+  <time datetime="2019-01-15T16:00:00.000Z" itemprop="datePublished">Jan 16</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/01/15/C-shared-ptr-vs-maked-shared/">make_shared vs shared_ptr</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。</p>
-<p>查了下代码发生确实在实例化的时候是用new出来的裸指针<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ObjectA m_ObjectA = <span class="keyword">new</span> ObjectA();</span><br></pre></td></tr></table></figure></p>
-<p>应该变成<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;ObjectA&gt; m_ObjectA = make_shared&lt;ObjectA&gt;();</span><br></pre></td></tr></table></figure></p>
-<p>但是shared_ptr又有两种创建方式<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;Object&gt; p1 = <span class="built_in">std</span>::make_shared&lt;Object&gt;(<span class="string">"foo"</span>);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;Object&gt; p2(<span class="keyword">new</span> Object(<span class="string">"foo"</span>));</span><br></pre></td></tr></table></figure></p>
-<p>最主要的差别在于make_shared执行一次堆分配(将shared_ptr执行的两次堆分配合在一起)，而shared_ptr会执行两次堆分配。由于make_shared只执行一次堆分配因此效率更高。但make_shared只有一次堆分配，因此只有当两者都没有被引用时才会释放。</p>
-<ul>
-<li>Shared_ptr：<ol>
-<li>引用计数</li>
-<li>对象数据</li>
-</ol>
-</li>
-<li>Make_shared：<ol>
-<li>引用计数和对象数据</li>
-</ol>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjwbqyz9l00172cmjpya4tq1p" class="article-share-link">Share</a>
-      
-      
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2019/01/31/Shell-Thanos/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Delete half of files randomly
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/12/18/Algorithm-PowerOfN/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Power of N</div>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/archives/2019/">&laquo; Prev</a><a class="page-number" href="/archives/2019/">1</a><span class="page-number current">2</span>
+  </nav>
 
 </section>
         

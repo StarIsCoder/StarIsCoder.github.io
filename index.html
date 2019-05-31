@@ -62,6 +62,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Kotlin-Sealed" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/30/Kotlin-Sealed/" class="article-date">
+  <time datetime="2019-05-30T16:00:00.000Z" itemprop="datePublished">2019-05-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/30/Kotlin-Sealed/">Sealed</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Java中的枚举一般用于<code>switch</code>中使得代码更简洁优美。比如根据类型来播放不同的铃声</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">enum class RingerType &#123;</span><br><span class="line">    Outgoing,</span><br><span class="line">    Incoming,</span><br><span class="line">    Busy</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不过枚举类有个缺点，如果想增加额外的数据就会变成这样，这还只是加了一个String类型，额外带个自定义的类型会更加复杂，并且对于<code>NotFound</code>来说在构造的时候不需要任何参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">enum class RingerType(s: String) &#123;</span><br><span class="line">    Outgoing(&quot;R.raw.outgoing&quot;),</span><br><span class="line">    Incoming(&quot;R.raw.outgoing&quot;),</span><br><span class="line">    Busy(&quot;R.raw.outgoing&quot;),</span><br><span class="line">    NotFound(&quot;&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种情况则可以使用<code>sealed class</code>来描述，如果有额外的数据结构用<code>data</code>来修饰，没有任何参数的则可以直接用<code>class</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sealed class RingerType &#123;</span><br><span class="line">    class NotFound : RingerType()</span><br><span class="line">    data class Outgoing(val uri: String) : RingerType()</span><br><span class="line">    data class Incoming(val uri: String) : RingerType()</span><br><span class="line">    data class Busy(val uri: String) : RingerType()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此kotlin官网上说<code>sealed class</code>是枚举的一种延展或者加强版</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">They are, in a sense, an extension of enum classes.</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/05/30/Kotlin-Sealed/" data-id="cjwbqyzah002p2cmjg73v9xhh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java-JNI" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/05/17/Java-JNI/" class="article-date">
@@ -137,7 +185,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/05/17/Java-JNI/" data-id="cjvtcvl8m001y50mjgrn7y8x1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/05/17/Java-JNI/" data-id="cjwbqyza1001y2cmjwm2a7tbr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -219,7 +267,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/15/DataStructure-Tree/" data-id="cjvtcvl8m001f50mj63mw6tcb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/15/DataStructure-Tree/" data-id="cjwbqyz9l001f2cmj4ifk6j7a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -276,7 +324,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/14/DataStructure-List-Stack-Queue/" data-id="cjvtcvl8m001d50mjw74u486w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/14/DataStructure-List-Stack-Queue/" data-id="cjwbqyz9l001d2cmjl3ue6j4q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -352,7 +400,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/18/Java-bytecode-execution-engine/" data-id="cjvtcvl91002g50mjffz7v6c7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/18/Java-bytecode-execution-engine/" data-id="cjwbqyzah002g2cmjxgrck5tt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -397,7 +445,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/14/Algrothm-Search/" data-id="cjvtcvl7b000550mj9pyk1zk8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/14/Algrothm-Search/" data-id="cjwbqyz8q00052cmjhgvyr3df" class="article-share-link">Share</a>
       
       
     </footer>
@@ -482,7 +530,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/04/Algrothm-Sort/" data-id="cjvtcvl7r000750mjcii2k5d4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/04/Algrothm-Sort/" data-id="cjwbqyz8q00072cmjojpj7ua7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -575,7 +623,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/18/Java-ClassLoader/" data-id="cjvtcvl8m001k50mjpo0m2uov" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/18/Java-ClassLoader/" data-id="cjwbqyz9l001k2cmjtj8v6qwn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -630,7 +678,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjvtcvl86001950mj31562tlt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjwbqyz9l00192cmj3ufs3c24" class="article-share-link">Share</a>
       
       
     </footer>
@@ -707,63 +755,7 @@ D      door (Solaris)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/31/Shell-Thanos/" data-id="cjvtcvl9h002w50mj1kgsie7g" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-C-shared-ptr-vs-maked-shared" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/" class="article-date">
-  <time datetime="2019-01-15T16:00:00.000Z" itemprop="datePublished">2019-01-16</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/C/">C++</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/15/C-shared-ptr-vs-maked-shared/">make_shared vs shared_ptr</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。</p>
-<p>查了下代码发生确实在实例化的时候是用new出来的裸指针<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ObjectA m_ObjectA = <span class="keyword">new</span> ObjectA();</span><br></pre></td></tr></table></figure></p>
-<p>应该变成<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;ObjectA&gt; m_ObjectA = make_shared&lt;ObjectA&gt;();</span><br></pre></td></tr></table></figure></p>
-<p>但是shared_ptr又有两种创建方式<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;Object&gt; p1 = <span class="built_in">std</span>::make_shared&lt;Object&gt;(<span class="string">"foo"</span>);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;Object&gt; p2(<span class="keyword">new</span> Object(<span class="string">"foo"</span>));</span><br></pre></td></tr></table></figure></p>
-<p>最主要的差别在于make_shared执行一次堆分配(将shared_ptr执行的两次堆分配合在一起)，而shared_ptr会执行两次堆分配。由于make_shared只执行一次堆分配因此效率更高。但make_shared只有一次堆分配，因此只有当两者都没有被引用时才会释放。</p>
-<ul>
-<li>Shared_ptr：<ol>
-<li>引用计数</li>
-<li>对象数据</li>
-</ol>
-</li>
-<li>Make_shared：<ol>
-<li>引用计数和对象数据</li>
-</ol>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjvtcvl86001750mjr5thqoif" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/31/Shell-Thanos/" data-id="cjwbqyzah002y2cmjb7kkc15n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -816,6 +808,10 @@ D      door (Solaris)
       <ul>
         
           <li>
+            <a href="/2019/05/30/Kotlin-Sealed/">Sealed</a>
+          </li>
+        
+          <li>
             <a href="/2019/05/17/Java-JNI/">JNI</a>
           </li>
         
@@ -829,10 +825,6 @@ D      door (Solaris)
         
           <li>
             <a href="/2019/03/18/Java-bytecode-execution-engine/">Bytecode Execution Engine</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/14/Algrothm-Search/">Search  Algorithm</a>
           </li>
         
       </ul>
