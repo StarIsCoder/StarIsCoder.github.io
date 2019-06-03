@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Inline | Something</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="C++中有inline关键字，传统函数中我们调用函数的时候，其实是将该指令的内存地址保存下来，并将函数参数复制到堆栈。当函数运行完之后再跳回去。这样来回跳跃会加大开销。而如果一个函数被inline修饰的话，在编译的时候则是直接将该函数的body拷贝到执行的地方。 Kotlin中也有相同的关键字，一般用于高阶函数，想知道有什么变化，还是看对应的Java文件更清晰点。 (IntelliJ的Decomp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Inline">
+<meta property="og:url" content="http://yoursite.com/2019/06/02/Kotlin-inline/index.html">
+<meta property="og:site_name" content="Something">
+<meta property="og:description" content="C++中有inline关键字，传统函数中我们调用函数的时候，其实是将该指令的内存地址保存下来，并将函数参数复制到堆栈。当函数运行完之后再跳回去。这样来回跳跃会加大开销。而如果一个函数被inline修饰的话，在编译的时候则是直接将该函数的body拷贝到执行的地方。 Kotlin中也有相同的关键字，一般用于高阶函数，想知道有什么变化，还是看对应的Java文件更清晰点。 (IntelliJ的Decomp">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-06-03T07:35:53.517Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Inline">
+<meta name="twitter:description" content="C++中有inline关键字，传统函数中我们调用函数的时候，其实是将该指令的内存地址保存下来，并将函数参数复制到堆栈。当函数运行完之后再跳回去。这样来回跳跃会加大开销。而如果一个函数被inline修饰的话，在编译的时候则是直接将该函数的body拷贝到执行的地方。 Kotlin中也有相同的关键字，一般用于高阶函数，想知道有什么变化，还是看对应的Java文件更清晰点。 (IntelliJ的Decomp">
+  
+    <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Something</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Kotlin-inline" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/02/Kotlin-inline/" class="article-date">
+  <time datetime="2019-06-02T16:00:00.000Z" itemprop="datePublished">2019-06-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Inline
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>C++中有<code>inline</code>关键字，传统函数中我们调用函数的时候，其实是将该指令的内存地址保存下来，并将函数参数复制到堆栈。当函数运行完之后再跳回去。这样来回跳跃会加大开销。而如果一个函数被<code>inline</code>修饰的话，在编译的时候则是直接将该函数的body拷贝到执行的地方。</p>
+<p>Kotlin中也有相同的关键字，一般用于高阶函数，想知道有什么变化，还是看对应的Java文件更清晰点。</p>
+<p>(IntelliJ的Decompiler不太靠谱，所以这里用的JD-GUI)</p>
+<p>源文件：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">nonInlined</span><span class="params">(block: ()</span></span> -&gt; <span class="built_in">Unit</span>) &#123;</span><br><span class="line">        println(<span class="string">"before"</span>)</span><br><span class="line">        block()</span><br><span class="line">        println(<span class="string">"after"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">inlined</span><span class="params">(block: ()</span></span> -&gt; <span class="built_in">Unit</span>) &#123;</span><br><span class="line">        println(<span class="string">"before"</span>)</span><br><span class="line">        block()</span><br><span class="line">        println(<span class="string">"after"</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> user = User()</span><br><span class="line"></span><br><span class="line">    user.nonInlined &#123; println(<span class="string">"noninline"</span>) &#125;</span><br><span class="line"></span><br><span class="line">    println(<span class="string">"**********"</span>)</span><br><span class="line"></span><br><span class="line">    user.inlined &#123; println(<span class="string">"inline"</span>) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">UserKt</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(@NotNull String[] args)</span> </span>&#123;</span><br><span class="line">    Intrinsics.checkParameterIsNotNull(args, <span class="string">"args"</span>); User user = <span class="keyword">new</span> User();</span><br><span class="line">    </span><br><span class="line">    user.nonInlined((Function0)UserKt$main$<span class="number">1</span>.INSTANCE);</span><br><span class="line">    </span><br><span class="line">    String str1 = <span class="string">"**********"</span>; <span class="keyword">boolean</span> bool1 = <span class="keyword">false</span>; System.out.println(str1);</span><br><span class="line">    </span><br><span class="line">    User this_$iv = user; <span class="keyword">int</span> $i$f$inlined = <span class="number">0</span>;</span><br><span class="line">  </span><br><span class="line">    String str2 = <span class="string">"before"</span>; <span class="keyword">boolean</span> bool2 = <span class="keyword">false</span>; System.out.println(str2);</span><br><span class="line">    <span class="keyword">int</span> $i$a$-inlined-UserKt$main$<span class="number">2</span> = <span class="number">0</span>; String str3 = <span class="string">"inline"</span>; <span class="keyword">boolean</span> bool3 = <span class="keyword">false</span>; System.out.println(str3);</span><br><span class="line">    str2 = <span class="string">"after"</span>; bool2 = <span class="keyword">false</span>; System.out.println(str2);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">UserKt</span>$<span class="title">main</span>$1 <span class="keyword">extends</span> <span class="title">Lambda</span> <span class="keyword">implements</span> <span class="title">Function0</span>&lt;<span class="title">Unit</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> UserKt$main$<span class="number">1</span> INSTANCE = <span class="keyword">new</span> UserKt$main$<span class="number">1</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">invoke</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      String str = <span class="string">"noninline"</span>;</span><br><span class="line">      <span class="keyword">boolean</span> bool = <span class="keyword">false</span>;</span><br><span class="line">      System.out.println(str);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    UserKt$main$<span class="number">1</span>() &#123; <span class="keyword">super</span>(<span class="number">0</span>); &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到用<code>inline</code>修饰的部分直接copy了函数体到调用的地方。和C++上的作用一样。</p>
+<p>关于这篇文章：<a href="https://stackoverflow.com/questions/44471284/when-to-use-an-inline-function-in-kotlin" target="_blank" rel="noopener">https://stackoverflow.com/questions/44471284/when-to-use-an-inline-function-in-kotlin</a>解释的非<code>inline</code>方法会创建一个实例结合这个例子来看有些不太匹配的地方。文章中说Kotlin中调用高阶函数会创建一个匿名内部类，类似这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nonInlined(<span class="keyword">new</span> Function() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invoke</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"do something here"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>但是从JD decompile的结果来看，它是创建了一个静态的实例。猜测是新的Kotlin版本进行了优化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">UserKt</span>$<span class="title">main</span>$1 <span class="keyword">extends</span> <span class="title">Lambda</span> <span class="keyword">implements</span> <span class="title">Function0</span>&lt;<span class="title">Unit</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> UserKt$main$<span class="number">1</span> INSTANCE = <span class="keyword">new</span> UserKt$main$<span class="number">1</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">invoke</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      String str = <span class="string">"noninline"</span>;</span><br><span class="line">      <span class="keyword">boolean</span> bool = <span class="keyword">false</span>;</span><br><span class="line">      System.out.println(str);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    UserKt$main$<span class="number">1</span>() &#123; <span class="keyword">super</span>(<span class="number">0</span>); &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是<code>inline</code>修饰的函数无法调用<code>private</code>修饰的方法或者变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">inline fun inlined(block: () -&gt; Unit) &#123;</span><br><span class="line">    dummy()     //compilation error</span><br><span class="line">    println(i)     //compilation error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Anyway，<code>inline</code>关键字和C++中的一样，都是为了减少内存开销。但它的副作用在于额外增加了字节码。因此如果一个函数体的逻辑比较复杂则不那么适合用<code>inline</code>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/06/02/Kotlin-inline/" data-id="cjwg28zq8002thwmj2podsbxs" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/30/Kotlin-Sealed/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Sealed</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataStructure/">DataStructure</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OS/">OS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/02/Kotlin-inline/">Inline</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/30/Kotlin-Sealed/">Sealed</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/17/Java-JNI/">JNI</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/15/DataStructure-Tree/">Tree</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/14/DataStructure-List-Stack-Queue/">List/Stack/Queue</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Star<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

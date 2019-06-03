@@ -62,6 +62,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Android-Matrix-Camera" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/28/Android-Matrix-Camera/" class="article-date">
+  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/28/Android-Matrix-Camera/">Matrix&amp;Camera</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在学习自定义view，先将学到了东西记录一下。</p>
+<h2 id="Matrix"><a href="#Matrix" class="headerlink" title="Matrix"></a>Matrix</h2><p>Matrix就是矩阵的意思，具体的数学原理已经还给老师了，因此只是记录使用方式。<br>由于矩阵并不满足交换律，即：<br>A<em>B ≠ B</em>A<br>因此矩阵的方法都是成对的，用pre或者post作为前缀表示前乘或者后乘，这个前和后的意思就是将初始矩阵放在前还是后的意思。<br>使用方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Matrix matrix = <span class="keyword">new</span> Matrix();</span><br><span class="line">matrix.preRotate(<span class="number">45</span>);</span><br><span class="line">matrix.postTranslate(<span class="number">200</span>, <span class="number">0</span>);</span><br><span class="line">canvas.setMatrix(matrix);</span><br><span class="line">canvas.drawBitmap(bitmap, <span class="number">100</span>, <span class="number">100</span>, paint);</span><br></pre></td></tr></table></figure></p>
+<p>Matrix的强大之处在于可以完成一切的形变，而canvas只支持一部分的形变。并且Matrix可以根据前乘和后乘（绝对不是根据简单的pre和post）来决定形变的顺序。</p>
+<h2 id="Camera"><a href="#Camera" class="headerlink" title="Camera"></a>Camera</h2><p>Camera顾名思义就是照相机，这是一个在三维坐标轴上处于z轴的一个相机，他的工作原理就是将三维模型投影在canvas，也就是我们实际看到的图形。插播一段它的坐标系。</p>
+<p>View的坐标系:以屏幕左上方为原点。x轴左负右正，y轴上负下正。</p>
+<p>Camera的坐标系:以屏幕左上方为原点，x轴左负右正,y轴上正下负，z轴内正外负。</p>
+<p>如果我们直接调用camera的rotate方法的话，假设让它绕x轴旋转30度，由于camera是始终处于z轴上的，因此如果这时候投影的话，那么投影出来的图形并不是我们想要的效果，而是不对称且右边拉长的结果。解决办法就是在旋转之前先将图片移到原点。之后再移回来，不过代码中canvas的移动要反过来写，因为它是反向执行的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">camera.rotateX(<span class="number">30</span>);</span><br><span class="line">canvas.translate(centerX, centerY); </span><br><span class="line">camera.applyToCanvas(canvas); </span><br><span class="line">canvas.translate(-centerX, -centerY);</span><br></pre></td></tr></table></figure></p>
+<p>其余的一些调用api的就不写了，等用的时候一查就有了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjwg28zoh000bhwmjt7ktyash" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Android-区分tablet和mobile" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/26/Android-区分tablet和mobile/" class="article-date">
@@ -98,7 +146,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjwbqyz96000n2cmjunp26dqj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjwg28zoh000nhwmj4thsy6t7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -176,7 +224,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjwbqyz96000v2cmju9x4qdmc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjwg28zox000vhwmjxm50hr61" class="article-share-link">Share</a>
       
       
     </footer>
@@ -237,7 +285,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjwbqyz9600122cmj81tyzcr3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjwg28zox0012hwmjr5gn4mb6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -300,7 +348,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjwbqyzah002r2cmjxymkkbu2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjwg28zq8002rhwmj9zwe99tv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -358,7 +406,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjwbqyz96000x2cmjsxy7br8o" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjwg28zox000xhwmjqb097ngf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -430,7 +478,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjwbqyza1001p2cmj99x3kypt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjwg28zpc001phwmjywls7ixp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -481,7 +529,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjwbqyzah002t2cmj06r6u3v7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjwg28zq8002whwmjzqrfo9ke" class="article-share-link">Share</a>
       
       
     </footer>
@@ -523,7 +571,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjwbqyz8q000g2cmj3adca5zy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjwg28zoh000ghwmj967apm07" class="article-share-link">Share</a>
       
       
     </footer>
@@ -564,7 +612,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/" data-id="cjwbqyz96000l2cmjmus7vj9k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/" data-id="cjwg28zoh000lhwmjo592rcsw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -604,7 +652,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -615,6 +663,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/06/02/Kotlin-inline/">Inline</a>
+          </li>
         
           <li>
             <a href="/2019/05/30/Kotlin-Sealed/">Sealed</a>
@@ -630,10 +682,6 @@
         
           <li>
             <a href="/2019/04/14/DataStructure-List-Stack-Queue/">List/Stack/Queue</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/18/Java-bytecode-execution-engine/">Bytecode Execution Engine</a>
           </li>
         
       </ul>

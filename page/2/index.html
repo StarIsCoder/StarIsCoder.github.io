@@ -62,6 +62,83 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Shell-Thanos" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/31/Shell-Thanos/" class="article-date">
+  <time datetime="2019-01-31T16:00:00.000Z" itemprop="datePublished">2019-02-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Shell/">Shell</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/31/Shell-Thanos/">Delete half of files randomly</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Marvel中的灭霸可以打个响指就灭掉一半的人，然后在网上看到有个开源库，是执行脚本随机删除一半的文件。</p>
+<ul>
+<li><a href="https://github.com/hotvulcan/Thanos.sh" target="_blank" rel="noopener">https://github.com/hotvulcan/Thanos.sh</a></li>
+</ul>
+<p>不过该库中用的是PowerShell Script，由于之前学过一点shell，这次就用shell试试，就当练习下shell的语法了。</p>
+<p>用find命令列出路径下的所有文件，这个脚本是这样</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">find . -<span class="built_in">type</span> f</span><br></pre></td></tr></table></figure>
+<p>其中type属性可以传递以下的参数，表示需要找到什么类型的文件</p>
+<p>-type c</p>
+<pre><code>File is of type c:
+
+b      block (buffered) special
+
+c      character (unbuffered) special
+
+d      directory
+
+p      named pipe (FIFO)
+
+f      regular file
+
+l      symbolic link; this is never true if the -L option or the  -follow  option  is  in  effect,
+       unless the symbolic link is broken.  If you want to search for symbolic links when -L is in
+       effect, use -xtype.
+
+s      socket
+
+D      door (Solaris)
+</code></pre><p>由于是随机删除一半，因此我们需要把<code>find</code>输出的内容砍掉一半并且打乱。打乱需要用到<code>shuf</code>指令，mac上这个命令默认不支持需要执行<code>brew install coreutils</code>安装下。</p>
+<p><code>shuf</code>可以传递<code>-n</code>的参数，表示最多输出的行数。</p>
+<p>这时候指令变成了<code>find . -type f | shuf -n  $[总文件数/2]</code>。</p>
+<p>还需要获取到总文件数，可以用<code>wc(Word count)</code>来统计。由于文件名是按行输出，因此我们需要使用<code>-l</code>参数来统计行数。</p>
+<p>这时候脚本变成了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">count=`find . -<span class="built_in">type</span> f | wc -l`</span><br><span class="line"><span class="built_in">echo</span> $[count/2]</span><br><span class="line">find . -<span class="built_in">type</span> f | shuf -n  $[count/2]</span><br></pre></td></tr></table></figure></p>
+<p>接下来只需要把<code>find</code>并且用<code>shuf</code>打乱后的结果放在<code>rm -rf</code>后面，需要用到<code>xargs</code>指令。</p>
+<p><code>xargs</code>表示可以把输出传递给<code>xargs</code>之后的指令。最后生成的脚本就是这样的，功能就是随机删除path路径下一半的文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">count=`find . -<span class="built_in">type</span> f | wc -l`</span><br><span class="line"><span class="built_in">echo</span> $[count/2]</span><br><span class="line">find [path] -<span class="built_in">type</span> f | shuf -n  $[count/2] | xargs rm -rf</span><br></pre></td></tr></table></figure>
+<p></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/31/Shell-Thanos/" data-id="cjwg28zq80031hwmjhqqvg34s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-C-shared-ptr-vs-maked-shared" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/15/C-shared-ptr-vs-maked-shared/" class="article-date">
@@ -108,7 +185,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjwbqyz9l00172cmjpya4tq1p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjwg28zox0017hwmj907x86pb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -161,7 +238,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjwbqyz8q00032cmjgfabycfi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/18/Algorithm-PowerOfN/" data-id="cjwg28znm0003hwmjxgwuzd4u" class="article-share-link">Share</a>
       
       
     </footer>
@@ -221,7 +298,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjwbqyza1001v2cmjs2vlo0oy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/06/Java-HashMapInfiniteLoop/" data-id="cjwg28zpc001vhwmj9nqkwr84" class="article-share-link">Share</a>
       
       
     </footer>
@@ -274,7 +351,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjwbqyz8q00042cmjqh78b1dk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/03/Algorithm-TraversalBinaryTree/" data-id="cjwg28zo10004hwmjlo97dska" class="article-share-link">Share</a>
       
       
     </footer>
@@ -326,7 +403,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjwbqyz8a00002cmjp6gm78we" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/02/Algorithm-DP/" data-id="cjwg28znm0000hwmjkdpaus3n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -374,7 +451,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjwbqyz9l001b2cmjyhjxnlx0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/25/C-使用Jansson产生的引用计数bug/" data-id="cjwg28zox001bhwmjrfwwsuil" class="article-share-link">Share</a>
       
       
     </footer>
@@ -463,7 +540,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjwbqyz96000z2cmjkjyudbfz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="cjwg28zox000zhwmjnjsmahcl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -528,7 +605,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjwbqyzah002w2cmjt6eoj9u1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="cjwg28zq8002yhwmjoitrno2m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -589,65 +666,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjwbqyz96000i2cmj3nhs6r2z" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java-PassByValue" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/23/Java-PassByValue/" class="article-date">
-  <time datetime="2018-10-23T16:00:00.000Z" itemprop="datePublished">2018-10-24</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/23/Java-PassByValue/">Pass by value or reference</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Given a sorted linked list, delete all duplicates such that each element appear only once.<br>Example 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 1-&gt;1-&gt;2</span><br><span class="line">Output: 1-&gt;2</span><br></pre></td></tr></table></figure></p>
-<p>Example 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 1-&gt;1-&gt;2-&gt;3-&gt;3</span><br><span class="line">Output: 1-&gt;2-&gt;3</span><br></pre></td></tr></table></figure></p>
-<p>解题上并不难，移动的节点时候判断与后一个是否一样，如果一样就跳过。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ListNode <span class="title">deleteDuplicates</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    ListNode current = head;</span><br><span class="line">    <span class="keyword">while</span> (current != <span class="keyword">null</span> &amp;&amp; current.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (current.next.val == current.val) &#123;</span><br><span class="line">            current.next = current.next.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            current = current.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>不过在main函数里执行的时候，我发现获取最终结果，不需要使用该方法return的ListNode，直接将原链表作为参数传入，方法执行完之后原链表就发生了变化。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Same code</span></span><br><span class="line">deleteDuplicates(first);</span><br><span class="line">ListNode resultNode = deleteDuplicates(first);</span><br></pre></td></tr></table></figure></p>
-<p>这突然让我有点怀疑java究竟是pass by value还是reference。Java中最突出的特点之一就是没有指针。如果都是按值传递为什么原链表会发生变化呢。最经典的swap说明了Java的按值传递性。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">20</span>;</span><br><span class="line">    swap(i, j);</span><br><span class="line">    System.out.println(<span class="string">"i :"</span> + i);</span><br><span class="line">    System.out.println(<span class="string">"j :"</span> + j);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp = i;</span><br><span class="line">    i = j;</span><br><span class="line">    j = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i : 10</span><br><span class="line">j : 20</span><br></pre></td></tr></table></figure>
-<p>但是下面这个例子好像又表示pass by reference<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Dog mDog = <span class="keyword">new</span> Dog(<span class="string">"Rover"</span>);</span><br><span class="line">    foo(mDog);</span><br><span class="line">    System.out.println(mDog.getName());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">(Dog someDog)</span> </span>&#123;</span><br><span class="line">    someDog.setName(<span class="string">"Max1"</span>);     <span class="comment">// AAA</span></span><br><span class="line">    someDog = <span class="keyword">new</span> Dog(<span class="string">"Fifi"</span>);  <span class="comment">// BBB</span></span><br><span class="line">    someDog.setName(<span class="string">"Rowlf"</span>);   <span class="comment">// CCC</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Max1</span><br></pre></td></tr></table></figure>
-<p>也就是说Java在传递参数的时候对基础类型和非基础类型的处理是不同的。基础类型的话是完全字面意义上的pass-by-value。而非基础类型的话，其实是创建了一个新的对象newObject（空对象），然后将这个newObject的引用指向传入的参数。如图中所示，图片来源：<a href="https://stackoverflow.com/questions/9404625/java-pass-by-reference/9404727#9404727" target="_blank" rel="noopener">https://stackoverflow.com/questions/9404625/java-pass-by-reference/9404727#9404727</a></p>
-<p><img src="/assets/Java_PassByValue/passbyvalue1.png" alt></p>
-<p><img src="/assets/Java_PassByValue/passbyvalue2.png" alt></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在Java中，确实一切都是pass by value。但是拷贝是引用还是变量取决于源数据类型。</p>
-<ol>
-<li>如果是基础类型，那么参数是pass by value。</li>
-<li>如果是对象，那么对象的引用是pass by value。</li>
-<li>在方法内部修改对象的引用是不会影响原引用的。</li>
-<li>在方法内部修改collection和map类型会影响原数据。</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="cjwbqyza100272cmjkl4qkvlp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="cjwg28zoh000ihwmj57sb83oj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -687,7 +706,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -698,6 +717,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/06/02/Kotlin-inline/">Inline</a>
+          </li>
         
           <li>
             <a href="/2019/05/30/Kotlin-Sealed/">Sealed</a>
@@ -713,10 +736,6 @@
         
           <li>
             <a href="/2019/04/14/DataStructure-List-Stack-Queue/">List/Stack/Queue</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/18/Java-bytecode-execution-engine/">Bytecode Execution Engine</a>
           </li>
         
       </ul>
