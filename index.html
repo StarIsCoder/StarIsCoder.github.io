@@ -106,7 +106,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/02/Kotlin-inline/" data-id="cjwg28zq8002thwmj2podsbxs" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/02/Kotlin-inline/" data-id="cjwsvphh3002t1omjl2m50sty" class="article-share-link">Share</a>
       
       
     </footer>
@@ -154,7 +154,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/05/30/Kotlin-Sealed/" data-id="cjwg28zq8002phwmjkgan18yc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/05/30/Kotlin-Sealed/" data-id="cjwsvphh3002p1omjo7i3howc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -222,13 +222,15 @@
 <p>之后就是根据这个id在传进来的对象<code>user</code>中取出<code>name</code>了</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstring name = (jstring)env-&gt;GetObjectField(user , name_id);</span><br></pre></td></tr></table></figure>
 <p>如果是int类型的参数可以直接用<code>env-&gt;GetIntField(user, id)</code>。</p>
-<p>如果是枚举类型则稍微复杂一点。枚举类型都有个方法<code>ordinal</code>是返回枚举值。</p>
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><p>如果是枚举类型则稍微复杂一点。枚举类型都有个方法<code>ordinal</code>是返回枚举值。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="class"><span class="keyword">class</span> <span class="title">VideoStreamType</span> </span>&#123;</span><br><span class="line">     NotVideo, <span class="comment">//VideoStreamType.NotVideo.ordinal return 0</span></span><br><span class="line">     Video,</span><br><span class="line">     Presentation</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <p>利用这个方法我们可以将枚举转化成int类型，然后再map成C++的枚举类型。</p>
 <p>首先将枚举类型变量取出 - <code>vsTypeJni_</code></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jfieldID vsType_id = env-&gt;GetFieldID(eccVideoParasClass, <span class="string">"vsType"</span>,<span class="string">"Lcom/star/VideoStreamType;"</span>);</span><br><span class="line">jobject vsTypeJni_ = env-&gt;GetObjectField(videoParas, vsType_id);</span><br></pre></td></tr></table></figure>
 <p>然后调用ordinal方法，返回<code>vsTypeJni_</code>对应的int值，这个<code>vsTypeJint</code>就是我们想要的。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jclass vsTypeClass = env-&gt;GetObjectClass(vsTypeJni_);</span><br><span class="line">jmethodID ordinal = env-&gt;GetMethodID(vsTypeClass, <span class="string">"ordinal"</span>, <span class="string">"()I"</span>);</span><br><span class="line">jint vsTypeJint = env-&gt;CallIntMethod(vsTypeJni_, ordinal);</span><br></pre></td></tr></table></figure>
+<p>如果想返回枚举的话则需要先用Java枚举的<code>values</code>方法获取到所有存储枚举类型的数组，然后根据index得到对应的Java枚举类型。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> jobject <span class="title">GetEnumObjectRingerType</span><span class="params">(RingerType type)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    jobject result = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bool</span> bAttached = <span class="literal">false</span>;</span><br><span class="line">    JNIEnv *env = JniBase::AttachEnv(JniBase::ms_jvm, bAttached);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (env) &#123;</span><br><span class="line"></span><br><span class="line">        jclass enumClass = JniBase::FindClass(env,</span><br><span class="line">                                                  <span class="string">"com/webex/scf/RingerType"</span>);</span><br><span class="line">        jmethodID methodId = env-&gt;GetStaticMethodID(enumClass, <span class="string">"values"</span>,</span><br><span class="line">                                                        (<span class="string">"()[Lcom/webex/scf/RingerType;"</span>));</span><br><span class="line">        jobjectArray valueArray = <span class="keyword">static_cast</span>&lt;jobjectArray&gt;(env-&gt;CallStaticObjectMethod(</span><br><span class="line">                    enumClass, methodId));</span><br><span class="line">        <span class="keyword">int</span> index = GetEnumRingerTypeAtIndex(type);</span><br><span class="line">        result = env-&gt;GetObjectArrayElement(valueArray, index);</span><br><span class="line"></span><br><span class="line">        env-&gt;DeleteLocalRef(valueArray);</span><br><span class="line">        env-&gt;DeleteLocalRef(enumClass);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    JniBase::DetachEnv(JniBase::ms_jvm, bAttached);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">GetEnumRingerTypeAtIndex</span><span class="params">(RingerType type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">switch</span> (type) &#123;</span><br><span class="line">        <span class="keyword">case</span> RingerType::Outgoing:</span><br><span class="line">            result = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> RingerType::BusyTone:</span><br><span class="line">            result = <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> RingerType::Reconnect:</span><br><span class="line">            result = <span class="number">3</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="调用Java方法"><a href="#调用Java方法" class="headerlink" title="调用Java方法"></a>调用Java方法</h2><p>在处理枚举类型的时候调用了Java方法，和获取变量一样，需要先获取方法id，第二个参数是方法名，第三个参数中括号中的是入参类型，括号后的是返回值，例如<code>env-&gt;GetMethodID(class, &quot;calculate&quot;, &quot;(III)I&quot;,jint a, jint b, jin c)</code>是这样的方法。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">calculate</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> )</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
 <p>然后就可以调用Java方法了</p>
@@ -239,7 +241,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/05/17/Java-JNI/" data-id="cjwg28zpc001yhwmjh0sm7994" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/05/17/Java-JNI/" data-id="cjwsvphg8001y1omjg93gzvjn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -321,7 +323,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/15/DataStructure-Tree/" data-id="cjwg28zpc001fhwmjntrhcf1j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/15/DataStructure-Tree/" data-id="cjwsvphfc001f1omjqcpkusp0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -378,7 +380,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/14/DataStructure-List-Stack-Queue/" data-id="cjwg28zox001dhwmjnlmpahjl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/14/DataStructure-List-Stack-Queue/" data-id="cjwsvphfc001d1omj14gefb7q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -454,7 +456,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/18/Java-bytecode-execution-engine/" data-id="cjwg28zps002ghwmj86h0b850" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/18/Java-bytecode-execution-engine/" data-id="cjwsvphgn002g1omjyh9lkhwr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -499,7 +501,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/14/Algrothm-Search/" data-id="cjwg28zo10005hwmjglomfp95" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/14/Algrothm-Search/" data-id="cjwsvphe200051omjg51j8wre" class="article-share-link">Share</a>
       
       
     </footer>
@@ -584,7 +586,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/04/Algrothm-Sort/" data-id="cjwg28zo10007hwmjagbo94zg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/04/Algrothm-Sort/" data-id="cjwsvphe200071omj9m2twtsb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -677,7 +679,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/18/Java-ClassLoader/" data-id="cjwg28zpc001khwmjw02u4yem" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/18/Java-ClassLoader/" data-id="cjwsvphfs001k1omjvpost2gu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -732,7 +734,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjwg28zox0019hwmjd9rdoxb8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/12/C-virtual-table/" data-id="cjwsvphfc00191omjl57bd9in" class="article-share-link">Share</a>
       
       
     </footer>

@@ -100,7 +100,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjwg28zoh000bhwmjt7ktyash" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjwsvpheh000b1omj7nbacwy6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -146,7 +146,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjwg28zoh000nhwmj4thsy6t7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjwsvpheh000n1omjssw7oumd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -224,7 +224,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjwg28zox000vhwmjxm50hr61" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjwsvphex000v1omja4h2qt09" class="article-share-link">Share</a>
       
       
     </footer>
@@ -285,7 +285,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjwg28zox0012hwmjr5gn4mb6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjwsvphfc00121omj66blesh8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -340,15 +340,22 @@
 <p>这样就实现了static的效果。再来看一下decompile后的代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">   <span class="meta">@NotNull</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Test instance = <span class="keyword">new</span> Test();</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Test.Companion Companion = <span class="keyword">new</span> Test.Companion((DefaultConstructorMarker)<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Companion</span> </span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getI</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> Test.i;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@NotNull</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Test <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> Test.instance;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">private</span> <span class="title">Companion</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// $FF: synthetic method</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="title">Companion</span><span class="params">(DefaultConstructorMarker $constructor_marker)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">this</span>();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>可以看到变量i被static所修饰。并且companion是对所有类公开的，因此适合用来实现单例模式。</p>
 <p><em>Warning:一个类中只能有一个被companion修饰的object。</em></p>
+<h2 id="带参数的单例"><a href="#带参数的单例" class="headerlink" title="带参数的单例"></a>带参数的单例</h2><p>Android中经常需要传递context，如果一个单例需要context作为参数的话用object是不行的，因为object不允许传递参数。因此可以借鉴Android中的<code>LocalBroadcastManager.getInstance(this).sendBroadcast(intent)</code></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> INSTANCE: RingerManager? = <span class="literal">null</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getInstance</span><span class="params">(context: <span class="type">Context</span>)</span></span>: RingerManager &#123;</span><br><span class="line">        <span class="keyword">if</span> (INSTANCE == <span class="literal">null</span>) &#123;</span><br><span class="line">            INSTANCE = RingerManager(context)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE!!</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="模板单例"><a href="#模板单例" class="headerlink" title="模板单例"></a>模板单例</h2><p>在这个模板单例中还用到了<code>synchronized</code>来保证线程安全。 </p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span>&lt;<span class="type">out T: Any, in A</span>&gt;</span>(creator: (A) -&gt; T) &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> creator: ((A) -&gt; T)? = creator</span><br><span class="line">    <span class="meta">@Volatile</span> <span class="keyword">private</span> <span class="keyword">var</span> instance: T? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getInstance</span><span class="params">(arg: <span class="type">A</span>)</span></span>: T &#123;</span><br><span class="line">        <span class="keyword">val</span> i = instance</span><br><span class="line">        <span class="keyword">if</span> (i != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> i</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> synchronized(<span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">val</span> i2 = instance</span><br><span class="line">            <span class="keyword">if</span> (i2 != <span class="literal">null</span>) &#123;</span><br><span class="line">                i2</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">val</span> created = creator!!(arg)</span><br><span class="line">                instance = created</span><br><span class="line">                creator = <span class="literal">null</span></span><br><span class="line">                created</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用了模板之后不用每个单例都写一个类似的代码，可以复用。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">companion</span> <span class="keyword">object</span> : SingletonHolder&lt;CoreFramework&gt;(::CoreFramework)</span><br><span class="line">CoreFramework.getInstance()</span><br></pre></td></tr></table></figure>
 <p>参考文档：</p>
 <p><a href="https://antonioleiva.com/objects-kotlin/" target="_blank" rel="noopener">https://antonioleiva.com/objects-kotlin/</a></p>
 <p><a href="https://medium.com/@adinugroho/singleton-in-kotlin-502f80fd8a63" target="_blank" rel="noopener">https://medium.com/@adinugroho/singleton-in-kotlin-502f80fd8a63</a></p>
 <p><a href="https://www.journaldev.com/18662/kotlin-singleton-companion-object" target="_blank" rel="noopener">https://www.journaldev.com/18662/kotlin-singleton-companion-object</a></p>
+<p><a href="https://medium.com/@BladeCoder/kotlin-singletons-with-argument-194ef06edd9e" target="_blank" rel="noopener">https://medium.com/@BladeCoder/kotlin-singletons-with-argument-194ef06edd9e</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjwg28zq8002rhwmj9zwe99tv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjwsvphh3002r1omj942iq0jz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -406,7 +413,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjwg28zox000xhwmjqb097ngf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjwsvphex000x1omjt75bsdnd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -478,7 +485,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjwg28zpc001phwmjywls7ixp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjwsvphfs001p1omj2banmflz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -529,7 +536,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjwg28zq8002whwmjzqrfo9ke" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjwsvphh3002w1omjbv7av5o6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -571,7 +578,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjwg28zoh000ghwmj967apm07" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjwsvpheh000g1omj1ihgsn35" class="article-share-link">Share</a>
       
       
     </footer>
@@ -612,7 +619,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/" data-id="cjwg28zoh000lhwmjo592rcsw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/" data-id="cjwsvpheh000l1omj9ukj26hj" class="article-share-link">Share</a>
       
       
     </footer>
