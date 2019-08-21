@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Something">
 <meta property="og:description" content="最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。 查了下代码发生确实在">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-09T07:49:29.815Z">
+<meta property="og:updated_time" content="2019-08-21T09:56:58.566Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="make_shared vs shared_ptr">
 <meta name="twitter:description" content="最近在使用shared_from_this的时候发生了crash，具体原因是throw_bad_weak_ptr，查了Stack Overflow，root cause是因为想在object A上使用shared_from_this,但是却没有一个shared_ptr指向他，这违反了使用shared_from_this的前提条件：至少有一个shared_ptr被创建并指向A。 查了下代码发生确实在">
@@ -110,7 +110,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjz3t8lvn00176cmjn6hyxrfn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/15/C-shared-ptr-vs-maked-shared/" data-id="cjzl32wov0017ocmjqxmpyc3x" class="article-share-link">Share</a>
       
       
     </footer>
