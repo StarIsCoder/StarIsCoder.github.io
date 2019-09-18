@@ -5,19 +5,19 @@
   
 
   
-  <title>PopupWindow show at location | Something</title>
+  <title>const pointer | Something</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Recently,UE Team has updated some features.One of them is click on the button,and show PopupWindow right above the button.The point is can’t use hardcode because different devices has different resolu">
+  <meta name="description" content="cont int *const int * 表示的是一个指针 - 指向一个int常量，因此这个指针所指向的东西是只读的。但指针本身是可写的。 12345int i = 100;const int* pt = &amp;amp;i;// 表示指向一个int常量的指针*pt = 101; // error: Read-only variable is not assignableint j = 101;pt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PopupWindow show at location">
-<meta property="og:url" content="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/index.html">
+<meta property="og:title" content="const pointer">
+<meta property="og:url" content="http://yoursite.com/2019/09/17/C-const-pointer/index.html">
 <meta property="og:site_name" content="Something">
-<meta property="og:description" content="Recently,UE Team has updated some features.One of them is click on the button,and show PopupWindow right above the button.The point is can’t use hardcode because different devices has different resolu">
+<meta property="og:description" content="cont int *const int * 表示的是一个指针 - 指向一个int常量，因此这个指针所指向的东西是只读的。但指针本身是可写的。 12345int i = 100;const int* pt = &amp;amp;i;// 表示指向一个int常量的指针*pt = 101; // error: Read-only variable is not assignableint j = 101;pt">
 <meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2019-09-18T10:57:06.912Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PopupWindow show at location">
-<meta name="twitter:description" content="Recently,UE Team has updated some features.One of them is click on the button,and show PopupWindow right above the button.The point is can’t use hardcode because different devices has different resolu">
+<meta name="twitter:title" content="const pointer">
+<meta name="twitter:description" content="cont int *const int * 表示的是一个指针 - 指向一个int常量，因此这个指针所指向的东西是只读的。但指针本身是可写的。 12345int i = 100;const int* pt = &amp;amp;i;// 表示指向一个int常量的指针*pt = 101; // error: Read-only variable is not assignableint j = 101;pt">
   
     <link rel="alternate" href="/atom.xml" title="Something" type="application/atom+xml">
   
@@ -64,14 +64,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Android-ShowPopupAtLocation" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-C-const-pointer" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/07/24/Android-ShowPopupAtLocation/" class="article-date">
-  <time datetime="2018-07-24T16:00:00.000Z" itemprop="datePublished">2018-07-25</time>
+    <a href="/2019/09/17/C-const-pointer/" class="article-date">
+  <time datetime="2019-09-17T16:00:00.000Z" itemprop="datePublished">2019-09-18</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
+    <a class="article-category-link" href="/categories/C/">C++</a>
   </div>
 
   </div>
@@ -82,7 +82,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      PopupWindow show at location
+      const pointer
     </h1>
   
 
@@ -90,12 +90,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Recently,UE Team has updated some features.One of them is click on the button,and show PopupWindow right above the button.<br>The point is can’t use hardcode because different devices has different resolution. So the best way is get the location in the window.<br>There is method named <code>getLocationInWindow(View view)</code> in View.java.All we have to do is invoke the method by the button and pass an array.This array will store two value,X coordinate and Y coordinate.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] viewLocation = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">view.getLocationInWindow(viewLocation);</span><br><span class="line"><span class="comment">//X coordinate viewLocation[0]</span></span><br><span class="line"><span class="comment">//Y coordinate viewLocation[1]</span></span><br></pre></td></tr></table></figure></p>
+        <h3 id="cont-int"><a href="#cont-int" class="headerlink" title="cont int *"></a>cont int *</h3><p>const int * 表示的是一个指针 - 指向一个int常量，因此这个指针所指向的东西是只读的。但指针本身是可写的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* pt = &amp;i;<span class="comment">// 表示指向一个int常量的指针</span></span><br><span class="line">*pt = <span class="number">101</span>; <span class="comment">// error: Read-only variable is not assignable</span></span><br><span class="line"><span class="keyword">int</span> j = <span class="number">101</span>;</span><br><span class="line">pt = &amp;j; <span class="comment">// good</span></span><br></pre></td></tr></table></figure>
+<h3 id="int-const-pt"><a href="#int-const-pt" class="headerlink" title="int* const pt"></a>int* const pt</h3><p>int * const 表示的是一个常量指针 - 指向int类型，因此这个指针是只读的，但是他所指向的东西是可以改变的。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">int</span> j = <span class="number">101</span>;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; &amp;i &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"><span class="keyword">int</span>* <span class="keyword">const</span> pt = &amp;i;<span class="comment">// 表示一个指向int类型的常量指针</span></span><br><span class="line">pt = &amp;j; <span class="comment">// Cannot assign to variable 'pt' with const-qualified type 'int *const'</span></span><br><span class="line">*pt = <span class="number">1000</span>; <span class="comment">// good</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>关于c或者c++这种指针类型的解释是有规律的，只需要倒过来读就可以了，<code>*</code>表示a pointer to(一个指针 - 指向) </p>
+<ul>
+<li><code>int*</code> == pointer to int == 一个指针 - 指向int类型</li>
+<li><code>int const *</code> == pointer to const int == 一个指针 - 指向int常量</li>
+<li><code>int * const</code> == const pointer to int == 一个常量指针 - 指向int类型</li>
+<li><code>int const * const</code> == const pointer to const int == 一个常量指针 - 指向int常量</li>
+</ul>
+<p>当<code>const</code>处于首位的时候，放在类型的两边的都可以</p>
+<ul>
+<li><code>const int *</code> == <code>int const *</code></li>
+<li><code>const int * const</code> == <code>int const * const</code></li>
+</ul>
+<p>Clockwise/Spiral Rule：</p>
+<p><a href="http://c-faq.com/decl/spiral.anderson.html" target="_blank" rel="noopener">http://c-faq.com/decl/spiral.anderson.html</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/24/Android-ShowPopupAtLocation/" data-id="ck0p5k1cn000lbsmjehfhe6yg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/17/C-const-pointer/" data-id="ck0p5k1cn0012bsmjyyg2wega" class="article-share-link">Share</a>
       
       
     </footer>
@@ -104,15 +120,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/07/26/Android-Modify-shape-attributes/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Modify shape attributes in code
-        
-      </div>
-    </a>
   
+    <a href="/2019/08/08/Python-ImportError/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Python ImportError</div>
+    </a>
   
 </nav>
 

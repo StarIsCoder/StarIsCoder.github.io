@@ -62,14 +62,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Android-Matrix-Camera" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-C-Constructor-Destructor" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/28/Android-Matrix-Camera/" class="article-date">
-  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
+    <a href="/2018/09/03/C-Constructor-Destructor/" class="article-date">
+  <time datetime="2018-09-03T16:00:00.000Z" itemprop="datePublished">2018-09-04</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
+    <a class="article-category-link" href="/categories/C/">C++</a>
   </div>
 
   </div>
@@ -80,7 +80,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/Android-Matrix-Camera/">Matrix&amp;Camera</a>
+      <a class="article-title" href="/2018/09/03/C-Constructor-Destructor/">Constructor&amp;Destructor</a>
     </h1>
   
 
@@ -88,19 +88,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近在学习自定义view，先将学到了东西记录一下。</p>
-<h2 id="Matrix"><a href="#Matrix" class="headerlink" title="Matrix"></a>Matrix</h2><p>Matrix就是矩阵的意思，具体的数学原理已经还给老师了，因此只是记录使用方式。<br>由于矩阵并不满足交换律，即：<br>A<em>B ≠ B</em>A<br>因此矩阵的方法都是成对的，用pre或者post作为前缀表示前乘或者后乘，这个前和后的意思就是将初始矩阵放在前还是后的意思。<br>使用方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Matrix matrix = <span class="keyword">new</span> Matrix();</span><br><span class="line">matrix.preRotate(<span class="number">45</span>);</span><br><span class="line">matrix.postTranslate(<span class="number">200</span>, <span class="number">0</span>);</span><br><span class="line">canvas.setMatrix(matrix);</span><br><span class="line">canvas.drawBitmap(bitmap, <span class="number">100</span>, <span class="number">100</span>, paint);</span><br></pre></td></tr></table></figure></p>
-<p>Matrix的强大之处在于可以完成一切的形变，而canvas只支持一部分的形变。并且Matrix可以根据前乘和后乘（绝对不是根据简单的pre和post）来决定形变的顺序。</p>
-<h2 id="Camera"><a href="#Camera" class="headerlink" title="Camera"></a>Camera</h2><p>Camera顾名思义就是照相机，这是一个在三维坐标轴上处于z轴的一个相机，他的工作原理就是将三维模型投影在canvas，也就是我们实际看到的图形。插播一段它的坐标系。</p>
-<p>View的坐标系:以屏幕左上方为原点。x轴左负右正，y轴上负下正。</p>
-<p>Camera的坐标系:以屏幕左上方为原点，x轴左负右正,y轴上正下负，z轴内正外负。</p>
-<p>如果我们直接调用camera的rotate方法的话，假设让它绕x轴旋转30度，由于camera是始终处于z轴上的，因此如果这时候投影的话，那么投影出来的图形并不是我们想要的效果，而是不对称且右边拉长的结果。解决办法就是在旋转之前先将图片移到原点。之后再移回来，不过代码中canvas的移动要反过来写，因为它是反向执行的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">camera.rotateX(<span class="number">30</span>);</span><br><span class="line">canvas.translate(centerX, centerY); </span><br><span class="line">camera.applyToCanvas(canvas); </span><br><span class="line">canvas.translate(-centerX, -centerY);</span><br></pre></td></tr></table></figure></p>
-<p>其余的一些调用api的就不写了，等用的时候一查就有了。</p>
+        <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>构造函数的定义就不写了，直接看下例子,这里的构造函数中初始化了number这个变量。</p>
+<p><em>插播一段：这里使用了ifndef和define来防止多重包含。即使多个文件include了这个头文件也只会包含一次。</em><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> Stock00_h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Stock00_h</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Stock</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> number_;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">    Stock(<span class="keyword">int</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Stock::display()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; number_ &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line">Stock::Stock(<span class="keyword">int</span> number)</span><br><span class="line">&#123;</span><br><span class="line">    number_ = number;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* Stock00_h */</span></span></span><br></pre></td></tr></table></figure></p>
+<p>如何使用：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="function">Stock <span class="title">stock1</span><span class="params">(<span class="number">100</span>)</span></span>;                <span class="comment">//隐式</span></span><br><span class="line">    Stock stock2 = Stock(<span class="number">100</span>);        <span class="comment">//显式</span></span><br><span class="line">    Stock stock3 &#123;<span class="number">100</span>&#125;;               <span class="comment">//类似初始化列表的情况</span></span><br><span class="line">    stock1.display();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Warning:</p>
+<ul>
+<li>如果该类定义了构造函数，那么当实例化该类的时候则必须调用它的构造方法</li>
+<li>构造函数的参数名不能与类成员相同。一种做法是在数据成员前面加上m_前缀，还有一种做法是在成员名称后面加后缀_。</li>
+</ul>
+<h2 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h2><p>析构函数是和构造函数对应的，一个是创建过程中调用，析构函数则是在对象销毁时调用的，不过大部分情况都是由系统自己调用，很少有显式调用的情况。析构函数不包含任何参数。</p>
+<ul>
+<li>静态存储类对象：程序结束时调用。</li>
+<li>自动存储类对象：函数结束时调用。</li>
+<li>new创建的对象：调用delete来释放内存时调用。</li>
+</ul>
+<h2 id="const成员函数"><a href="#const成员函数" class="headerlink" title="const成员函数"></a>const成员函数</h2><p>如果定义了一个const的类，调用该类的非const方法则会报错，因为不能保证调用的对象不被修改：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Stock stock1 &#123;<span class="number">100</span>&#125;;</span><br><span class="line">stock1.display();</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Stock::display()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; number_ &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>解决方式在函数最后加上const关键字:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Stock::display() <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; number_ &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a>this指针</h2><p>之前在尝试写成员变量的get/set方法时，发现在c++中this并不代表一个类，而是一个类的指针。并且可以表示隐式的访问，<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">stock1.topval(stock2);</span><br><span class="line"></span><br><span class="line">Stock &amp; Stock::topval(Stock &amp;s)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>-&gt;number_ &gt; s.number_) &#123;</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到在这个函数中，this表示stock1。</p>
+<p>基于C++ Primer plus第十章</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="cjzl32wo0000bocmjb4qdxzko" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/03/C-Constructor-Destructor/" data-id="ck0p5k1cn000sbsmj6lsf1zdf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -142,7 +153,55 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="cjzl32wo00008ocmju8g5kktm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/Android-LinearLayout-set-gravity-not-working/" data-id="ck0p5k1c70008bsmjkda7mpw8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android-Matrix-Camera" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/28/Android-Matrix-Camera/" class="article-date">
+  <time datetime="2018-08-28T16:00:00.000Z" itemprop="datePublished">2018-08-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/28/Android-Matrix-Camera/">Matrix&amp;Camera</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在学习自定义view，先将学到了东西记录一下。</p>
+<h2 id="Matrix"><a href="#Matrix" class="headerlink" title="Matrix"></a>Matrix</h2><p>Matrix就是矩阵的意思，具体的数学原理已经还给老师了，因此只是记录使用方式。<br>由于矩阵并不满足交换律，即：<br>A<em>B ≠ B</em>A<br>因此矩阵的方法都是成对的，用pre或者post作为前缀表示前乘或者后乘，这个前和后的意思就是将初始矩阵放在前还是后的意思。<br>使用方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Matrix matrix = <span class="keyword">new</span> Matrix();</span><br><span class="line">matrix.preRotate(<span class="number">45</span>);</span><br><span class="line">matrix.postTranslate(<span class="number">200</span>, <span class="number">0</span>);</span><br><span class="line">canvas.setMatrix(matrix);</span><br><span class="line">canvas.drawBitmap(bitmap, <span class="number">100</span>, <span class="number">100</span>, paint);</span><br></pre></td></tr></table></figure></p>
+<p>Matrix的强大之处在于可以完成一切的形变，而canvas只支持一部分的形变。并且Matrix可以根据前乘和后乘（绝对不是根据简单的pre和post）来决定形变的顺序。</p>
+<h2 id="Camera"><a href="#Camera" class="headerlink" title="Camera"></a>Camera</h2><p>Camera顾名思义就是照相机，这是一个在三维坐标轴上处于z轴的一个相机，他的工作原理就是将三维模型投影在canvas，也就是我们实际看到的图形。插播一段它的坐标系。</p>
+<p>View的坐标系:以屏幕左上方为原点。x轴左负右正，y轴上负下正。</p>
+<p>Camera的坐标系:以屏幕左上方为原点，x轴左负右正,y轴上正下负，z轴内正外负。</p>
+<p>如果我们直接调用camera的rotate方法的话，假设让它绕x轴旋转30度，由于camera是始终处于z轴上的，因此如果这时候投影的话，那么投影出来的图形并不是我们想要的效果，而是不对称且右边拉长的结果。解决办法就是在旋转之前先将图片移到原点。之后再移回来，不过代码中canvas的移动要反过来写，因为它是反向执行的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">camera.rotateX(<span class="number">30</span>);</span><br><span class="line">canvas.translate(centerX, centerY); </span><br><span class="line">camera.applyToCanvas(canvas); </span><br><span class="line">canvas.translate(-centerX, -centerY);</span><br></pre></td></tr></table></figure></p>
+<p>其余的一些调用api的就不写了，等用的时候一查就有了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/28/Android-Matrix-Camera/" data-id="ck0p5k1c7000bbsmjlhtjrxl3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -188,7 +247,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="cjzl32wof000nocmjiceak28g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/26/Android-区分tablet和mobile/" data-id="ck0p5k1cn000nbsmjji9j6oez" class="article-share-link">Share</a>
       
       
     </footer>
@@ -266,7 +325,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="cjzl32wof000vocmjvj6xybyz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/23/C-Inline-Reference/" data-id="ck0p5k1cn000vbsmjkj7cjl3v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -327,7 +386,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="cjzl32wov0012ocmjwu4651zz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/16/C-function-array/" data-id="ck0p5k1d20014bsmjzzuwt714" class="article-share-link">Share</a>
       
       
     </footer>
@@ -397,7 +456,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="cjzl32wq6002kocmjkcd0h87k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/09/Kotlin-Singleton/" data-id="ck0p5k1dx002tbsmjs8usje9n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -455,7 +514,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="cjzl32wof000xocmjhrlq84h0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/06/C-Pointer-Note/" data-id="ck0p5k1cn000xbsmjohz7jqdf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -527,7 +586,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="cjzl32wpb001iocmjgyo9h8jw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/04/Java-Container/" data-id="ck0p5k1d2001rbsmjvn7eaakm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -578,49 +637,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="cjzl32wq6002pocmj0sxw8a2v" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android-Modify-shape-attributes" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/26/Android-Modify-shape-attributes/" class="article-date">
-  <time datetime="2018-07-26T16:00:00.000Z" itemprop="datePublished">2018-07-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/26/Android-Modify-shape-attributes/">Modify shape attributes in code</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">((GradientDrawable)(ContextCompat.getDrawable(context, R.drawable.pen_color_red)))</span><br><span class="line">    .setSize(getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size_newui),</span><br><span class="line">            getResources().getDimensionPixelSize(R.dimen.wb_native_buttons_size));</span><br></pre></td></tr></table></figure>
-<p>convert drawable to GradientDrawable,and invoke setSize or setStroke and so on.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/26/Android-Modify-shape-attributes/" data-id="cjzl32wo0000gocmjxj9n9odn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/27/Kotlin-扩展函数-属性-中缀调用/" data-id="ck0p5k1dx002ybsmjw24g0ces" class="article-share-link">Share</a>
       
       
     </footer>
@@ -660,7 +677,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -671,6 +688,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/09/17/C-const-pointer/">const pointer</a>
+          </li>
         
           <li>
             <a href="/2019/08/08/Python-ImportError/">Python ImportError</a>
@@ -686,10 +707,6 @@
         
           <li>
             <a href="/2019/05/17/Java-JNI/">JNI</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/15/DataStructure-Tree/">Tree</a>
           </li>
         
       </ul>
