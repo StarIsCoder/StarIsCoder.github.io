@@ -62,6 +62,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-DataStructure-heap" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/19/DataStructure-heap/" class="article-date">
+  <time datetime="2019-10-19T08:23:58.257Z" itemprop="datePublished">2019-10-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>队列的特点是FIFO，遵循一个先来后到，但是如果有的任务本身执行时间很短但由于排队时间太长导致执行过慢就不是很合逻辑，因此就有了优先队列（priority queue）这样的数据结构，优先队列同样有入栈和出栈，特殊的地方在于出栈是找到其中min然后出栈，定义实现了优先队列的数据结构叫堆（heap）</p>
+<h2 id="堆的性质"><a href="#堆的性质" class="headerlink" title="堆的性质"></a>堆的性质</h2><h3 id="结构性"><a href="#结构性" class="headerlink" title="结构性"></a>结构性</h3><p>堆又叫做完全二叉树，它的特点是所有节点都被填满，除了底层之后，并且底层的元素是从左向右填入（左有右没有），这里需要区分满二叉树：所有节点都填满。</p>
+<p>完全二叉树有个规律，它可以直接用数组来表示出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">         A</span><br><span class="line">      /    \</span><br><span class="line">     B      C</span><br><span class="line">   /   \   / \</span><br><span class="line">  D     E F   G</span><br><span class="line"> / \   /</span><br><span class="line">H   I j</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A B C D E F G H I J</span><br><span class="line">1 2 3 4 5 6 7 8 9 10</span><br></pre></td></tr></table></figure>
+<p>对于i上的元素x，x的父节点是array[i/2]，左儿子是array[2i]，右儿子是array[2i+1]。<br>这样的好处在于一个完全二叉树可以用一个数组来表示，另外需要一个表示数组大小的整型变量。</p>
+<h3 id="堆序性"><a href="#堆序性" class="headerlink" title="堆序性"></a>堆序性</h3><p>因为每次出栈都是弹出min元素，因此需要把min元素放在root上是最简单的。这就需要插入或者删除的时候需要调整堆来保证堆序性（也需要保证结构性）。<br>堆序性可以这样表述: 对于i上的元素x来说，x永远大于等于x的父节点（array[i/2]）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">     13                      13</span><br><span class="line">   /   \                    /  \</span><br><span class="line">  25   36                  7   16</span><br><span class="line"> /  \                     / \</span><br><span class="line">66  77                   23  32</span><br><span class="line">满足堆序性                  由于7&lt;13，因此不满足堆序性</span><br></pre></td></tr></table></figure>
+<p>要保证这样的堆序性就是为了root节点是min节点，最简单最快的找到min节点。</p>
+<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>假设有这样的一个堆，向该堆中插入14。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">             13</span><br><span class="line">       /            \</span><br><span class="line">      21             16</span><br><span class="line">    /     \         /   \</span><br><span class="line">  24      31       19    68</span><br><span class="line"> /  \     / \</span><br><span class="line">65   26  32</span><br></pre></td></tr></table></figure>
+<p>堆有个性质可以用数组来表示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">   13 21 16 24 31 19 68 65 26 32   14</span><br><span class="line">0  1  2  3  4  5  6  7  8  9  10   11</span><br></pre></td></tr></table></figure>
+<p>如果只是把14插入最后就破坏了堆序性：14 &gt; array[11/2]  (array[5] = 31)，因此我们将14和31交换位置，发现14依然小于他的父节点（array[5/2] = 21），继续和21交换位置，由于14大于他的父节点13，所以插入到此结束。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">insert</span> <span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> hole = currentSize++;</span><br><span class="line">    <span class="keyword">for</span> (array[<span class="number">0</span>] = x ; x.compareTo(array[hole/<span class="number">2</span>] &lt;<span class="number">0</span>) ; hole /= <span class="number">2</span>) &#123;</span><br><span class="line">        array[hole] = array[hole/<span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    array[hole] = x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于是在底层然后一层层往上找空位的，因此这个操作叫上滤。</p>
+<h3 id="删除最小元"><a href="#删除最小元" class="headerlink" title="删除最小元"></a>删除最小元</h3><p>由于root节点就是最小元，因此要寻找它不怎么难，但是将他删除之后的空位需要怎么填补是个问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">             13</span><br><span class="line">       /            \</span><br><span class="line">      14             16</span><br><span class="line">    /     \         /   \</span><br><span class="line">  24      21       19    68</span><br><span class="line"> /  \     / \</span><br><span class="line">65   26  32  31</span><br></pre></td></tr></table></figure>
+<p>因此只能用min节点的子节点中偏小的那个来填充这个空。如上述的堆中，13没了之后应该用14来填补，然后14又空出来了，继续用21来填补，而21又空出来了，因此用31来填补，所以删除了13之后变成了这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">             14</span><br><span class="line">       /            \</span><br><span class="line">      21             16</span><br><span class="line">    /     \         /   \</span><br><span class="line">  24      31       19    68</span><br><span class="line"> /  \     /</span><br><span class="line">65   26  32</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">deleteMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    T min = findMin();</span><br><span class="line">    array[<span class="number">1</span>] = array[currentSize--];</span><br><span class="line">    percolateDown(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> min;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">percolateDown</span><span class="params">(<span class="keyword">int</span> hole)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> child;</span><br><span class="line">    T tmp = array[hole];</span><br><span class="line">    <span class="keyword">for</span> (;hole * <span class="number">2</span> &lt;= currentSize;chile = hole) &#123;</span><br><span class="line">        child = hole * <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (child != currentSize &amp;&amp; array[chile].compareTo(array[child + <span class="number">1</span>]) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            child++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (array[hole] &lt; array[childe]) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            array[hole] = array[child];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    array[hole] = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>具体实现的思路是将最后一个值先放入min节点中，然后层层向下和子节点比较，直到找到合适的位置，这种操作叫做下滤。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/10/19/DataStructure-heap/" data-id="ck1xaqb8w001kxkmj0rjk3s2o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-C-const-pointer" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/09/17/C-const-pointer/" class="article-date">
@@ -109,7 +157,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/17/C-const-pointer/" data-id="ck0p5k1cn0012bsmjyyg2wega" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/17/C-const-pointer/" data-id="ck1xaqb8g0012xkmj6jzf47dt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -160,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/08/Python-ImportError/" data-id="ck0p5k1ed0033bsmjydtnxqgz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/08/Python-ImportError/" data-id="ck1xaqb9r0034xkmjms00lxl0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -214,7 +262,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/02/Kotlin-inline/" data-id="ck0p5k1dx002vbsmjwmtaxcms" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/02/Kotlin-inline/" data-id="ck1xaqb9r002wxkmjmmt32p5l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -262,7 +310,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/05/30/Kotlin-Sealed/" data-id="ck0p5k1dx002rbsmjkqnzh5dv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/05/30/Kotlin-Sealed/" data-id="ck1xaqb9r002sxkmjhq3jk3zn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -349,7 +397,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/05/17/Java-JNI/" data-id="ck0p5k1di0020bsmjwb49su7a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/05/17/Java-JNI/" data-id="ck1xaqb9c0021xkmj0fc7567g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -431,7 +479,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/15/DataStructure-Tree/" data-id="ck0p5k1d2001hbsmjvveaonfc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/15/DataStructure-Tree/" data-id="ck1xaqb8w001hxkmjyzo6spx0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -488,7 +536,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/14/DataStructure-List-Stack-Queue/" data-id="ck0p5k1d2001fbsmjgzo0axpc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/14/DataStructure-List-Stack-Queue/" data-id="ck1xaqb8w001fxkmjn5j3jf4b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -564,7 +612,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/18/Java-bytecode-execution-engine/" data-id="ck0p5k1dx002ibsmj6no872xv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/18/Java-bytecode-execution-engine/" data-id="ck1xaqb9c002jxkmjd4zsi5j3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -609,92 +657,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/14/Algrothm-Search/" data-id="ck0p5k1c70005bsmjtfwaujuq" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Algrothm-Sort" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/03/04/Algrothm-Sort/" class="article-date">
-  <time datetime="2019-03-04T16:00:00.000Z" itemprop="datePublished">2019-03-05</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Algorithm/">Algorithm</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/04/Algrothm-Sort/">Sort Algrothm</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>快速排序主要的思想是分而治之，先选取一个基准数，第一次排序的时候将比基准数小的全部移到左边，而比基准数大的全部移到右边。这样就分成了两个数组，然后递归排序即可。</p>
-<p>时间复杂度：</p>
-<ul>
-<li>Worst: O(n^2)</li>
-<li>Best: O(nLogn)</li>
-</ul>
-<p>下面这种以最后一个值作为基准值。假设原数组为<code>10, 7, 8, 9, 1, 5</code></p>
-<p>第一次排序：指针为low - 1也就是-1，当找到比5小的元素时，也就是1，就将指针右移一位，并且与1交换。</p>
-<p>当之后再也找不到比5小的元素的时候就将指针+1的索引和基准值交换</p>
-<p><img src="/assets/Algorith_SearchAndSort/quick_sort.jpg" alt><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span> input[], <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pivot = input[high];</span><br><span class="line">    <span class="keyword">int</span> i = low - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = low; j &lt; high; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (input[j] &lt; pivot) &#123;</span><br><span class="line">            i++;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> tmp = input[i];</span><br><span class="line">            input[i] = input[j];</span><br><span class="line">            input[j] = tmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> tmp = input[i + <span class="number">1</span>];</span><br><span class="line">    input[i + <span class="number">1</span>] = input[high];</span><br><span class="line">    input[high] = tmp;</span><br><span class="line">    <span class="keyword">return</span> i + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span> input[], <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (low &lt; high) &#123;</span><br><span class="line">        <span class="keyword">int</span> pi = partition(input, low, high);</span><br><span class="line"></span><br><span class="line">        quickSort(input, low, pi - <span class="number">1</span>);</span><br><span class="line">        quickSort(input, pi + <span class="number">1</span>, high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>快速排序还有另一种是有两个指针的，如果以第一个元素作为基准值，那么就先从右边找比基准值小的，找到了之后从左边开始找比基准值大的，然后交换元素，当两个指针相遇之后将基准值归为。</p>
-<p>而如果以最后一个元素作为基准值，那么就从左边找比基准值大的，找到了之后从右边找比基准值小的，然后交换元素，当两个指针相遇之后将基准值归为。</p>
-<p><img src="/assets/Algorith_SearchAndSort/quick_sort_two_pointer.jpg" alt><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span> input[], <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (low &gt; high) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> start = low;</span><br><span class="line">    <span class="keyword">int</span> end = high;</span><br><span class="line">    <span class="keyword">int</span> pivot = input[low];</span><br><span class="line">    <span class="keyword">while</span> (start &lt; end) &#123;</span><br><span class="line">        <span class="keyword">while</span> (start &lt; end &amp;&amp; input[end] &gt;= pivot) &#123;</span><br><span class="line">            end--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (start &lt; end &amp;&amp; input[start] &lt;= pivot) &#123;</span><br><span class="line">            start++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (start &lt; end) &#123;</span><br><span class="line">            <span class="keyword">int</span> tmp = input[start];</span><br><span class="line">            input[start] = input[end];</span><br><span class="line">            input[end] = tmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    input[low] = input[start];</span><br><span class="line">    input[start] = pivot;</span><br><span class="line"></span><br><span class="line">    sort(input, start + <span class="number">1</span>, high);</span><br><span class="line">    sort(input, low, start - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p>冒泡排序的基本思想就是两两比较，小的往左，大的往右。</p>
-<p>时间复杂度:</p>
-<ul>
-<li>Best: n</li>
-<li>Worst: n^2</li>
-<li>Average: n^2</li>
-</ul>
-<p>代码中的内层循环减去i的原因是每一轮排序结束之后都会把最大的移到最右边。<code>swapped</code>的作用是如果已经排序ok了则不需要再循环。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public void bubbleSort(int array[]) &#123;</span><br><span class="line">    for (int i = 0; i &lt; array.length - 1; i++) &#123;</span><br><span class="line">        boolean swapped = false;</span><br><span class="line">        for (int j = 0; j &lt; array.length - i - 1; j++) &#123;</span><br><span class="line">            if (array[j] &gt; array[j + 1]) &#123;</span><br><span class="line">                int tmp = array[j];</span><br><span class="line">                array[j] = array[j + 1];</span><br><span class="line">                array[j + 1] = tmp;</span><br><span class="line">                swapped = true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (!swapped) &#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><p>选择排序的主要思路是从数组中找出最小的一个数放在新的数组第一个，对剩下的数组作同样处理。</p>
-<p>时间复杂度:</p>
-<ul>
-<li>Best: n^2</li>
-<li>Worst: n^2</li>
-<li>Average: n^2</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">selectionSort</span><span class="params">(<span class="keyword">int</span> array[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> min_index = i;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; array.length; j++) &#123;</span><br><span class="line">        	<span class="keyword">if</span> (array[j] &lt; array[min_index]) &#123;</span><br><span class="line">            	min_index = j;</span><br><span class="line">        	&#125;</span><br><span class="line">    	&#125;</span><br><span class="line">    	<span class="keyword">int</span> tmp = array[min_index];</span><br><span class="line">    	array[min_index] = array[i];</span><br><span class="line">    	array[i] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="合并排序"><a href="#合并排序" class="headerlink" title="合并排序"></a>合并排序</h2><p>合并排序是先将数组拆分然后挨个合并。</p>
-<p>时间复杂度:</p>
-<ul>
-<li>Best: n*Log(n)</li>
-<li>Worst: n*Log(n)</li>
-<li>Average: n*Log(n)</li>
-</ul>
-<p><img src="/assets/Algorith_SearchAndSort/merge_sort.jpg" alt><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> l, <span class="keyword">int</span> m, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp[] = <span class="keyword">new</span> <span class="keyword">int</span>[r - l + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">int</span> i = l;</span><br><span class="line">    <span class="keyword">int</span> j = m + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (i &lt;= m &amp;&amp; j &lt;= r) &#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[i] &lt;= arr[j]) &#123;</span><br><span class="line">            tmp[k] = arr[i];</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            tmp[k] = arr[j];</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">        k++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (i &lt;= m) &#123;</span><br><span class="line">        tmp[k] = arr[i];</span><br><span class="line">        i++;</span><br><span class="line">        k++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (j &lt;= r) &#123;</span><br><span class="line">        tmp[k] = arr[j];</span><br><span class="line">        j++;</span><br><span class="line">        k++;</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">for</span> (i = l; i &lt;= r; i++) &#123;</span><br><span class="line">        arr[i] = tmp[i - l];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l &lt; r) &#123;</span><br><span class="line">        <span class="keyword">int</span> m = (l + r) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        sort(arr, l, m);</span><br><span class="line">        sort(arr, m + <span class="number">1</span>, r);</span><br><span class="line">        merge(arr, l, m, r);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><p>选择排序的思想是假设第0个元素为一张扑克牌，之后将数组中剩余的元素挨个交到你手中并放入牌堆中。</p>
-<p>比如有个数组为<code>12,11,13,5,6</code> ，12是牌堆原有的，从索引1开始拿到了11，将其插入12之前，继续拿到索引2 - 13，放在11、12之后，之后都这样处理。</p>
-<p>时间复杂度：</p>
-<ul>
-<li>Best: O(n^2)</li>
-<li>Worst: O(n)<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">selectionSort</span><span class="params">(<span class="keyword">int</span> array[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> min_index = i;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; array.length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (array[j] &lt; array[min_index]) &#123;</span><br><span class="line">                min_index = j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> tmp = array[min_index];</span><br><span class="line">        array[min_index] = array[i];</span><br><span class="line">        array[i] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/04/Algrothm-Sort/" data-id="ck0p5k1c70007bsmj8iy9niwg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/14/Algrothm-Search/" data-id="ck1xaqb7l0005xkmj1u6d2b09" class="article-share-link">Share</a>
       
       
     </footer>
@@ -734,7 +697,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -745,6 +708,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/10/19/DataStructure-heap/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2019/09/17/C-const-pointer/">const pointer</a>
@@ -760,10 +727,6 @@
         
           <li>
             <a href="/2019/05/30/Kotlin-Sealed/">Sealed</a>
-          </li>
-        
-          <li>
-            <a href="/2019/05/17/Java-JNI/">JNI</a>
           </li>
         
       </ul>
