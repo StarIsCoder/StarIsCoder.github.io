@@ -121,7 +121,7 @@
 </ol>
 <h2 id="QQuickImageProvider"><a href="#QQuickImageProvider" class="headerlink" title="QQuickImageProvider"></a>QQuickImageProvider</h2><p>QQuickImageProvider是某种用来存取图片的类。具体使用</p>
 <ol>
-<li>新建一个类继承QQuickImageProvider，覆写requestImage方法。<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SnapshotImageProvider</span>:</span><span class="keyword">public</span> QQuickImageProvider</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    SnapshotImageProvider();</span><br><span class="line">    <span class="function">QImage <span class="title">requestImage</span><span class="params">(<span class="keyword">const</span> QString &amp;id, QSize *size, <span class="keyword">const</span> QSize&amp; requestedSize)</span> override</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setSnapshotObject</span><span class="params">(HandleSnapshotId *handle)</span></span>&#123;</span><br><span class="line">        snapshotObject = handle;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    QImage screenshot;</span><br><span class="line">    HandleSnapshotId *snapshotObject;</span><br><span class="line">    QQuickWindow *m_window;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<li>新建一个类继承QQuickImageProvider，覆写requestImage方法。<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SnapshotImageProvider</span>:</span><span class="keyword">public</span> QQuickImageProvider</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    SnapshotImageProvider();</span><br><span class="line">    <span class="function">QImage <span class="title">requestImage</span><span class="params">(<span class="keyword">const</span> QString &amp;id, QSize *size, <span class="keyword">const</span> QSize&amp; requestedSize)</span> <span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setSnapshotObject</span><span class="params">(HandleSnapshotId *handle)</span></span>&#123;</span><br><span class="line">        snapshotObject = handle;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    QImage screenshot;</span><br><span class="line">    HandleSnapshotId *snapshotObject;</span><br><span class="line">    QQuickWindow *m_window;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">QImage SnapshotImageProvider::requestImage(<span class="keyword">const</span> QString &amp;id, QSize *size, <span class="keyword">const</span> QSize&amp; requestedSize)&#123;</span><br><span class="line">    <span class="keyword">if</span> (id == <span class="string">"fetch"</span>) &#123;</span><br><span class="line">        qDebug() &lt;&lt; <span class="string">"id :"</span>&lt;&lt; snapshotObject-&gt;id;</span><br><span class="line">        <span class="keyword">return</span> screenshot;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        screenshot = ........</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> screenshot;</span><br></pre></td></tr></table></figure>
@@ -141,7 +141,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="ck24cu2ib000z3cmjp1rnocy4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/15/C-Qt-Note/" data-id="ck4dywg9y000zlcmjjgi57y4v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -206,7 +206,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="ck24cu2kh00383cmjxeem8wmq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/14/OS-bash-profile-mac/" data-id="ck4dywgb90031lcmjskuktpfh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -267,7 +267,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="ck24cu2ib000i3cmjv8hael59" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/11/08/Android-Screenshot/" data-id="ck4dywg9i000ilcmje8bq1myi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -325,7 +325,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="ck24cu2j6002b3cmjv2gxul2c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/23/Java-PassByValue/" data-id="ck4dywgat002blcmjdd2otx3v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -405,7 +405,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="ck24cu2iq001m3cmj5ik38kww" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/22/Java-ClassFileFormat/" data-id="ck4dywgae001mlcmjux4yfz0a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -455,7 +455,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="ck24cu2hf00013cmjvfq3ndyc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/18/Algorithm-MaximumSubarray/" data-id="ck4dywg930001lcmjlc90j7si" class="article-share-link">Share</a>
       
       
     </footer>
@@ -550,7 +550,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="ck24cu2j6001x3cmj7vz367jy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/16/Java-GarbageCollection/" data-id="ck4dywgae001xlcmj3yqjmm7h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -628,7 +628,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="ck24cu2j600263cmjft16c39b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/15/Java-MeroryAndObjectOfJVM/" data-id="ck4dywgae0026lcmj39unstf2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -696,7 +696,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="ck24cu2j6001w3cmji6dj517r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Java-Decorator/" data-id="ck4dywgae001wlcmjm6a14lnm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -744,7 +744,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="ck24cu2jm002p3cmjn3fkzj4n" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/10/12/Kotlin-Delegation/" data-id="ck4dywgat002plcmj97z6niuo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -784,7 +784,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
     </div>
   </div>
 
@@ -797,7 +797,7 @@
       <ul>
         
           <li>
-            <a href="/2019/10/24/DataStructure-heap/">(no title)</a>
+            <a href="/2019/12/20/DataStructure-heap/">(no title)</a>
           </li>
         
           <li>
